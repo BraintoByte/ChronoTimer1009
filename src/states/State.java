@@ -17,7 +17,7 @@ public abstract class State implements IO, IONum {
 		
 	}
 	
-	public static void setState(State state){
+	protected void setState(State state){
 		
 		current = state;
 		
@@ -29,8 +29,12 @@ public abstract class State implements IO, IONum {
 		
 	}
 	
+	
+	
+	protected abstract void setIO(boolean on);
+	public abstract void setNumber(int nbr);
+	public abstract int getNumber();
 	public abstract boolean isIO();
-	public abstract int number();
 	
 //	public States getState();
 //	public boolean IO();

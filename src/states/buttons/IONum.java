@@ -2,6 +2,7 @@ package states.buttons;
 
 public interface IONum {
 	
-	public int number();
+	public void setNumber(int number);
+	public int getNumber();
 	
 }
