@@ -16,7 +16,7 @@ public class Time {
 
 	}
 	
-	public static long getTimeInDouble(){
+	public static long getTimeInDouble(){  //Nice
 		
 		return System.currentTimeMillis();
 		
