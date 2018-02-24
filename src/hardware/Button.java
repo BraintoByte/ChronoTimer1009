@@ -2,6 +2,14 @@ package hardware;
 
 import java.util.Arrays;
 
+import hardware.buttons.Cancel;
+import hardware.buttons.Exit;
+import hardware.buttons.Finish;
+import hardware.buttons.Power;
+import hardware.buttons.Reset;
+import hardware.buttons.Start;
+import hardware.buttons.Tog;
+import hardware.buttons.Trig;
 import states.State;
 import states.StateManager;
 
@@ -14,6 +22,20 @@ public abstract class Button {
 	private int DEFAULT_MIN = 0;
 	private int DEFAULT_MAX = 2;
 	private int[] validNubers;
+	
+	
+	//BUTTONS!//
+	
+	//WE MADE IT LIKE THIS SO WHEN WE ARE DOING THE GUI WE ARE BASICALLY SET!
+	
+	private static Button power = new Power(0);
+	private static Button reset = new Reset(1);
+	private static Button start = new Start(2);
+	private static Button finish = new Finish(3);
+	private static Button tog = new Tog(4);
+	private static Button trig = new Trig(5);
+	private static Button exit = new Exit(6);
+	private static Button cancel = new Cancel(7);
 
 
 	public Button(String name, int id){

@@ -4,7 +4,7 @@ import hardware.Button;
 
 public class Trig extends Button{
 
-	public Trig(String name, int id) {
+	public Trig(int id) {
 		super("TRIG", id);
 	}
 	
