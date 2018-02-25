@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class Time {
 
@@ -16,7 +17,15 @@ public class Time {
 
 	}
 	
-	public static long getTimeInDouble(){  //Nice
+	public static String getTotalTimeFormatted(long currentDateTime){
+		
+		Date currentDate = new Date(currentDateTime);
+		
+		return currentDate + "";
+		
+	}
+	
+	public static long getTimeInLong(){  //Nice
 		
 		return System.currentTimeMillis();
 		
