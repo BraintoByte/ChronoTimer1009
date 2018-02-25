@@ -28,9 +28,26 @@ public class Simulator {
     
     
     public void parse(String line){
+    	Scanner sc = new Scanner(line);
+    	String found;
     	
-    	
-    	
+    	while(sc.hasNext()){
+    		if((found = sc.next()).equals("POWER")){
+    			compute(found);
+    		} else if((found = sc.next()).equals("CONN")){
+    			compute(found + " " + sc.next() + " " + sc.next());
+    		} else if((found = sc.next()).equals("GATE")){
+    			compute(found + " " + sc.next() + " " + sc.next());
+    		} else if((found = sc.next()).equals("TRIG")){
+    			compute(found + " " + sc.next());
+    		} else if((found = sc.next()).equals("TOG")){
+    			compute(found + " " + sc.next());
+    		} else if((found = sc.next()).equals("EXIT")){
+    			compute(found);
+    		}
+    	}
+    
+  	
     }
     public void compute(String command){
     	
