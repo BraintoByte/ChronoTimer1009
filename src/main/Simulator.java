@@ -5,10 +5,14 @@ import java.io.IOException;
 import java.util.Scanner;
 import Utils.Util;
 public class Simulator {
-    public static Scanner in = new Scanner(System.in);
+	
+    public static Scanner in = new Scanner(System.in);   //Make it private, don't initiate here!
     
     
-    public void start() throws IOException {
+    //Constructor missing
+    
+    
+    public void start() throws IOException {   //Change this with a try and catch!
         
         System.out.print("[F]ile or [C]onsole Input?");
         if(in.next().equalsIgnoreCase("F")){
@@ -27,7 +31,8 @@ public class Simulator {
     
     //will command computations
     
-    public void parse(String line){
+    public void parse(String line){    //This does not work
+    	
     	Scanner sc = new Scanner(line);
     	String found;
     	
