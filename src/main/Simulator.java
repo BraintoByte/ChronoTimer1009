@@ -24,8 +24,8 @@ public class Simulator {
             }
         }    
     }
-    //will command computations
     
+    //will command computations
     
     public void parse(String line){
     	
