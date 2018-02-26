@@ -15,7 +15,7 @@ public class SensorFactory {
 	private int amountGates;
 	private int amountEye;
 
-	public SensorFactory(){
+	public SensorFactory(){   //Test Notification
 
 		amountGates = 0;
 		amountEye = 0;
