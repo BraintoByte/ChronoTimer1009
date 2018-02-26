@@ -12,7 +12,7 @@ public class Simulator {
     //Constructor missing
     
     
-    public void start() throws IOException {   //Change this with a try and catch!
+    public void start() {   //Change this with a try and catch!
         
         System.out.print("[F]ile or [C]onsole Input?");
         if(in.next().equalsIgnoreCase("F")){
@@ -51,8 +51,6 @@ public class Simulator {
     			compute(found);
     		}
     	}
-    
-  	
     }
     public void compute(String command){
     	

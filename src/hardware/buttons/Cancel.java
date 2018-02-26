@@ -19,5 +19,4 @@ public class Cancel extends Button{
 	public void setOn(boolean on) {
 		this.isOn = on;
 	}
-
 }

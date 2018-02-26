@@ -16,10 +16,10 @@ public class Util {
 			BufferedReader reader = new BufferedReader(new FileReader(filename));
 			String line;
 			StringBuilder sb = new StringBuilder();
-			while ((line = reader.readLine()) != null)
-			{
+			while ((line = reader.readLine()) != null) {
 				sb.append(line + "\n");
 			}
+			
 			reader.close();
 			return sb.toString();
 
@@ -28,8 +28,8 @@ public class Util {
 			ex.printStackTrace();
 
 		}
-		
+
 		return "";
-		
+
 	}
 }
