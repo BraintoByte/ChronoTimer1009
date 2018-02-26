@@ -28,20 +28,22 @@ public class Gates {
 	}
 	
 	public Gate getGate(int gate){
-		
-		return gates.get(gate);
-		
+		return gates.remove(gate);
 	}
 	
 	public Iterator<Gate> getGatesIterator(){
-		
 		return gates.iterator();
-		
 	}
 	
 	protected void addGate(Gate gate){
-		
 		gates.add(gate);
-		
+	}
+	
+	protected int howManyLeft(){
+		return gates.size();
+	}
+	
+	protected boolean isEmpty(){
+		return gates.size() == 0;
 	}
 }

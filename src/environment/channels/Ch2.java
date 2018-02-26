@@ -15,7 +15,12 @@ public class Ch2 extends Channels {
 	}
 	
 	@Override
-	public Sensor[] isPairedToSensor() {
+	public Sensor[] pairedToSensors() {
+		return super.pairedToSensors();
+	}
+	
+	@Override
+	public boolean isPairedToSensor() {
 		return super.isPairedToSensor();
 	}
 	
@@ -25,7 +30,7 @@ public class Ch2 extends Channels {
 	}
 	
 	@Override
-	public void unPairToSensor(Sensor sensor) {
-		super.unPairToSensor(sensor);
+	public Sensor unPairToSensor(Sensor sensor) {
+		return super.unPairToSensor(sensor);
 	}
 }

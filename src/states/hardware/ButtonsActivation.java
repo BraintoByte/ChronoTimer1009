@@ -2,6 +2,7 @@ package states.hardware;
 
 import java.util.Scanner;
 
+import environment.RaceEventsManager;
 import hardware.user.ButtonHandler;
 import interfaces.UI;
 import states.State;
@@ -71,6 +72,7 @@ public class ButtonsActivation extends State {
 			System.out.println("Power is ON!");
 			btnHandler.setPowerOnOff(true);
 			ui.setBtnHandler(btnHandler);
+			ui.setRaceManager(new RaceEventsManager());
 //			initialize();
 			
 		}

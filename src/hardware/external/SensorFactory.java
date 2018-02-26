@@ -15,7 +15,7 @@ public class SensorFactory {
 	private int amountGates;
 	private int amountEye;
 
-	public SensorFactory(){   //Test Notification
+	public SensorFactory(){
 
 		amountGates = 0;
 		amountEye = 0;
@@ -39,14 +39,14 @@ public class SensorFactory {
 			for(int i = 0; i < totalAmount; i++){
 				
 				if(i % 2 == 0){
-					
-					Gate tempGate = new Gate(i);
-					amountGates++;
-					
+
+					Sensor tempeye = new Eye(i);
+					amountEye++;
+										
 				}else{
 					
-					Eye tempeye = new Eye(i);
-					amountEye++;
+					Sensor tempGate = new Gate(i);
+					amountGates++;
 					
 				}
 			}
@@ -57,12 +57,12 @@ public class SensorFactory {
 				
 				if(eye){
 					
-					Eye tempEye = new Eye(i);
+					Sensor tempEye = new Eye(i);
 					amountEye++;
 					
 				}else{
 					
-					Gate tempGate = new Gate(i);
+					Sensor tempGate = new Gate(i);
 					amountGates++;
 					
 				}

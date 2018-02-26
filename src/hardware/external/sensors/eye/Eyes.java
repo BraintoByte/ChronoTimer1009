@@ -29,20 +29,25 @@ public class Eyes {
 	}
 	
 	public Eye getEye(int eye){
-		
-		return eyes.get(eye);
-		
+		return eyes.remove(eye);
 	}
 	
 	public Iterator<Eye> getEyeIterator(){
-		
 		return eyes.iterator();
-		
 	}
 	
 	protected void addEye(Eye eye){
-		
 		eyes.add(eye);
-		
+	}
+	
+	
+	
+	protected int howManyLeft(){
+		return eyes.size();
+	}
+	
+	
+	protected boolean isEmpty(){
+		return eyes.size() == 0;
 	}
 }
