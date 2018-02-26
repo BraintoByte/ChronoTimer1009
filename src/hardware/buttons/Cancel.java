@@ -1,22 +1,21 @@
 package hardware.buttons;
 
-import hardware.Button;
+import hardware.user.Button;
 
 public class Cancel extends Button{
 
-	protected boolean isOn;
 	
 	public Cancel(int id) {
 		super("CANCEL", id);
 	}
 	
 	@Override
-	public boolean isOn() {
-		return this.isOn;
+	public void setOn(boolean isOn) {
+		super.setOn(isOn);
 	}
 	
 	@Override
-	public void setOn(boolean on) {
-		this.isOn = on;
+	public boolean isOn(){
+		return super.isOn();
 	}
 }

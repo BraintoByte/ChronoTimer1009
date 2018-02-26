@@ -1,6 +1,6 @@
 package hardware.buttons;
 
-import hardware.Button;
+import hardware.user.Button;
 
 public class Reset extends Button{
 
@@ -18,5 +18,4 @@ public class Reset extends Button{
 	public boolean isOn() {
 		return super.isOn();
 	}
-
 }

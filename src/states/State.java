@@ -1,47 +1,38 @@
 package states;
 
-import states.buttons.IO;
-import states.buttons.IONum;
+import java.util.Scanner;
 
-public abstract class State implements IO, IONum {
-	
+import hardware.user.ButtonHandler;
+import interfaces.UI;
+
+public abstract class State {   //State
+
 	private static State current = null;
-	protected StateManager manager;
-	
-	
-	/* BUTTONS */
-	
-	public State(StateManager manager){
-		
-		this.manager = manager;
+	protected UI ui;
+	private static ButtonHandler btnHandler;
+	private static Scanner input;
+
+	public State(UI ui, Scanner input){
+
+		this.ui = ui;
+		this.input = input;
 		
 	}
-	
-	protected void setState(State state){
-		
+
+	public static void setState(State state){
+
 		current = state;
-		
+
 	}
-	
+
 	public static State getState(){
-		
+
 		return current;
-		
+
 	}
 	
 	
-	
-	protected abstract void setIO(boolean on);
-	public abstract void setNumber(int nbr);
-	public abstract int getNumber();
-	public abstract boolean isIO();
-	
-//	public States getState();
-//	public boolean IO();
-//	public int stateIndex();
-//	public 
-	
-	
-	
+	public abstract void update();
+	public abstract void display();
 
 }

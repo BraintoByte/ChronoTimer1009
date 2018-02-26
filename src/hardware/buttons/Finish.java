@@ -1,6 +1,6 @@
 package hardware.buttons;
 
-import hardware.Button;
+import hardware.user.Button;
 
 public class Finish extends Button{
 

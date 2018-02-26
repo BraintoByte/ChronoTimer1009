@@ -1,6 +1,6 @@
 package entitiesDynamic;
 
-import entitiesStatic.Time;
+import entitiesStatic.Clock;
 
 public class Racer {
 	
@@ -25,7 +25,7 @@ public class Racer {
 	
 	protected void setTimeStart(){
 		
-		timeStart = Time.getTimeInLong();
+		timeStart = Clock.getTimeInLong();
 		setStartTimeFormatted();
 		isActive = true;
 		
@@ -33,7 +33,7 @@ public class Racer {
 	
 	protected void setTimeFinish(){
 		
-		this.timeFinish = Time.getTimeInLong();
+		this.timeFinish = Clock.getTimeInLong();
 		setFinishTimeFormatted();
 		isActive = false;
 		
@@ -41,19 +41,19 @@ public class Racer {
 	
 	public long getTotalTime(){
 		
-		return DNF ? 0 : Time.computeTime(timeStart, timeFinish);
+		return DNF ? 0 : Clock.computeTime(timeStart, timeFinish);
 		
 	}
 	
 	private void setStartTimeFormatted(){
 		
-		timeStartFormatted = Time.getFormattedTime();
+		timeStartFormatted = Clock.getFormattedTime();
 		
 	}
 	
 	private void setFinishTimeFormatted(){
 		
-		timeFinishFormatted = DNF ? "DNF" : Time.getFormattedTime();
+		timeFinishFormatted = DNF ? "DNF" : Clock.getFormattedTime();
 		
 	}
 

@@ -1,12 +1,9 @@
 package hardware.buttons;
 
-import hardware.Button;
-import states.State;
-import states.StateManager;
+import hardware.user.Button;
 
 public class Power extends Button{
 	
-	private boolean isOn;
 	
 	public Power(int id) {
 		super("POWER", id);
@@ -14,13 +11,13 @@ public class Power extends Button{
 
 	@Override
 	public void setOn(boolean isOn) {
-		this.isOn = isOn;
+		super.setOn(isOn);
 	}
 	
 	@Override
 	public boolean isOn(){
 		
-		return this.isOn;
+		return super.isOn();
 		
 	}
 }

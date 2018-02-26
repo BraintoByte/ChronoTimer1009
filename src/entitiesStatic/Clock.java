@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-public class Time {
+public class Clock {
 
 	private static final DateTimeFormatter formattedTime = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 

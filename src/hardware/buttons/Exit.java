@@ -1,24 +1,30 @@
 package hardware.buttons;
 
-import hardware.Button;
+import hardware.user.Button;
 
 public class Exit extends Button {
 	
-	protected boolean isOn;
 	
 	public Exit(int id) {
 		super("EXIT", id);
 	}
 
 	@Override
-	public boolean isOn() {
-		return isOn();
+	public void setOn(boolean isOn) {
+		super.setOn(isOn);
 	}
 	
 	@Override
-	public void setOn(boolean on) {
+	public boolean isOn(){
 		
-		this.isOn = on;
+		return super.isOn();
+		
+	}
+	
+	@Override
+	public void EXIT(){
+		
+		super.EXIT();
 		
 	}
 }
