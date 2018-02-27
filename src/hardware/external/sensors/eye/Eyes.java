@@ -7,9 +7,15 @@ import hardware.external.sensors.eye.Eye;
 
 public class Eyes {
 	
+	/**
+	 * 
+	 */
 	private List<Eye> eyes;
 	
 	
+	/**
+	 * 
+	 */
 	private Eyes(){
 		
 		eyes = new ArrayList<>();
@@ -18,35 +24,68 @@ public class Eyes {
 	
 	private static class SingletonEye {
 		
+		/**
+		 * 
+		 */
 		private static final Eyes eyeSingleton = new Eyes();
 		
 	}
 	
+	/**
+	 * @return
+	 */
 	public static Eyes getSingletonEyes(){
 		
 		return SingletonEye.eyeSingleton;
 		
 	}
 	
+	/**
+	 * @param eye
+	 * @return
+	 */
 	public Eye getEye(int eye){
 		return eyes.remove(eye);
 	}
 	
+	/**
+	 * @return
+	 */
 	public Iterator<Eye> getEyeIterator(){
 		return eyes.iterator();
 	}
 	
+	/**
+	 * @param eye
+	 */
 	protected void addEye(Eye eye){
 		eyes.add(eye);
 	}
 	
+	public void returnEyeToSource(Eye eye) throws IllegalArgumentException {
+		
+		if(eye != null && !eyes.contains(eye)){
+			
+			eyes.add(eye);
+			return;
+			
+		}
+		
+		throw new IllegalArgumentException();
+		
+	}
 	
-	
+	/**
+	 * @return
+	 */
 	protected int howManyLeft(){
 		return eyes.size();
 	}
 	
 	
+	/**
+	 * @return
+	 */
 	protected boolean isEmpty(){
 		return eyes.size() == 0;
 	}

@@ -1,87 +1,67 @@
-package hardware.external.sensors.eye;
+package hardware.external.pad;
 
 import entitiesStatic.Clock;
 import entitiesStatic.ClockInterface;
 import hardware.external.Sensor;
 
-public class Eye implements Sensor {
-	
-	private static Eyes eyes = Eyes.getSingletonEyes();
-	private boolean enabled;
+public class Pad implements Sensor{
+
+	private static Pads pads = Pads.getSingletonPads();
+	private boolean pressed;
+	private int pressCount;
 	private final int id;
 	private long startTime;
 	private long endTime;
-	
-	
-	
-	/**
-	 * @param id
-	 */
-	public Eye(int id) {
-		
+
+
+	public Pad(int id) {
+
 		this.id = id;
-		this.eyes.addEye(this);
-		
+		this.pads.addPad(this);
+
 	}
-	
-	/**
-	 * 
-	 */
-	private void triggerStart(){
-		
-		this.startTime = ClockInterface.getTimeInLong();
-		
+
+
+	public boolean hasBeenPressed(){
+		return pressed;
 	}
-	
-	/**
-	 * 
-	 */
-	private void triggerEnd(){
-		
-		this.endTime = ClockInterface.getTimeInLong();
-		
-	}
-	
-	/**
-	 * @return
-	 */
-	public boolean trigger(){
-		
-		if(enabled){
+
+	public void press(){
+
+		if(pressCount > 2){
 			
-			triggerStart();
-			enabled = !enabled;
+			trigger();
+			this.pressCount++;
+			this.pressed = !this.pressed;
 			
-			return true;
-		
 		}
-			
-			triggerEnd();
-			enabled = !enabled;
-			
-			return true;
-			
 	}
 	
-	/**
-	 * @return
-	 */
-	public boolean isRunning(){
+	private void trigger(){
 		
-		return enabled;
-		
+		if(pressed && pressCount == 0){
+			
+			startTime = ClockInterface.getTimeInLong();
+			
+		}else{
+			
+			endTime = ClockInterface.getTimeInLong();
+			
+		}
 	}
 	
-	
-	public void resetEye(){
-		
-		this.enabled = false;
+	public void resetPad(){
+		this.pressCount = 0;
+		this.pressed = false;
 		this.startTime = 0;
 		this.endTime = 0;
-		
 	}
-	
-	
+
+	public int getPressCount() {
+		return pressCount;
+	}
+
+
 	/* (non-Javadoc)
 	 * @see hardware.external.Sensor#getCurrentFormattedTime()
 	 */
@@ -121,6 +101,6 @@ public class Eye implements Sensor {
 	 */
 	@Override
 	public boolean hasBeam() {
-		return true;
+		return false;
 	}
 }

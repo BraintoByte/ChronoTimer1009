@@ -8,10 +8,17 @@ import interfaces.UI;
 public abstract class State {   //State
 
 	private static State current = null;
+	/**
+	 * 
+	 */
 	protected UI ui;
 	private static ButtonHandler btnHandler;
 	private static Scanner input;
 
+	/**
+	 * @param ui
+	 * @param input
+	 */
 	public State(UI ui, Scanner input){
 
 		this.ui = ui;
@@ -19,12 +26,18 @@ public abstract class State {   //State
 		
 	}
 
+	/**
+	 * @param state
+	 */
 	public static void setState(State state){
 
 		current = state;
 
 	}
 
+	/**
+	 * @return
+	 */
 	public static State getState(){
 
 		return current;
@@ -32,7 +45,13 @@ public abstract class State {   //State
 	}
 	
 	
+	/**
+	 * 
+	 */
 	public abstract void update();
+	/**
+	 * 
+	 */
 	public abstract void display();
 
 }

@@ -4,6 +4,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 import Utils.Util;
+import entitiesStatic.Clock;
 import hardware.user.ButtonHandler;
 import interfaces.UI;
 import states.State;
@@ -11,7 +12,8 @@ import states.hardware.ButtonsActivation;
 import states.hardware.Idle;
 public class Simulator implements Runnable {    //Chain
 
-	private Thread tread;
+	private Thread treadSimulator;
+	private Clock clock;
 	private boolean running;
 	private Scanner input;
 	private UI ui;
@@ -20,15 +22,22 @@ public class Simulator implements Runnable {    //Chain
 	private State idleState;
 
 	
+	/**
+	 * 
+	 */
 	public Simulator(){}
 	
 
+	/**
+	 * 
+	 */
 	public void initialize(){
 
 		input = new Scanner(System.in);
 		this.ui = new UI(this);
 		this.initState = new ButtonsActivation(ui, input);
 		this.idleState = new Idle(ui, input);
+		this.clock = new Clock();
 		
 //		System.out.println("In initialize");
 
@@ -36,6 +45,9 @@ public class Simulator implements Runnable {    //Chain
 		
 	}
 
+	/**
+	 * 
+	 */
 	private void update(){
 
 //		System.out.println("In update");
@@ -48,6 +60,9 @@ public class Simulator implements Runnable {    //Chain
 		}
 	}
 
+	/**
+	 * 
+	 */
 	private void display(){
 
 //		System.out.println("In display");
@@ -62,6 +77,9 @@ public class Simulator implements Runnable {    //Chain
 	}
 
 
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run(){
 
@@ -108,6 +126,9 @@ public class Simulator implements Runnable {    //Chain
 	}
 
 
+	/**
+	 * 
+	 */
 	public synchronized void start(){
 
 //		System.out.println("In while if 2 run");
@@ -119,12 +140,17 @@ public class Simulator implements Runnable {    //Chain
 		}
 
 		running = true;
-		this.tread = new Thread(this);
-		this.tread.start();
+		this.treadSimulator = new Thread(this);
+		this.treadSimulator.start();
 
 	}
+	
+	
 
 
+	/**
+	 * 
+	 */
 	public synchronized void stop(){
 
 		System.out.println("In while if 2 run");
@@ -140,7 +166,7 @@ public class Simulator implements Runnable {    //Chain
 
 		try{
 
-			tread.join();
+			treadSimulator.join();
 
 		}catch(InterruptedException ex){
 
@@ -150,12 +176,22 @@ public class Simulator implements Runnable {    //Chain
 	}
 
 
+	/**
+	 * @return
+	 */
 	public State getIdleState() {
 		return idleState;
 	}
 	
+	/**
+	 * @return
+	 */
 	public State getInitState() {
 		return initState;
+	}
+	
+	public Clock getClock() {
+		return clock;
 	}
 	
 	

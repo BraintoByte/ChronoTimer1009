@@ -9,6 +9,9 @@ public class Pool {
 	private int racersAmount;
 	private Queue<Racer> racers;
 
+	/**
+	 * 
+	 */
 	public Pool(){
 
 		racers = new LinkedList<>();
@@ -16,6 +19,9 @@ public class Pool {
 
 	}
 
+	/**
+	 * 
+	 */
 	private void init(){
 
 
@@ -23,6 +29,9 @@ public class Pool {
 
 	}
 
+	/**
+	 * 
+	 */
 	private void makeRacers(){
 
 		for(int i = 0; i < racersAmount; i++){
@@ -34,12 +43,18 @@ public class Pool {
 
 
 
+	/**
+	 * @param racersLimit
+	 */
 	public void setRacersLimit(int racersLimit){
 
 		this.racersLimit = racersLimit;
 
 	}
 
+	/**
+	 * @param racersAmount
+	 */
 	public void setRacersAmount(int racersAmount){
 
 		if(racersLimit != 0){

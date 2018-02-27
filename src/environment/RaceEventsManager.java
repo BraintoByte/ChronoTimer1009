@@ -1,6 +1,6 @@
 package environment;
 
-import Exceptions.NoSuchSensorException;
+import exceptions.NoSuchSensorException;
 import hardware.external.Sensor;
 import hardware.external.SensorFactory;
 
@@ -32,18 +32,27 @@ public class RaceEventsManager {
 			factory = new SensorFactory();
 
 		}
-
-		protected void couple(int sensor, int channel, boolean eye) throws NoSuchSensorException {
+		
+		/**
+		 * Couples a sensor to a channel
+		 * 
+		 * @param sensor
+		 * @param channel
+		 * @param eye
+		 * @throws NoSuchSensorException
+		 */
+		
+		protected void couple(int sensor, int channel, boolean eye, boolean gate, boolean pad) throws NoSuchSensorException {
 
 			if(factory.getAmountEye() > 0 || factory.getAmountGates() > 0){
 
 				if(channel < Channels.channels.length){
 
-					Channels.channels[channel].pairToSensor(eye ? factory.findEye(sensor) : factory.findGate(sensor));
+					Channels.channels[channel].pairToSensor(eye ? factory.findEye(sensor) : gate ? factory.findGate(sensor) : factory.findPad(sensor));
 					System.out.println(Channels.channels[channel].isPairedToSensor());
 
 				}
-
+				
 			}else{
 
 				throw new NoSuchSensorException(factory);
@@ -62,6 +71,12 @@ public class RaceEventsManager {
 	private SensorCoupler sensors;
 
 
+	/**
+	 * Set a specific channel to be the selected channel
+	 * 
+	 * @param channelSelected
+	 * @return true if channel exists and will be selected, false if not!
+	 */
 	public boolean setChannelSelected(int channelSelected) {
 		
 		if(channelSelected < Channels.channels.length){
@@ -76,24 +91,39 @@ public class RaceEventsManager {
 		
 	}
 
+	/**
+	 * Gets the selected channel
+	 * 
+	 * @return the channel selected
+	 */
 	public int getChannelSelected() {
 		return channelSelected;
 	}
 
-	public void theseManySensors(int gates, int eyes){
+	/**
+	 * @param gates
+	 * @param eyes
+	 */
+	public void theseManySensors(int gates, int eyes, int pads){
 
 		sensors = new SensorCoupler();
-		sensors.initialiazeSensors().makeSensors(gates + eyes, eyes > 0, gates > 0);
+		sensors.initialiazeSensors().makeSensors(gates + eyes + pads, eyes > 0, gates > 0, pads > 0);
 
 	}
 
-	public void CONN(int sensor, boolean eye){
+	/**
+	 * Command CONN to connect a sensor to a channel
+	 * 
+	 * @param sensor
+	 * @param eye
+	 */
+	public void CONN(int sensor, boolean eye, boolean gate, boolean pad){
 
 		if(channelSelected != 0){
 
 			try {
 
-				sensors.couple(sensor, channelSelected, eye);
+				sensors.couple(sensor, channelSelected, eye, gate, pad);
 
 			} catch (NoSuchSensorException e) {
 
@@ -103,12 +133,18 @@ public class RaceEventsManager {
 		}
 	}
 
+	/**
+	 * @return
+	 */
 	public int amountConnectedCh1(){  //JUST TESTS
 
 		return Channels.channels[0].sensorsAmount();
 
 	}
 
+	/**
+	 * @return
+	 */
 	public int amountConnectedCh2(){    //JUST TESTS
 
 		return Channels.channels[1].sensorsAmount();
@@ -116,6 +152,11 @@ public class RaceEventsManager {
 	}
 
 
+	/**
+	 * Gets the total amount of sensors connected to the selected channels
+	 * 
+	 * @return Channels.channels[channelSelected].sensorsAmount()
+	 */
 	public int getAmountConnectedOnSelectedChannel(){    //JUST TESTS
 
 		return Channels.channels[channelSelected].sensorsAmount();
@@ -123,6 +164,11 @@ public class RaceEventsManager {
 	}
 
 
+	/**
+	 * Gets all sensors back
+	 * 
+	 * @return An array of sensors
+	 */
 	public Sensor[] allPairedSensors(){
 
 		Sensor[] sensors = new Sensor[Channels.channels[0].sensorsAmount() + Channels.channels[1].sensorsAmount()];
@@ -138,6 +184,15 @@ public class RaceEventsManager {
 
 	}
 
+	/**
+	 * Helper of {@link RaceEventsManager#allPairedSensors()} puts one channel sensors into the final array from index to index
+	 * and sends back the ending index
+	 * 
+	 * @param sensors
+	 * @param tempSensor
+	 * @param fromIndex
+	 * @return fromIndex
+	 */
 	private int putIntoArray(Sensor[] sensors, Sensor[] tempSensor, int fromIndex){
 
 		for(int i = 0; i < sensors.length; i++){

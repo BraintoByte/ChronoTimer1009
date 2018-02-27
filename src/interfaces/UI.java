@@ -11,6 +11,9 @@ public class UI {
 	private RaceEventsManager raceManager;
 	
 	
+	/**
+	 * @param sim
+	 */
 	public UI(Simulator sim){
 		
 		this.sim = sim;
@@ -18,21 +21,36 @@ public class UI {
 	}
 	
 	
+	/**
+	 * @return
+	 */
 	public Simulator getSimulator(){
 		return sim;
 	}
 	
+	/**
+	 * @param btnHandler
+	 */
 	public void setBtnHandler(ButtonHandler btnHandler) {
 		this.btnHandler = btnHandler;
 	}
 	
+	/**
+	 * @return
+	 */
 	public ButtonHandler getBtnHandler() {
 		return btnHandler;
 	}
 	
+	/**
+	 * @return
+	 */
 	public RaceEventsManager getRaceManager() {
 		return raceManager;
 	}
+	/**
+	 * @param raceManager
+	 */
 	public void setRaceManager(RaceEventsManager raceManager){
 		this.raceManager = raceManager;
 	}

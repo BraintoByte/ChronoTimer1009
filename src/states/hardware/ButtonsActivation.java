@@ -13,6 +13,10 @@ public class ButtonsActivation extends State {
 	private Scanner input;
 	
 	
+	/**
+	 * @param ui
+	 * @param input
+	 */
 	public ButtonsActivation(UI ui, Scanner input){
 		
 		super(ui, input);
@@ -21,6 +25,9 @@ public class ButtonsActivation extends State {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see states.State#update()
+	 */
 	@Override
 	public void update() {
 		
@@ -37,6 +44,9 @@ public class ButtonsActivation extends State {
 	}
 	
 	
+	/* (non-Javadoc)
+	 * @see states.State#display()
+	 */
 	@Override
 	public void display() {
 		
@@ -48,6 +58,9 @@ public class ButtonsActivation extends State {
 		
 	}
 	
+	/**
+	 * 
+	 */
 	private void offState(){
 		
 		
@@ -73,6 +86,7 @@ public class ButtonsActivation extends State {
 			btnHandler.setPowerOnOff(true);
 			ui.setBtnHandler(btnHandler);
 			ui.setRaceManager(new RaceEventsManager());
+			ui.getSimulator().getClock().setActive(true);
 //			initialize();
 			
 		}

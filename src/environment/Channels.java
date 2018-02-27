@@ -22,6 +22,10 @@ public abstract class Channels {
 
 
 
+	/**
+	 * @param name
+	 * @param chId
+	 */
 	public Channels(String name, int chId) {
 
 		this.name = name;
@@ -30,34 +34,53 @@ public abstract class Channels {
 
 	}
 
+	/**
+	 * @param isEnabled
+	 */
 	public void isEnabled(boolean isEnabled){
 
 		this.isEnabled = isEnabled;
 
 	}
 
+	/**
+	 * @param sensor
+	 */
 	public void pairToSensor(Sensor sensor){
 
 		pairedSensors.add(sensor);
 
 	}
 
+	/**
+	 * @param sensor
+	 * @return
+	 */
 	public Sensor unPairToSensor(Sensor sensor){
 
 		return pairedSensors.remove(sensor.getId());
 
 	}
 
+	/**
+	 * @return
+	 */
 	public Sensor[] pairedToSensors(){
 
 		return (Sensor[]) pairedSensors.toArray();
 
 	}
 	
+	/**
+	 * @return
+	 */
 	public boolean isPairedToSensor(){
 		return pairedSensors.size() > 0;
 	}
 	
+	/**
+	 * @return
+	 */
 	public int sensorsAmount(){
 		return pairedSensors.size();
 	}

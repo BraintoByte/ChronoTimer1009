@@ -1,6 +1,6 @@
 package hardware.external.sensors.gate;
 
-import entitiesStatic.Clock;
+import entitiesStatic.ClockInterface;
 import hardware.external.Sensor;
 
 public class Gate implements Sensor {
@@ -12,6 +12,9 @@ public class Gate implements Sensor {
 	
 	
 	
+	/**
+	 * @param id
+	 */
 	public Gate(int id) {
 		
 		this.id = id;
@@ -19,40 +22,68 @@ public class Gate implements Sensor {
 		
 	}
 	
+	/**
+	 * 
+	 */
 	public void setStartTime(){
 		
-		this.startTime = Clock.getTimeInLong();
+		this.startTime = ClockInterface.getTimeInLong();
 		
 	}
 	
+	/**
+	 * 
+	 */
 	public void setEndTime(){
 		
-		this.endTime = Clock.getTimeInLong();
+		this.endTime = ClockInterface.getTimeInLong();
 		
 	}
 	
+	
+	
+	public void resetGate(){
+		this.startTime = 0;
+		this.endTime = 0;
+	}
+	
+	/* (non-Javadoc)
+	 * @see hardware.external.Sensor#getCurrentFormattedTime()
+	 */
 	@Override
 	public String getCurrentFormattedTime() {
-		return Clock.getFormattedTime();
+		return ClockInterface.getCurrentTimeFormatted();
 	}
 	
+	/* (non-Javadoc)
+	 * @see hardware.external.Sensor#getCurrentTimeInLong()
+	 */
 	@Override
 	public long getCurrentTimeInLong() {
-		return Clock.getTimeInLong();
+		return ClockInterface.getTimeInLong();
 	}
 	
 	
+	/* (non-Javadoc)
+	 * @see hardware.external.Sensor#computeTime()
+	 */
 	@Override
 	public long computeTime() {
-		return Clock.computeTime(this.startTime, this.endTime);
+		return ClockInterface.computeTime(this.startTime, this.endTime);
 	}
 	
+	/* (non-Javadoc)
+	 * @see hardware.external.Sensor#getId()
+	 */
 	@Override
 	public int getId() {
 		
 		return this.id;
 	}
 
+	/* (non-Javadoc)
+	 * @see hardware.external.Sensor#hasBeam()
+	 */
 	@Override
 	public boolean hasBeam() {
 		return false;

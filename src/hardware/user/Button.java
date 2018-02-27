@@ -3,6 +3,7 @@ package hardware.user;
 import java.util.Arrays;
 
 import entitiesStatic.Clock;
+import entitiesStatic.ClockInterface;
 import hardware.buttons.Cancel;
 import hardware.buttons.Exit;
 import hardware.buttons.Finish;
@@ -39,6 +40,10 @@ public abstract class Button {     //Abstract Factory
 	private static Button time = new Time(8);
 
 
+	/**
+	 * @param name
+	 * @param id
+	 */
 	public Button(String name, int id){
 
 		this.name = name;
@@ -47,30 +52,47 @@ public abstract class Button {     //Abstract Factory
 
 	}
 
+	/**
+	 * @return
+	 */
 	public boolean isOn(){
 
 		return true;
 
 	}
 
+	/**
+	 * @param on
+	 */
 	public void setOn(boolean on){
 
 		isOn = on;
 
 	}
 
+	/**
+	 * @return
+	 */
 	public String getCurrentTime(){
 
-		return Clock.getFormattedTime();
+		return ClockInterface.getCurrentTimeFormatted();
 
 	}
 
+	/**
+	 * 
+	 */
 	public void EXIT(){
 
 		System.exit(1);
 
 	}
 
+	/**
+	 * @param min
+	 * @param max
+	 * @return
+	 */
 	private boolean rangeNumber(int min, int max){
 
 		if(min > DEFAULT_MAX || max > DEFAULT_MAX || min > max || min <= DEFAULT_MIN || max <= DEFAULT_MIN){
@@ -83,6 +105,9 @@ public abstract class Button {     //Abstract Factory
 
 	}
 
+	/**
+	 * @param nbrs
+	 */
 	public void setNumber(int[] nbrs){
 
 		nbrs = selectionSort(nbrs);
@@ -94,6 +119,10 @@ public abstract class Button {     //Abstract Factory
 		}
 	}
 
+	/**
+	 * @param number
+	 * @return
+	 */
 	public boolean isValidNumber(int number){
 
 		int index = Arrays.binarySearch(this.validNubers, number);
@@ -103,6 +132,10 @@ public abstract class Button {     //Abstract Factory
 	}
 
 
+	/**
+	 * @param arr
+	 * @return
+	 */
 	private static int[] selectionSort(int[] arr){
 
 		for (int i = 0; i < arr.length - 1; i++) {
@@ -120,6 +153,9 @@ public abstract class Button {     //Abstract Factory
 		return arr;
 	}
 
+	/**
+	 * @return
+	 */
 	public int getBtnId() {
 		return btnId;
 	}
