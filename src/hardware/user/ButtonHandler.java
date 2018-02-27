@@ -73,19 +73,7 @@ public class ButtonHandler {
 	 * 
 	 */
 	public ButtonHandler(){
-		
 		manager = new ButtonManager();
-		
-		
-//		if(manager.getPower().isOn){
-//			
-//			
-//			
-//		}else{
-//			
-//			offState();
-//			
-//		}
 	}
 	
 	
@@ -138,5 +126,4 @@ public class ButtonHandler {
 		return manager.getTime().getCurrentTime();
 		
 	}
-	
 }

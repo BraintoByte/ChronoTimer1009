@@ -26,7 +26,7 @@ public class Ch1 extends Channels {
 	 * @see environment.Channels#pairedToSensors()
 	 */
 	@Override
-	public Sensor[] pairedToSensors() {
+	public Object[] pairedToSensors() {
 		return super.pairedToSensors();
 	}
 	

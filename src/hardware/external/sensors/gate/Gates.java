@@ -24,7 +24,7 @@ public class Gates {
 	private static class SingletonGates {
 		
 		/**
-		 * 
+		 * Makes the singleton
 		 */
 		private static final Gates gatesSingleton = new Gates();
 		
@@ -77,7 +77,7 @@ public class Gates {
 	/**
 	 * @return
 	 */
-	protected int howManyLeft(){
+	public int howManyLeft(){
 		return gates.size();
 	}
 	

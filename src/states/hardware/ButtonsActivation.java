@@ -86,6 +86,7 @@ public class ButtonsActivation extends State {
 			btnHandler.setPowerOnOff(true);
 			ui.setBtnHandler(btnHandler);
 			ui.setRaceManager(new RaceEventsManager());
+			ui.getRaceManager().theseManySensors(4, 4, 4);
 			ui.getSimulator().getClock().setActive(true);
 //			initialize();
 			

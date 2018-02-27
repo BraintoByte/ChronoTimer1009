@@ -9,6 +9,9 @@ public class Pads {
 	private List<Pad> pads;
 	
 	
+	/**
+	 * 
+	 */
 	private Pads(){
 		
 		pads = new ArrayList<>();
@@ -23,6 +26,9 @@ public class Pads {
 	}
 	
 	
+	/**
+	 * @return
+	 */
 	public static Pads getSingletonPads(){
 		
 		return SingletonPad.padSingleton;
@@ -30,6 +36,10 @@ public class Pads {
 	}
 	
 	
+	/**
+	 * @param pad
+	 * @return
+	 */
 	public Pad getPad(int pad){
 		
 		return pads.remove(pad);
@@ -37,13 +47,19 @@ public class Pads {
 	}
 	
 	
-	public Iterator<Pad> getPadIteratively(){
+	/**
+	 * @return
+	 */
+	public Iterator<Pad> getPadIterator(){
 		
 		return pads.iterator();
 		
 	}
 	
 	
+	/**
+	 * @param pad
+	 */
 	protected void addPad(Pad pad){
 		
 		pads.add(pad);
@@ -52,6 +68,10 @@ public class Pads {
 	
 	
 	
+	/**
+	 * @param pad
+	 * @throws IllegalArgumentException
+	 */
 	public void returnPadToSource(Pad pad) throws IllegalArgumentException {
 		
 		if(pad != null && !pads.contains(pad)){
@@ -66,10 +86,16 @@ public class Pads {
 	}
 	
 	
-	protected int howManyLeft(){
+	/**
+	 * @return
+	 */
+	public int howManyLeft(){
 		return pads.size();
 	}
 	
+	/**
+	 * @return
+	 */
 	protected boolean isEmpty(){
 		return pads.size() == 0;
 	}

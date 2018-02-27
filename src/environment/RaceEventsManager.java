@@ -1,5 +1,7 @@
 package environment;
 
+import java.util.Stack;
+
 import exceptions.NoSuchSensorException;
 import hardware.external.Sensor;
 import hardware.external.SensorFactory;
@@ -17,22 +19,29 @@ public class RaceEventsManager {
 	//			return Channels.channels[1];
 	//		}
 	//	}
-	
+
 	//TODO: MAKE A SENSOR VARIABLE THAT KEEPS TRACK OF THE SENSOR AMOUNTS AND IN CONSEQUENCE ASSIGN A NEW NUMBER TO IT!
 	//TODO: CHANGE THE SENSOR ASSIGNMENTS MECHANISM, IT'S FUCKING RETARDED!
-	
+
 	//XXX: ALL COMMENTS HERE ARE FOR ME NOT FOR YOU DON'T DO ABSOULUTELY ANYTHING IN THE CODE! THANK YOU!
 
 	private class SensorCoupler {
 
 		private SensorFactory factory;
+		private Stack<Integer> gateAvailable;
+		private Stack<Integer> eyeAvailable;
+		private Stack<Integer> padAvailable;
+
 
 		private SensorCoupler(){
 
 			factory = new SensorFactory();
+//			gateAvailable = new Stack<>();
+//			eyeAvailable = new Stack<>();
+//			padAvailable = new Stack<>();
 
 		}
-		
+
 		/**
 		 * Couples a sensor to a channel
 		 * 
@@ -41,18 +50,21 @@ public class RaceEventsManager {
 		 * @param eye
 		 * @throws NoSuchSensorException
 		 */
-		
-		protected void couple(int sensor, int channel, boolean eye, boolean gate, boolean pad) throws NoSuchSensorException {
+
+		protected void couple(int channel, boolean eye, boolean gate, boolean pad) throws NoSuchSensorException {
 
 			if(factory.getAmountEye() > 0 || factory.getAmountGates() > 0){
 
 				if(channel < Channels.channels.length){
 
-					Channels.channels[channel].pairToSensor(eye ? factory.findEye(sensor) : gate ? factory.findGate(sensor) : factory.findPad(sensor));
+					int sensor = findNextAvailableSensor(gate, eye, pad);
+
+					Channels.channels[channel].pairToSensor(eye ? factory.findEyeIteratively(sensor) : gate ? factory.findGateIteratively(sensor) : 
+						factory.findPadIteratively(sensor));
 					System.out.println(Channels.channels[channel].isPairedToSensor());
 
 				}
-				
+
 			}else{
 
 				throw new NoSuchSensorException(factory);
@@ -60,7 +72,63 @@ public class RaceEventsManager {
 			}
 		}
 
-		protected SensorFactory initialiazeSensors(){
+		private int findNextAvailableSensor(boolean gate, boolean eye, boolean pad){
+
+			if(gate){
+
+				if(gateAvailable == null || gateAvailable.isEmpty()){
+
+					gateAvailable = factory.sensorToStack(gate, eye, pad);
+
+				}
+
+				if(gateAvailable.isEmpty()){
+
+					throw new IllegalAccessError();
+
+				}
+
+				return gateAvailable.pop();
+
+			}else if(eye){
+
+
+				if(eyeAvailable == null || eyeAvailable.isEmpty()){
+
+					eyeAvailable = factory.sensorToStack(gate, eye, pad);
+
+				}
+
+				if(eyeAvailable.isEmpty()){
+
+					throw new IllegalAccessError();
+
+				}
+
+				return eyeAvailable.pop();
+
+			}else if(pad){
+
+				if(padAvailable == null || padAvailable.isEmpty()){
+
+					padAvailable = factory.sensorToStack(gate, eye, pad);
+
+				}
+
+				if(padAvailable.isEmpty()){
+
+					throw new IllegalAccessError();
+
+				}
+
+				return padAvailable.pop();
+
+			}
+
+			return -1;
+		}
+
+		protected SensorFactory getSensors(){
 
 			return factory;
 
@@ -69,6 +137,7 @@ public class RaceEventsManager {
 
 	private int channelSelected;
 	private SensorCoupler sensors;
+	private int sensorCount;
 
 
 	/**
@@ -78,17 +147,17 @@ public class RaceEventsManager {
 	 * @return true if channel exists and will be selected, false if not!
 	 */
 	public boolean setChannelSelected(int channelSelected) {
-		
+
 		if(channelSelected < Channels.channels.length){
-			
+
 			this.channelSelected = channelSelected;
-			
+
 			return true;
-		
+
 		}
-		
+
 		return false;
-		
+
 	}
 
 	/**
@@ -107,7 +176,7 @@ public class RaceEventsManager {
 	public void theseManySensors(int gates, int eyes, int pads){
 
 		sensors = new SensorCoupler();
-		sensors.initialiazeSensors().makeSensors(gates + eyes + pads, eyes > 0, gates > 0, pads > 0);
+		sensors.getSensors().makeSensors(eyes, gates, pads, eyes > 0, gates > 0, pads > 0);
 
 	}
 
@@ -117,13 +186,13 @@ public class RaceEventsManager {
 	 * @param sensor
 	 * @param eye
 	 */
-	public void CONN(int sensor, boolean eye, boolean gate, boolean pad){
+	public void CONN(boolean eye, boolean gate, boolean pad){
 
 		if(channelSelected != 0){
 
 			try {
 
-				sensors.couple(sensor, channelSelected, eye, gate, pad);
+				sensors.couple(channelSelected, eye, gate, pad);
 
 			} catch (NoSuchSensorException e) {
 
@@ -193,11 +262,11 @@ public class RaceEventsManager {
 	 * @param fromIndex
 	 * @return fromIndex
 	 */
-	private int putIntoArray(Sensor[] sensors, Sensor[] tempSensor, int fromIndex){
+	private int putIntoArray(Sensor[] sensors, Object[] tempSensor, int fromIndex){
 
-		for(int i = 0; i < sensors.length; i++){
+		for(int i = 0; i < tempSensor.length; i++){
 
-			sensors[fromIndex] = tempSensor[i];
+			sensors[fromIndex] = (Sensor) tempSensor[i];
 			fromIndex++;
 		}
 

@@ -103,8 +103,8 @@ public class Simulator implements Runnable {    //Chain
 			lastTime = now;
 
 			if(delta >= 1){
-
-//				System.out.println("delta");
+				
+				
 				update();
 				display();
 				ticks = ticks + 1;
@@ -122,9 +122,9 @@ public class Simulator implements Runnable {    //Chain
 		}
 
 		stop();
-
+		
 	}
-
+	
 
 	/**
 	 * 

@@ -8,6 +8,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import entitiesStatic.ClockInterface;
+import hardware.external.Sensor;
 import hardware.user.ButtonHandler;
 import interfaces.UI;
 import states.State;
@@ -138,7 +139,6 @@ public class Idle extends State {
 							}
 						}
 						
-						
 					}catch(ParseException ex){
 
 						ex.printStackTrace();
@@ -154,8 +154,7 @@ public class Idle extends State {
 						channelSelected = Integer.parseInt(str.split("\\s")[2]);
 
 						ui.getRaceManager().setChannelSelected(channelSelected);
-						ui.getRaceManager().theseManySensors(4, 4, 4);
-						ui.getRaceManager().CONN(channelSelected, str.split("\\s")[1].equalsIgnoreCase("eye"), 
+						ui.getRaceManager().CONN(str.split("\\s")[1].equalsIgnoreCase("eye"), 
 								str.split("\\s")[1].equalsIgnoreCase("gate"), str.split("\\s")[1].equalsIgnoreCase("pad"));
 						System.out.println(ui.getRaceManager().amountConnectedCh1());
 						
@@ -180,6 +179,17 @@ public class Idle extends State {
 
 					ui.getRaceManager().setChannelSelected(channelSelected);
 					System.out.println("Sensors connected on channel: " + channelSelected + " is " + ui.getRaceManager().getAmountConnectedOnSelectedChannel());
+					Sensor[] sensors = ui.getRaceManager().allPairedSensors();
+					
+					
+					System.out.println("List of paired sensors: ");
+					
+					for(Sensor s : sensors){
+						
+						System.out.print(s.getId() + " ");
+						
+					}
+					
 					break;
 				}
 			}

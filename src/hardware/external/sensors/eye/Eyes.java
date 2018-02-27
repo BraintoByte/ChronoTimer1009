@@ -25,14 +25,14 @@ public class Eyes {
 	private static class SingletonEye {
 		
 		/**
-		 * 
+		 * Makes the singleton
 		 */
 		private static final Eyes eyeSingleton = new Eyes();
 		
 	}
 	
 	/**
-	 * @return
+	 * @return singleton of eyes
 	 */
 	public static Eyes getSingletonEyes(){
 		
@@ -78,7 +78,7 @@ public class Eyes {
 	/**
 	 * @return
 	 */
-	protected int howManyLeft(){
+	public int howManyLeft(){
 		return eyes.size();
 	}
 	

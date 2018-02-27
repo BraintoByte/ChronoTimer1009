@@ -12,7 +12,7 @@ import hardware.external.sensors.gate.Gate;
 public abstract class Channels {
 
 	public static Channels[] channels = new Channels[2];
-	private static List<Sensor> pairedSensors = new ArrayList<>();
+	private List<Sensor> pairedSensors = new ArrayList<>();
 	private String name;
 	private final int chId;
 	private boolean isEnabled;
@@ -65,9 +65,9 @@ public abstract class Channels {
 	/**
 	 * @return
 	 */
-	public Sensor[] pairedToSensors(){
+	public Object[] pairedToSensors(){
 
-		return (Sensor[]) pairedSensors.toArray();
+		return pairedSensors.toArray();
 
 	}
 	

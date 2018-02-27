@@ -14,6 +14,9 @@ public class Pad implements Sensor{
 	private long endTime;
 
 
+	/**
+	 * @param id
+	 */
 	public Pad(int id) {
 
 		this.id = id;
@@ -22,10 +25,16 @@ public class Pad implements Sensor{
 	}
 
 
+	/**
+	 * @return
+	 */
 	public boolean hasBeenPressed(){
 		return pressed;
 	}
 
+	/**
+	 * 
+	 */
 	public void press(){
 
 		if(pressCount > 2){
@@ -37,6 +46,9 @@ public class Pad implements Sensor{
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	private void trigger(){
 		
 		if(pressed && pressCount == 0){
@@ -50,6 +62,9 @@ public class Pad implements Sensor{
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	public void resetPad(){
 		this.pressCount = 0;
 		this.pressed = false;
@@ -57,6 +72,9 @@ public class Pad implements Sensor{
 		this.endTime = 0;
 	}
 
+	/**
+	 * @return
+	 */
 	public int getPressCount() {
 		return pressCount;
 	}
@@ -65,11 +83,17 @@ public class Pad implements Sensor{
 	/* (non-Javadoc)
 	 * @see hardware.external.Sensor#getCurrentFormattedTime()
 	 */
+	/* (non-Javadoc)
+	 * @see hardware.external.Sensor#getCurrentFormattedTime()
+	 */
 	@Override
 	public String getCurrentFormattedTime() {
 		return ClockInterface.getCurrentTimeFormatted();
 	}
 	
+	/* (non-Javadoc)
+	 * @see hardware.external.Sensor#getCurrentTimeInLong()
+	 */
 	/* (non-Javadoc)
 	 * @see hardware.external.Sensor#getCurrentTimeInLong()
 	 */
@@ -82,11 +106,17 @@ public class Pad implements Sensor{
 	/* (non-Javadoc)
 	 * @see hardware.external.Sensor#computeTime()
 	 */
+	/* (non-Javadoc)
+	 * @see hardware.external.Sensor#computeTime()
+	 */
 	@Override
 	public long computeTime() {
 		return ClockInterface.computeTime(this.startTime, this.endTime);
 	}
 	
+	/* (non-Javadoc)
+	 * @see hardware.external.Sensor#getId()
+	 */
 	/* (non-Javadoc)
 	 * @see hardware.external.Sensor#getId()
 	 */
@@ -96,6 +126,9 @@ public class Pad implements Sensor{
 		return this.id;
 	}
 
+	/* (non-Javadoc)
+	 * @see hardware.external.Sensor#hasBeam()
+	 */
 	/* (non-Javadoc)
 	 * @see hardware.external.Sensor#hasBeam()
 	 */
