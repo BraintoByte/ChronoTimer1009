@@ -194,6 +194,10 @@ public class Simulator implements Runnable {    //Chain
 		return clock;
 	}
 	
+//	public UI getUi() {
+//		return ui;
+//	}
+	
 	
 	//Constructor missing
 

@@ -55,13 +55,13 @@ public class RaceEventsManager {
 
 			if(factory.getAmountEye() > 0 || factory.getAmountGates() > 0){
 
-				if(channel < Channels.channels.length){
+				if(channel <= Channels.channels.length){
 
 					int sensor = findNextAvailableSensor(gate, eye, pad);
 
-					Channels.channels[channel].pairToSensor(eye ? factory.findEyeIteratively(sensor) : gate ? factory.findGateIteratively(sensor) : 
+					Channels.channels[channel - 1].pairToSensor(eye ? factory.findEyeIteratively(sensor) : gate ? factory.findGateIteratively(sensor) : 
 						factory.findPadIteratively(sensor));
-					System.out.println(Channels.channels[channel].isPairedToSensor());
+					System.out.println(Channels.channels[channel - 1].isPairedToSensor());
 
 				}
 
@@ -148,7 +148,7 @@ public class RaceEventsManager {
 	 */
 	public boolean setChannelSelected(int channelSelected) {
 
-		if(channelSelected < Channels.channels.length){
+		if(channelSelected <= Channels.channels.length){
 
 			this.channelSelected = channelSelected;
 
@@ -228,7 +228,7 @@ public class RaceEventsManager {
 	 */
 	public int getAmountConnectedOnSelectedChannel(){    //JUST TESTS
 
-		return Channels.channels[channelSelected].sensorsAmount();
+		return Channels.channels[channelSelected - 1].sensorsAmount();
 
 	}
 
