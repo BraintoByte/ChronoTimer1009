@@ -120,8 +120,8 @@ public class Idle extends State {
 				str = input.nextLine();
 
 			}
-			
-			
+
+
 			if(str.split("\\s").length <= 1){
 
 				switch(str){
@@ -203,7 +203,7 @@ public class Idle extends State {
 					}catch(InputMismatchException e){}
 
 
-					
+
 
 					break;
 				case "TIME":    //Sets the current local time
@@ -235,10 +235,10 @@ public class Idle extends State {
 					}
 					break;
 				case "TOG":
-					
+
 					try{
 
-						channelSelected = Integer.parseInt(str.split("\\s")[2]);
+						channelSelected = Integer.parseInt(str.split("\\s")[1]);
 						ui.getRaceManager().setChannelSelected(channelSelected);
 						ui.getRaceManager().getCurrentChannel().enable(!ui.getRaceManager().getCurrentChannel().isEnabled());
 
@@ -250,12 +250,16 @@ public class Idle extends State {
 					try{
 
 						channelSelected = Integer.parseInt(str.split("\\s")[2]);
-
 						ui.getRaceManager().setChannelSelected(channelSelected);
-						ui.getRaceManager().CONN(str.split("\\s")[1].equalsIgnoreCase("eye"), 
-								str.split("\\s")[1].equalsIgnoreCase("gate"), str.split("\\s")[1].equalsIgnoreCase("pad"));
-						System.out.println(ui.getRaceManager().amountConnectedCh1());
-						System.out.println(ui.getRaceManager().amountConnectedCh2());
+
+						if(ui.getRaceManager().getAmountConnectedOnSelectedChannel() == 0){
+
+							ui.getRaceManager().CONN(str.split("\\s")[1].equalsIgnoreCase("eye"), 
+									str.split("\\s")[1].equalsIgnoreCase("gate"), str.split("\\s")[1].equalsIgnoreCase("pad"));
+							System.out.println(ui.getRaceManager().amountConnectedCh1());
+							System.out.println(ui.getRaceManager().amountConnectedCh2());
+
+						}
 
 
 					}catch(InputMismatchException ex){
