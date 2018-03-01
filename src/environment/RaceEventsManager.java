@@ -152,7 +152,6 @@ public class RaceEventsManager {
 
 		racePool = new Pool();
 		active = new LinkedList<>();
-		theseManySensors(4, 4, 4);
 		racePool.setRacersAmount(250);
 
 	}

@@ -40,7 +40,7 @@ public class TestStates {
 
 		System.setIn(new ByteArrayInputStream("f".getBytes()));
 		sim = new Simulator();
-		sim.start();
+//		sim.start();
 		UI ui = new UI(sim);
 		Clock clock = new Clock();
 //		Idle idleState = new Idle(ui, new Scanner(System.in));
@@ -61,7 +61,17 @@ public class TestStates {
 
 		race.CONN(false, false, true);
 		assertEquals(3, race.allPairedSensors().length);
-
+		State.setState(null);
+		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+		try {
+			clock.setTime(new Time(formatter.parse("12:00:11").getTime()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		
+		clock.clockStart();
+		clock.setActive(true);
 
 
 		race.propRace();
