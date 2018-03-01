@@ -127,7 +127,6 @@ public class RaceEventsManager {
 				Channels.channels[channel - 1].unPairToSensor();
 				
 			}
-			
 		}
 
 		protected SensorFactory getSensors(){
@@ -231,6 +230,13 @@ public class RaceEventsManager {
 
 	}
 	
+	public void CANCEL(){
+		
+		System.out.println("Pool before: " + racePool.racersAmount() + " Active: " + racersActive());
+		racePool.returnCancel(active.remove());
+		System.out.println("Pool now: " + racePool.racersAmount() + " Active: " + racersActive());
+		
+	}
 	
 	
 	/**

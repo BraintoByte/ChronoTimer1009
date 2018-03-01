@@ -1,12 +1,13 @@
 package entitiesDynamic;
 
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class Pool {
 
 	private int racersAmount;
-	private Queue<Racer> racers;
+	private Deque<Racer> racers;
 
 	/**
 	 * 
@@ -21,6 +22,12 @@ public class Pool {
 		
 		return racers.size();
 		
+		
+	}
+	
+	public void returnCancel(Racer racer){
+		
+		racers.addFirst(racer);
 		
 	}
 	

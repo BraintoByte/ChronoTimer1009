@@ -132,6 +132,15 @@ public class Idle extends State {
 					State.setState(ui.getSimulator().getInitState());
 					break;
 				case "CANCEL":
+
+					ui.getRaceManager().setChannelSelected(1);
+
+					if(ui.getRaceManager().racersActive() >= 1){
+
+						ui.getRaceManager().CANCEL();
+
+					}
+
 					break;
 				case "START":     //Any amount can start in parallel, that's what I have in my notes
 					//You cannot start a racers after another has finished, because otherwise how do you keep track of the shift
