@@ -41,6 +41,7 @@ public class TestStates {
 		System.setIn(new ByteArrayInputStream("f".getBytes()));
 		sim = new Simulator();
 //		sim.start();
+		//Figured!
 		UI ui = new UI(sim);
 		Clock clock = new Clock();
 //		Idle idleState = new Idle(ui, new Scanner(System.in));
