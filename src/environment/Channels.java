@@ -38,10 +38,14 @@ public abstract class Channels {
 	/**
 	 * @param isEnabled
 	 */
-	public void isEnabled(boolean isEnabled){
+	public void enable(boolean isEnabled){
 
 		this.isEnabled = isEnabled;
 
+	}
+	
+	public boolean isEnabled() {
+		return isEnabled;
 	}
 
 	/**
@@ -57,9 +61,11 @@ public abstract class Channels {
 	 * @param sensor
 	 * @return
 	 */
-	public Sensor unPairToSensor(Sensor sensor){
+	public Sensor unPairToSensor(){
 
-		return pairedSensors.remove(sensor.getId());
+		pairedSensors.clear();
+		
+		return null;
 
 	}
 

@@ -1,29 +1,21 @@
 package environment;
 
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Random;
 import java.util.Stack;
 
+import org.junit.Before;
+
+import entitiesDynamic.Pool;
+import entitiesDynamic.Racer;
+import entitiesStatic.ClockInterface;
 import exceptions.NoSuchSensorException;
 import hardware.external.Sensor;
 import hardware.external.SensorFactory;
 
 public class RaceEventsManager {
 
-
-	//	private class ChannelManager {
-	//
-	//		protected Channels getChannel1(){
-	//			return Channels.channels[0];
-	//		}
-	//
-	//		protected Channels getChannel2(){
-	//			return Channels.channels[1];
-	//		}
-	//	}
-
-	//TODO: MAKE A SENSOR VARIABLE THAT KEEPS TRACK OF THE SENSOR AMOUNTS AND IN CONSEQUENCE ASSIGN A NEW NUMBER TO IT!
-	//TODO: CHANGE THE SENSOR ASSIGNMENTS MECHANISM, IT'S FUCKING RETARDED!
-
-	//XXX: ALL COMMENTS HERE ARE FOR ME NOT FOR YOU DON'T DO ABSOULUTELY ANYTHING IN THE CODE! THANK YOU!
 
 	private class SensorCoupler {
 
@@ -36,9 +28,9 @@ public class RaceEventsManager {
 		private SensorCoupler(){
 
 			factory = new SensorFactory();
-//			gateAvailable = new Stack<>();
-//			eyeAvailable = new Stack<>();
-//			padAvailable = new Stack<>();
+			//			gateAvailable = new Stack<>();
+			//			eyeAvailable = new Stack<>();
+			//			padAvailable = new Stack<>();
 
 		}
 
@@ -127,6 +119,16 @@ public class RaceEventsManager {
 
 			return -1;
 		}
+		
+		protected void uncoupleSensors(int channel){
+			
+			if(channel - 1 < Channels.channels.length){
+				
+				Channels.channels[channel - 1].unPairToSensor();
+				
+			}
+			
+		}
 
 		protected SensorFactory getSensors(){
 
@@ -137,7 +139,23 @@ public class RaceEventsManager {
 
 	private int channelSelected;
 	private SensorCoupler sensors;
-	private int sensorCount;
+	private Pool racePool;
+	private Queue<Racer> active;
+	
+	
+	/**
+	 * 
+	 * 
+	 */
+	
+	public void propRace(){
+
+		racePool = new Pool();
+		active = new LinkedList<>();
+		theseManySensors(4, 4, 4);
+		racePool.setRacersAmount(250);
+
+	}
 
 
 	/**
@@ -159,7 +177,94 @@ public class RaceEventsManager {
 		return false;
 
 	}
+	
+	
+	/**
+	 * 
+	 * 
+	 */
+	
+	public void stopLastRace(){
+		
+		while(!active.isEmpty()){
 
+			Racer temp = active.poll();
+			
+			Random rand = new Random();       //You told me it was random, nothing in the guidelines suggests otherwise
+			int randomNum = rand.nextInt((20 - 0) + 1) + 0;
+			int randomNum2 = rand.nextInt((20 - 0) + 1) + 0;
+
+			if(randomNum == randomNum2){
+
+				temp.setDNF();
+				
+			}
+			
+			rand = new Random();       //You told me it was random, nothing in the guidelines suggests otherwise
+			randomNum = rand.nextInt((20000000 - 25000) + 1) + 0;
+			randomNum2 = rand.nextInt((20000000 - 40000) + 1) + 0;
+			
+			if(active.size() > 1){
+				
+				temp.addTimeForSimulation(randomNum > randomNum2 ? randomNum : randomNum2);
+				
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {}      //Uncomment for GLORIUS suspense effect! JUST LIKE THE OLYMPICS!
+				
+			}
+			
+			temp.setTimeFinish();
+			racePool.returnRacer(temp);
+			
+			Channels.channels[1].enable(false);
+			Channels.channels[0].enable(false);   //In the future this will be more coordinated
+
+		}
+		
+		System.out.println("Active racers: " + active.size());
+		
+	}
+
+	public int racersActive(){
+
+		return active.size();
+
+	}
+	
+	
+	
+	/**
+	 * 
+	 * 
+	 * @param n
+	 */
+	
+	public void startNRacers(int n){
+
+
+		if(n <= racePool.racersAmount()){
+
+			for(int i = 0; i < n; i++){
+
+				Racer temp = racePool.startRacer();
+
+				temp.setTimeStart();
+				active.add(temp);
+	
+			}
+		}
+		
+		System.out.println("Active racers: " + active.size() + " Time: " + active.peek().getTimeStartFormatted());
+
+		if(active.size() != 0){
+
+			Channels.channels[0].enable(true);
+
+		}
+	}
+	
+	
 	/**
 	 * Gets the selected channel
 	 * 
@@ -167,6 +272,12 @@ public class RaceEventsManager {
 	 */
 	public int getChannelSelected() {
 		return channelSelected;
+	}
+
+	public Channels getCurrentChannel(){
+
+		return Channels.channels[channelSelected - 1];
+
 	}
 
 	/**

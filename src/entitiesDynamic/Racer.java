@@ -29,7 +29,7 @@ public class Racer {
 	/**
 	 * 
 	 */
-	protected void setTimeStart(){
+	public void setTimeStart(){
 		
 		timeStart = ClockInterface.getTimeInLong();
 		setStartTimeFormatted();
@@ -37,12 +37,18 @@ public class Racer {
 		
 	}
 	
+	public void addTimeForSimulation(long added){
+		
+		timeFinish += added;
+		
+	}
+	
 	/**
 	 * 
 	 */
-	protected void setTimeFinish(){
+	public void setTimeFinish(){
 		
-		this.timeFinish = ClockInterface.getTimeInLong();
+		this.timeFinish += ClockInterface.getTimeInLong();
 		setFinishTimeFormatted();
 		isActive = false;
 		
@@ -103,7 +109,8 @@ public class Racer {
 	 * 
 	 */
 	public void setDNF() {
-		setFinishTimeFormatted();
+		timeStart = 0;
+		timeFinish = 0;
 		isActive = false;
 		this.DNF = true;
 	}

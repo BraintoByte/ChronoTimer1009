@@ -1,11 +1,13 @@
 package main;
 
-import java.io.FileReader;
-import java.io.IOException;
+
+import static org.junit.Assert.*;
+
 import java.util.Scanner;
-import Utils.Util;
+
+import org.junit.Test;
+
 import entitiesStatic.Clock;
-import hardware.user.ButtonHandler;
 import interfaces.UI;
 import states.State;
 import states.hardware.ButtonsActivation;
@@ -19,7 +21,7 @@ public class Simulator implements Runnable {    //Chain
 	private UI ui;
 
 	private State initState;
-	private State idleState;
+	private Idle idleState;
 
 	
 	/**
@@ -39,7 +41,6 @@ public class Simulator implements Runnable {    //Chain
 		this.idleState = new Idle(ui, input);
 		this.clock = new Clock();
 		
-//		System.out.println("In initialize");
 
 		State.setState(initState);
 		
@@ -194,65 +195,7 @@ public class Simulator implements Runnable {    //Chain
 		return clock;
 	}
 	
-//	public UI getUi() {
-//		return ui;
-//	}
-	
-	
-	//Constructor missing
-
-	//  System.out.print("[F]ile or [C]onsole Input?");
-	//  if(in.next().equalsIgnoreCase("F")){
-	//      System.out.println("File name?");
-	//     //compute(Utils.Util.readFileAsString("CTSRUN1.txt")); 
-	//      boolean goodFile = false;
-	//      while(!goodFile) {
-	//          try {
-	//              in = new Scanner(new FileReader(in.next()));
-	//          } catch (Exception FileNotFoundException) {
-	//              System.out.println("File not found, please try again.");
-	//          }
-	//      }
-	//  }   
-
-
-	//  public static void start() {   //Change this with a try and catch!
-	//      
-	//  	Scanner input = new Scanner(System.in);
-	//  	
-	//  	
-	//  	
-	//  	
-	//       
-	//  }
-
-
-	//will command computations
-
-	//    public static void parse(String line){    //This does not work
-	//    	
-	//    	Scanner sc = new Scanner(line);
-	//    	String found;
-	//    	
-	//    	while(sc.hasNext()){
-	//    		if((found = sc.next()).equals("POWER")){
-	//    			compute(found);
-	//    		} else if((found = sc.next()).equals("CONN")){
-	//    			compute(found + " " + sc.next() + " " + sc.next());
-	//    		} else if((found = sc.next()).equals("GATE")){
-	//    			compute(found + " " + sc.next() + " " + sc.next());
-	//    		} else if((found = sc.next()).equals("TRIG")){
-	//    			compute(found + " " + sc.next());
-	//    		} else if((found = sc.next()).equals("TOG")){
-	//    			compute(found + " " + sc.next());
-	//    		} else if((found = sc.next()).equals("EXIT")){
-	//    			compute(found);
-	//    		}
-	//    	}
-	//    }
-
-	//    public void compute(String command){
-	//    	
-	//    	
-	//    }
+	public UI getUi() {
+		return ui;
+	}
 }

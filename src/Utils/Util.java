@@ -228,4 +228,10 @@ public class Util {
 		return ProcessFile.commands.isEmpty() ? null : ProcessFile.commands.pop();
 
 	}
+	
+	public static boolean areCommandIssued(){
+		
+		return ProcessFile.commands.isEmpty();
+		
+	}
 }

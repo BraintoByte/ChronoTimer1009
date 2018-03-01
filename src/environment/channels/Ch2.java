@@ -12,13 +12,19 @@ public class Ch2 extends Channels {
 		super("ch2", chId);	
 	}
 	
-	/* (non-Javadoc)
-	 * @see environment.Channels#isEnabled(boolean)
-	 */
+	
 	@Override
-	public void isEnabled(boolean isEnabled) {
-		super.isEnabled(isEnabled);
+	public void enable(boolean isEnabled) {
+		// TODO Auto-generated method stub
+		super.enable(isEnabled);
 	}
+	
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return super.isEnabled();
+	}
+	
 	
 	/* (non-Javadoc)
 	 * @see environment.Channels#pairedToSensors()
@@ -48,7 +54,7 @@ public class Ch2 extends Channels {
 	 * @see environment.Channels#unPairToSensor(hardware.external.Sensor)
 	 */
 	@Override
-	public Sensor unPairToSensor(Sensor sensor) {
-		return super.unPairToSensor(sensor);
+	public Sensor unPairToSensor() {
+		return super.unPairToSensor();
 	}
 }

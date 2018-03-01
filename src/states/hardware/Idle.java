@@ -1,12 +1,18 @@
 package states.hardware;
 
+import static org.junit.Assert.*;
+
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.InputMismatchException;
+import java.util.Random;
 import java.util.Scanner;
 
+import org.junit.Test;
+
+import Utils.Util;
 import entitiesStatic.ClockInterface;
 import hardware.external.Sensor;
 import interfaces.UI;
@@ -19,6 +25,8 @@ public class Idle extends State {
 	private boolean isIdle;
 	private Scanner input;
 	private int channelSelected;
+	private boolean fromFile;
+	protected StringBuilder externalStr;
 
 	/**
 	 * @param ui
@@ -51,11 +59,6 @@ public class Idle extends State {
 	}
 
 
-	//TODO: CHANGE THE SENSOR ASSIGNMENT MECHANISM, IT SHOULD BE CONN <TYPE> <CHANNEL> NOW IT IS CONN <TYPE> <NUMBER>, MAYBE CHANGE IT?! PLEASE MAKE IT LESS RETARDED!
-
-	//XXX: ALL COMMENTS HERE ARE FOR ME NOT FOR YOU DON'T DO ABSOULUTELY ANYTHING IN THE CODE! THANK YOU!
-
-
 	//	12:00:00.0	TIME 12:00:01.0
 	//	12:01:04.0	POWER
 	//	12:01:12.0	CONN GATE 1
@@ -76,17 +79,49 @@ public class Idle extends State {
 	//	13:35:52.0	POWER
 	//	13:35:55.0	EXIT
 
+	protected void isFromFile(){
+
+		if(Util.areCommandIssued()){
+
+			fromFile = true;
+
+			if(externalStr != null){
+
+				externalStr.setLength(0);
+
+			}
+
+			externalStr = new StringBuilder(Util.getNextCommand());
+
+			return;
+
+		}
+
+		fromFile = false;
+
+	}
 
 
 	/**
 	 * 
 	 */
-	private void idleWait(){
+	protected void idleWait(){
 
 		while(true){
 
-			String str = input.nextLine();
+			String str;
 
+			if(fromFile){
+
+				str = externalStr.toString();
+
+			}else{
+
+				str = input.nextLine();
+
+			}
+			
+			
 			if(str.split("\\s").length <= 1){
 
 				switch(str){
@@ -98,9 +133,29 @@ public class Idle extends State {
 					break;
 				case "CANCEL":
 					break;
-				case "START":
+				case "START":     //Any amount can start in parallel, that's what I have in my notes
+					//You cannot start a racers after another has finished, because otherwise how do you keep track of the shift
+
+					ui.getRaceManager().setChannelSelected(1);
+
+					if(!ui.getRaceManager().getCurrentChannel().isEnabled() && ui.getRaceManager().getAmountConnectedOnSelectedChannel() >= 1){
+
+						ui.getRaceManager().setChannelSelected(2);
+						boolean tempCondition = ((ui.getRaceManager().racersActive() == 1 && ui.getRaceManager().getCurrentChannel().isEnabled()) || 
+								(ui.getRaceManager().racersActive() == 0 && !ui.getRaceManager().getCurrentChannel().isEnabled())) && 
+								ui.getRaceManager().getAmountConnectedOnSelectedChannel() >= 1;
+
+								if(tempCondition){
+
+									ui.getRaceManager().setChannelSelected(1);
+									ui.getRaceManager().startNRacers(1);
+
+								}
+					}
+
 					break;
 				case "FINISH":
+					ui.getRaceManager().stopLastRace();
 					break;
 				case "EXIT":
 					isIdle = false;
@@ -108,14 +163,48 @@ public class Idle extends State {
 					break;
 				case "RESET":
 					break;
-				case "TEST":
-					System.out.println("Sensors connected on: " + channelSelected);
-					break;
 				}
 			}else{
 
 				switch(str.split("\\s")[0].trim()){
 				case "TRIG":
+
+					try{
+
+						channelSelected = Integer.parseInt(str.split("\\s")[1].trim());
+
+						if(channelSelected == 1){
+
+							Random rand = new Random();       //You told me it was random, nothing in the guidelines suggests otherwise
+							int randomNum = rand.nextInt((250 - 0) + 1) + 0;
+
+							ui.getRaceManager().setChannelSelected(1);
+
+							if(!ui.getRaceManager().getCurrentChannel().isEnabled() && ui.getRaceManager().getAmountConnectedOnSelectedChannel() >= 1){
+
+								ui.getRaceManager().setChannelSelected(2);
+								boolean tempCondition = ((ui.getRaceManager().racersActive() == 1 && ui.getRaceManager().getCurrentChannel().isEnabled()) || 
+										(ui.getRaceManager().racersActive() == 0 && !ui.getRaceManager().getCurrentChannel().isEnabled())) && 
+										ui.getRaceManager().getAmountConnectedOnSelectedChannel() >= 1;
+
+										if(tempCondition){
+
+											ui.getRaceManager().setChannelSelected(1);
+											ui.getRaceManager().startNRacers(randomNum);
+
+										}
+							}
+						}else if(channelSelected == 2){
+
+							ui.getRaceManager().stopLastRace();
+
+						}
+
+					}catch(InputMismatchException e){}
+
+
+					
+
 					break;
 				case "TIME":    //Sets the current local time
 
@@ -144,8 +233,17 @@ public class Idle extends State {
 						ex.printStackTrace();
 
 					}
-
+					break;
 				case "TOG":
+					
+					try{
+
+						channelSelected = Integer.parseInt(str.split("\\s")[2]);
+						ui.getRaceManager().setChannelSelected(channelSelected);
+						ui.getRaceManager().getCurrentChannel().enable(!ui.getRaceManager().getCurrentChannel().isEnabled());
+
+					}catch(InputMismatchException e){}
+
 					break;
 				case "CONN":
 
@@ -208,5 +306,9 @@ public class Idle extends State {
 
 			}
 		}
+	}
+
+	public void setFromFile(boolean fromFile) {
+		this.fromFile = fromFile;
 	}
 }

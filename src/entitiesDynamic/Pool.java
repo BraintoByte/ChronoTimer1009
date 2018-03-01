@@ -5,7 +5,6 @@ import java.util.Queue;
 
 public class Pool {
 
-	private int racersLimit;
 	private int racersAmount;
 	private Queue<Racer> racers;
 
@@ -15,19 +14,29 @@ public class Pool {
 	public Pool(){
 
 		racers = new LinkedList<>();
-		racersLimit = 0;
 
 	}
-
-	/**
-	 * 
-	 */
-	private void init(){
-
-
-
-
+	
+	public int racersAmount(){
+		
+		return racers.size();
+		
+		
 	}
+	
+	public void returnRacer(Racer racer){
+		
+		System.out.println(" Time: " + racer.getTimeFinishFormatted());
+		racers.add(racer);
+		
+	}
+	
+	public Racer startRacer(){
+		
+		return racers.remove();
+		
+	}
+		
 
 	/**
 	 * 
@@ -41,30 +50,14 @@ public class Pool {
 		}
 	}
 
-
-
-	/**
-	 * @param racersLimit
-	 */
-	public void setRacersLimit(int racersLimit){
-
-		this.racersLimit = racersLimit;
-
-	}
-
 	/**
 	 * @param racersAmount
 	 */
 	public void setRacersAmount(int racersAmount){
 
-		if(racersLimit != 0){
 
-			if(racersAmount <= racersLimit){
+		this.racersAmount = racersAmount;
+		makeRacers();
 
-				this.racersAmount = racersAmount;
-				makeRacers();
-
-			}
-		}
 	}
 }

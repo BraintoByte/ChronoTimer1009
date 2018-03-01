@@ -16,6 +16,8 @@ public class ClockInterface {
 	public static String getTotalTimeFormatted(long currentDateTime){
 
 		Date currentDate = new Date(currentDateTime);
+		
+		
 
 		return currentDate + "";
 
@@ -24,6 +26,12 @@ public class ClockInterface {
 	public static String getCurrentTimeFormatted(){
 		
 		Date currentDate = new Date(timeCurrent);
+		
+		try {
+			Thread.sleep(10);
+		} catch (InterruptedException e) {
+			
+		}
 		
 		return formattedTime.format(currentDate) + "";
 		
@@ -34,6 +42,11 @@ public class ClockInterface {
 	 */
 	public static long getTimeInLong(){  //Nice
 
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			
+		}
 		return timeCurrent;
 
 	}
