@@ -215,29 +215,16 @@ public class RaceEventsManager {
 			temp.setTimeFinish();
 			racePool.returnRacer(temp);
 			
-			Channels.channels[1].enable(false);
-			Channels.channels[0].enable(false);   //In the future this will be more coordinated
+			Channels.channels[1].enable(true);    //Doesn't matter
+			Channels.channels[0].enable(true);   //In the future this will be more coordinated
+			Channels.channels[1].TriggerSensor();
+			
 
 		}
 		
 		System.out.println("Active racers: " + active.size());
 		
 	}
-
-	public int racersActive(){
-
-		return active.size();
-
-	}
-	
-	public void CANCEL(){
-		
-		System.out.println("Pool before: " + racePool.racersAmount() + " Active: " + racersActive());
-		racePool.returnCancel(active.remove());
-		System.out.println("Pool now: " + racePool.racersAmount() + " Active: " + racersActive());
-		
-	}
-	
 	
 	/**
 	 * 
@@ -265,9 +252,27 @@ public class RaceEventsManager {
 		if(active.size() != 0){
 
 			Channels.channels[0].enable(true);
+			Channels.channels[0].TriggerSensor();
 
 		}
 	}
+
+	public int racersActive(){
+
+		return active.size();
+
+	}
+	
+	public void CANCEL(){
+		
+		System.out.println("Pool before: " + racePool.racersAmount() + " Active: " + racersActive());
+		racePool.returnCancel(active.remove());
+		System.out.println("Pool now: " + racePool.racersAmount() + " Active: " + racersActive());
+		
+	}
+	
+	
+
 	
 	
 	/**
@@ -316,57 +321,6 @@ public class RaceEventsManager {
 
 			}
 		}
-	}
-
-	/**
-	 * @return
-	 */
-	public int amountConnectedCh1(){  //JUST TESTS
-
-		return Channels.channels[0].sensorsAmount();
-
-	}
-
-	/**
-	 * @return
-	 */
-	public int amountConnectedCh2(){    //JUST TESTS
-
-		return Channels.channels[1].sensorsAmount();
-
-	}
-
-
-	/**
-	 * Gets the total amount of sensors connected to the selected channels
-	 * 
-	 * @return Channels.channels[channelSelected].sensorsAmount()
-	 */
-	public int getAmountConnectedOnSelectedChannel(){    //JUST TESTS
-
-		return Channels.channels[channelSelected - 1].sensorsAmount();
-
-	}
-
-
-	/**
-	 * Gets all sensors back
-	 * 
-	 * @return An array of sensors
-	 */
-	public Sensor[] allPairedSensors(){
-
-		Sensor[] sensors = new Sensor[Channels.channels[0].sensorsAmount() + Channels.channels[1].sensorsAmount()];
-		int index = 0;
-
-		for(int i = 0; i < Channels.channels.length; i++){
-
-			index = putIntoArray(sensors, Channels.channels[i].pairedToSensors(), index);
-
-		}
-
-		return sensors;
-
 	}
 
 	/**

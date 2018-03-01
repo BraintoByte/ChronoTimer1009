@@ -7,5 +7,7 @@ public interface Sensor {
 	public long computeTime();
 	public int getId();
 	public boolean hasBeam();
+	public void trigger();
+	public boolean isTriggered();
 
 }

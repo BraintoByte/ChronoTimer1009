@@ -13,7 +13,8 @@ import hardware.external.sensors.gate.Gate;
 public abstract class Channels {
 
 	public static Channels[] channels = new Channels[2];
-	private List<Sensor> pairedSensors = new ArrayList<>();
+	//	private List<Sensor> pairedSensors = new ArrayList<>();
+	Sensor sensorPaired;
 	private String name;
 	private final int chId;
 	private boolean isEnabled;
@@ -43,9 +44,21 @@ public abstract class Channels {
 		this.isEnabled = isEnabled;
 
 	}
-	
+
 	public boolean isEnabled() {
 		return isEnabled;
+	}
+
+	public void TriggerSensor(){
+		
+		sensorPaired.trigger();
+		
+	}
+	
+	public boolean isSensorTriggered(){
+		
+		return sensorPaired.isTriggered();
+		
 	}
 
 	/**
@@ -53,8 +66,12 @@ public abstract class Channels {
 	 */
 	public void pairToSensor(Sensor sensor){
 
-		pairedSensors.add(sensor);
+		//		pairedSensors.add(sensor);
+		if(sensorPaired == null){
 
+			sensorPaired = sensor;
+
+		}
 	}
 
 	/**
@@ -63,32 +80,23 @@ public abstract class Channels {
 	 */
 	public Sensor unPairToSensor(){
 
-		pairedSensors.clear();
+		if(sensorPaired != null){
+			
+			Sensor temp = sensorPaired;
+			
+			sensorPaired = null;
+			
+			return temp;
+			
+		}
 		
 		return null;
-
 	}
 
-	/**
-	 * @return
-	 */
-	public Object[] pairedToSensors(){
-
-		return pairedSensors.toArray();
-
-	}
-	
 	/**
 	 * @return
 	 */
 	public boolean isPairedToSensor(){
-		return pairedSensors.size() > 0;
-	}
-	
-	/**
-	 * @return
-	 */
-	public int sensorsAmount(){
-		return pairedSensors.size();
+		return sensorPaired == null;
 	}
 }

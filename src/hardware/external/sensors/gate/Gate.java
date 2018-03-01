@@ -9,6 +9,7 @@ public class Gate implements Sensor {
 	private final int id;
 	private long startTime;
 	private long endTime;
+	private boolean isTrigger;
 	
 	
 	
@@ -87,5 +88,15 @@ public class Gate implements Sensor {
 	@Override
 	public boolean hasBeam() {
 		return false;
+	}
+
+	@Override
+	public void trigger() {
+		isTrigger = !isTrigger;
+	}
+	
+	@Override
+	public boolean isTriggered() {
+		return isTrigger;
 	}
 }

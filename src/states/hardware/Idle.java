@@ -28,6 +28,8 @@ public class Idle extends State {
 	private boolean fromFile;
 	protected StringBuilder externalStr;
 
+	private boolean independent;
+
 	/**
 	 * @param ui
 	 * @param input
@@ -145,183 +147,181 @@ public class Idle extends State {
 				case "START":     //Any amount can start in parallel, that's what I have in my notes
 					//You cannot start a racers after another has finished, because otherwise how do you keep track of the shift
 
-					ui.getRaceManager().setChannelSelected(1);
+					if(independent == true){
 
-					if(!ui.getRaceManager().getCurrentChannel().isEnabled() && ui.getRaceManager().getAmountConnectedOnSelectedChannel() >= 1){
+						Random rand = new Random();       //You told me it was random, nothing in the guidelines suggests otherwise
+						int randomNum = rand.nextInt((250 - 0) + 1) + 0;
 
-						ui.getRaceManager().setChannelSelected(2);
-						boolean tempCondition = ((ui.getRaceManager().racersActive() == 1 && ui.getRaceManager().getCurrentChannel().isEnabled()) || 
-								(ui.getRaceManager().racersActive() == 0 && !ui.getRaceManager().getCurrentChannel().isEnabled())) && 
-								ui.getRaceManager().getAmountConnectedOnSelectedChannel() >= 1;
+						ui.getRaceManager().setChannelSelected(1);
 
-								if(tempCondition){
+						if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
 
-									ui.getRaceManager().setChannelSelected(1);
-									ui.getRaceManager().startNRacers(1);
+							ui.getRaceManager().setChannelSelected(2);
 
-								}
+							if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
+
+								ui.getRaceManager().setChannelSelected(1);
+								ui.getRaceManager().startNRacers(randomNum);
+
+							}
+						}
 					}
 
-					break;
-				case "FINISH":
-					ui.getRaceManager().stopLastRace();
-					break;
-				case "EXIT":
-					isIdle = false;
-					ui.getBtnHandler().EXIT();
-					break;
-				case "RESET":
-					break;
-				}
-			}else{
+						break;
+					case "FINISH":
 
-				switch(str.split("\\s")[0].trim()){
-				case "TRIG":
-
-					try{
-
-						channelSelected = Integer.parseInt(str.split("\\s")[1].trim());
-
-						if(channelSelected == 1){
-
-							Random rand = new Random();       //You told me it was random, nothing in the guidelines suggests otherwise
-							int randomNum = rand.nextInt((250 - 0) + 1) + 0;
-
-							ui.getRaceManager().setChannelSelected(1);
-
-							if(!ui.getRaceManager().getCurrentChannel().isEnabled() && ui.getRaceManager().getAmountConnectedOnSelectedChannel() >= 1){
-
-								ui.getRaceManager().setChannelSelected(2);
-								boolean tempCondition = ((ui.getRaceManager().racersActive() == 1 && ui.getRaceManager().getCurrentChannel().isEnabled()) || 
-										(ui.getRaceManager().racersActive() == 0 && !ui.getRaceManager().getCurrentChannel().isEnabled())) && 
-										ui.getRaceManager().getAmountConnectedOnSelectedChannel() >= 1;
-
-										if(tempCondition){
-
-											ui.getRaceManager().setChannelSelected(1);
-											ui.getRaceManager().startNRacers(randomNum);
-
-										}
-							}
-						}else if(channelSelected == 2){
+						if(ui.getRaceManager().racersActive() > 0){
 
 							ui.getRaceManager().stopLastRace();
 
 						}
+						break;
+					case "EXIT":
+						isIdle = false;
+						ui.getBtnHandler().EXIT();
+						break;
+					case "RESET":
+						break;
+					}
+				}else{
 
-					}catch(InputMismatchException e){}
+					switch(str.split("\\s")[0].trim()){
+					case "EVENT IND":
 
+						independent = true;
 
+						break;
+					case "TRIG":
 
+						try{
 
-					break;
-				case "TIME":    //Sets the current local time
+							channelSelected = Integer.parseInt(str.split("\\s")[1].trim());
 
-					try{
+							if(channelSelected == 1){
 
-						DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-						ui.getSimulator().getClock().setTime(new Time(formatter.parse(str.split("\\s")[1].trim()).getTime()));
+								Random rand = new Random();       //You told me it was random, nothing in the guidelines suggests otherwise
+								int randomNum = rand.nextInt((250 - 0) + 1) + 0;
 
-						if(!ui.getSimulator().getClock().isClockRunning()){
+								ui.getRaceManager().setChannelSelected(1);
 
-							ui.getSimulator().getClock().clockStart();
+								if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
 
+									ui.getRaceManager().setChannelSelected(2);
 
-							try {
+									if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
 
-								Thread.sleep(800);
+										ui.getRaceManager().setChannelSelected(1);
+										ui.getRaceManager().startNRacers(randomNum);
 
-							} catch (InterruptedException e) {
+									}
+								}
 
-								e.printStackTrace();
+							}else if(channelSelected == 2){
+
+								ui.getRaceManager().stopLastRace();
+
 							}
-						}
 
-					}catch(ParseException ex){
+						}catch(InputMismatchException e){}
+						break;
+					case "TIME":    //Sets the current local time
 
-						ex.printStackTrace();
+						try{
 
-					}
-					break;
-				case "TOG":
+							DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+							ui.getSimulator().getClock().setTime(new Time(formatter.parse(str.split("\\s")[1].trim()).getTime()));
 
-					try{
+							if(!ui.getSimulator().getClock().isClockRunning()){
 
-						channelSelected = Integer.parseInt(str.split("\\s")[1]);
-						ui.getRaceManager().setChannelSelected(channelSelected);
-						ui.getRaceManager().getCurrentChannel().enable(!ui.getRaceManager().getCurrentChannel().isEnabled());
+								ui.getSimulator().getClock().clockStart();
 
-					}catch(InputMismatchException e){}
 
-					break;
-				case "CONN":
+								try {
 
-					try{
+									Thread.sleep(800);
 
-						channelSelected = Integer.parseInt(str.split("\\s")[2]);
-						ui.getRaceManager().setChannelSelected(channelSelected);
+								} catch (InterruptedException e) {
 
-						if(ui.getRaceManager().getAmountConnectedOnSelectedChannel() == 0){
+									e.printStackTrace();
+								}
+							}
 
-							ui.getRaceManager().CONN(str.split("\\s")[1].equalsIgnoreCase("eye"), 
-									str.split("\\s")[1].equalsIgnoreCase("gate"), str.split("\\s")[1].equalsIgnoreCase("pad"));
-							System.out.println(ui.getRaceManager().amountConnectedCh1());
-							System.out.println(ui.getRaceManager().amountConnectedCh2());
+						}catch(ParseException ex){
+
+							ex.printStackTrace();
 
 						}
+						break;
+					case "TOG":
 
+						try{
 
-					}catch(InputMismatchException ex){
+							channelSelected = Integer.parseInt(str.split("\\s")[1]);
+							ui.getRaceManager().setChannelSelected(channelSelected);
+							ui.getRaceManager().getCurrentChannel().enable(!ui.getRaceManager().getCurrentChannel().isEnabled());
 
-						ex.printStackTrace();
+						}catch(InputMismatchException e){}
 
+						break;
+					case "CONN":
+
+						try{
+
+							channelSelected = Integer.parseInt(str.split("\\s")[2]);
+							ui.getRaceManager().setChannelSelected(channelSelected);
+
+							if(!ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
+
+								ui.getRaceManager().CONN(str.split("\\s")[1].equalsIgnoreCase("eye"), 
+										str.split("\\s")[1].equalsIgnoreCase("gate"), str.split("\\s")[1].equalsIgnoreCase("pad"));
+
+								if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
+
+									System.out.println("PAIRED ON: " + channelSelected);
+
+								}
+							}
+
+						}catch(InputMismatchException ex){
+
+							ex.printStackTrace();
+
+						}
+						break;
+					case "TEST":
+
+						try{
+
+							channelSelected = Integer.parseInt(str.split("\\s")[1]);
+
+						}catch(InputMismatchException ex){
+
+							ex.printStackTrace();
+
+						}
+
+						ui.getRaceManager().setChannelSelected(channelSelected);
+						System.out.println("Sensors connected on channel: " + channelSelected + " is " + ui.getRaceManager().getCurrentChannel().isPairedToSensor());
+						break;
 					}
+				}
+
+				if(ui.getSimulator().getClock().isClockRunning()){
+
+					System.out.println(ClockInterface.getCurrentTimeFormatted());
+
+				}
+
+				if(!isIdle){
+
+					isIdle = true;
 					break;
-				case "TEST":
 
-					try{
-
-						channelSelected = Integer.parseInt(str.split("\\s")[1]);
-
-					}catch(InputMismatchException ex){
-
-						ex.printStackTrace();
-
-					}
-
-					ui.getRaceManager().setChannelSelected(channelSelected);
-					System.out.println("Sensors connected on channel: " + channelSelected + " is " + ui.getRaceManager().getAmountConnectedOnSelectedChannel());
-					Sensor[] sensors = ui.getRaceManager().allPairedSensors();
-
-
-					System.out.println("List of paired sensors: ");
-
-					for(Sensor s : sensors){
-
-						System.out.print(s.getId() + " ");
-
-					}
-
-					break;
 				}
 			}
+		}
 
-			if(ui.getSimulator().getClock().isClockRunning()){
-
-				System.out.println(ClockInterface.getCurrentTimeFormatted());
-
-			}
-
-			if(!isIdle){
-
-				isIdle = true;
-				break;
-
-			}
+		public void setFromFile(boolean fromFile) {
+			this.fromFile = fromFile;
 		}
 	}
-
-	public void setFromFile(boolean fromFile) {
-		this.fromFile = fromFile;
-	}
-}

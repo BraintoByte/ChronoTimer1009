@@ -7,10 +7,10 @@ import hardware.external.Sensor;
 public class Eye implements Sensor {
 	
 	private static Eyes eyes = Eyes.getSingletonEyes();
-	private boolean enabled;
 	private final int id;
 	private long startTime;
 	private long endTime;
+	private boolean isTrigger;
 	
 	
 	
@@ -42,40 +42,9 @@ public class Eye implements Sensor {
 		
 	}
 	
-	/**
-	 * @return
-	 */
-	public boolean trigger(){
-		
-		if(enabled){
-			
-			triggerStart();
-			enabled = !enabled;
-			
-			return true;
-		
-		}
-			
-			triggerEnd();
-			enabled = !enabled;
-			
-			return true;
-			
-	}
-	
-	/**
-	 * @return
-	 */
-	public boolean isRunning(){
-		
-		return enabled;
-		
-	}
-	
 	
 	public void resetEye(){
 		
-		this.enabled = false;
 		this.startTime = 0;
 		this.endTime = 0;
 		
@@ -122,5 +91,15 @@ public class Eye implements Sensor {
 	@Override
 	public boolean hasBeam() {
 		return true;
+	}
+
+	@Override
+	public void trigger() {
+		isTrigger = !isTrigger;
+	}
+	
+	@Override
+	public boolean isTriggered() {
+		return isTrigger;
 	}
 }

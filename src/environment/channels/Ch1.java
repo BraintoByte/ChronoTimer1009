@@ -13,25 +13,29 @@ public class Ch1 extends Channels {
 		super("ch1", id);
 		
 	}
+	
+	@Override
+	public void TriggerSensor() {
+		
+		super.TriggerSensor();
+	}
+	
+	@Override
+	public boolean isSensorTriggered() {
+		
+		return super.isSensorTriggered();
+	}
 
 	@Override
 	public void enable(boolean isEnabled) {
-		// TODO Auto-generated method stub
+		
 		super.enable(isEnabled);
 	}
 	
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
+		
 		return super.isEnabled();
-	}
-	
-	/* (non-Javadoc)
-	 * @see environment.Channels#pairedToSensors()
-	 */
-	@Override
-	public Object[] pairedToSensors() {
-		return super.pairedToSensors();
 	}
 	
 	/* (non-Javadoc)
