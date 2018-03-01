@@ -49,19 +49,42 @@ public class TestStates {
 		RaceEventsManager race = new RaceEventsManager();
 		race.setChannelSelected(1);
 		assertTrue(race.getChannelSelected() == 1);
-		assertTrue(race.getAmountConnectedOnSelectedChannel() == 0);
-		assertEquals(0, race.allPairedSensors().length);
+//		assertTrue(race.getAmountConnectedOnSelectedChannel() == 0);
+//		assertEquals(0, race.allPairedSensors().length);
+		
+		assertFalse(race.getCurrentChannel().isPairedToSensor());
+		
+		race.setChannelSelected(2);
+		assertFalse(race.getCurrentChannel().isPairedToSensor());
+		
 		race.theseManySensors(1, 1, 1);
 
-
+		race.setChannelSelected(1);
 		race.CONN(true, false, false);
-		assertEquals(1, race.allPairedSensors().length);
-
+//		assertEquals(1, race.allPairedSensors().length);
+//
+		assertTrue(race.getCurrentChannel().isPairedToSensor());
+		
+		
+		race.setChannelSelected(2);
 		race.CONN(false, true, false);
-		assertEquals(2, race.allPairedSensors().length);
-
+		
+		assertTrue(race.getCurrentChannel().isPairedToSensor());
+		
+		race.getCurrentChannel().unPairToSensor();
+		
+		assertFalse(race.getCurrentChannel().isPairedToSensor());
+		
 		race.CONN(false, false, true);
-		assertEquals(3, race.allPairedSensors().length);
+		
+		assertTrue(race.getCurrentChannel().isPairedToSensor());
+		
+		
+		
+//		assertEquals(2, race.allPairedSensors().length);
+//
+//		race.CONN(false, false, true);
+//		assertEquals(3, race.allPairedSensors().length);
 		State.setState(null);
 		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
 		try {

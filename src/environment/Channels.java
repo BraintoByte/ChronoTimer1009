@@ -97,6 +97,6 @@ public abstract class Channels {
 	 * @return
 	 */
 	public boolean isPairedToSensor(){
-		return sensorPaired == null;
+		return sensorPaired != null;
 	}
 }
