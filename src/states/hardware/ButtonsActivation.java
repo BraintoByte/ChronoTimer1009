@@ -16,6 +16,7 @@ public class ButtonsActivation extends State {
 
 	private ButtonHandler btnHandler;
 	private Scanner input;
+	private boolean fromFile;
 
 
 	/**
@@ -42,8 +43,15 @@ public class ButtonsActivation extends State {
 
 		}else{
 
-			State.setState(ui.getSimulator().getIdleState());
+			if(fromFile){
+				
+				State.setState(ui.getSimulator().getFileState());
+				
+			}else{
 
+				State.setState(ui.getSimulator().getIdleState());
+
+			}
 		}
 	}
 
@@ -59,7 +67,6 @@ public class ButtonsActivation extends State {
 			offState();
 
 		}
-
 	}
 
 	/**
@@ -67,7 +74,7 @@ public class ButtonsActivation extends State {
 	 */
 	private void offState(){
 
-		System.out.println("From [F]ile or [C]onsole?");
+		System.out.print("From [F]ile or [C]onsole? ");
 		String str = input.nextLine();
 
 
@@ -76,7 +83,7 @@ public class ButtonsActivation extends State {
 			while(!str.equals("POWER") && !str.equals("EXIT")){
 
 				str = input.nextLine();
-				
+
 				if(str.contains("TIME")){
 
 					try{
@@ -87,8 +94,8 @@ public class ButtonsActivation extends State {
 						if(!ui.getSimulator().getClock().isClockRunning()){
 
 							ui.getSimulator().getClock().clockStart();
-							
-							
+
+
 							try {
 
 								Thread.sleep(800);
@@ -104,11 +111,10 @@ public class ButtonsActivation extends State {
 						ex.printStackTrace();
 
 					}
-					
-					System.out.println(ClockInterface.getCurrentTimeFormatted());
-					
-				}
 
+					System.out.println(ClockInterface.getCurrentTimeFormatted());
+
+				}
 			}
 		}
 
@@ -130,8 +136,23 @@ public class ButtonsActivation extends State {
 				ui.getRaceManager().theseManySensors(4, 4, 4);
 				ui.getSimulator().getClock().setActive(true);
 				ui.getRaceManager().propRace();
-				
+
+
+				if(str.equalsIgnoreCase("f")){
+
+					fromFile = true;
+					System.out.print("Please provide filepath: ");
+					str = input.next();
+					ui.getSimulator().setFilePath(str);
+					ui.getSimulator().setFileState(new IOState(ui, input));
+					
+				}
 			}
 		}
+	}
+	
+	
+	public boolean isFromFile() {
+		return fromFile;
 	}
 }

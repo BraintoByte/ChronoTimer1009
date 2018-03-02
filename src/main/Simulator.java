@@ -11,6 +11,7 @@ import entitiesStatic.Clock;
 import interfaces.UI;
 import states.State;
 import states.hardware.ButtonsActivation;
+import states.hardware.IOState;
 import states.hardware.Idle;
 public class Simulator implements Runnable {    //Chain
 
@@ -19,9 +20,11 @@ public class Simulator implements Runnable {    //Chain
 	private boolean running;
 	private Scanner input;
 	private UI ui;
+	private String filePath;
 
 	private State initState;
-	private Idle idleState;
+	private State idleState;
+	private State fileState;
 
 	
 	/**
@@ -56,6 +59,7 @@ public class Simulator implements Runnable {    //Chain
 		if(State.getState() != null){
 
 //			System.out.println("In if update");
+			
 			State.getState().update();
 
 		}
@@ -184,11 +188,27 @@ public class Simulator implements Runnable {    //Chain
 		return idleState;
 	}
 	
+	public String getFilePath() {
+		return filePath;
+	}
+	
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+	
 	/**
 	 * @return
 	 */
 	public State getInitState() {
 		return initState;
+	}
+	
+	public State getFileState() {
+		return fileState;
+	}
+	
+	public void setFileState(State fileState) {
+		this.fileState = fileState;
 	}
 	
 	public Clock getClock() {

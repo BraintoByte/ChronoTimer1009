@@ -25,9 +25,6 @@ public class Idle extends State {
 	private boolean isIdle;
 	private Scanner input;
 	private int channelSelected;
-	private boolean fromFile;
-	protected StringBuilder externalStr;
-
 	private boolean independent;
 
 	/**
@@ -81,28 +78,6 @@ public class Idle extends State {
 	//	13:35:52.0	POWER
 	//	13:35:55.0	EXIT
 
-	protected void isFromFile(){
-
-		if(Util.areCommandIssued()){
-
-			fromFile = true;
-
-			if(externalStr != null){
-
-				externalStr.setLength(0);
-
-			}
-
-			externalStr = new StringBuilder(Util.getNextCommand());
-
-			return;
-
-		}
-
-		fromFile = false;
-
-	}
-
 
 	/**
 	 * 
@@ -113,15 +88,7 @@ public class Idle extends State {
 
 			String str;
 
-			if(fromFile){
-
-				str = externalStr.toString();
-
-			}else{
-
-				str = input.nextLine();
-
-			}
+			str = input.nextLine();
 
 
 			if(str.split("\\s").length <= 1){
@@ -148,7 +115,6 @@ public class Idle extends State {
 					//You cannot start a racers after another has finished, because otherwise how do you keep track of the shift
 
 					if(independent == true){
-
 
 						ui.getRaceManager().setChannelSelected(1);
 
@@ -264,9 +230,14 @@ public class Idle extends State {
 					try{
 
 						channelSelected = Integer.parseInt(str.split("\\s")[1]);
-						ui.getRaceManager().setChannelSelected(channelSelected);
-						ui.getRaceManager().getCurrentChannel().enable(!ui.getRaceManager().getCurrentChannel().isEnabled());
 
+						if(channelSelected > 0 && channelSelected <= 2){
+
+							ui.getRaceManager().setChannelSelected(channelSelected);
+							ui.getRaceManager().getCurrentChannel().enable(!ui.getRaceManager().getCurrentChannel().isEnabled());
+
+						}
+						
 					}catch(InputMismatchException e){}
 
 					break;
@@ -275,17 +246,21 @@ public class Idle extends State {
 					try{
 
 						channelSelected = Integer.parseInt(str.split("\\s")[2]);
-						ui.getRaceManager().setChannelSelected(channelSelected);
 
-						if(!ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
+						if(channelSelected > 0 && channelSelected <= 2){
 
-							ui.getRaceManager().CONN(str.split("\\s")[1].equalsIgnoreCase("eye"), 
-									str.split("\\s")[1].equalsIgnoreCase("gate"), str.split("\\s")[1].equalsIgnoreCase("pad"));
+							ui.getRaceManager().setChannelSelected(channelSelected);
 
-							if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
+							if(!ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
 
-								System.out.println("PAIRED ON: " + channelSelected);
+								ui.getRaceManager().CONN(str.split("\\s")[1].equalsIgnoreCase("eye"), 
+										str.split("\\s")[1].equalsIgnoreCase("gate"), str.split("\\s")[1].equalsIgnoreCase("pad"));
 
+								if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
+
+									System.out.println("PAIRED ON: " + channelSelected);
+
+								}
 							}
 						}
 
@@ -295,7 +270,7 @@ public class Idle extends State {
 
 					}
 					break;
-				case "TEST":
+				case "TEST":    //To delete
 
 					try{
 
@@ -327,9 +302,5 @@ public class Idle extends State {
 
 			}
 		}
-	}
-
-	public void setFromFile(boolean fromFile) {
-		this.fromFile = fromFile;
 	}
 }

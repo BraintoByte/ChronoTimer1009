@@ -88,7 +88,7 @@ public class Util {
 				//
 				//				temp.append(splitted[i].replace("\\n", "").replace("\\r", "").replace("\\b", "").replace("\\d", ""));
 
-				if(splitted[i].equals("") || splitted[i].equals(" ")){
+				if(!splitted[i].equals("") && !splitted[i].equals(" ") && (!splitted[i].contains(":") || (splitted[i].contains(":") && splitted[i].contains("TIME")))){
 
 					commands.push(splitted[i].replace("\\n", "").replace("\\r", "").replace("\\b", "").replace("\\d", "").trim());
 
@@ -133,8 +133,10 @@ public class Util {
 				
 				
 			}
-
+			
+			Stack<String> str = commands;
 			makeCommands();
+			
 		}
 		
 		private static void makeCommands(){
@@ -142,11 +144,11 @@ public class Util {
 			Queue<String> temp = new LinkedList<>();
 
 			Pattern patternLetters = Pattern.compile("[a-zA-Z]");
-			Pattern patternDigits = Pattern.compile("^[0-9]*$");
+			Pattern patternDigits = Pattern.compile("[0-9]");
 			StringBuilder sb = new StringBuilder();
 			Matcher match;
 
-			while(!commands.isEmpty()){
+			while(!commands.isEmpty()){     //C:\Users\TheLaw\git\ChronoTimer1009\CTS1RUN2.txt
 
 				sb.append(" " + commands.pop());
 
@@ -165,8 +167,16 @@ public class Util {
 						}
 					}
 				}
+				
+				String stringTemp = "";
+				
+				if(sb.toString().equals("EVENT")){
+					
+					stringTemp = commands.pop();
+					
+				}
 
-				temp.add(sb.toString());
+				temp.add(sb.toString() + " " + stringTemp);
 
 				sb.setLength(0);
 				sb = new StringBuilder();
