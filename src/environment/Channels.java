@@ -1,9 +1,14 @@
 package environment;
 
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
+import entitiesDynamic.Pool;
+import entitiesDynamic.Racer;
+import entitiesStatic.ClockInterface;
 import environment.channels.Ch1;
 import environment.channels.Ch2;
 import hardware.external.Sensor;
@@ -13,8 +18,8 @@ import hardware.external.sensors.gate.Gate;
 public abstract class Channels {
 
 	public static Channels[] channels = new Channels[2];
-	//	private List<Sensor> pairedSensors = new ArrayList<>();
-	Sensor sensorPaired;
+	HashMap<Integer, Long> activeRacers = new HashMap<>();
+	private Sensor sensorPaired;
 	private String name;
 	private final int chId;
 	private boolean isEnabled;
@@ -36,6 +41,25 @@ public abstract class Channels {
 
 	}
 
+
+	public void activate(int bid){
+		
+		activeRacers.put(bid, ClockInterface.getTimeInLong());
+		
+	}
+	
+	public Long retrieve(int bid){
+		
+		return activeRacers.get(bid);
+		
+	}
+	
+	public void reset(){
+		
+		activeRacers.clear();
+		
+	}
+	
 	/**
 	 * @param isEnabled
 	 */
@@ -50,15 +74,15 @@ public abstract class Channels {
 	}
 
 	public void TriggerSensor(){
-		
+
 		sensorPaired.trigger();
 		
 	}
-	
+
 	public boolean isSensorTriggered(){
-		
+
 		return sensorPaired.isTriggered();
-		
+
 	}
 
 	/**
@@ -81,15 +105,15 @@ public abstract class Channels {
 	public Sensor unPairToSensor(){
 
 		if(sensorPaired != null){
-			
+
 			Sensor temp = sensorPaired;
-			
+
 			sensorPaired = null;
-			
+
 			return temp;
-			
+
 		}
-		
+
 		return null;
 	}
 

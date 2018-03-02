@@ -13,6 +13,21 @@ public class Ch2 extends Channels {
 	}
 	
 	@Override
+	public void activate(int bid) {
+		super.activate(bid);
+	}
+	
+	@Override
+	public void reset() {
+		super.reset();
+	}
+	
+	@Override
+	public Long retrieve(int bid) {
+		return super.retrieve(bid);
+	}
+	
+	@Override
 	public void TriggerSensor() {
 		
 		super.TriggerSensor();

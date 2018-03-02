@@ -28,7 +28,7 @@ public class ClockInterface {
 		Date currentDate = new Date(timeCurrent);
 		
 		try {
-			Thread.sleep(10);
+			Thread.sleep(1);
 		} catch (InterruptedException e) {
 			
 		}

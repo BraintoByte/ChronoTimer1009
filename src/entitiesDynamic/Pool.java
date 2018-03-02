@@ -12,16 +12,28 @@ public class Pool {
 	/**
 	 * 
 	 */
-	public Pool(){
+	private Pool(){
 
 		racers = new LinkedList<>();
 
 	}
 	
+	private static class SingletonPool{
+		
+		private static final Pool pool = new Pool();
+		
+	}
+	
+	public static Pool getPool(){
+		
+		return SingletonPool.pool;
+		
+	}
+	
+	
 	public int racersAmount(){
 		
 		return racers.size();
-		
 		
 	}
 	
@@ -43,6 +55,7 @@ public class Pool {
 		return racers.remove();
 		
 	}
+	
 		
 
 	/**
@@ -56,12 +69,20 @@ public class Pool {
 
 		}
 	}
+	
+	public void makeRacer(int racerBib){
+		
+		racers.add(new Racer(racerBib));
+		racersAmount++;
+		
+	}
+	
 
+	
 	/**
 	 * @param racersAmount
 	 */
 	public void setRacersAmount(int racersAmount){
-
 
 		this.racersAmount = racersAmount;
 		makeRacers();

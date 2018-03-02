@@ -33,9 +33,7 @@ public class Pad implements Sensor{
 	}
 
 
-	/* (non-Javadoc)
-	 * @see hardware.external.Sensor#getCurrentFormattedTime()
-	 */
+
 	/* (non-Javadoc)
 	 * @see hardware.external.Sensor#getCurrentFormattedTime()
 	 */
@@ -44,9 +42,6 @@ public class Pad implements Sensor{
 		return ClockInterface.getCurrentTimeFormatted();
 	}
 	
-	/* (non-Javadoc)
-	 * @see hardware.external.Sensor#getCurrentTimeInLong()
-	 */
 	/* (non-Javadoc)
 	 * @see hardware.external.Sensor#getCurrentTimeInLong()
 	 */

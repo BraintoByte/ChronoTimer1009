@@ -1,5 +1,6 @@
 package environment;
 
+
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
@@ -149,10 +150,18 @@ public class RaceEventsManager {
 	
 	public void propRace(){
 
-		racePool = new Pool();
+		racePool = Pool.getPool();
 		active = new LinkedList<>();
-		racePool.setRacersAmount(250);
-
+		
+	}
+	
+	public void makeOneRacer(int racer){
+		
+		if(racer >= 0){
+			
+			racePool.makeRacer(racer);
+			
+		}
 	}
 
 
@@ -186,38 +195,7 @@ public class RaceEventsManager {
 		
 		while(!active.isEmpty()){
 
-			Racer temp = active.poll();
 			
-			Random rand = new Random();       //You told me it was random, nothing in the guidelines suggests otherwise
-			int randomNum = rand.nextInt((20 - 0) + 1) + 0;
-			int randomNum2 = rand.nextInt((20 - 0) + 1) + 0;
-
-			if(randomNum == randomNum2){
-
-				temp.setDNF();
-				
-			}
-			
-			rand = new Random();       //You told me it was random, nothing in the guidelines suggests otherwise
-			randomNum = rand.nextInt((20000000 - 25000) + 1) + 0;
-			randomNum2 = rand.nextInt((20000000 - 40000) + 1) + 0;
-			
-			if(active.size() > 1){
-				
-				temp.addTimeForSimulation(randomNum > randomNum2 ? randomNum : randomNum2);
-				
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {}      //Uncomment for GLORIUS suspense effect! JUST LIKE THE OLYMPICS!
-				
-			}
-			
-			temp.setTimeFinish();
-			racePool.returnRacer(temp);
-			
-			Channels.channels[1].enable(true);    //Doesn't matter
-			Channels.channels[0].enable(true);   //In the future this will be more coordinated
-			Channels.channels[1].TriggerSensor();
 			
 
 		}
@@ -225,6 +203,7 @@ public class RaceEventsManager {
 		System.out.println("Active racers: " + active.size());
 		
 	}
+	
 	
 	/**
 	 * 
@@ -234,28 +213,53 @@ public class RaceEventsManager {
 	
 	public void startNRacers(int n){
 
-
 		if(n <= racePool.racersAmount()){
 
 			for(int i = 0; i < n; i++){
-
-				Racer temp = racePool.startRacer();
-
-				temp.setTimeStart();
-				active.add(temp);
+				
+				Channels.channels[0].TriggerSensor();
+				Racer racer = racePool.startRacer();
+				Channels.channels[1].activate(racer.getBib());
+				active.add(racer);
+				
+//				Channels.channels[channelSelected - 1].;
+//				active.add(temp);
 	
 			}
 		}
 		
 		System.out.println("Active racers: " + active.size() + " Time: " + active.peek().getTimeStartFormatted());
-
-		if(active.size() != 0){
-
-			Channels.channels[0].enable(true);
-			Channels.channels[0].TriggerSensor();
-
-		}
+	
 	}
+	
+	
+	public void finishRacer(){
+		
+		Racer racer = active.remove();
+		
+		
+		Random rand = new Random();       //You told me it was random, nothing in the guidelines suggests otherwise
+		int randomNum = rand.nextInt((20 - 0) + 1) + 0;
+		int randomNum2 = rand.nextInt((20 - 0) + 1) + 0;
+
+		if(randomNum == randomNum2){
+
+			racer.setDNF();
+			
+		}
+		
+		Channels.channels[1].TriggerSensor();
+		Channels.channels[1].activate(racer.getBib());
+		racePool.returnRacer(racer);
+		
+	}
+	
+	public int racersPoolSize(){
+		
+		return racePool.racersAmount();
+		
+	}
+	
 
 	public int racersActive(){
 
@@ -270,9 +274,6 @@ public class RaceEventsManager {
 		System.out.println("Pool now: " + racePool.racersAmount() + " Active: " + racersActive());
 		
 	}
-	
-	
-
 	
 	
 	/**

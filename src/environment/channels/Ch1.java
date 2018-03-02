@@ -4,40 +4,55 @@ import environment.Channels;
 import hardware.external.Sensor;
 
 public class Ch1 extends Channels {
-	
+
 	/**
 	 * @param id
 	 */
 	public Ch1(int id) {
-		
+
 		super("ch1", id);
-		
+
 	}
-	
+
+	@Override
+	public void activate(int bid) {
+		super.activate(bid);
+	}
+
+	@Override
+	public void reset() {
+		super.reset();
+	}
+
+	@Override
+	public Long retrieve(int bid) {
+		return super.retrieve(bid);
+	}
+
 	@Override
 	public void TriggerSensor() {
-		
+
 		super.TriggerSensor();
 	}
-	
+
 	@Override
 	public boolean isSensorTriggered() {
-		
+
 		return super.isSensorTriggered();
 	}
 
 	@Override
 	public void enable(boolean isEnabled) {
-		
+
 		super.enable(isEnabled);
 	}
-	
+
 	@Override
 	public boolean isEnabled() {
-		
+
 		return super.isEnabled();
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see environment.Channels#isPairedToSensor()
 	 */
@@ -45,7 +60,7 @@ public class Ch1 extends Channels {
 	public boolean isPairedToSensor() {
 		return super.isPairedToSensor();
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see environment.Channels#pairToSensor(hardware.external.Sensor)
 	 */
@@ -53,7 +68,7 @@ public class Ch1 extends Channels {
 	public void pairToSensor(Sensor sensor) {
 		super.pairToSensor(sensor);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see environment.Channels#unPairToSensor(hardware.external.Sensor)
 	 */
