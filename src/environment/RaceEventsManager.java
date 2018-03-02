@@ -195,9 +195,8 @@ public class RaceEventsManager {
 		
 		while(!active.isEmpty()){
 
+			finishRacer();
 			
-			
-
 		}
 		
 		System.out.println("Active racers: " + active.size());
@@ -323,6 +322,7 @@ public class RaceEventsManager {
 			}
 		}
 	}
+	
 
 	/**
 	 * Helper of {@link RaceEventsManager#allPairedSensors()} puts one channel sensors into the final array from index to index
