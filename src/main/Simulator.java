@@ -53,12 +53,9 @@ public class Simulator implements Runnable {    //Chain
 	 * 
 	 */
 	private void update(){
-
-//		System.out.println("In update");
 		
 		if(State.getState() != null){
 
-//			System.out.println("In if update");
 			
 			State.getState().update();
 
@@ -70,11 +67,8 @@ public class Simulator implements Runnable {    //Chain
 	 */
 	private void display(){
 
-//		System.out.println("In display");
-		
 		if(State.getState() != null){
 
-//			System.out.println("In if display");
 			
 			State.getState().display();
 
@@ -82,9 +76,6 @@ public class Simulator implements Runnable {    //Chain
 	}
 
 
-	/* (non-Javadoc)
-	 * @see java.lang.Runnable#run()
-	 */
 	@Override
 	public void run(){
 
@@ -119,7 +110,6 @@ public class Simulator implements Runnable {    //Chain
 
 			if(timer >= 1000000000){
 
-				System.out.println("Frames per sec: " + ticks);
 				ticks = 0;
 				timer = 0;
 
@@ -135,8 +125,6 @@ public class Simulator implements Runnable {    //Chain
 	 * 
 	 */
 	public synchronized void start(){
-
-//		System.out.println("In while if 2 run");
 		
 		if(running){
 

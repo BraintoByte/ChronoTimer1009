@@ -58,27 +58,6 @@ public class Idle extends State {
 	}
 
 
-	//	12:00:00.0	TIME 12:00:01.0
-	//	12:01:04.0	POWER
-	//	12:01:12.0	CONN GATE 1
-	//	12:01:15.0	CONN EYE 2
-	//	12:01:16.0	CONN GATE 3
-	//	12:01:17.0	CONN EYE 4
-	//	12:02:00.0	TOG 1
-	//	12:02:04.0	TOG 2
-	//	12:02:50.0	TRIG 1
-	//	12:02:52.0	TRIG 3
-	//	12:03:35.0	TRIG 2
-	//	12:03:55.0	TRIG 4
-	//	13:04:30.0	TRIG 1
-	//	13:05:00.0	TRIG 1
-	//	13:05:02.0	TRIG 2
-	//	13:05:15.0	TRIG 2
-	//	13:05:18.0	TRIG 4
-	//	13:35:52.0	POWER
-	//	13:35:55.0	EXIT
-
-
 	/**
 	 * 
 	 */
@@ -95,10 +74,7 @@ public class Idle extends State {
 
 				switch(str){
 				case "POWER":
-					isIdle = false;
-					ui.getBtnHandler().setPowerOnOff(false);
-					ui.getSimulator().getClock().setActive(false);
-					State.setState(ui.getSimulator().getInitState());
+					powerOnOff();
 					break;
 				case "CANCEL":
 
@@ -114,22 +90,8 @@ public class Idle extends State {
 				case "START":     //Any amount can start in parallel, that's what I have in my notes
 					//You cannot start a racers after another has finished, because otherwise how do you keep track of the shift
 
-					if(independent == true){
+					start();
 
-						ui.getRaceManager().setChannelSelected(1);
-
-						if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
-
-							ui.getRaceManager().setChannelSelected(2);
-
-							if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
-
-								ui.getRaceManager().setChannelSelected(1);
-								ui.getRaceManager().startNRacers(1);
-
-							}
-						}
-					}
 
 					break;
 				case "FINISH":
@@ -145,11 +107,16 @@ public class Idle extends State {
 					ui.getBtnHandler().EXIT();
 					break;
 				case "RESET":
+
+					powerOnOff();   //You said it's like power on/off
+
 					break;
 				}
 			}else{
 
 				switch(str.split("\\s")[0].trim()){
+
+
 				case "EVENT IND":
 
 					independent = true;
@@ -157,36 +124,8 @@ public class Idle extends State {
 					break;
 				case "TRIG":
 
-					try{
+					trig(str);
 
-						channelSelected = Integer.parseInt(str.split("\\s")[1].trim());
-
-						if(channelSelected == 1){
-
-							Random rand = new Random();       //You told me it was random, nothing in the guidelines suggests otherwise
-							int randomNum = rand.nextInt((250 - 0) + 1) + 0;
-
-							ui.getRaceManager().setChannelSelected(1);
-
-							if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
-
-								ui.getRaceManager().setChannelSelected(2);
-
-								if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
-
-									ui.getRaceManager().setChannelSelected(1);
-									ui.getRaceManager().startNRacers(ui.getRaceManager().racersPoolSize());
-
-								}
-							}
-
-						}else if(channelSelected == 2){
-
-							ui.getRaceManager().finishRacer();
-
-						}
-
-					}catch(InputMismatchException e){}
 					break;
 				case "NUM":
 
@@ -201,7 +140,7 @@ public class Idle extends State {
 
 					try{
 
-						DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+						DateFormat formatter = new SimpleDateFormat("HH:mm:ss.SS");
 						ui.getSimulator().getClock().setTime(new Time(formatter.parse(str.split("\\s")[1].trim()).getTime()));
 
 						if(!ui.getSimulator().getClock().isClockRunning()){
@@ -237,70 +176,124 @@ public class Idle extends State {
 							ui.getRaceManager().getCurrentChannel().enable(!ui.getRaceManager().getCurrentChannel().isEnabled());
 
 						}
-						
+
 					}catch(InputMismatchException e){}
 
 					break;
 				case "CONN":
 
-					try{
+					conn(str);
 
-						channelSelected = Integer.parseInt(str.split("\\s")[2]);
+					break;
+				}
 
-						if(channelSelected > 0 && channelSelected <= 2){
+				if(!isIdle){
 
-							ui.getRaceManager().setChannelSelected(channelSelected);
+					isIdle = true;
+					break;
 
-							if(!ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
+				}
+			}
+		}
+	}
 
-								ui.getRaceManager().CONN(str.split("\\s")[1].equalsIgnoreCase("eye"), 
-										str.split("\\s")[1].equalsIgnoreCase("gate"), str.split("\\s")[1].equalsIgnoreCase("pad"));
 
-								if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
+	private void powerOnOff(){
 
-									System.out.println("PAIRED ON: " + channelSelected);
+		isIdle = false;
+		ui.getBtnHandler().setPowerOnOff(false);
+		ui.getSimulator().getClock().setActive(false);
+		State.setState(ui.getSimulator().getInitState());
 
-								}
-							}
-						}
+		if(ui.getBtnHandler().getPowerState() ==  false){
 
-					}catch(InputMismatchException ex){
+			ui.getSimulator().getClock().reset();
+			
+			System.out.println(ClockInterface.getCurrentTimeFormatted());
 
-						ex.printStackTrace();
+		}
+	}
+
+
+	private void start(){
+
+		if(independent == true){
+
+			ui.getRaceManager().setChannelSelected(1);
+
+			if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
+
+				ui.getRaceManager().setChannelSelected(2);
+
+				if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
+
+					ui.getRaceManager().setChannelSelected(1);
+					ui.getRaceManager().startNRacers(1);
+
+				}
+			}
+		}
+	}
+
+	private void trig(String str){
+
+		try{
+
+			channelSelected = Integer.parseInt(str.split("\\s")[1].trim());
+
+			if(channelSelected == 1){
+
+				ui.getRaceManager().setChannelSelected(1);
+
+				if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
+
+					ui.getRaceManager().setChannelSelected(2);
+
+					if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
+
+						ui.getRaceManager().setChannelSelected(1);
+						ui.getRaceManager().startNRacers(ui.getRaceManager().racersPoolSize());
 
 					}
-					break;
-				case "TEST":    //To delete
+				}
 
-					try{
+			}else if(channelSelected == 2){
 
-						channelSelected = Integer.parseInt(str.split("\\s")[1]);
+				ui.getRaceManager().finishRacer();
 
-					}catch(InputMismatchException ex){
+			}
+		}catch(InputMismatchException e){}
+	}
 
-						ex.printStackTrace();
+
+	private void conn(String str){
+
+
+		try{
+
+			channelSelected = Integer.parseInt(str.split("\\s")[2]);
+
+			if(channelSelected > 0 && channelSelected <= 2){
+
+				ui.getRaceManager().setChannelSelected(channelSelected);
+
+				if(!ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
+
+					ui.getRaceManager().CONN(str.split("\\s")[1].equalsIgnoreCase("eye"), 
+							str.split("\\s")[1].equalsIgnoreCase("gate"), str.split("\\s")[1].equalsIgnoreCase("pad"));
+
+					if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
+
+						System.out.println("PAIRED ON: " + channelSelected);
 
 					}
-
-					ui.getRaceManager().setChannelSelected(channelSelected);
-					System.out.println("Sensors connected on channel: " + channelSelected + " is " + 
-							ui.getRaceManager().getCurrentChannel().isPairedToSensor());
-					break;
 				}
 			}
 
-			if(ui.getSimulator().getClock().isClockRunning()){
+		}catch(InputMismatchException ex){
 
-				System.out.println(ClockInterface.getCurrentTimeFormatted());
+			ex.printStackTrace();
 
-			}
-
-			if(!isIdle){
-
-				isIdle = true;
-				break;
-
-			}
 		}
 	}
 }

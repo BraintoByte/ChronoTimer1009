@@ -102,9 +102,6 @@ public class ButtonHandler {
 	public boolean setPowerOnOff(boolean on){
 		
 		manager.getPower().setOn(on);
-		
-		System.out.println(manager.getPower().isOn);
-		
 		return manager.getPower().isOn;  //For later in the develpment!
 		
 	}

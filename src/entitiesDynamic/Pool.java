@@ -49,6 +49,10 @@ public class Pool {
 		
 	}
 	
+	/**
+	 * 
+	 * @return a racer
+	 */
 	public Racer startRacer(){
 		
 		return racers.remove();

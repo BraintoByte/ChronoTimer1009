@@ -98,6 +98,11 @@ public class Clock implements Runnable {
 		}
 	}
 
+	public void reset(){
+		
+		this.time = new Time(000000);
+		
+	}
 
 	public void setTime(Time time) {
 		this.time = time;

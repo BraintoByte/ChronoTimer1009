@@ -29,10 +29,7 @@ public class RaceEventsManager {
 		private SensorCoupler(){
 
 			factory = new SensorFactory();
-			//			gateAvailable = new Stack<>();
-			//			eyeAvailable = new Stack<>();
-			//			padAvailable = new Stack<>();
-
+			
 		}
 
 		/**
@@ -54,7 +51,6 @@ public class RaceEventsManager {
 
 					Channels.channels[channel - 1].pairToSensor(eye ? factory.findEyeIteratively(sensor) : gate ? factory.findGateIteratively(sensor) : 
 						factory.findPadIteratively(sensor));
-					System.out.println(Channels.channels[channel - 1].isPairedToSensor());
 
 				}
 
@@ -198,9 +194,6 @@ public class RaceEventsManager {
 			finishRacer();
 			
 		}
-		
-		System.out.println("Active racers: " + active.size());
-		
 	}
 	
 	
@@ -223,9 +216,6 @@ public class RaceEventsManager {
 	
 			}
 		}
-		
-		System.out.println("Active racers: " + active.size() + " Time: " + ClockInterface.formatTime(Channels.channels[0].retrieve(active.peek().getBib())));
-	
 	}
 	
 	
@@ -248,9 +238,6 @@ public class RaceEventsManager {
 		Channels.channels[1].activate(racer.getBib());
 		racePool.returnRacer(racer);
 		
-		System.out.println("Start: " + ClockInterface.formatTime(Channels.channels[0].retrieve(racer.getBib())) + " Finish: " + 
-				ClockInterface.formatTime(Channels.channels[1].retrieve(racer.getBib())));
-		
 	}
 	
 	public int racersPoolSize(){
@@ -268,9 +255,7 @@ public class RaceEventsManager {
 	
 	public void CANCEL(){
 		
-		System.out.println("Pool before: " + racePool.racersAmount() + " Active: " + racersActive());
 		racePool.returnCancel(active.remove());
-		System.out.println("Pool now: " + racePool.racersAmount() + " Active: " + racersActive());
 		
 	}
 	

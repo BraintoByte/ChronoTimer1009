@@ -76,63 +76,22 @@ public class Util {
 
 			String[] splitted = fileContent.toString().split("\\s");
 
-			//			Pattern patternLetters = Pattern.compile("[a-zA-Z]");
-			//			Pattern patternDigits = Pattern.compile("^[0-9]*$");
-			//			StringBuilder temp = new StringBuilder();
-			//			Matcher match;
-
-
 			for(int i = splitted.length - 1; i >= 0; i--){
 
-				//				temp.setLength(0);
-				//				temp = new StringBuilder();
-				//
-				//				temp.append(splitted[i].replace("\\n", "").replace("\\r", "").replace("\\b", "").replace("\\d", ""));
+				if(!splitted[i].equals("") && !splitted[i].equals(" ") && (!splitted[i].contains(":"))){
 
-				if(!splitted[i].equals("") && !splitted[i].equals(" ") && (!splitted[i].contains(":") || (splitted[i].contains(":") && splitted[i].contains("TIME")))){
+					if(splitted[i].contains("TIME")){
 
-					commands.push(splitted[i].replace("\\n", "").replace("\\r", "").replace("\\b", "").replace("\\d", "").trim());
 
+						commands.push(splitted[i + 1].replace("\\n", "").replace("\\r", "").replace("\\b", "").replace("\\d", "").trim());
+						commands.push(splitted[i].replace("\\n", "").replace("\\r", "").replace("\\b", "").replace("\\d", "").trim());
+						
+					}else{
+						
+						commands.push(splitted[i].replace("\\n", "").replace("\\r", "").replace("\\b", "").replace("\\d", "").trim());
+						
+					}
 				}
-
-
-				//				if(commands.isEmpty()){
-				//
-				//					match = patternDigits.matcher(temp.toString());
-				//
-				//					if(match.find()){
-				//
-				//						commands.push(temp.toString());
-				//
-				//					}
-				//
-				//				}else{
-				//
-				//					match = patternDigits.matcher(temp.toString());
-				//
-				//					if(match.find()){
-				//
-				//						match = patternLetters.matcher(temp.toString());
-				//
-				//						if(match.find()){
-				//
-				//							commands.push(temp.toString());
-				//
-				//						}
-				//
-				//					}else{
-				//
-				//						match = patternLetters.matcher(temp.toString());
-				//
-				//						if(match.find()){
-				//
-				//							commands.push(temp.toString());
-				//
-				//						}
-				//					}
-				//				}
-
-
 			}
 
 
@@ -145,7 +104,7 @@ public class Util {
 			Deque<String> temp = new LinkedList<>();
 
 			StringBuilder sb = new StringBuilder();
-			
+
 
 
 			while(!commands.isEmpty()){     //C:\Users\TheLaw\git\ChronoTimer1009\CTS1RUN2.txt
@@ -153,15 +112,15 @@ public class Util {
 				sb.append(commands.pop().trim());
 
 				if(sb.toString().equals("TIME") || sb.toString().equals("TRIG") || sb.toString().equals("EVENT") || sb.toString().equals("NUM") || sb.toString().equals("TOG")){
-					
+
 					sb.append(" " + commands.pop());
-					
+
 				}else if(sb.toString().equals("CONN")){
-					
+
 					sb.append(" " + commands.pop() + " " + commands.pop());
-					
+
 				}
-				
+
 				temp.add(sb.toString());
 
 				sb.setLength(0);
@@ -174,9 +133,6 @@ public class Util {
 				commands.push(temp.removeLast());
 
 			}
-			
-			Stack<String> stack = commands;
-			
 		}
 	}
 

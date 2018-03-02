@@ -44,9 +44,9 @@ public class ButtonsActivation extends State {
 		}else{
 
 			if(fromFile){
-				
+
 				State.setState(ui.getSimulator().getFileState());
-				
+
 			}else{
 
 				State.setState(ui.getSimulator().getIdleState());
@@ -56,9 +56,7 @@ public class ButtonsActivation extends State {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see states.State#display()
-	 */
+
 	@Override
 	public void display() {
 
@@ -95,31 +93,18 @@ public class ButtonsActivation extends State {
 
 							ui.getSimulator().getClock().clockStart();
 
-
-							try {
-
-								Thread.sleep(800);
-
-							} catch (InterruptedException e) {
-
-								e.printStackTrace();
-							}
+							Thread.sleep(800);
+							
 						}
 
-					}catch(ParseException ex){
+					}catch(ParseException | InterruptedException ex){
 
 						ex.printStackTrace();
 
 					}
-
-					System.out.println(ClockInterface.getCurrentTimeFormatted());
-
 				}
 			}
 		}
-
-		//		System.out.println("Power is ON!");
-		//		input.close();
 
 
 		if(str.equalsIgnoreCase("f") || str.equalsIgnoreCase("POWER") || str.equalsIgnoreCase("EXIT")){
@@ -130,12 +115,12 @@ public class ButtonsActivation extends State {
 
 			}else{
 
-				btnHandler.setPowerOnOff(true);
+
 				ui.setBtnHandler(btnHandler);
 				ui.setRaceManager(new RaceEventsManager());
-				ui.getRaceManager().theseManySensors(4, 4, 4);
 				ui.getSimulator().getClock().setActive(true);
 				ui.getRaceManager().propRace();
+				ui.getRaceManager().theseManySensors(4, 4, 4);
 
 
 				if(str.equalsIgnoreCase("f")){
@@ -145,13 +130,17 @@ public class ButtonsActivation extends State {
 					str = input.next();
 					ui.getSimulator().setFilePath(str);
 					ui.getSimulator().setFileState(new IOState(ui, input));
-					
+
+				}else{
+
+					btnHandler.setPowerOnOff(true);
+
 				}
 			}
 		}
 	}
-	
-	
+
+
 	public boolean isFromFile() {
 		return fromFile;
 	}

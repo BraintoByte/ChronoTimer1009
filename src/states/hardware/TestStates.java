@@ -13,7 +13,9 @@ import java.util.Scanner;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
+import entitiesDynamic.Pool;
 import entitiesDynamic.Racer;
 
 import org.junit.*;
@@ -32,31 +34,16 @@ public class TestStates {
 	private Simulator sim;
 
 
-	@Before
-	public void setUp(){
-
-
-
-	}
-
-
 	@Test
-	public void TestButtons(){
+	public void TestRace(){
 
 		System.setIn(new ByteArrayInputStream("f".getBytes()));
 		sim = new Simulator();
-		//		sim.start();
-		//Figured!
 		UI ui = new UI(sim);
 		Clock clock = new Clock();
-		//		Idle idleState = new Idle(ui, new Scanner(System.in));
-		ButtonHandler btns = new ButtonHandler();
 		RaceEventsManager race = new RaceEventsManager();
 		race.setChannelSelected(1);
 		assertTrue(race.getChannelSelected() == 1);
-		//		assertTrue(race.getAmountConnectedOnSelectedChannel() == 0);
-		//		assertEquals(0, race.allPairedSensors().length);
-
 		assertFalse(race.getCurrentChannel().isPairedToSensor());
 
 		race.setChannelSelected(2);
@@ -66,8 +53,6 @@ public class TestStates {
 
 		race.setChannelSelected(1);
 		race.CONN(true, false, false);
-		//		assertEquals(1, race.allPairedSensors().length);
-		//
 		assertTrue(race.getCurrentChannel().isPairedToSensor());
 
 
@@ -83,13 +68,6 @@ public class TestStates {
 		race.CONN(false, false, true);
 
 		assertTrue(race.getCurrentChannel().isPairedToSensor());
-
-
-
-		//		assertEquals(2, race.allPairedSensors().length);
-		//
-		//		race.CONN(false, false, true);
-		//		assertEquals(3, race.allPairedSensors().length);
 		State.setState(null);
 		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
 		try {
@@ -104,12 +82,10 @@ public class TestStates {
 
 
 		race.propRace();
-		//		race.startNRacers(200);
-
 		int[] bibs = new int[200];
 		
 		
-		System.out.println("Please wait while the racers are made");
+		System.out.println("Please wait while the racers are made, fireworks are about to start!");
 		
 		bibs = makeTheRacersTest(race, bibs);
 		assertEquals(race.racersPoolSize(), bibs.length);
@@ -119,10 +95,26 @@ public class TestStates {
 		race.stopLastRace();
 		assertEquals(race.racersPoolSize(), bibs.length);
 		assertEquals(race.racersActive(), 0);
-
+		
+		
+		race.startNRacers(1);
+		assertEquals(race.racersActive(), 1);
+		race.finishRacer();
+		assertEquals(race.racersActive(), 0);
+		
+		Racer racer = Pool.getPool().startRacer();
+		Pool.getPool().returnCancel(racer);
+		race.startNRacers(1);
+		race.CANCEL();
+		assertEquals(racer, Pool.getPool().startRacer());
+		Pool.getPool().returnCancel(racer);
+		assertEquals(bibs.length, Pool.getPool().racersAmount());
+		
+		
 	}
+	
 
-	private int[] makeTheRacersTest(RaceEventsManager race, int[] bibs){
+	private int[] makeTheRacersTest(RaceEventsManager race, int[] bibs) {
 
 		for(int i = 0; i < bibs.length; i++){
 			

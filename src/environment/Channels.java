@@ -90,7 +90,6 @@ public abstract class Channels {
 	 */
 	public void pairToSensor(Sensor sensor){
 
-		//		pairedSensors.add(sensor);
 		if(sensorPaired == null){
 
 			sensorPaired = sensor;
