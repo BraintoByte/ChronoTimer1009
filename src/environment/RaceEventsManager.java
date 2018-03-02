@@ -182,7 +182,7 @@ public class RaceEventsManager {
 		}
 
 		return false;
-
+		
 	}
 	
 	
@@ -218,16 +218,13 @@ public class RaceEventsManager {
 				
 				Channels.channels[0].TriggerSensor();
 				Racer racer = racePool.startRacer();
-				Channels.channels[1].activate(racer.getBib());
+				Channels.channels[0].activate(racer.getBib());
 				active.add(racer);
-				
-//				Channels.channels[channelSelected - 1].;
-//				active.add(temp);
 	
 			}
 		}
 		
-		System.out.println("Active racers: " + active.size() + " Time: " + active.peek().getTimeStartFormatted());
+		System.out.println("Active racers: " + active.size() + " Time: " + ClockInterface.formatTime(Channels.channels[0].retrieve(active.peek().getBib())));
 	
 	}
 	
@@ -250,6 +247,9 @@ public class RaceEventsManager {
 		Channels.channels[1].TriggerSensor();
 		Channels.channels[1].activate(racer.getBib());
 		racePool.returnRacer(racer);
+		
+		System.out.println("Start: " + ClockInterface.formatTime(Channels.channels[0].retrieve(racer.getBib())) + " Finish: " + 
+				ClockInterface.formatTime(Channels.channels[1].retrieve(racer.getBib())));
 		
 	}
 	

@@ -45,7 +45,6 @@ public class Pool {
 	
 	public void returnRacer(Racer racer){
 		
-		System.out.println(" Time: " + racer.getTimeFinishFormatted());
 		racers.add(racer);
 		
 	}

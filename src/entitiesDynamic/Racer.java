@@ -25,83 +25,12 @@ public class Racer {
 		
 	}
 	
-	
-	/**
-	 * 
-	 */
-	public void setTimeStart(){
-		
-		timeStart = ClockInterface.getTimeInLong();
-		setStartTimeFormatted();
-		isActive = true;
-		
-	}
-	
-	public void addTimeForSimulation(long added){
-		
-		timeFinish += added;
-		
-	}
-	
-	/**
-	 * 
-	 */
-	public void setTimeFinish(){
-		
-		this.timeFinish += ClockInterface.getTimeInLong();
-		setFinishTimeFormatted();
-		isActive = false;
-		
-	}
-	
-	/**
-	 * @return
-	 */
-	public long getTotalTime(){
-		
-		return DNF ? 0 : ClockInterface.computeTime(timeStart, timeFinish);
-		
-	}
-	
-	/**
-	 * 
-	 */
-	private void setStartTimeFormatted(){
-		
-		timeStartFormatted = ClockInterface.getCurrentTimeFormatted();
-		
-	}
-	
-	/**
-	 * 
-	 */
-	private void setFinishTimeFormatted(){
-		
-		timeFinishFormatted = DNF ? "DNF" : ClockInterface.getCurrentTimeFormatted();
-		
-	}
 
 	/**
 	 * @return
 	 */
 	public int getBib() {
 		return bib;
-	}
-
-
-	/**
-	 * @return
-	 */
-	public String getTimeStartFormatted() {
-		return timeStartFormatted;
-	}
-
-
-	/**
-	 * @return
-	 */
-	public String getTimeFinishFormatted() {
-		return timeFinishFormatted;
 	}
 
 	

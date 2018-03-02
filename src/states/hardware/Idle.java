@@ -149,8 +149,6 @@ public class Idle extends State {
 
 					if(independent == true){
 
-						Random rand = new Random();       //You told me it was random, nothing in the guidelines suggests otherwise
-						int randomNum = rand.nextInt((250 - 0) + 1) + 0;
 
 						ui.getRaceManager().setChannelSelected(1);
 
@@ -161,7 +159,7 @@ public class Idle extends State {
 							if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
 
 								ui.getRaceManager().setChannelSelected(1);
-								ui.getRaceManager().startNRacers(randomNum);
+								ui.getRaceManager().startNRacers(1);
 
 							}
 						}
@@ -211,14 +209,14 @@ public class Idle extends State {
 								if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
 
 									ui.getRaceManager().setChannelSelected(1);
-									ui.getRaceManager().startNRacers(randomNum);
+									ui.getRaceManager().startNRacers(ui.getRaceManager().racersPoolSize());
 
 								}
 							}
 
 						}else if(channelSelected == 2){
 
-							ui.getRaceManager().stopLastRace();
+							ui.getRaceManager().finishRacer();
 
 						}
 
