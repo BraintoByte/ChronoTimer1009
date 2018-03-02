@@ -1,0 +1,36 @@
+KNOWN BUGS:
+
+
+1. When clock or some clock interface commands are issued a thread.sleep must be done otherwise the time is default not set (it's because of the threading I think)
+
+2. I didn't had time to take care of some bugs on the trig 1 and start (although there should not be any)
+
+3. I cannot reset the clock properly when I turn off power or reset
+
+4. ArrayOutOfBounds might be thrown (in some rare cases) because I didn't had time to find the places that I am getting the channel (although in all my testing this did not happen this is more of
+a declaration then a bug)
+
+
+
+
+Personal notes:
+
+The exceptions are thrown on purpose as they thought us in 351
+
+I still cannot understand the sensor and DNF stuff, I do allow multiple racers to compete, althogh, still on how to set the DNF or the utility of the sensor if I don't have to actually make one
+or I don't necessarely have to pair one, or it does not actually matter in the race
+
+I will remove the sensor factory in sprint 2, it's not incorrect although overkill since we know exactly how many sensors there are (as specified, 1 per channel no more!)
+
+Please consider, that I had to write everything including the design on my own in between 2 exams and 2 quizzes and work, they seem to be willing to put more effort into this class and team and I am too,
+I don't want to use it as an excuse to get a freebe although please since this is a really big chunk of grade consider
+
+My testing could be better
+
+
+Division labor:
+
+
+
+Design, code, UML Design, testing: Andy
+UML copying: Luis and Connor

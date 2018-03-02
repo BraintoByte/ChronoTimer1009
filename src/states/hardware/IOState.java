@@ -178,11 +178,6 @@ public class IOState extends State {
 		ui.getBtnHandler().setPowerOnOff(!ui.getBtnHandler().getPowerState());
 		ui.getSimulator().getClock().setActive(!ui.getBtnHandler().getPowerState());
 		
-		if(ui.getBtnHandler().getPowerState() ==  false){
-			
-			ui.getSimulator().getClock().reset();
-			
-		}
 	}
 
 

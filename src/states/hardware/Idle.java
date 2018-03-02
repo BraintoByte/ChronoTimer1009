@@ -1,22 +1,14 @@
 package states.hardware;
 
-import static org.junit.Assert.*;
 
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.InputMismatchException;
-import java.util.Random;
 import java.util.Scanner;
 
-import org.junit.Test;
-
-import Utils.Util;
-import entitiesStatic.ClockInterface;
-import hardware.external.Sensor;
 import interfaces.UI;
-import junit.framework.TestCase;
 import states.State;
 
 public class Idle extends State {
@@ -204,14 +196,6 @@ public class Idle extends State {
 		ui.getBtnHandler().setPowerOnOff(false);
 		ui.getSimulator().getClock().setActive(false);
 		State.setState(ui.getSimulator().getInitState());
-
-		if(ui.getBtnHandler().getPowerState() ==  false){
-
-			ui.getSimulator().getClock().reset();
-			
-			System.out.println(ClockInterface.getCurrentTimeFormatted());
-
-		}
 	}
 
 
@@ -229,6 +213,7 @@ public class Idle extends State {
 
 					ui.getRaceManager().setChannelSelected(1);
 					ui.getRaceManager().startNRacers(1);
+					
 
 				}
 			}
@@ -253,7 +238,7 @@ public class Idle extends State {
 
 						ui.getRaceManager().setChannelSelected(1);
 						ui.getRaceManager().startNRacers(ui.getRaceManager().racersPoolSize());
-
+						
 					}
 				}
 
@@ -281,12 +266,6 @@ public class Idle extends State {
 
 					ui.getRaceManager().CONN(str.split("\\s")[1].equalsIgnoreCase("eye"), 
 							str.split("\\s")[1].equalsIgnoreCase("gate"), str.split("\\s")[1].equalsIgnoreCase("pad"));
-
-					if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
-
-						System.out.println("PAIRED ON: " + channelSelected);
-
-					}
 				}
 			}
 
