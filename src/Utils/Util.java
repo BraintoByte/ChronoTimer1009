@@ -3,6 +3,7 @@ package Utils;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
@@ -93,8 +94,8 @@ public class Util {
 					commands.push(splitted[i].replace("\\n", "").replace("\\r", "").replace("\\b", "").replace("\\d", "").trim());
 
 				}
-				
-				
+
+
 				//				if(commands.isEmpty()){
 				//
 				//					match = patternDigits.matcher(temp.toString());
@@ -130,53 +131,38 @@ public class Util {
 				//						}
 				//					}
 				//				}
-				
-				
+
+
 			}
-			
-			Stack<String> str = commands;
+
+
 			makeCommands();
-			
+
 		}
-		
+
 		private static void makeCommands(){
 
-			Queue<String> temp = new LinkedList<>();
+			Deque<String> temp = new LinkedList<>();
 
-			Pattern patternLetters = Pattern.compile("[a-zA-Z]");
-			Pattern patternDigits = Pattern.compile("[0-9]");
 			StringBuilder sb = new StringBuilder();
-			Matcher match;
+			
+
 
 			while(!commands.isEmpty()){     //C:\Users\TheLaw\git\ChronoTimer1009\CTS1RUN2.txt
 
-				sb.append(" " + commands.pop());
+				sb.append(commands.pop().trim());
 
-				if(patternDigits.matcher(sb.toString()).find()){
-
-					if(patternLetters.matcher(commands.peek()).find()){
-
-						String tempStr = commands.pop();
-
-						sb.append(commands.peek().contains("CONN") ? " " : "" + tempStr);
-
-						if(patternLetters.matcher(commands.peek()).find() && commands.peek().contains("CONN")){
-
-							sb.append(commands.pop());
-
-						}
-					}
-				}
-				
-				String stringTemp = "";
-				
-				if(sb.toString().equals("EVENT")){
+				if(sb.toString().equals("TIME") || sb.toString().equals("TRIG") || sb.toString().equals("EVENT") || sb.toString().equals("NUM") || sb.toString().equals("TOG")){
 					
-					stringTemp = commands.pop();
+					sb.append(" " + commands.pop());
+					
+				}else if(sb.toString().equals("CONN")){
+					
+					sb.append(" " + commands.pop() + " " + commands.pop());
 					
 				}
-
-				temp.add(sb.toString() + " " + stringTemp);
+				
+				temp.add(sb.toString());
 
 				sb.setLength(0);
 				sb = new StringBuilder();
@@ -185,9 +171,12 @@ public class Util {
 
 			while(!temp.isEmpty()){
 
-				commands.push(temp.poll());
+				commands.push(temp.removeLast());
 
 			}
+			
+			Stack<String> stack = commands;
+			
 		}
 	}
 
@@ -238,10 +227,10 @@ public class Util {
 		return ProcessFile.commands.isEmpty() ? null : ProcessFile.commands.pop();
 
 	}
-	
+
 	public static boolean areCommandIssued(){
-		
-		return ProcessFile.commands.isEmpty();
-		
+
+		return !ProcessFile.commands.isEmpty();
+
 	}
 }
