@@ -37,78 +37,76 @@ public class TestStates {
 	@Test
 	public void TestRace(){
 
-		System.setIn(new ByteArrayInputStream("f".getBytes()));
+		System.setIn(new ByteArrayInputStream("f".getBytes()));				// setup
 		sim = new Simulator();
 		UI ui = new UI(sim);
 		Clock clock = new Clock();
 		RaceEventsManager race = new RaceEventsManager();
-		race.setChannelSelected(1);
+		
+		race.setChannelSelected(1);											// select channel 1
 		assertTrue(race.getChannelSelected() == 1);
-		assertFalse(race.getCurrentChannel().isPairedToSensor());
+		assertFalse(race.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
 
-		race.setChannelSelected(2);
-		assertFalse(race.getCurrentChannel().isPairedToSensor());
+		race.setChannelSelected(2);											// select channel 2
+		assertTrue(race.getChannelSelected() == 2);
+		assertFalse(race.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
 
-		race.theseManySensors(1, 1, 1);
+		race.theseManySensors(1, 1, 1);										// specify number of each sensor type
 
-		race.setChannelSelected(1);
-		race.CONN(true, false, false);
-		assertTrue(race.getCurrentChannel().isPairedToSensor());
+		race.setChannelSelected(1);											// select channel 1
+		race.CONN(true, false, false);										// connect eye sensor to channel 1
+		assertTrue(race.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
 
+		race.setChannelSelected(2);											// select channel 2
+		race.CONN(false, true, false);										// connect gate sensor to channel 2
 
-		race.setChannelSelected(2);
-		race.CONN(false, true, false);
+		assertTrue(race.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
 
-		assertTrue(race.getCurrentChannel().isPairedToSensor());
+		race.getCurrentChannel().unPairToSensor();							// disconnect sensor from channel 2
 
-		race.getCurrentChannel().unPairToSensor();
+		assertFalse(race.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
 
-		assertFalse(race.getCurrentChannel().isPairedToSensor());
+		race.CONN(false, false, true);										// connect pad sensor to channel 2
 
-		race.CONN(false, false, true);
-
-		assertTrue(race.getCurrentChannel().isPairedToSensor());
-		State.setState(null);
+		assertTrue(race.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
+		State.setState(null);												// set initial state
 		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
 		try {
-			clock.setTime(new Time(formatter.parse("12:00:11").getTime()));
+			clock.setTime(new Time(formatter.parse("12:00:11").getTime()));	// set system time to 12:00:11
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
-
-		clock.clockStart();
+		clock.clockStart();													// start clock
 		clock.setActive(true);
 
-
-		race.propRace();
+		race.propRace();													// setup pool for racers
 		int[] bibs = new int[200];
-		
 		
 		System.out.println("Please wait while the racers are made, fireworks are about to start!");
 		
-		bibs = makeTheRacersTest(race, bibs);
-		assertEquals(race.racersPoolSize(), bibs.length);
-		race.startNRacers(bibs.length);
-		assertEquals(bibs.length, race.racersActive());
+		bibs = makeTheRacersTest(race, bibs);								// creates array of racers and adds them to pool (waiting queue)
+		assertEquals(race.racersPoolSize(), bibs.length);					// checks pool size
+		race.startNRacers(bibs.length);										// starts run for all racers in bibs[]
+		assertEquals(bibs.length, race.racersActive());						// check active size
 		assertEquals(race.racersActive(), 200);
-		race.stopLastRace();
-		assertEquals(race.racersPoolSize(), bibs.length);
-		assertEquals(race.racersActive(), 0);
+		race.stopLastRace();												// finishes all racers in active and puts them back into pool
+		assertEquals(race.racersPoolSize(), bibs.length);					// checks pool size
+		assertEquals(race.racersActive(), 0);								// checks active size
 		
+		race.startNRacers(1);												// only racer "001" starts
+		assertEquals(race.racersActive(), 1);								// check active size
+		race.finishRacer();													// racer "001" finishes
+		assertEquals(race.racersActive(), 0);								// check active size
 		
-		race.startNRacers(1);
-		assertEquals(race.racersActive(), 1);
-		race.finishRacer();
-		assertEquals(race.racersActive(), 0);
-		
-		Racer racer = Pool.getPool().startRacer();
+																			// tests CANCEL command
+		Racer racer = Pool.getPool().startRacer();							// gets next racer to start
+		Pool.getPool().returnCancel(racer);									// adds racer back into pool as the next racer
+		race.startNRacers(1);												// only racer "001" starts
+		race.CANCEL();														// racer "001" is canceled
+		assertEquals(racer, Pool.getPool().startRacer());					// checks if racer "001" is in pool as next racer to start
 		Pool.getPool().returnCancel(racer);
-		race.startNRacers(1);
-		race.CANCEL();
-		assertEquals(racer, Pool.getPool().startRacer());
-		Pool.getPool().returnCancel(racer);
-		assertEquals(bibs.length, Pool.getPool().racersAmount());
+		assertEquals(bibs.length, Pool.getPool().racersAmount());			// checks pool size
 		
 		
 	}

@@ -153,11 +153,9 @@ public class RaceEventsManager {
 	
 	public void makeOneRacer(int racer){
 		
-		if(racer >= 0){
-			
+		if(racer >= 0)
 			racePool.makeRacer(racer);
 			
-		}
 	}
 
 
@@ -255,7 +253,7 @@ public class RaceEventsManager {
 	
 	public void CANCEL(){
 		
-		racePool.returnCancel(active.remove());
+		racePool.returnCancel(active.remove()); // should this remove the lead racer or the one last to start?
 		
 	}
 	
