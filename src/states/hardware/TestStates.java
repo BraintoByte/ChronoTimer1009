@@ -86,7 +86,7 @@ public class TestStates {
 		
 		System.out.println("Please wait while the racers are made, fireworks are about to start!");
 		
-		bibs = makeTheRacersTest(race, bibs);								// creates array of racers and adds them to pool (waiting queue)
+		bibs = makeTheRacersTest(race, bibs);								// populates array of bib#'s and adds racers to pool
 		assertEquals(race.racersPoolSize(), bibs.length);					// checks pool size
 		race.startNRacers(bibs.length);										// starts run for all racers in bibs[]
 		assertEquals(bibs.length, race.racersActive());						// check active size
