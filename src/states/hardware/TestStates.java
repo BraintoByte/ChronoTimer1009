@@ -69,6 +69,7 @@ public class TestStates {
 		race.CONN(false, false, true);										// connect pad sensor to channel 2
 
 		assertTrue(race.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
+		
 		State.setState(null);												// set initial state
 		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
 		try {
