@@ -9,9 +9,6 @@ public class Pads {
 	private List<Pad> pads;
 	
 	
-	/**
-	 * 
-	 */
 	private Pads(){
 		
 		pads = new ArrayList<>();

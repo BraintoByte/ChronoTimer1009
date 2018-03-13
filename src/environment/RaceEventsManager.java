@@ -136,9 +136,11 @@ public class RaceEventsManager {
 	private int channelSelected;
 	private SensorCoupler sensors;
 	private Pool racePool;
-	private Race[] races;
+	protected Race[] races;
 	private int raceNbr;
-//	private Queue<Racer> active;
+	
+	
+	
 	
 	public boolean startNewRace(){
 		
