@@ -237,7 +237,7 @@ public class Idle extends State {
 					if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
 						
 						ui.getRaceManager().setChannelSelected(channelSelected);
-						ui.getRaceManager().startNewRace();
+						ui.getRaceManager().startNewRace();   //TEST
 						
 					}
 				}
