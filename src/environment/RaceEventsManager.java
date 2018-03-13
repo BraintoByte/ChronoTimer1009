@@ -147,11 +147,9 @@ public class RaceEventsManager {
 	
 	public void makeOneRacer(int racer){
 		
-		if(racer >= 0){
-			
+		if(racer >= 0)
 			racePool.makeRacer(racer);
 			
-		}
 	}
 	
 	
@@ -242,7 +240,9 @@ public class RaceEventsManager {
 //	
 	public int racersPoolSize(){
 		
+
 		return racePool.racersAmount();
+
 		
 	}
 //	
