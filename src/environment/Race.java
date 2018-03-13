@@ -6,41 +6,20 @@ import java.util.Random;
 
 import entitiesDynamic.Pool;
 import entitiesDynamic.Racer;
-import environment.races.RaceEvent;
 
-public abstract class Race {
+public class Race {
 
 	private int[] onChannels;
-	private Queue<Racer> active = new LinkedList<>();;
+	private Queue<Racer> active;
 	private RaceEventsManager manager;
-	private Race[] races = { new RaceEvent(1, 2), new RaceEvent(3, 4) };          //Just in case the number of races gets out of wack!
+	private boolean isActive;
 
+	public Race(RaceEventsManager manager, int ... channels){
 
-	public Race(int...channels){
-		
 		this.onChannels = channels;
+		this.manager = manager;
+		this.active = new LinkedList<>();
 		
-	}
-
-
-
-	/**
-	 * Set a specific channel to be the selected channel
-	 * 
-	 * @param channelSelected
-	 * @return true if channel exists and will be selected, false if not!
-	 */
-
-	public boolean changeChannels(int...channels) {
-
-		if(channels.length == 2){
-
-			this.onChannels = channels;
-			return true;
-
-		}
-
-		return false;
 	}
 
 
@@ -54,37 +33,38 @@ public abstract class Race {
 	}
 
 
-	//	public void startNRacers(int n){
-	//
-	//		if(n <= racePool.racersAmount()){
-	//
-	//			for(int i = 0; i < n; i++){
-	//
-	//				Channels.channels[0].TriggerSensor();
-	//				Racer racer = racePool.startRacer();
-	//				Channels.channels[0].activate(racer.getBib());
-	//				active.add(racer);
-	//
-	//			}
-	//		}
-	//	}
+	public void startNRacers(int n){
+
+
+		if(n <= manager.racersPoolSize()){
+
+			for(int i = 0; i < n; i++){
+				
+				Racer racer = manager.getRacer();
+				Channels.channels[onChannels[0]].activate(racer.getBib());
+				active.add(racer);
+
+			}
+		}
+	}
 
 
 	public void finishRacer(){
 
 		Racer racer = active.remove();
-		Random rand = new Random();       //You told me it was random, nothing in the guidelines suggests otherwise
-		int randomNum = rand.nextInt((20 - 0) + 1) + 0;
-		int randomNum2 = rand.nextInt((20 - 0) + 1) + 0;
+		//		Random rand = new Random();       //You told me it was random, nothing in the guidelines suggests otherwise
+		//		int randomNum = rand.nextInt((20 - 0) + 1) + 0;
+		//		int randomNum2 = rand.nextInt((20 - 0) + 1) + 0;
+		//
+		//		if(randomNum == randomNum2){
+		//
+		//			racer.setDNF();
+		//
+		//		}
 
-		if(randomNum == randomNum2){
-
-			racer.setDNF();
-
-		}
-
-		Channels.channels[1].TriggerSensor();
-		Channels.channels[1].activate(racer.getBib());
+		Channels.channels[onChannels[0]].TriggerSensor();
+		Channels.channels[onChannels[1]].activate(racer.getBib());
+		manager.returnRacer(racer);
 		//		racePool.returnRacer(racer);
 
 	}
@@ -98,7 +78,7 @@ public abstract class Race {
 
 	public void CANCEL(){
 
-
+		manager.returnRacer(active.remove());
 
 	}
 
@@ -110,5 +90,9 @@ public abstract class Race {
 	 */
 	public int[] getChannelsActive() {
 		return onChannels;
+	}
+	
+	public boolean isActive() {
+		return !active.isEmpty();
 	}
 }

@@ -10,6 +10,10 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.gson.Gson;
+
+import environment.Race;
+
 public class Util {
 
 	//	12:01:02.0	POWER
@@ -85,11 +89,11 @@ public class Util {
 
 						commands.push(splitted[i + 1].replace("\\n", "").replace("\\r", "").replace("\\b", "").replace("\\d", "").trim());
 						commands.push(splitted[i].replace("\\n", "").replace("\\r", "").replace("\\b", "").replace("\\d", "").trim());
-						
+
 					}else{
-						
+
 						commands.push(splitted[i].replace("\\n", "").replace("\\r", "").replace("\\b", "").replace("\\d", "").trim());
-						
+
 					}
 				}
 			}
@@ -189,15 +193,29 @@ public class Util {
 		return !ProcessFile.commands.isEmpty();
 
 	}
-	
-	
-	
-	public static void save(){
-		
-		
-		
-		
+
+
+
+	public static boolean save(Race race ){
+
+		if(race == null ){
+
+			return false;
+
+		}
+
+		if(race.racersActive()== 0){
+
+			return false;
+
+		}
+
+		Gson g = new Gson();
+		String ret = g.toJson(race);
+
+		return true;
+
 	}
-	
-	
+
+
 }

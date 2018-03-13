@@ -11,6 +11,8 @@ import entitiesDynamic.Racer;
 import entitiesStatic.ClockInterface;
 import environment.channels.Ch1;
 import environment.channels.Ch2;
+import environment.channels.Ch3;
+import environment.channels.Ch4;
 import hardware.external.Sensor;
 import hardware.external.sensors.eye.Eye;
 import hardware.external.sensors.gate.Gate;
@@ -26,6 +28,8 @@ public abstract class Channels {
 
 	private static Channels ch1 = new Ch1(1);
 	private static Channels ch2 = new Ch2(2);
+	private static Channels ch3 = new Ch3(3);
+	private static Channels ch4 = new Ch4(4);
 
 
 

@@ -136,12 +136,28 @@ public class RaceEventsManager {
 	private int channelSelected;
 	private SensorCoupler sensors;
 	private Pool racePool;
+	private Race[] races;
+	private int raceNbr;
 //	private Queue<Racer> active;
 	
+	public boolean startNewRace(){
+		
+		if(raceNbr < races.length){
+			
+			races[raceNbr] = new Race(this, raceNbr + 1, raceNbr + 2);
+			
+			return true;
+			
+		}
+		
+		return false;
+		
+	}
 	
 	public void propRace(){
 
 		racePool = Pool.getPool();
+		races = new Race[2];
 		
 	}
 	
@@ -177,19 +193,19 @@ public class RaceEventsManager {
 //	 * @return true if channel exists and will be selected, false if not!
 //	 */
 //
-//	public boolean setChannelSelected(int channelSelected) {
-//
-//		if(channelSelected <= Channels.channels.length){
-//
-//			this.channelSelected = channelSelected;
-//
-//			return true;
-//
-//		}
-//
-//		return false;
-//		
-//	}
+	public boolean setChannelSelected(int channelSelected) {
+
+		if(channelSelected <= Channels.channels.length){
+
+			this.channelSelected = channelSelected;
+
+			return true;
+
+		}
+
+		return false;
+		
+	}
 //	
 //	public void stopLastRace(){
 //		
