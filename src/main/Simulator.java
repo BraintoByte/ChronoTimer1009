@@ -145,8 +145,6 @@ public class Simulator implements Runnable {    //Chain
 	 * 
 	 */
 	public synchronized void stop(){
-
-		System.out.println("In while if 2 run");
 		
 		if(!running){
 

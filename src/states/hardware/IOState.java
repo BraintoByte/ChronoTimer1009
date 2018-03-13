@@ -58,16 +58,14 @@ public class IOState extends State {
 					break;
 				case "CANCEL":
 
-					if(ui.getBtnHandler().getPowerState()){
-
-						ui.getRaceManager().setChannelSelected(1);
-
-						if(ui.getRaceManager().racersActive() >= 1){
-
-							ui.getRaceManager().CANCEL();
-
-						}
+					if(ui.getRaceManager().getChannelSelected() != 1 || ui.getRaceManager().getChannelSelected() != 3){
+						
+						channelSelected -= 1;
+						ui.getRaceManager().setChannelSelected(channelSelected);
+						
 					}
+					
+					ui.getRaceManager().finishOneRacerOnRaceSelected();
 
 					break;
 				case "START":     //Any amount can start in parallel, that's what I have in my notes
@@ -210,32 +208,37 @@ public class IOState extends State {
 			try{
 
 				channelSelected = Integer.parseInt(str.split("\\s")[1].trim());
-
-				if(channelSelected == 1){
-
-					ui.getRaceManager().setChannelSelected(1);
-
-					if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){     //6. Sensors, are not automatically paired to channels, as the races starts they are paired
-						//>>>  They are paired to a channel through the command.  They stay that way until changed
-						//if the sensors are what is triggerred to have an actual time for a racer, and not paired automatically then there is no trig 1
-
-						ui.getRaceManager().setChannelSelected(2);
-
+				
+				if(ui.getValidChannels()[0] == channelSelected || ui.getValidChannels()[2] == channelSelected){
+					
+					ui.getRaceManager().setChannelSelected(channelSelected);
+					
+					if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
+						
+						ui.getRaceManager().setChannelSelected(channelSelected + 1);
+						
 						if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
-
-							ui.getRaceManager().setChannelSelected(1);
-							ui.getRaceManager().startNRacers(ui.getRaceManager().racersPoolSize());
-
+							
+							ui.getRaceManager().setChannelSelected(channelSelected);
+							ui.getRaceManager().startNewRace();
+							
 						}
 					}
-
-				}else if(channelSelected == 2 && ui.getRaceManager().racersActive() > 0){
-
-					ui.getRaceManager().finishRacer();
-
+					
+					
+					
+				}else if(ui.getValidChannels()[1] == channelSelected || ui.getValidChannels()[3] == channelSelected){
+					
+					ui.getRaceManager().setChannelSelected(channelSelected);
+					
+					
 				}
-
-			}catch(InputMismatchException e){}
+				
+			}catch(InputMismatchException e){
+				
+				e.printStackTrace();
+				
+			}
 
 		}
 	}

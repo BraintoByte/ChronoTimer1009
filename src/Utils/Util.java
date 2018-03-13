@@ -1,7 +1,9 @@
 package Utils;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -9,6 +11,10 @@ import java.util.Queue;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.google.gson.Gson;
+
+import environment.Race;
 
 public class Util {
 
@@ -85,11 +91,11 @@ public class Util {
 
 						commands.push(splitted[i + 1].replace("\\n", "").replace("\\r", "").replace("\\b", "").replace("\\d", "").trim());
 						commands.push(splitted[i].replace("\\n", "").replace("\\r", "").replace("\\b", "").replace("\\d", "").trim());
-						
+
 					}else{
-						
+
 						commands.push(splitted[i].replace("\\n", "").replace("\\r", "").replace("\\b", "").replace("\\d", "").trim());
-						
+
 					}
 				}
 			}
@@ -189,4 +195,48 @@ public class Util {
 		return !ProcessFile.commands.isEmpty();
 
 	}
+
+
+
+	public static boolean save(Race race )throws IOException{
+
+		if(race == null ){
+
+			return false;
+
+		}
+
+
+		if(race.racersActive()== 0) {
+			return false;
+		}
+
+		File tmp = new File(System.getProperty("user.dir","json.txt"));
+
+		if(!tmp.exists()){
+			tmp.createNewFile();
+		}
+
+		FileWriter fileWriter = new FileWriter(tmp,true);
+		Gson g = new Gson();
+		String ret;
+		ret = g.toJson(race);
+
+		fileWriter.write(ret);
+		fileWriter.close();
+
+		return true;
+
+	}
+
+
+	public static void clear() throws IOException {
+		File tmp = new File(System.getProperty("user.dir"),"json.txt");
+		tmp.delete();
+		tmp.createNewFile();
+
+	}
+
+
+
 }
