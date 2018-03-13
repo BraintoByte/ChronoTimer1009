@@ -70,13 +70,13 @@ public class Idle extends State {
 					break;
 				case "CANCEL":
 
-					ui.getRaceManager().setChannelSelected(1);
-
-					if(ui.getRaceManager().racersActive() >= 1){
-
-						ui.getRaceManager().CANCEL();
-
-					}
+//					ui.getRaceManager().setChannelSelected(1);
+//
+//					if(ui.getRaceManager().racersActive() >= 1){
+//
+//						ui.getRaceManager().CANCEL();
+//
+//					}   //Test
 
 					break;
 				case "START":     //Any amount can start in parallel, that's what I have in my notes
@@ -88,11 +88,11 @@ public class Idle extends State {
 					break;
 				case "FINISH":
 
-					if(ui.getRaceManager().racersActive() > 0){
-
-						ui.getRaceManager().stopLastRace();
-
-					}
+//					if(ui.getRaceManager().racersActive() > 0){
+//
+//						ui.getRaceManager().stopLastRace();
+//
+//					}
 					break;
 				case "EXIT":
 					isIdle = false;
@@ -211,8 +211,8 @@ public class Idle extends State {
 
 				if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
 
-					ui.getRaceManager().setChannelSelected(1);
-					ui.getRaceManager().startNRacers(1);
+//					ui.getRaceManager().setChannelSelected(1);
+//					ui.getRaceManager().startNRacers(1);
 					
 
 				}
@@ -225,28 +225,53 @@ public class Idle extends State {
 		try{
 
 			channelSelected = Integer.parseInt(str.split("\\s")[1].trim());
-
-			if(channelSelected == 1){
-
-				ui.getRaceManager().setChannelSelected(1);
-
+			
+			if(ui.getValidChannels()[0] == channelSelected || ui.getValidChannels()[2] == channelSelected){
+				
+				ui.getRaceManager().setChannelSelected(channelSelected);
+				
 				if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
-
-					ui.getRaceManager().setChannelSelected(2);
-
+					
+					ui.getRaceManager().setChannelSelected(channelSelected + 1);
+					
 					if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
-
-						ui.getRaceManager().setChannelSelected(1);
-						ui.getRaceManager().startNRacers(ui.getRaceManager().racersPoolSize());
+						
+						ui.getRaceManager().setChannelSelected(channelSelected);
+						ui.getRaceManager().startNewRace();   //TEST
 						
 					}
 				}
-
-			}else if(channelSelected == 2){
-
-				ui.getRaceManager().finishRacer();
-
+				
+				
+				
+			}else if(ui.getValidChannels()[1] == channelSelected || ui.getValidChannels()[3] == channelSelected){
+				
+				
+				
+				
 			}
+			
+//			if(channelSelected == 1){
+//
+//				ui.getRaceManager().setChannelSelected(1);
+//
+//				if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
+//
+//					ui.getRaceManager().setChannelSelected(2);
+//
+//					if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
+//
+//						ui.getRaceManager().setChannelSelected(1);
+////						ui.getRaceManager().startNRacers(ui.getRaceManager().racersPoolSize());
+//						
+//					}
+//				}
+
+//			}else if(channelSelected == 2){
+//
+////				ui.getRaceManager().finishRacer();
+//
+//			}
 		}catch(InputMismatchException e){}
 	}
 
