@@ -136,18 +136,12 @@ public class RaceEventsManager {
 	private int channelSelected;
 	private SensorCoupler sensors;
 	private Pool racePool;
-	private Queue<Racer> active;
+//	private Queue<Racer> active;
 	
-	
-	/**
-	 * 
-	 * 
-	 */
 	
 	public void propRace(){
 
 		racePool = Pool.getPool();
-		active = new LinkedList<>();
 		
 	}
 	
@@ -159,105 +153,111 @@ public class RaceEventsManager {
 			
 		}
 	}
-
-
-	/**
-	 * Set a specific channel to be the selected channel
-	 * 
-	 * @param channelSelected
-	 * @return true if channel exists and will be selected, false if not!
-	 */
-	public boolean setChannelSelected(int channelSelected) {
-
-		if(channelSelected <= Channels.channels.length){
-
-			this.channelSelected = channelSelected;
-
-			return true;
-
-		}
-
-		return false;
+	
+	
+	public void returnRacer(Racer racer){
 		
-	}
-	
-	
-	/**
-	 * 
-	 * 
-	 */
-	
-	public void stopLastRace(){
-		
-		while(!active.isEmpty()){
-
-			finishRacer();
-			
-		}
-	}
-	
-	
-	/**
-	 * 
-	 * 
-	 * @param n
-	 */
-	
-	public void startNRacers(int n){
-
-		if(n <= racePool.racersAmount()){
-
-			for(int i = 0; i < n; i++){
-				
-				Channels.channels[0].TriggerSensor();
-				Racer racer = racePool.startRacer();
-				Channels.channels[0].activate(racer.getBib());
-				active.add(racer);
-	
-			}
-		}
-	}
-	
-	
-	public void finishRacer(){
-		
-		Racer racer = active.remove();
-		
-		
-		Random rand = new Random();       //You told me it was random, nothing in the guidelines suggests otherwise
-		int randomNum = rand.nextInt((20 - 0) + 1) + 0;
-		int randomNum2 = rand.nextInt((20 - 0) + 1) + 0;
-
-		if(randomNum == randomNum2){
-
-			racer.setDNF();
-			
-		}
-		
-		Channels.channels[1].TriggerSensor();
-		Channels.channels[1].activate(racer.getBib());
 		racePool.returnRacer(racer);
 		
 	}
 	
+	
+	public void returnRacerCancel(Racer racer){
+		
+		racePool.returnCancel(racer);
+		
+	}
+	
+	
+	
+//
+//
+//	/**
+//	 * Set a specific channel to be the selected channel
+//	 * 
+//	 * @param channelSelected
+//	 * @return true if channel exists and will be selected, false if not!
+//	 */
+//
+//	public boolean setChannelSelected(int channelSelected) {
+//
+//		if(channelSelected <= Channels.channels.length){
+//
+//			this.channelSelected = channelSelected;
+//
+//			return true;
+//
+//		}
+//
+//		return false;
+//		
+//	}
+//	
+//	public void stopLastRace(){
+//		
+//		while(!active.isEmpty()){
+//
+//			finishRacer();
+//			
+//		}
+//	}
+//	
+//	
+//	public void startNRacers(int n){
+//
+//		if(n <= racePool.racersAmount()){
+//
+//			for(int i = 0; i < n; i++){
+//				
+//				Channels.channels[0].TriggerSensor();
+//				Racer racer = racePool.startRacer();
+//				Channels.channels[0].activate(racer.getBib());
+//				active.add(racer);
+//	
+//			}
+//		}
+//	}
+//	
+//	
+//	public void finishRacer(){
+//		
+//		Racer racer = active.remove();
+//		
+//		
+//		Random rand = new Random();       //You told me it was random, nothing in the guidelines suggests otherwise
+//		int randomNum = rand.nextInt((20 - 0) + 1) + 0;
+//		int randomNum2 = rand.nextInt((20 - 0) + 1) + 0;
+//
+//		if(randomNum == randomNum2){
+//
+//			racer.setDNF();
+//			
+//		}
+//		
+//		Channels.channels[1].TriggerSensor();
+//		Channels.channels[1].activate(racer.getBib());
+//		racePool.returnRacer(racer);
+//		
+//	}
+//	
 	public int racersPoolSize(){
 		
 		return racePool.racersAmount();
 		
 	}
-	
-
-	public int racersActive(){
-
-		return active.size();
-
-	}
-	
-	public void CANCEL(){
-		
-		racePool.returnCancel(active.remove());
-		
-	}
+//	
+//
+//	public int racersActive(){
+//
+//		return active.size();
+//
+//	}
+//	
+//	public void CANCEL(){
+//		
+//		racePool.returnCancel(active.remove());
+//		
+//	}
 	
 	
 	/**
@@ -265,6 +265,7 @@ public class RaceEventsManager {
 	 * 
 	 * @return the channel selected
 	 */
+	
 	public int getChannelSelected() {
 		return channelSelected;
 	}
@@ -308,25 +309,33 @@ public class RaceEventsManager {
 		}
 	}
 	
-
-	/**
-	 * Helper of {@link RaceEventsManager#allPairedSensors()} puts one channel sensors into the final array from index to index
-	 * and sends back the ending index
-	 * 
-	 * @param sensors
-	 * @param tempSensor
-	 * @param fromIndex
-	 * @return fromIndex
-	 */
-	private int putIntoArray(Sensor[] sensors, Object[] tempSensor, int fromIndex){
-
-		for(int i = 0; i < tempSensor.length; i++){
-
-			sensors[fromIndex] = (Sensor) tempSensor[i];
-			fromIndex++;
-		}
-
-		return fromIndex;
-
+	
+	protected Racer getRacer(){
+		
+		return racePool.startRacer();
+		
 	}
+	
+
+//	/**
+//	 * Helper of {@link RaceEventsManager#allPairedSensors()} puts one channel sensors into the final array from index to index
+//	 * and sends back the ending index
+//	 * 
+//	 * @param sensors
+//	 * @param tempSensor
+//	 * @param fromIndex
+//	 * @return fromIndex
+//	 */
+//	
+//	private int putIntoArray(Sensor[] sensors, Object[] tempSensor, int fromIndex){
+//
+//		for(int i = 0; i < tempSensor.length; i++){
+//
+//			sensors[fromIndex] = (Sensor) tempSensor[i];
+//			fromIndex++;
+//		}
+//
+//		return fromIndex;
+//
+//	}
 }
