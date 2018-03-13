@@ -69,7 +69,17 @@ public class Idle extends State {
 					powerOnOff();
 					break;
 				case "CANCEL":
-
+					
+					if(ui.getRaceManager().getChannelSelected() != 1 || ui.getRaceManager().getChannelSelected() != 3){
+						
+						channelSelected -= 1;
+						ui.getRaceManager().setChannelSelected(channelSelected);
+						
+					}
+					
+					ui.getRaceManager().finishOneRacerOnRaceSelected();
+					
+					
 //					ui.getRaceManager().setChannelSelected(1);
 //
 //					if(ui.getRaceManager().racersActive() >= 1){
@@ -93,6 +103,8 @@ public class Idle extends State {
 //						ui.getRaceManager().stopLastRace();
 //
 //					}
+					
+					
 					break;
 				case "EXIT":
 					isIdle = false;
@@ -211,8 +223,7 @@ public class Idle extends State {
 
 				if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
 
-//					ui.getRaceManager().setChannelSelected(1);
-//					ui.getRaceManager().startNRacers(1);
+					ui.getRaceManager().getRaces()[channelSelected - 1].startNRacers(1);
 					
 
 				}
@@ -237,7 +248,7 @@ public class Idle extends State {
 					if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
 						
 						ui.getRaceManager().setChannelSelected(channelSelected);
-						ui.getRaceManager().startNewRace();   //TEST
+						ui.getRaceManager().getRaces()[channelSelected - 1].startNRacers(1);
 						
 					}
 				}
@@ -246,33 +257,16 @@ public class Idle extends State {
 				
 			}else if(ui.getValidChannels()[1] == channelSelected || ui.getValidChannels()[3] == channelSelected){
 				
-				
+				ui.getRaceManager().setChannelSelected(channelSelected);
 				
 				
 			}
 			
-//			if(channelSelected == 1){
-//
-//				ui.getRaceManager().setChannelSelected(1);
-//
-//				if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
-//
-//					ui.getRaceManager().setChannelSelected(2);
-//
-//					if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
-//
-//						ui.getRaceManager().setChannelSelected(1);
-////						ui.getRaceManager().startNRacers(ui.getRaceManager().racersPoolSize());
-//						
-//					}
-//				}
-
-//			}else if(channelSelected == 2){
-//
-////				ui.getRaceManager().finishRacer();
-//
-//			}
-		}catch(InputMismatchException e){}
+		}catch(InputMismatchException e){
+			
+			e.printStackTrace();
+			
+		}
 	}
 
 
@@ -299,5 +293,20 @@ public class Idle extends State {
 			ex.printStackTrace();
 
 		}
+	}
+	
+	private boolean isRaceActive(){
+		
+		if(ui.getRaceManager().getRaces()[channelSelected - 1] == null){
+			
+			if(ui.getRaceManager().getRaces()[channelSelected - 1].isActive()){
+				
+				return true;
+				
+			}
+		}
+		
+		return false;
+		
 	}
 }

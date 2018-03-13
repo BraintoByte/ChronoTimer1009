@@ -30,45 +30,81 @@ import states.State;
 
 public class TestStates {
 
-
 	private Simulator sim;
+	private UI ui;
+	private Clock clock;
+	private RaceEventsManager raceManager;
+	
+	public void setUp(){
 
-
-	@Test
-	public void TestRace(){
-
-		System.setIn(new ByteArrayInputStream("f".getBytes()));				// setup
+		System.setIn(new ByteArrayInputStream("f".getBytes()));
 		sim = new Simulator();
-		UI ui = new UI(sim);
-		Clock clock = new Clock();
-		RaceEventsManager race = new RaceEventsManager();
+		ui = new UI(sim);
+		clock = new Clock();
+		raceManager = new RaceEventsManager();
+	}
+	
+	@Test
+	public void TestChannels() {
+		setUp();
 		
-		race.setChannelSelected(1);											// select channel 1
-		assertTrue(race.getChannelSelected() == 1);
-		assertFalse(race.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
+		raceManager.theseManySensors(1, 1, 1);										// specify number of each sensor type
+		
+		raceManager.setChannelSelected(1);											// select channel 1
+		assertTrue(raceManager.getChannelSelected() == 1);
+		assertFalse(raceManager.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
 
-		race.setChannelSelected(2);											// select channel 2
-		assertTrue(race.getChannelSelected() == 2);
-		assertFalse(race.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
+		raceManager.CONN(true, false, false);										// connect eye sensor to channel 1
+		assertTrue(raceManager.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
+		
+		raceManager.getCurrentChannel().unPairToSensor();							// disconnect sensor from channel 1
+		
+		assertFalse(raceManager.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
+		
+		raceManager.setChannelSelected(2);											// select channel 2
+		assertTrue(raceManager.getChannelSelected() == 2);
+		assertFalse(raceManager.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
+		
+		raceManager.CONN(false, true, false);										// connect gate sensor to channel 2
+		assertTrue(raceManager.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
 
-		race.theseManySensors(1, 1, 1);										// specify number of each sensor type
+		raceManager.getCurrentChannel().unPairToSensor();							// disconnect sensor from channel 2
 
-		race.setChannelSelected(1);											// select channel 1
-		race.CONN(true, false, false);										// connect eye sensor to channel 1
-		assertTrue(race.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
+		assertFalse(raceManager.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
 
-		race.setChannelSelected(2);											// select channel 2
-		race.CONN(false, true, false);										// connect gate sensor to channel 2
+		raceManager.CONN(false, false, true);										// connect pad sensor to channel 2
+		
+		assertTrue(raceManager.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
+		
+		// test channels 3 & 4
+		raceManager.setChannelSelected(3);											// select channel 3
+		assertTrue(raceManager.getChannelSelected() == 3);
+		assertFalse(raceManager.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
 
-		assertTrue(race.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
+		raceManager.CONN(true, false, false);										// connect eye sensor to channel 3
+		assertTrue(raceManager.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
+		
+		raceManager.getCurrentChannel().unPairToSensor();							// disconnect sensor from channel 3
+		
+		assertFalse(raceManager.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
+		
+		raceManager.setChannelSelected(4);											// select channel 4
+		assertTrue(raceManager.getChannelSelected() == 4);
+		assertFalse(raceManager.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
+		
+		raceManager.CONN(false, true, false);										// connect gate sensor to channel 4
+		assertTrue(raceManager.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
 
-		race.getCurrentChannel().unPairToSensor();							// disconnect sensor from channel 2
+		raceManager.getCurrentChannel().unPairToSensor();							// disconnect sensor from channel 4
 
-		assertFalse(race.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
+		assertFalse(raceManager.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
 
-		race.CONN(false, false, true);										// connect pad sensor to channel 2
-
-		assertTrue(race.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
+		raceManager.CONN(false, false, true);										// connect pad sensor to channel 4
+		
+		assertFalse(raceManager.getCurrentChannel().isPairedToSensor());			// check if paired to sensor
+	}
+	
+	public void test() {
 		
 		State.setState(null);												// set initial state
 		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
@@ -81,30 +117,30 @@ public class TestStates {
 		clock.clockStart();													// start clock
 		clock.setActive(true);
 
-		race.propRace();													// setup pool for racers
+		raceManager.propRace();													// setup pool for racers
 		int[] bibs = new int[200];
 		
 		System.out.println("Please wait while the racers are made, fireworks are about to start!");
 		
-		bibs = makeTheRacersTest(race, bibs);								// populates array of bib#'s and adds racers to pool
-		assertEquals(race.racersPoolSize(), bibs.length);					// checks pool size
-		race.startNRacers(bibs.length);										// starts run for all racers in bibs[]
-		assertEquals(bibs.length, race.racersActive());						// check active size
-		assertEquals(race.racersActive(), 200);
-		race.stopLastRace();												// finishes all racers in active and puts them back into pool
-		assertEquals(race.racersPoolSize(), bibs.length);					// checks pool size
-		assertEquals(race.racersActive(), 0);								// checks active size
+		bibs = makeTheRacersTest(raceManager, bibs);								// populates array of bib#'s and adds racers to pool
+		assertEquals(raceManager.racersPoolSize(), bibs.length);					// checks pool size
+		raceManager.startNRacers(bibs.length);										// starts run for all racers in bibs[]
+		assertEquals(bibs.length, raceManager.racersActive());						// check active size
+		assertEquals(raceManager.racersActive(), 200);
+		raceManager.stopLastRace();												// finishes all racers in active and puts them back into pool
+		assertEquals(raceManager.racersPoolSize(), bibs.length);					// checks pool size
+		assertEquals(raceManager.racersActive(), 0);								// checks active size
 		
-		race.startNRacers(1);												// only racer "001" starts
-		assertEquals(race.racersActive(), 1);								// check active size
-		race.finishRacer();													// racer "001" finishes
-		assertEquals(race.racersActive(), 0);								// check active size
+		raceManager.startNRacers(1);												// only racer "001" starts
+		assertEquals(raceManager.racersActive(), 1);								// check active size
+		raceManager.finishRacer();													// racer "001" finishes
+		assertEquals(raceManager.racersActive(), 0);								// check active size
 		
 																			// tests CANCEL command
 		Racer racer = Pool.getPool().startRacer();							// gets next racer to start
 		Pool.getPool().returnCancel(racer);									// adds racer back into pool as the next racer
-		race.startNRacers(1);												// only racer "001" starts
-		race.CANCEL();														// racer "001" is canceled
+		raceManager.startNRacers(1);												// only racer "001" starts
+		raceManager.CANCEL();														// racer "001" is canceled
 		assertEquals(racer, Pool.getPool().startRacer());					// checks if racer "001" is in pool as next racer to start
 		Pool.getPool().returnCancel(racer);
 		assertEquals(bibs.length, Pool.getPool().racersAmount());			// checks pool size

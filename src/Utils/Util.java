@@ -1,7 +1,9 @@
 package Utils;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -196,7 +198,7 @@ public class Util {
 
 
 
-	public static boolean save(Race race ){
+	public static boolean save(Race race )throws IOException{
 
 		if(race == null ){
 
@@ -204,18 +206,37 @@ public class Util {
 
 		}
 
-		if(race.racersActive()== 0){
 
+		if(race.racersActive()== 0) {
 			return false;
-
 		}
 
+		File tmp = new File(System.getProperty("user.dir","json.txt"));
+
+		if(!tmp.exists()){
+			tmp.createNewFile();
+		}
+
+		FileWriter fileWriter = new FileWriter(tmp,true);
 		Gson g = new Gson();
-		String ret = g.toJson(race);
+		String ret;
+		ret = g.toJson(race);
+
+		fileWriter.write(ret);
+		fileWriter.close();
 
 		return true;
 
 	}
+
+
+	public static void clear() throws IOException {
+		File tmp = new File(System.getProperty("user.dir"),"json.txt");
+		tmp.delete();
+		tmp.createNewFile();
+
+	}
+
 
 
 }
