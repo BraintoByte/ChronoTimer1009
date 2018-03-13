@@ -77,7 +77,7 @@ public class Idle extends State {
 						
 					}
 					
-					ui.getRaceManager().finishOneRacerOnRaceSelected();
+					ui.getRaceManager().getRaces()[channelSelected - 1].CANCEL();
 					
 					
 //					ui.getRaceManager().setChannelSelected(1);
@@ -103,6 +103,15 @@ public class Idle extends State {
 //						ui.getRaceManager().stopLastRace();
 //
 //					}
+					
+					
+					channelSelected = 2;
+					
+					if(isRaceActive()){
+						
+						ui.getRaceManager().getRaces()[channelSelected - 1].finishRacer();
+						
+					}
 					
 					
 					break;

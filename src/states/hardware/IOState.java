@@ -54,7 +54,7 @@ public class IOState extends State {
 				case "POWER":
 
 					powerOnOff();
-					
+
 					break;
 				case "CANCEL":
 
@@ -65,7 +65,7 @@ public class IOState extends State {
 						
 					}
 					
-					ui.getRaceManager().finishOneRacerOnRaceSelected();
+					ui.getRaceManager().getRaces()[channelSelected - 1].CANCEL();
 
 					break;
 				case "START":     //Any amount can start in parallel, that's what I have in my notes
@@ -76,14 +76,15 @@ public class IOState extends State {
 					break;
 				case "FINISH":
 
-					if(ui.getBtnHandler().getPowerState()){
+					channelSelected = 2;
 
-						if(ui.getRaceManager().racersActive() > 0){
+					if(isRaceActive()){
 
-							ui.getRaceManager().stopLastRace();
+						ui.getRaceManager().getRaces()[channelSelected - 1].finishRacer();
 
-						}
 					}
+
+
 					break;
 				case "EXIT":
 					ui.getBtnHandler().EXIT();
@@ -105,7 +106,7 @@ public class IOState extends State {
 
 					break;
 				case "TRIG":
-					
+
 					trig(str);
 
 					break;
@@ -175,28 +176,25 @@ public class IOState extends State {
 
 		ui.getBtnHandler().setPowerOnOff(!ui.getBtnHandler().getPowerState());
 		ui.getSimulator().getClock().setActive(!ui.getBtnHandler().getPowerState());
-		
+
 	}
 
 
 	private void start(){
 
-		if(ui.getBtnHandler().getPowerState()){
+		if(independent == true){
 
-			if(independent){
+			ui.getRaceManager().setChannelSelected(1);
 
-				ui.getRaceManager().setChannelSelected(1);
+			if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
+
+				ui.getRaceManager().setChannelSelected(2);
 
 				if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
 
-					ui.getRaceManager().setChannelSelected(2);
+					ui.getRaceManager().getRaces()[channelSelected - 1].startNRacers(1);
 
-					if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
 
-						ui.getRaceManager().setChannelSelected(1);
-						ui.getRaceManager().startNRacers(1);
-
-					}
 				}
 			}
 		}
@@ -204,48 +202,45 @@ public class IOState extends State {
 
 	private void trig(String str){
 
-		if(ui.getBtnHandler().getPowerState()){
-			try{
+		try{
 
-				channelSelected = Integer.parseInt(str.split("\\s")[1].trim());
-				
-				if(ui.getValidChannels()[0] == channelSelected || ui.getValidChannels()[2] == channelSelected){
-					
-					ui.getRaceManager().setChannelSelected(channelSelected);
-					
+			channelSelected = Integer.parseInt(str.split("\\s")[1].trim());
+
+			if(ui.getValidChannels()[0] == channelSelected || ui.getValidChannels()[2] == channelSelected){
+
+				ui.getRaceManager().setChannelSelected(channelSelected);
+
+				if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
+
+					ui.getRaceManager().setChannelSelected(channelSelected + 1);
+
 					if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
-						
-						ui.getRaceManager().setChannelSelected(channelSelected + 1);
-						
-						if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
-							
-							ui.getRaceManager().setChannelSelected(channelSelected);
-							ui.getRaceManager().startNewRace();
-							
-						}
+
+						ui.getRaceManager().setChannelSelected(channelSelected);
+						ui.getRaceManager().getRaces()[channelSelected - 1].startNRacers(1);
+
 					}
-					
-					
-					
-				}else if(ui.getValidChannels()[1] == channelSelected || ui.getValidChannels()[3] == channelSelected){
-					
-					ui.getRaceManager().setChannelSelected(channelSelected);
-					
-					
 				}
-				
-			}catch(InputMismatchException e){
-				
-				e.printStackTrace();
-				
+
+
+
+			}else if(ui.getValidChannels()[1] == channelSelected || ui.getValidChannels()[3] == channelSelected){
+
+				ui.getRaceManager().setChannelSelected(channelSelected);
+
+
 			}
+
+		}catch(InputMismatchException e){
+
+			e.printStackTrace();
 
 		}
 	}
 
 
 	private void conn(String str){
-		
+
 		if(ui.getBtnHandler().getPowerState()){
 			try{
 
@@ -264,6 +259,21 @@ public class IOState extends State {
 
 			}
 		}
+	}
+
+	private boolean isRaceActive(){
+
+		if(ui.getRaceManager().getRaces()[channelSelected - 1] == null){
+
+			if(ui.getRaceManager().getRaces()[channelSelected - 1].isActive()){
+
+				return true;
+
+			}
+		}
+
+		return false;
+
 	}
 
 }
