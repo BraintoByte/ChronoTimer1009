@@ -12,13 +12,14 @@ public class Race {
 	private int[] onChannels;
 	private Queue<Racer> active;
 	private RaceEventsManager manager;
+	private boolean isActive;
 
 	public Race(RaceEventsManager manager, int ... channels){
 
 		this.onChannels = channels;
 		this.manager = manager;
 		this.active = new LinkedList<>();
-
+		
 	}
 
 
@@ -89,5 +90,9 @@ public class Race {
 	 */
 	public int[] getChannelsActive() {
 		return onChannels;
+	}
+	
+	public boolean isActive() {
+		return !active.isEmpty();
 	}
 }

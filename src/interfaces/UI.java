@@ -9,6 +9,7 @@ public class UI {
 	private Simulator sim;
 	private ButtonHandler btnHandler;
 	private RaceEventsManager raceManager;
+	private int[] validChannels = { 1, 2, 3, 4 };
 	
 	
 	/**
@@ -53,5 +54,9 @@ public class UI {
 	 */
 	public void setRaceManager(RaceEventsManager raceManager){
 		this.raceManager = raceManager;
+	}
+	
+	public int[] getValidChannels() {
+		return validChannels;
 	}
 }
