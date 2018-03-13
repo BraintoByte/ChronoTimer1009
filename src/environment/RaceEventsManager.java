@@ -182,7 +182,18 @@ public class RaceEventsManager {
 		
 	}
 	
-	
+	public void finishRaceSelected(){
+		
+		if(channelSelected == 1 || channelSelected == 2){
+			
+			races[0].finishRacer();
+			
+		}else{
+			
+			races[1].finishRacer();
+			
+		}
+	}
 	
 //
 //
