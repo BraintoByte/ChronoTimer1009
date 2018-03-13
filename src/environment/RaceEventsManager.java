@@ -171,30 +171,46 @@ public class RaceEventsManager {
 	}
 	
 	
-	public void returnRacer(Racer racer){
+	protected void returnRacer(Racer racer){
 		
 		racePool.returnRacer(racer);
 		
 	}
 	
 	
-	public void returnRacerCancel(Racer racer){
+	protected void returnRacerCancel(Racer racer){
 		
 		racePool.returnCancel(racer);
 		
 	}
 	
-	public void finishRaceSelected(){
-		
-		if(channelSelected == 1 || channelSelected == 2){
-			
-			races[0].finishRacer();
-			
-		}else{
-			
-			races[1].finishRacer();
-			
-		}
+//	public void finishOneRacerOnRaceSelected(){
+//		
+//		races[raceNbr].CANCEL();
+//		
+//	}
+//	
+//	public void finishRaceSelected(){
+//		
+//		if(channelSelected == 1 || channelSelected == 2){
+//			
+//			races[0].finishRacer();
+//			
+//		}else{
+//			
+//			races[1].finishRacer();
+//			
+//		}
+//	}
+//	
+//	public void startOneRacerOnSelectedChannel(){
+//		
+//		races[raceNbr].startNRacers(1);
+//		
+//	}
+	
+	public Race[] getRaces() {
+		return races;
 	}
 	
 //
