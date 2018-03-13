@@ -76,7 +76,7 @@ public class Idle extends State {
 
 						ui.getRaceManager().CANCEL();
 
-					}
+					}   //Test
 
 					break;
 				case "START":     //Any amount can start in parallel, that's what I have in my notes
