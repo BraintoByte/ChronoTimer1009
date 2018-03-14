@@ -123,7 +123,7 @@ public class Idle extends State {
 
 					if(isRaceActive()){
 
-						ui.getRaceManager().getRaces()[channelSelected - 1].finishRacer();
+						ui.getRaceManager().getRaces()[channelSelected - 1].finishRacer(false);
 
 					}
 
@@ -180,6 +180,9 @@ public class Idle extends State {
 
 					break;
 				case "DNF":
+					
+					int race = Integer.parseInt(str.split("\\s")[1]) - 1;
+					ui.getRaceManager().getRaces()[race].finishRacer(true);
 					
 					break;
 				case "TIME":    //Sets the current local time

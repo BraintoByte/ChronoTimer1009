@@ -27,7 +27,7 @@ public class Race {
 
 		while(!active.isEmpty()){
 
-			finishRacer();
+			finishRacer(false);
 
 		}
 	}
@@ -47,11 +47,21 @@ public class Race {
 			}
 		}
 	}
+	
+	
 
 
-	public void finishRacer(){
+	public void finishRacer(boolean DNF){
 
 		Racer racer = active.remove();
+		
+		if(DNF){
+			
+			racer.setDNF();
+			
+		}
+		
+		
 		//		Random rand = new Random();       //You told me it was random, nothing in the guidelines suggests otherwise
 		//		int randomNum = rand.nextInt((20 - 0) + 1) + 0;
 		//		int randomNum2 = rand.nextInt((20 - 0) + 1) + 0;

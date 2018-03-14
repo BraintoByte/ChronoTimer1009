@@ -80,7 +80,7 @@ public class IOState extends State {
 
 					if(isRaceActive()){
 
-						ui.getRaceManager().getRaces()[channelSelected - 1].finishRacer();
+						ui.getRaceManager().getRaces()[channelSelected - 1].finishRacer(false);
 
 					}
 
