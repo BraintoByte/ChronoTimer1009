@@ -161,6 +161,11 @@ public class Idle extends State {
 					setRace();
 
 					break;
+				case "PRINT":
+					
+					
+					
+					
 				case "TRIG":
 
 					System.out.println("Before trig: " + ui.getRaceManager().racersPoolSize());

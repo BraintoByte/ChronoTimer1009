@@ -13,6 +13,7 @@ public class Race {
 	private Queue<Racer> active;
 	private RaceEventsManager manager;
 	private boolean isActive;
+	private int raceNbr;
 
 	public Race(RaceEventsManager manager, int ... channels){
 
@@ -24,7 +25,9 @@ public class Race {
 
 
 	public void stopLastRace(){
-
+		
+		manager.engrave(false, 0);
+		
 		while(!active.isEmpty()){
 
 			finishRacer(false);
@@ -49,10 +52,15 @@ public class Race {
 	}
 	
 	
+	public void setRaceNbr(int raceNbr) {
+		this.raceNbr = raceNbr;
+	}
 
 
 	public void finishRacer(boolean DNF){
-
+		
+		manager.engrave(true, this.raceNbr);
+		
 		Racer racer = active.remove();
 		
 		if(DNF){
