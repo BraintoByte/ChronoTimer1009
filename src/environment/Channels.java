@@ -19,7 +19,7 @@ import hardware.external.sensors.gate.Gate;
 
 public abstract class Channels {
 
-	public static Channels[] channels = new Channels[2];
+	public static Channels[] channels = new Channels[4];
 	private HashMap<Integer, Long> activeRacers = new HashMap<>();
 	private Sensor sensorPaired;
 	private String name;

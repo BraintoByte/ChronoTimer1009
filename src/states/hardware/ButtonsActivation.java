@@ -119,6 +119,7 @@ public class ButtonsActivation extends State {
 				ui.setBtnHandler(btnHandler);
 				ui.setRaceManager(new RaceEventsManager());
 				ui.getSimulator().getClock().setActive(true);
+//				ui.getRaceManager().propRace(2);
 				ui.getRaceManager().theseManySensors(4, 4, 4);
 
 

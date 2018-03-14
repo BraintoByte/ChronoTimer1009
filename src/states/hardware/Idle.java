@@ -100,7 +100,7 @@ public class Idle extends State {
 				case "FINISH":
 
 					System.out.println("Before finish: " + ui.getRaceManager().racersPoolSize());
-					
+
 					channelSelected = 2;
 
 					if(isRaceActive()){
@@ -108,9 +108,9 @@ public class Idle extends State {
 						ui.getRaceManager().getRaces()[channelSelected - 1].finishRacer();
 
 					}
-					
+
 					System.out.println("After finish: " + ui.getRaceManager().racersPoolSize());
-					
+
 					break;
 				case "EXIT":
 					isIdle = false;
@@ -126,22 +126,31 @@ public class Idle extends State {
 
 				switch(str.split("\\s")[0].trim()){
 
-				case "EVENT IND":
+				case "EVENT":
 
-					independent = true;
+					if(str.split("\\s")[1].trim().equals("IND")){
 
-					break;
-				case "EVENT PARIND":
-					
-					parallel = true;
-					
+						independent = true;
+						parallel = false;
+
+					}else{
+
+						parallel = true;
+						independent = false;
+
+						setRace();
+
+					}
+
+					setRace();
+
 					break;
 				case "TRIG":
 
 					System.out.println("Before trig: " + ui.getRaceManager().racersPoolSize());
-					
+
 					trig(str);
-					
+
 					System.out.println("After trig: " + ui.getRaceManager().racersPoolSize());
 
 					break;
