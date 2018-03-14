@@ -18,6 +18,7 @@ public class Idle extends State {
 	private Scanner input;
 	private int channelSelected;
 	private boolean independent;
+	private boolean parallel;
 
 	/**
 	 * @param ui
@@ -67,52 +68,48 @@ public class Idle extends State {
 				switch(str){
 				case "POWER":
 					powerOnOff();
+					System.out.println("Power " + (ui.getBtnHandler().getPowerState() ? "on" : "off"));
 					break;
 				case "CANCEL":
-					
+
+
+					System.out.println("Before cancel: " + ui.getRaceManager().racersPoolSize());
+
 					if(ui.getRaceManager().getChannelSelected() != 1 || ui.getRaceManager().getChannelSelected() != 3){
-						
+
 						channelSelected -= 1;
 						ui.getRaceManager().setChannelSelected(channelSelected);
-						
+
 					}
-					
+
 					ui.getRaceManager().getRaces()[channelSelected - 1].CANCEL();
-					
-					
-//					ui.getRaceManager().setChannelSelected(1);
-//
-//					if(ui.getRaceManager().racersActive() >= 1){
-//
-//						ui.getRaceManager().CANCEL();
-//
-//					}   //Test
+
+					System.out.println("After cancel: " + ui.getRaceManager().racersPoolSize());
 
 					break;
 				case "START":     //Any amount can start in parallel, that's what I have in my notes
 					//You cannot start a racers after another has finished, because otherwise how do you keep track of the shift
 
+					System.out.println("Before start: " + ui.getRaceManager().racersPoolSize());
+
 					start();
 
+					System.out.println("Before start: " + ui.getRaceManager().racersPoolSize());
 
 					break;
 				case "FINISH":
 
-//					if(ui.getRaceManager().racersActive() > 0){
-//
-//						ui.getRaceManager().stopLastRace();
-//
-//					}
-					
+					System.out.println("Before finish: " + ui.getRaceManager().racersPoolSize());
 					
 					channelSelected = 2;
-					
+
 					if(isRaceActive()){
-						
+
 						ui.getRaceManager().getRaces()[channelSelected - 1].finishRacer();
-						
+
 					}
 					
+					System.out.println("After finish: " + ui.getRaceManager().racersPoolSize());
 					
 					break;
 				case "EXIT":
@@ -129,15 +126,23 @@ public class Idle extends State {
 
 				switch(str.split("\\s")[0].trim()){
 
-
 				case "EVENT IND":
 
 					independent = true;
 
 					break;
+				case "EVENT PARIND":
+					
+					parallel = true;
+					
+					break;
 				case "TRIG":
 
+					System.out.println("Before trig: " + ui.getRaceManager().racersPoolSize());
+					
 					trig(str);
+					
+					System.out.println("After trig: " + ui.getRaceManager().racersPoolSize());
 
 					break;
 				case "NUM":
@@ -222,20 +227,17 @@ public class Idle extends State {
 
 	private void start(){
 
-		if(independent == true){
 
-			ui.getRaceManager().setChannelSelected(1);
+		ui.getRaceManager().setChannelSelected(1);
+
+		if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
+
+			ui.getRaceManager().setChannelSelected(2);
 
 			if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
 
-				ui.getRaceManager().setChannelSelected(2);
+				ui.getRaceManager().getRaces()[channelSelected - 1].startNRacers(1);
 
-				if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
-
-					ui.getRaceManager().getRaces()[channelSelected - 1].startNRacers(1);
-					
-
-				}
 			}
 		}
 	}
@@ -245,36 +247,36 @@ public class Idle extends State {
 		try{
 
 			channelSelected = Integer.parseInt(str.split("\\s")[1].trim());
-			
+
 			if(ui.getValidChannels()[0] == channelSelected || ui.getValidChannels()[2] == channelSelected){
-				
+
 				ui.getRaceManager().setChannelSelected(channelSelected);
-				
+
 				if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
-					
+
 					ui.getRaceManager().setChannelSelected(channelSelected + 1);
-					
+
 					if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
-						
+
 						ui.getRaceManager().setChannelSelected(channelSelected);
 						ui.getRaceManager().getRaces()[channelSelected - 1].startNRacers(1);
-						
+
 					}
 				}
-				
-				
-				
+
+
+
 			}else if(ui.getValidChannels()[1] == channelSelected || ui.getValidChannels()[3] == channelSelected){
-				
+
 				ui.getRaceManager().setChannelSelected(channelSelected);
-				
-				
+
+
 			}
-			
+
 		}catch(InputMismatchException e){
-			
+
 			e.printStackTrace();
-			
+
 		}
 	}
 
@@ -303,19 +305,44 @@ public class Idle extends State {
 
 		}
 	}
-	
+
+	private void setRace(){
+
+		if(independent){
+
+			if(ui.getRaceManager().getRaces() == null){
+
+				ui.getRaceManager().propRace(1);
+
+			}
+
+			ui.getRaceManager().startNewRace();
+
+		}else{
+
+			if(ui.getRaceManager().getRaces() == null){
+
+				ui.getRaceManager().propRace(2);
+
+			}
+
+			ui.getRaceManager().startNewRace();
+
+		}
+	}
+
 	private boolean isRaceActive(){
-		
+
 		if(ui.getRaceManager().getRaces()[channelSelected - 1] == null){
-			
+
 			if(ui.getRaceManager().getRaces()[channelSelected - 1].isActive()){
-				
+
 				return true;
-				
+
 			}
 		}
-		
+
 		return false;
-		
+
 	}
 }

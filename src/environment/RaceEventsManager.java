@@ -147,6 +147,7 @@ public class RaceEventsManager {
 		if(raceNbr < races.length){
 			
 			races[raceNbr] = new Race(this, raceNbr + 1, raceNbr + 2);
+			raceNbr++;
 			
 			return true;
 			
@@ -156,10 +157,10 @@ public class RaceEventsManager {
 		
 	}
 	
-	public void propRace(){
+	public void propRace(int amount){
 
 		racePool = Pool.getPool();
-		races = new Race[2];
+		races = new Race[amount];
 		
 	}
 	
