@@ -94,7 +94,7 @@ public class Idle extends State {
 
 					start();
 
-					System.out.println("Before start: " + ui.getRaceManager().racersPoolSize());
+					System.out.println("After start: " + ui.getRaceManager().racersPoolSize());
 
 					break;
 				case "FINISH":
@@ -137,8 +137,6 @@ public class Idle extends State {
 
 						parallel = true;
 						independent = false;
-
-						setRace();
 
 					}
 
@@ -245,7 +243,7 @@ public class Idle extends State {
 
 			if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
 
-				ui.getRaceManager().getRaces()[channelSelected - 1].startNRacers(1);
+				ui.getRaceManager().getRaces()[0].startNRacers(1);
 
 			}
 		}
@@ -319,23 +317,29 @@ public class Idle extends State {
 
 		if(independent){
 
-			if(ui.getRaceManager().getRaces() == null){
+			//			if(ui.getRaceManager().getRaces() == null){
 
-				ui.getRaceManager().propRace(1);
+			ui.getRaceManager().propRace(1);
 
-			}
+			//			}
 
 			ui.getRaceManager().startNewRace();
 
 		}else{
 
-			if(ui.getRaceManager().getRaces() == null){
+			//			if(ui.getRaceManager().getRaces() == null){
 
-				ui.getRaceManager().propRace(2);
+			ui.getRaceManager().propRace(2);
 
-			}
+			//			}
 
 			ui.getRaceManager().startNewRace();
+
+		}
+
+		for(int i = 0; i < 200; i++){
+
+			ui.getRaceManager().makeOneRacer(i);
 
 		}
 	}
