@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import Utils.Util;
 import interfaces.UI;
 import states.State;
 
@@ -69,6 +70,23 @@ public class Idle extends State {
 				case "POWER":
 					powerOnOff();
 					System.out.println("Power " + (ui.getBtnHandler().getPowerState() ? "on" : "off"));
+					break;
+					
+				case "NEWRUN":
+					
+//					ui.getRaceManager().setChannelSelected(1);
+					
+					
+					
+					if((ui.getRaceManager().getRaces()[0] != null || 
+					!ui.getRaceManager().getRaces()[0].isActive()) && (ui.getRaceManager().getRaces()[1] != null || ui.getRaceManager().getRaces()[1].isActive())){
+						
+						setRace();
+						ui.getRaceManager().setChannelSelected(1);
+						ui.getRaceManager().setChannelSelected(3);
+						
+					}
+					
 					break;
 				case "CANCEL":
 
@@ -160,6 +178,9 @@ public class Idle extends State {
 
 					}catch(InputMismatchException e){}
 
+					break;
+				case "DNF":
+					
 					break;
 				case "TIME":    //Sets the current local time
 
@@ -315,29 +336,24 @@ public class Idle extends State {
 
 	private void setRace(){
 
+		int n = 0;
+		
 		if(independent){
 
-			//			if(ui.getRaceManager().getRaces() == null){
-
 			ui.getRaceManager().propRace(1);
-
-			//			}
-
 			ui.getRaceManager().startNewRace();
+			n = 200;
 
 		}else{
 
-			//			if(ui.getRaceManager().getRaces() == null){
-
 			ui.getRaceManager().propRace(2);
-
-			//			}
-
 			ui.getRaceManager().startNewRace();
+			ui.getRaceManager().startNewRace();
+			n = 400;
 
 		}
 
-		for(int i = 0; i < 200; i++){
+		for(int i = 0; i <= n; i++){
 
 			ui.getRaceManager().makeOneRacer(i);
 
