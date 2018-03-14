@@ -14,6 +14,7 @@ public class Race {
 	private RaceEventsManager manager;
 	private boolean isActive;
 	private int raceNbr;
+	private int run;
 
 	public Race(RaceEventsManager manager, int ... channels){
 
@@ -55,7 +56,18 @@ public class Race {
 	public void setRaceNbr(int raceNbr) {
 		this.raceNbr = raceNbr;
 	}
-
+	
+	public int getRaceNbr() {
+		return raceNbr;
+	}
+	
+	public void setRun(int run) {
+		this.run = run;
+	}
+	
+	public int getRun() {
+		return run;
+	}
 
 	public void finishRacer(boolean DNF){
 		

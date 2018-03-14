@@ -21,6 +21,7 @@ public class Simulator implements Runnable {    //Chain
 	private Scanner input;
 	private UI ui;
 	private String filePath;
+	private int run;
 
 	private State initState;
 	private State idleState;
@@ -203,5 +204,12 @@ public class Simulator implements Runnable {    //Chain
 	
 	public UI getUi() {
 		return ui;
+	}
+	
+	public int getRun() {
+		return run;
+	}
+	public void setRun(int run) {
+		this.run = run;
 	}
 }

@@ -2,7 +2,9 @@ package environment;
 
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Stack;
@@ -141,16 +143,17 @@ public class RaceEventsManager {
 	private int raceNbr;
 	private HashMap<Integer, Race> record = new HashMap<>();
 	private int racesRecords = 1;
-
-
-
-
-	public boolean startNewRace(){
+	
+	
+	
+	
+	public boolean startNewRace(int run){
 
 		if(raceNbr < races.length){
 
 			races[raceNbr] = new Race(this, raceNbr + 1, raceNbr + 2);
 			races[raceNbr].setRaceNbr(raceNbr + 1);
+			races[raceNbr].setRun(run);
 			raceNbr++;
 
 			return true;
@@ -416,4 +419,25 @@ public class RaceEventsManager {
 	//		return fromIndex;
 	//
 	//	}
+	
+	
+	public Object[] getSelectedRun(int run){
+		
+		Iterator<Entry<Integer, Race>> it = record.entrySet().iterator();
+		Stack<Race> tempStack = new Stack();
+		
+		while(it.hasNext()){
+			
+			Race temp = it.next().getValue();
+			
+			if(temp.getRun() == run){
+				
+				tempStack.push(record.remove(temp.getRaceNbr()));
+				
+			}
+		}
+		
+		return tempStack.toArray();
+		
+	}
 }

@@ -1,6 +1,7 @@
 package states.hardware;
 
 
+import java.io.IOException;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -9,6 +10,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import Utils.Util;
+import environment.Race;
 import interfaces.UI;
 import states.State;
 
@@ -71,22 +73,22 @@ public class Idle extends State {
 					powerOnOff();
 					System.out.println("Power " + (ui.getBtnHandler().getPowerState() ? "on" : "off"));
 					break;
-					
+
 				case "NEWRUN":
-					
-//					ui.getRaceManager().setChannelSelected(1);
-					
-					
-					
+
+					//					ui.getRaceManager().setChannelSelected(1);
+
+
+
 					if((ui.getRaceManager().getRaces()[0] != null || 
 					!ui.getRaceManager().getRaces()[0].isActive()) && (ui.getRaceManager().getRaces()[1] != null || ui.getRaceManager().getRaces()[1].isActive())){
-						
+
 						setRace();
 						ui.getRaceManager().setChannelSelected(1);
 						ui.getRaceManager().setChannelSelected(3);
-						
+
 					}
-					
+
 					break;
 				case "CANCEL":
 
@@ -161,11 +163,35 @@ public class Idle extends State {
 					setRace();
 
 					break;
+				case "EXPORT":
+
+					try{
+
+						int run = Integer.parseInt(str.split("\\s")[1]);
+
+						Race[] tempRaceArray = (Race[]) ui.getRaceManager().getSelectedRun(run);
+
+						for(int i = 0; i < tempRaceArray.length; i++){
+
+							try {
+								Util.save(tempRaceArray[i]);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+
+						}
+
+					}catch(InputMismatchException e){
+
+						e.printStackTrace();
+
+					}
+
 				case "PRINT":
-					
-					
-					
-					
+
+
+
+
 				case "TRIG":
 
 					System.out.println("Before trig: " + ui.getRaceManager().racersPoolSize());
@@ -185,10 +211,10 @@ public class Idle extends State {
 
 					break;
 				case "DNF":
-					
+
 					int race = Integer.parseInt(str.split("\\s")[1]) - 1;
 					ui.getRaceManager().getRaces()[race].finishRacer(true);
-					
+
 					break;
 				case "TIME":    //Sets the current local time
 
@@ -345,18 +371,20 @@ public class Idle extends State {
 	private void setRace(){
 
 		int n = 0;
-		
+
 		if(independent){
 
 			ui.getRaceManager().propRace(1);
-			ui.getRaceManager().startNewRace();
+			ui.getSimulator().setRun(ui.getSimulator().getRun() + 1);
+			ui.getRaceManager().startNewRace(ui.getSimulator().getRun());
 			n = 200;
 
 		}else{
 
 			ui.getRaceManager().propRace(2);
-			ui.getRaceManager().startNewRace();
-			ui.getRaceManager().startNewRace();
+			ui.getSimulator().setRun(ui.getSimulator().getRun() + 1);
+			ui.getRaceManager().startNewRace(ui.getSimulator().getRun());
+			ui.getRaceManager().startNewRace(ui.getSimulator().getRun());
 			n = 400;
 
 		}
