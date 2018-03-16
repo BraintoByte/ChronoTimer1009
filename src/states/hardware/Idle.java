@@ -8,8 +8,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.Stack;
 
 import Utils.Util;
+import entitiesStatic.ClockInterface;
 import environment.Race;
 import exceptions.NoSuchRacerException;
 import interfaces.UI;
@@ -116,7 +118,7 @@ public class Idle extends State {
 						System.out.println("Power " + (ui.getBtnHandler().getPowerState() ? "on" : "off"));
 						break;
 					case "NEWRUN":
-						
+
 						int enabled = channelsEnabled(1);
 
 						if(enabled > 2 && independent){
@@ -173,8 +175,8 @@ public class Idle extends State {
 
 						System.out.println("Before start: " + ui.getRaceManager().racersPoolSize());
 
-//						start();
-						
+						//						start();
+
 						if(ui.getSimulator().getRun() != 0 && ui.getSimulator().isActiveRun()){
 
 							trig("TRIG 1", false);
@@ -261,9 +263,9 @@ public class Idle extends State {
 							int run = Integer.parseInt(str.split("\\s")[1]);
 
 							Race[] tempRaceArray = (Race[]) ui.getRaceManager().getSelectedRun(run);
-							
+
 							System.out.print("Please enter the fileName: ");
-							
+
 							String fileName = input.nextLine();
 
 							try {
@@ -279,19 +281,62 @@ public class Idle extends State {
 						}
 
 					case "PRINT":
-						
+
 						try{
 
-						Race[] tempRaceArray = (Race[]) ui.getRaceManager().getSelectedRun(Integer.parseInt(str.split("\\s")[1]));
+							Race[] tempRaceArray = (Race[]) ui.getRaceManager().getSelectedRun(Integer.parseInt(str.split("\\s")[1]));
+
+
+							for(int i = 0; i < tempRaceArray.length; i++){
+
+								if(tempRaceArray[i] != null){
+
+//									System.out.println("Race number: " + tempRaceArray[i].getRaceNbr());
+//									System.out.println("Run " + tempRaceArray[i].getRun());
+//									System.out.println("Racers active " + tempRaceArray[i].racersActive());
+//									System.out.println("Is race active? " + tempRaceArray[i].isActive());
+//									System.out.println("On channels " + tempRaceArray[i].getChannelsActive()[0]
+//											+ " and " + tempRaceArray[i].getChannelsActive()[1]);
+//									ui.getRaceManager().setChannelSelected(tempRaceArray[i].getChannelsActive()[0]);
+
+									Stack<Integer> tempStack = tempRaceArray[i].returnBids();
+									
+									
+									while(!tempStack.isEmpty()){
+										
+										long start;
+										long finish;
+										int bid = tempStack.pop();
+
+										
+										ui.getRaceManager().setChannelSelected(tempRaceArray[i].getChannelsActive()[0]);
+										
+//										System.out.println("Start time: " + ClockInterface.formatTime(
+//												ui.getRaceManager().getCurrentChannel().retrieve(bid)));
+										
+										start = ui.getRaceManager().getCurrentChannel().retrieve(bid);
+										
+										ui.getRaceManager().setChannelSelected(tempRaceArray[i].getChannelsActive()[1]);
+
+//										System.out.println("Finish time: " + ClockInterface.formatTime(
+//												ui.getRaceManager().getCurrentChannel().retrieve(bid)));
+										
+										finish = ui.getRaceManager().getCurrentChannel().retrieve(bid);
+										
+										System.out.println("<" + bid + ">" + " " + "<" + ClockInterface.getTotalTimeFormatted(start, finish) + ">");
+										
+									}
+								}
+							}
 
 						}catch(InputMismatchException ex){
-							
+
 							ex.printStackTrace();
-							
+
 						}
-						
-						
-						
+
+
+
 						break;
 					case "TRIG":
 

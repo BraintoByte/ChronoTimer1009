@@ -3,6 +3,7 @@ package environment;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
+import java.util.Stack;
 
 import entitiesDynamic.Pool;
 import entitiesDynamic.Racer;
@@ -10,6 +11,7 @@ import entitiesDynamic.Racer;
 public class Race {
 
 	private int[] onChannels;
+	private Stack<Integer> bidsOnRun; 
 	private Queue<Racer> active;
 	private RaceEventsManager manager;
 	private int raceNbr;
@@ -20,6 +22,7 @@ public class Race {
 		this.onChannels = channels;
 		this.manager = manager;
 		this.active = new LinkedList<>();
+		this.bidsOnRun = new Stack<>();
 		
 	}
 
@@ -39,13 +42,13 @@ public class Race {
 	public void startNRacers(int n){
 		
 		
-		
 		if(n <= manager.racersPoolSize()){
 
 			for(int i = 0; i < n; i++){
 				
 				Racer racer = manager.getRacer();
 				Channels.channels[onChannels[0] - 1].activate(racer.getBib());
+				bidsOnRun.push(racer.getBib());
 				active.add(racer);
 
 			}
@@ -112,6 +115,13 @@ public class Race {
 
 		manager.returnRacerCancel(active.remove());
 
+	}
+	
+
+	public Stack<Integer> returnBids(){
+		
+		return this.bidsOnRun;
+		
 	}
 
 

@@ -2,7 +2,10 @@ package entitiesStatic;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class ClockInterface {
 
@@ -13,13 +16,15 @@ public class ClockInterface {
 	 * @param currentDateTime
 	 * @return
 	 */
-	public static String getTotalTimeFormatted(long currentDateTime){
-
-		Date currentDate = new Date(currentDateTime);
-
-
-
-		return currentDate + "";
+	public static String getTotalTimeFormatted(long start, long finish){
+		
+		Date startDate = new Date(start);
+		Date finishDate = new Date(finish);
+		
+		
+		long difference = finishDate.getTime() - startDate.getTime();
+		
+		return "" + ((double) difference/1000) + "Seconds";
 
 	}
 
