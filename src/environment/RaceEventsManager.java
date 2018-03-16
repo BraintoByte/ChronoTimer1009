@@ -459,12 +459,6 @@ public class RaceEventsManager {
 		return racePool.startRacer();
 
 	}
-	
-	public void findRacerChannel(){
-		
-		
-		
-	}
 
 
 	//	/**

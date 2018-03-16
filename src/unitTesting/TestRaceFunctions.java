@@ -54,7 +54,7 @@ public class TestRaceFunctions {
 //		raceManager.makeOneRacer(1);
 //		
 //		raceManager.getRaces()[0].startNRacers(1);									// only racer "001" starts
-//		assertEquals(raceManager.getRaces()[0].racersActive(), 1);					// check active size
+//		assertEquals(raceManager.findRacerChannel(), 1);					// check active size
 //		raceManager.getRaces()[0].stopLastRace();									// racer "001" finishes
 //		assertEquals(raceManager.getRaces()[0].racersActive(), 0);					// check active size
 //
