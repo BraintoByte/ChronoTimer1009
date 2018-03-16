@@ -143,6 +143,7 @@ public class RaceEventsManager {
 	private int raceNbr;
 	private HashMap<Integer, Race> record = new HashMap<>();
 	private int racesRecords = 1;
+	private int index;
 
 
 
@@ -152,28 +153,38 @@ public class RaceEventsManager {
 
 		if(races == null){
 
-			races = new Race[10];
-
-		}else{
-
-			ensureCapacity(races.length * 2);
+			races = new Race[8];    //For future races, max of 8, will implement group as well, that's why 8
 
 		}
-
-
+		
+		
+//		else{
+//
+//			ensureCapacity(races.length * 2);
+//
+//		}
+		
+		
 		if(raceNbr < races.length){      //For later on when an input is created, don't worry not an NOP!
 
-			races[raceNbr] = new Race(this, raceNbr + 1, raceNbr + 2);
-			races[raceNbr].setRaceNbr(raceNbr + 1);
-			races[raceNbr].setRun(run);
+			races[index] = new Race(this, channelSelected, channelSelected + 1);
+			races[index].setRaceNbr(raceNbr + 1);
+			races[index].setRun(run);
 			raceNbr++;
+			index++;
 
 			return true;
 
 		}
 
 		return false;
-
+		
+	}
+	
+	public void reset(){
+		
+		index = 0;
+		
 	}
 
 
@@ -227,9 +238,9 @@ public class RaceEventsManager {
 
 	public void makeOneRacer(int racer){
 
-		if(racer >= 0)
+		if(racer >= 0){
 			racePool.makeRacer(racer);
-
+		}
 	}
 
 
@@ -448,6 +459,12 @@ public class RaceEventsManager {
 		return racePool.startRacer();
 
 	}
+	
+	public void findRacerChannel(){
+		
+		
+		
+	}
 
 
 	//	/**
@@ -476,7 +493,7 @@ public class RaceEventsManager {
 	public Object[] getSelectedRun(int run){
 
 		Iterator<Entry<Integer, Race>> it = record.entrySet().iterator();
-		Stack<Race> tempStack = new Stack();
+		Stack<Race> tempStack = new Stack<>();
 
 		while(it.hasNext()){
 

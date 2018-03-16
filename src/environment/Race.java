@@ -12,7 +12,6 @@ public class Race {
 	private int[] onChannels;
 	private Queue<Racer> active;
 	private RaceEventsManager manager;
-	private boolean isActive;
 	private int raceNbr;
 	private int run;
 
@@ -38,14 +37,15 @@ public class Race {
 
 
 	public void startNRacers(int n){
-
-
+		
+		
+		
 		if(n <= manager.racersPoolSize()){
 
 			for(int i = 0; i < n; i++){
 				
 				Racer racer = manager.getRacer();
-				Channels.channels[onChannels[0]].activate(racer.getBib());
+				Channels.channels[onChannels[0] - 1].activate(racer.getBib());
 				active.add(racer);
 
 			}
@@ -69,7 +69,7 @@ public class Race {
 		return run;
 	}
 
-	public void finishRacer(boolean DNF){
+	public Racer finishRacer(boolean DNF){
 		
 		manager.engrave(true, this.raceNbr);
 		
@@ -92,9 +92,11 @@ public class Race {
 		//
 		//		}
 
-		Channels.channels[onChannels[0]].TriggerSensor();
-		Channels.channels[onChannels[1]].activate(racer.getBib());
+		Channels.channels[onChannels[0] - 1].TriggerSensor();
+		Channels.channels[onChannels[1] - 1].activate(racer.getBib());
 		manager.returnRacer(racer);
+		
+		return racer;
 		//		racePool.returnRacer(racer);
 
 	}
@@ -108,7 +110,7 @@ public class Race {
 
 	public void CANCEL(){
 
-		manager.returnRacer(active.remove());
+		manager.returnRacerCancel(active.remove());
 
 	}
 

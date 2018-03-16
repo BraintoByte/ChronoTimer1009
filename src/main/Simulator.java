@@ -22,6 +22,7 @@ public class Simulator implements Runnable {    //Chain
 	private UI ui;
 	private String filePath;
 	private int run;
+	private boolean activeRun;
 
 	private State initState;
 	private State idleState;
@@ -211,5 +212,11 @@ public class Simulator implements Runnable {    //Chain
 	}
 	public void setRun(int run) {
 		this.run = run;
+	}
+	public boolean isActiveRun() {
+		return activeRun;
+	}
+	public void setActiveRun(boolean activeRun) {
+		this.activeRun = activeRun;
 	}
 }

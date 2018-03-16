@@ -37,6 +37,7 @@ public abstract class Channels {
 	 * @param name
 	 * @param chId
 	 */
+	
 	public Channels(String name, int chId) {
 
 		this.name = name;
@@ -75,7 +76,14 @@ public abstract class Channels {
 
 	public boolean isEnabled() {
 		
+		return this.isEnabled;
+		
+	}
+	
+	private boolean isActive(){
+		
 		return activeRacers.size() != 0;
+		
 	}
 
 	public void TriggerSensor(){

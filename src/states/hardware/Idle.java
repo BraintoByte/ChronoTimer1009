@@ -76,12 +76,17 @@ public class Idle extends State {
 
 			ui.getRaceManager().setChannelSelected(i);
 
-
 			if(!ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
 
 				conn("CONN EYE " + i);
 
 			}
+		}
+
+		if(channelSelected > 4){
+
+			channelSelected = 1;
+
 		}
 
 
@@ -101,6 +106,12 @@ public class Idle extends State {
 
 			}else{
 
+				if(ui.getSimulator().getRun() == 0){
+
+					ui.getRaceManager().propRace();
+
+				}
+
 
 				if(str.split("\\s").length <= 1){
 
@@ -114,20 +125,44 @@ public class Idle extends State {
 
 						//					ui.getRaceManager().setChannelSelected(1);
 
-						System.out.println("Races1 is not null: " + (ui.getRaceManager().getRaces()[0] != null) + "Races2 is not null: " + (ui.getRaceManager().getRaces()[1] != null));
+						//						System.out.println("Races1 is not null: " + (ui.getRaceManager().getRaces()[0] != null) + "Races2 is not null: " + (ui.getRaceManager().getRaces()[1] != null));
 
-						if(channelsEnabled(1) < 2){
 
-							setRace();
+
+						int enabled = channelsEnabled(1);
+
+						if(enabled > 2 && independent){
+
+							System.out.println("Cannot have more then 1 channel on IND");
+							break;
 
 						}
 
-
+						setRace();
+						ui.getSimulator().setActiveRun(true);
 
 						System.out.println("Races is null: " + (ui.getRaceManager().getRaces() == null));
-						System.out.println("Races active: " + (ui.getRaceManager().getRaces()));
-						
+						System.out.println("Channels active: " + channelsEnabled(1));
+
 						break;
+
+					case "ENDRUN":
+
+						if(channelsEnabled(1) > 0){
+
+							for(int i = 0; i < ui.getRaceManager().getRaces().length; i++){
+
+								if(ui.getRaceManager().getRaces()[i] != null){
+
+									ui.getRaceManager().getRaces()[i].stopLastRace();
+
+								}
+							}
+						}
+
+						ui.getSimulator().setActiveRun(false);
+						break;
+
 					case "CANCEL":
 
 
@@ -182,6 +217,17 @@ public class Idle extends State {
 					case "TESTING":
 						testing();
 						break;
+					case "RACETEST":
+						ui.getRaceManager().makeOneRacer(111);
+						ui.getRaceManager().makeOneRacer(112);
+						ui.getRaceManager().makeOneRacer(224);
+						ui.getRaceManager().makeOneRacer(115);
+						ui.getRaceManager().makeOneRacer(227);
+						ui.getRaceManager().makeOneRacer(444);
+						ui.getRaceManager().makeOneRacer(144);
+						ui.getRaceManager().makeOneRacer(777);
+
+						break;
 					}
 				}else{
 
@@ -189,15 +235,22 @@ public class Idle extends State {
 
 					case "EVENT":
 
-						if(str.split("\\s")[1].trim().equals("IND")){
+						if(!ui.getSimulator().isActiveRun()){
 
-							independent = true;
-							parallel = false;
+							if(str.split("\\s")[1].trim().equals("IND")){
 
+								independent = true;
+								parallel = false;
+
+							}else if(str.split("\\s")[1].trim().equals("PARIND")){
+
+								parallel = true;
+								independent = false;
+
+							}
 						}else{
 
-							parallel = true;
-							independent = false;
+							System.out.println("Please end the run");
 
 						}
 
@@ -216,15 +269,6 @@ public class Idle extends State {
 								e.printStackTrace();
 							}
 
-							//						for(int i = 0; i < tempRaceArray.length; i++){
-							//
-							//							try {
-							//								Util.save(tempRaceArray[i]);
-							//							} catch (IOException e) {
-							//								e.printStackTrace();
-							//							}
-							//						}
-
 						}catch(InputMismatchException e){
 
 							e.printStackTrace();
@@ -235,12 +279,22 @@ public class Idle extends State {
 
 
 
-
+						break;
 					case "TRIG":
 
 						System.out.println("Before trig: " + ui.getRaceManager().racersPoolSize());
 
-						trig(str);
+						System.out.println(ui.getSimulator().getRun());
+
+						if(ui.getSimulator().getRun() != 0 && ui.getSimulator().isActiveRun()){
+
+							trig(str, false);
+
+						}else{
+
+							System.out.println("NO RUN!");
+
+						}
 
 						System.out.println("After trig: " + ui.getRaceManager().racersPoolSize());
 
@@ -251,42 +305,28 @@ public class Idle extends State {
 
 							ui.getRaceManager().makeOneRacer(Integer.parseInt(str.split("\\s")[1].trim()));
 
+
 						}catch(InputMismatchException e){}
 
 						break;
 					case "DNF":
 
-						int race = Integer.parseInt(str.split("\\s")[1]) - 1;
-						ui.getRaceManager().getRaces()[race].finishRacer(true);
-
-						break;
-					case "TIME":    //Sets the current local time
-
 						try{
 
-							DateFormat formatter = new SimpleDateFormat("HH:mm:ss.SS");
-							ui.getSimulator().getClock().setTime(new Time(formatter.parse(str.split("\\s")[1].trim()).getTime()));
+							int race = Integer.parseInt(str.split("\\s")[1]) - 1;
+							ui.getRaceManager().getRaces()[race].finishRacer(true);
 
-							if(!ui.getSimulator().getClock().isClockRunning()){
-
-								ui.getSimulator().getClock().clockStart();
-
-
-								try {
-
-									Thread.sleep(800);
-
-								} catch (InterruptedException e) {
-
-									e.printStackTrace();
-								}
-							}
-
-						}catch(ParseException ex){
+						}catch(InputMismatchException ex){
 
 							ex.printStackTrace();
 
 						}
+
+						break;
+					case "TIME":    //Sets the current local time
+
+						setTime(str);
+
 						break;
 					case "TOG":
 
@@ -294,7 +334,7 @@ public class Idle extends State {
 
 							channelSelected = Integer.parseInt(str.split("\\s")[1]);
 
-							if(channelSelected > 0 && channelSelected <= 2){
+							if(channelSelected > 0 && channelSelected <= 4){
 
 								ui.getRaceManager().setChannelSelected(channelSelected);
 								ui.getRaceManager().getCurrentChannel().enable(!ui.getRaceManager().getCurrentChannel().isEnabled());
@@ -319,6 +359,35 @@ public class Idle extends State {
 					}
 				}
 			}
+		}
+	}
+
+	private void setTime(String str){
+
+		try{
+
+			DateFormat formatter = new SimpleDateFormat("HH:mm:ss.SS");
+			ui.getSimulator().getClock().setTime(new Time(formatter.parse(str.split("\\s")[1].trim()).getTime()));
+
+			if(!ui.getSimulator().getClock().isClockRunning()){
+
+				ui.getSimulator().getClock().clockStart();
+
+
+				try {
+
+					Thread.sleep(800);
+
+				} catch (InterruptedException e) {
+
+					e.printStackTrace();
+				}
+			}
+
+		}catch(ParseException ex){
+
+			ex.printStackTrace();
+
 		}
 	}
 
@@ -349,34 +418,66 @@ public class Idle extends State {
 		}
 	}
 
-	private void trig(String str){
+
+	private void trig(String str, boolean DNF){     //We need to refactor this, is channel enabled method, is channel valid method choice 1 choice 2
 
 		try{
 
+
 			channelSelected = Integer.parseInt(str.split("\\s")[1].trim());
 
-			if(ui.getValidChannels()[0] == channelSelected || ui.getValidChannels()[2] == channelSelected){
 
-				ui.getRaceManager().setChannelSelected(channelSelected);
+			ui.getRaceManager().setChannelSelected(channelSelected);
 
-				if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
+			if(ui.getRaceManager().getCurrentChannel().isEnabled()){
 
-					ui.getRaceManager().setChannelSelected(channelSelected + 1);
+				if(ui.getValidChannels()[0] == channelSelected || ui.getValidChannels()[2] == channelSelected){
+
+					ui.getRaceManager().setChannelSelected(channelSelected);
 
 					if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
 
-						ui.getRaceManager().setChannelSelected(channelSelected);
-						ui.getRaceManager().getRaces()[channelSelected - 1].startNRacers(1);
+						ui.getRaceManager().setChannelSelected(channelSelected + 1);
 
+						if(ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
+
+							ui.getRaceManager().setChannelSelected(channelSelected);
+
+							if(ui.getRaceManager().getRaces()[channelSelected == 1 ? 0 : 1] != null){
+
+								ui.getRaceManager().getRaces()[channelSelected == 1 ? 0 : 1].startNRacers(1);
+
+							}
+						}
+					}
+				}else if(ui.getValidChannels()[1] == channelSelected || ui.getValidChannels()[3] == channelSelected){
+
+					ui.getRaceManager().setChannelSelected(channelSelected);
+
+					for(int i = 0; i < ui.getRaceManager().getRaces().length; i++){
+
+						if(ui.getRaceManager().getRaces()[i] != null){
+
+							if(ui.getRaceManager().getRaces()[i].getChannelsActive()[1] == channelSelected){
+
+								if(ui.getRaceManager().getRaces()[i].racersActive() != 0){
+
+									ui.getRaceManager().getRaces()[i].finishRacer(DNF);
+
+								}else{
+
+									System.out.println("No more racers!");
+
+								}
+
+								break;
+							}
+						}
 					}
 				}
+			}else{
 
-
-
-			}else if(ui.getValidChannels()[1] == channelSelected || ui.getValidChannels()[3] == channelSelected){
-
-				ui.getRaceManager().setChannelSelected(channelSelected);
-
+				System.out.println("Channel " + channelSelected + " is not toggled!");
 
 			}
 
@@ -395,7 +496,7 @@ public class Idle extends State {
 
 			channelSelected = Integer.parseInt(str.split("\\s")[2]);
 
-			if(channelSelected > 0 && channelSelected <= 2){
+			if(channelSelected > 0 && channelSelected <= 4){
 
 				ui.getRaceManager().setChannelSelected(channelSelected);
 
@@ -417,27 +518,37 @@ public class Idle extends State {
 
 		if(independent){
 
-			if(ui.getRaceManager().getRaces() != null && ui.getRaceManager().getRaces()[0] != null){
+			if((ui.getRaceManager().getRaces() != null && ui.getRaceManager().getRaces()[0] != null && ui.getRaceManager().racesActive() == 0) 
+					|| ui.getRaceManager().getRaces() == null){
 
-				if(ui.getRaceManager().racesActive() == 0){
+				if(channelsEnabled(1) > 2){
 
-					ui.getRaceManager().startNewRace(ui.getSimulator().getRun() + 1);
-					ui.getSimulator().setRun(ui.getSimulator().getRun() + 1);
+					System.out.println("Cannot have more then 1 channel on IND");
+					return;
 
 				}
+
+				ui.getRaceManager().reset();
+				ui.getRaceManager().setChannelSelected(1);
+				ui.getRaceManager().startNewRace(ui.getSimulator().getRun() + 1);
+				ui.getSimulator().setRun(ui.getSimulator().getRun() + 1);
+
+
 			}
 
 		}else if(parallel){
 
-			if(ui.getRaceManager().getRaces() != null && ui.getRaceManager().getRaces()[0] != null 
-					&& !ui.getRaceManager().getRaces()[0].isActive()){
+			if((ui.getRaceManager().getRaces() != null && ui.getRaceManager().getRaces()[0] != null 
+					&& !ui.getRaceManager().getRaces()[0].isActive()) || ui.getRaceManager().racesActive() < 2){
 
-				if(ui.getRaceManager().racesActive() < 2){
+				ui.getRaceManager().reset();
+				ui.getRaceManager().setChannelSelected(1);
+				ui.getRaceManager().startNewRace(ui.getSimulator().getRun() + 1);
+				ui.getSimulator().setRun(ui.getSimulator().getRun() + 1);
+				ui.getRaceManager().setChannelSelected(3);
+				ui.getRaceManager().startNewRace(ui.getSimulator().getRun() + 1);
+				ui.getSimulator().setRun(ui.getSimulator().getRun() + 1);
 
-					ui.getRaceManager().startNewRace(ui.getSimulator().getRun() + 1);
-					ui.getSimulator().setRun(ui.getSimulator().getRun() + 1);
-
-				}
 			}
 		}
 
@@ -465,7 +576,7 @@ public class Idle extends State {
 
 			ui.getRaceManager().setChannelSelected(i);
 
-			if(!ui.getRaceManager().getCurrentChannel().isEnabled()){
+			if(ui.getRaceManager().getCurrentChannel().isEnabled()){
 
 				count++;
 
@@ -480,6 +591,8 @@ public class Idle extends State {
 
 		if(ui.getRaceManager().getRaces()[channelSelected - 1] == null){
 
+			System.out.println(channelSelected);
+
 			if(ui.getRaceManager().getRaces()[channelSelected - 1].isActive()){
 
 				return true;
@@ -490,35 +603,35 @@ public class Idle extends State {
 		return false;
 
 	}
-	
-	
+
+
 	//ONLY FOR TESTING TO PUT IN A FILE!//
-	
+
 	private void testing(){
-		
+
 		if(ui.getRaceManager().getRaces() != null){
-			
+
 			System.out.println("Races amount: " + ui.getRaceManager().getRaces().length);
-			
+
 			for(int i = 0; i < ui.getRaceManager().getRaces().length; i++){
-				
+
 				if(ui.getRaceManager().getRaces()[i] != null){
-					
-					System.out.println("Active: " + ui.getRaceManager().getRaces()[i].isActive());
+
+					System.out.println("Active on race " + (i + 1) + ": " + ui.getRaceManager().getRaces()[i].isActive());
 					System.out.println("RaceNbr: " + ui.getRaceManager().getRaces()[i].getRaceNbr());
 					System.out.println("RunNbr: " + ui.getRaceManager().getRaces()[i].getRun());
 					System.out.println("Racers active: " + ui.getRaceManager().getRaces()[i].racersActive());
 					System.out.println("Races active: " + ui.getRaceManager().racesActive());
 					System.out.println("Racers pool size: " + ui.getRaceManager().racersPoolSize());
-					
+
 				}
 			}
-			
+
 			System.out.println("Channels active: " + channelsEnabled(1));
-			
+
 		}
 	}
-	
-	
+
+
 	//END TESTING//
 }
