@@ -120,15 +120,8 @@ public class Idle extends State {
 						powerOnOff();
 						System.out.println("Power " + (ui.getBtnHandler().getPowerState() ? "on" : "off"));
 						break;
-
 					case "NEWRUN":
-
-						//					ui.getRaceManager().setChannelSelected(1);
-
-						//						System.out.println("Races1 is not null: " + (ui.getRaceManager().getRaces()[0] != null) + "Races2 is not null: " + (ui.getRaceManager().getRaces()[1] != null));
-
-
-
+						
 						int enabled = channelsEnabled(1);
 
 						if(enabled > 2 && independent){
