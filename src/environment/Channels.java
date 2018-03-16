@@ -74,7 +74,8 @@ public abstract class Channels {
 	}
 
 	public boolean isEnabled() {
-		return isEnabled;
+		
+		return activeRacers.size() != 0;
 	}
 
 	public void TriggerSensor(){

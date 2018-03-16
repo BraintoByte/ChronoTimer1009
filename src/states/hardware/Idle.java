@@ -58,15 +58,15 @@ public class Idle extends State {
 	/**
 	 * 
 	 */
-	
-	
-	
-//	if(ui.getRaceManager().racersPoolSize() == 0){
-//
-//		throw new NoSuchRacerException();
-//
-//	}
-	
+
+
+
+	//	if(ui.getRaceManager().racersPoolSize() == 0){
+	//
+	//		throw new NoSuchRacerException();
+	//
+	//	}
+
 	protected void idleWait(){
 
 
@@ -94,7 +94,7 @@ public class Idle extends State {
 			str = input.nextLine();
 
 			if(!(str.contains("EVENT") || str.contains("POWER") || str.contains("EXIT") 
-					|| str.contains("RESET") || str.contains("TIME") || str.contains("TOG") || str.contains("CONN"))
+					|| str.contains("RESET") || str.contains("TIME") || str.contains("TOG") || str.contains("CONN") || str.contains("TESTING"))
 					&& parallel == false && independent == false){
 
 				System.out.println("NO RACE TYPE SELECTED!");
@@ -113,33 +113,20 @@ public class Idle extends State {
 					case "NEWRUN":
 
 						//					ui.getRaceManager().setChannelSelected(1);
-						
-						
 
-						if(ui.getRaceManager().getRaces() != null){
+						System.out.println("Races1 is not null: " + (ui.getRaceManager().getRaces()[0] != null) + "Races2 is not null: " + (ui.getRaceManager().getRaces()[1] != null));
 
+						if(channelsEnabled(1) < 2){
 
-							System.out.println("Races1 is not null: " + (ui.getRaceManager().getRaces()[0] != null) + "Races2 is not null: " + (ui.getRaceManager().getRaces()[1] != null));
+							setRace();
 
-							if((ui.getRaceManager().getRaces()[0] != null || 
-									!ui.getRaceManager().getRaces()[0].isActive()) && (ui.getRaceManager().getRaces()[1] != null || ui.getRaceManager().getRaces()[1].isActive())){
-
-								
-								
-								try {
-									setRace();
-								} catch (NoSuchRacerException e) {
-									e.printStackTrace();
-								}
-
-								ui.getRaceManager().setChannelSelected(1);
-								ui.getRaceManager().setChannelSelected(3);
-
-							}
 						}
 
-						System.out.println("Races is null: " + (ui.getRaceManager().getRaces() == null));
 
+
+						System.out.println("Races is null: " + (ui.getRaceManager().getRaces() == null));
+						System.out.println("Races active: " + (ui.getRaceManager().getRaces()));
+						
 						break;
 					case "CANCEL":
 
@@ -192,6 +179,9 @@ public class Idle extends State {
 						powerOnOff();   //You said it's like power on/off
 
 						break;
+					case "TESTING":
+						
+						
 					}
 				}else{
 
@@ -208,14 +198,6 @@ public class Idle extends State {
 
 							parallel = true;
 							independent = false;
-
-						}
-
-						try {
-							setRace();
-						} catch (NoSuchRacerException ex) {
-
-							ex.printStackTrace();
 
 						}
 
@@ -431,22 +413,67 @@ public class Idle extends State {
 		}
 	}
 
-	private void setRace() throws NoSuchRacerException{
+	private void setRace() {
 
 		if(independent){
 
-			ui.getRaceManager().propRace(1);
-			ui.getSimulator().setRun(ui.getSimulator().getRun() + 1);
-			ui.getRaceManager().startNewRace(ui.getSimulator().getRun());
+			if(ui.getRaceManager().getRaces() != null && ui.getRaceManager().getRaces()[0] != null){
 
-		}else{
+				if(ui.getRaceManager().racesActive() == 0){
 
-			ui.getRaceManager().propRace(2);
-			ui.getSimulator().setRun(ui.getSimulator().getRun() + 1);
-			ui.getRaceManager().startNewRace(ui.getSimulator().getRun());
-			ui.getRaceManager().startNewRace(ui.getSimulator().getRun());
+					ui.getRaceManager().startNewRace(ui.getSimulator().getRun() + 1);
+					ui.getSimulator().setRun(ui.getSimulator().getRun() + 1);
 
+				}
+			}
+
+		}else if(parallel){
+
+			if(ui.getRaceManager().getRaces() != null && ui.getRaceManager().getRaces()[0] != null 
+					&& !ui.getRaceManager().getRaces()[0].isActive()){
+
+				if(ui.getRaceManager().racesActive() < 2){
+
+					ui.getRaceManager().startNewRace(ui.getSimulator().getRun() + 1);
+					ui.getSimulator().setRun(ui.getSimulator().getRun() + 1);
+
+				}
+			}
 		}
+
+		//		if(independent){
+		//
+		//			ui.getRaceManager().propRace(1);
+		//			ui.getSimulator().setRun(ui.getSimulator().getRun() + 1);
+		//			ui.getRaceManager().startNewRace(ui.getSimulator().getRun());
+		//
+		//		}else{
+		//
+		//			ui.getRaceManager().propRace(2);
+		//			ui.getSimulator().setRun(ui.getSimulator().getRun() + 1);
+		//			ui.getRaceManager().startNewRace(ui.getSimulator().getRun());
+		//			ui.getRaceManager().startNewRace(ui.getSimulator().getRun());
+		//
+		//		}
+	}
+
+	private int channelsEnabled(int from){
+
+		int count = 0;
+
+		for(int i = from; i < 4; i += 2){
+
+			ui.getRaceManager().setChannelSelected(i);
+
+			if(!ui.getRaceManager().getCurrentChannel().isEnabled()){
+
+				count++;
+
+			}
+		}
+
+		return count;
+
 	}
 
 	private boolean isRaceActive(){
@@ -463,4 +490,35 @@ public class Idle extends State {
 		return false;
 
 	}
+	
+	
+	//ONLY FOR TESTING TO PUT IN A FILE!//
+	
+	private void testing(){
+		
+		if(ui.getRaceManager().getRaces() != null){
+			
+			System.out.println("Races amount: " + ui.getRaceManager().getRaces().length);
+			
+			for(int i = 0; i < ui.getRaceManager().getRaces().length; i++){
+				
+				if(ui.getRaceManager().getRaces()[i] != null){
+					
+					System.out.println("Active: " + ui.getRaceManager().getRaces()[i].isActive());
+					System.out.println("RaceNbr: " + ui.getRaceManager().getRaces()[i].getRaceNbr());
+					System.out.println("RunNbr: " + ui.getRaceManager().getRaces()[i].getRun());
+					System.out.println("Racers active: " + ui.getRaceManager().getRaces()[i].racersActive());
+					System.out.println("Races active: " + ui.getRaceManager().racesActive());
+					System.out.println("Racers pool size: " + ui.getRaceManager().racersPoolSize());
+					
+				}
+			}
+			
+			System.out.println("Channels active: " + channelsEnabled(1));
+			
+		}
+	}
+	
+	
+	//END TESTING//
 }

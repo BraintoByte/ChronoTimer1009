@@ -143,13 +143,25 @@ public class RaceEventsManager {
 	private int raceNbr;
 	private HashMap<Integer, Race> record = new HashMap<>();
 	private int racesRecords = 1;
-	
-	
-	
-	
+
+
+
+
+
 	public boolean startNewRace(int run){
 
-		if(raceNbr < races.length){
+		if(races == null){
+
+			races = new Race[10];
+
+		}else{
+
+			ensureCapacity(races.length * 2);
+
+		}
+
+
+		if(raceNbr < races.length){      //For later on when an input is created, don't worry not an NOP!
 
 			races[raceNbr] = new Race(this, raceNbr + 1, raceNbr + 2);
 			races[raceNbr].setRaceNbr(raceNbr + 1);
@@ -164,11 +176,53 @@ public class RaceEventsManager {
 
 	}
 
-	public void propRace(int amount){
-		
-		racePool = Pool.getPool();
-		races = new Race[amount];
 
+	private void ensureCapacity(int eSize){
+
+		Race[] temp = new Race[eSize];
+
+		for(int i = 0; i < races.length; i++){
+
+			temp[i] = races[i];
+
+		}
+
+		races = temp;
+
+	}
+	
+	
+	public int racesActive(){
+		
+		if(races == null){
+			
+			return 0;
+			
+		}
+		
+		int count = 0;
+		
+		for(int i = 0; i < races.length; i++){
+			
+			if(races[i] != null && races[i].isActive()){
+				
+				count++;
+				
+			}
+		}
+		
+		return count;
+		
+	}
+
+
+	public void propRace(){
+
+		if(racePool == null){
+
+			racePool = Pool.getPool();
+
+		}
 	}
 
 	public void makeOneRacer(int racer){
@@ -222,9 +276,9 @@ public class RaceEventsManager {
 		if(mod){
 
 			record.remove(raceNbr);
-			
+
 			int temp = channelSelected == 1 || channelSelected == 2 ? 0 : 1;
-			
+
 			record.put(raceNbr, races[temp]);
 
 		}else{
@@ -320,7 +374,7 @@ public class RaceEventsManager {
 	//	}
 	//	
 	public int racersPoolSize(){
-		
+
 		return racePool == null ? 0 : racePool.racersAmount();
 
 	}
@@ -417,25 +471,25 @@ public class RaceEventsManager {
 	//		return fromIndex;
 	//
 	//	}
-	
-	
+
+
 	public Object[] getSelectedRun(int run){
-		
+
 		Iterator<Entry<Integer, Race>> it = record.entrySet().iterator();
 		Stack<Race> tempStack = new Stack();
-		
+
 		while(it.hasNext()){
-			
+
 			Race temp = it.next().getValue();
-			
+
 			if(temp.getRun() == run){
-				
+
 				tempStack.push(record.remove(temp.getRaceNbr()));
-				
+
 			}
 		}
-		
+
 		return tempStack.toArray();
-		
+
 	}
 }
