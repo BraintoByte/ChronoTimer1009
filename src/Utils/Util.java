@@ -2,9 +2,11 @@ package Utils;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -198,35 +200,70 @@ public class Util {
 
 
 
-	public static boolean save(Race race )throws IOException{
+	public static boolean save(Race...race)throws IOException{
 
-		if(race == null ){
+		if(race == null || race.length == 0){
 
 			return false;
 
 		}
 
+		
+		for(int i = 0; i < race.length; i++){
 
-		if(race.racersActive()== 0) {
-			return false;
+			if(race[i] == null || race[i].racersActive() == 0){
+				
+				continue;
+				
+			}
+			
+			
+			File tmp = new File(System.getProperty("user.dir","json.txt"));
+
+			if(!tmp.exists()){
+				tmp.createNewFile();
+			}
+
+			FileWriter fileWriter = new FileWriter(tmp,true);
+			Gson g = new Gson();
+			
+
+			fileWriter.write(g.toJson(race));
+			fileWriter.close();
+
 		}
-
-		File tmp = new File(System.getProperty("user.dir","json.txt"));
-
-		if(!tmp.exists()){
-			tmp.createNewFile();
-		}
-
-		FileWriter fileWriter = new FileWriter(tmp,true);
-		Gson g = new Gson();
-		String ret;
-		ret = g.toJson(race);
-
-		fileWriter.write(ret);
-		fileWriter.close();
-
+		
+		
 		return true;
 
+	}
+	
+	
+	public static void eraseRecord(int raceNbr) {
+		
+//		try(FileReader file = new FileReader(new File(System.getProperty("user.dir","json.txt")))){
+//			
+//			BufferedReader br = new BufferedReader(file);
+//			String temp = null;
+//			FileWriter writer;
+//			StringBuilder tempStr = new StringBuilder();
+//			
+//			while((temp = br.readLine()) != null){
+//				
+//				Gson json = new Gson();
+//				tempStr.setLength(0);
+//				Race tempRace;
+//				tempStr = new StringBuilder(json.fromJson(temp, (Type) Race));
+//				
+//				
+//			}
+//			
+//			
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 
@@ -234,9 +271,5 @@ public class Util {
 		File tmp = new File(System.getProperty("user.dir"),"json.txt");
 		tmp.delete();
 		tmp.createNewFile();
-
 	}
-
-
-
 }

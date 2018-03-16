@@ -94,7 +94,7 @@ public class ButtonsActivation extends State {
 							ui.getSimulator().getClock().clockStart();
 
 							Thread.sleep(800);
-							
+
 						}
 
 					}catch(ParseException | InterruptedException ex){
@@ -119,7 +119,7 @@ public class ButtonsActivation extends State {
 				ui.setBtnHandler(btnHandler);
 				ui.setRaceManager(new RaceEventsManager());
 				ui.getSimulator().getClock().setActive(true);
-//				ui.getRaceManager().propRace(2);
+				//				ui.getRaceManager().propRace(2);
 				ui.getRaceManager().theseManySensors(4, 4, 4);
 
 
@@ -134,14 +134,16 @@ public class ButtonsActivation extends State {
 				}else{
 
 					btnHandler.setPowerOnOff(true);
-					
+
 				}
 			}
 		}
-		
 
-		System.out.println("Power " + (ui.getBtnHandler().getPowerState() ? "on" : "off"));
-		
+		if(!str.isEmpty() && !str.trim().isEmpty()){
+
+			System.out.println("Power " + (ui.getBtnHandler().getPowerState() ? "on" : "off"));
+
+		}
 	}
 
 

@@ -165,7 +165,7 @@ public class RaceEventsManager {
 	}
 
 	public void propRace(int amount){
-
+		
 		racePool = Pool.getPool();
 		races = new Race[amount];
 
@@ -320,10 +320,8 @@ public class RaceEventsManager {
 	//	}
 	//	
 	public int racersPoolSize(){
-
-
-		return racePool.racersAmount();
-
+		
+		return racePool == null ? 0 : racePool.racersAmount();
 
 	}
 	//	
