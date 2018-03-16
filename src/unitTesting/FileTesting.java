@@ -22,7 +22,8 @@ public class FileTesting {
 	@Test
 	public void TestFile1() {
 				
-		System.setIn(new ByteArrayInputStream(("f" + '\n' + "CTS2RUN1.txt" + '\n').getBytes()));
+		System.setIn(new ByteArrayInputStream(("f" + "CTS2RUN1.txt").getBytes()));
+		System.setOut(System.out);
 		sim = new Simulator();
 		ui = new UI(sim);
 		clock = new Clock();
@@ -34,7 +35,7 @@ public class FileTesting {
 	@Test
 	public void TestFile2() {
 	
-		System.setIn(new ByteArrayInputStream(("f" + '\n' + "CTS2RUN2.txt" + '\n').getBytes()));
+		System.setIn(new ByteArrayInputStream(("f" + "CTS2RUN2.txt").getBytes()));
 		sim = new Simulator();
 		ui = new UI(sim);
 		clock = new Clock();
@@ -46,7 +47,7 @@ public class FileTesting {
 	@Test
 	public void TestSequence1() {
 		
-		System.setIn(new ByteArrayInputStream(("f" + '\n' + "sequence1.txt" + '\n').getBytes()));
+		System.setIn(new ByteArrayInputStream(("f" + "Sprint2TestFile.txt").getBytes()));
 		sim = new Simulator();
 		ui = new UI(sim);
 		clock = new Clock();

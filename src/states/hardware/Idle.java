@@ -69,22 +69,22 @@ public class Idle extends State {
 
 		//Testing only//
 
-		for(int i = 1; i < 5; i++){
-
-			ui.getRaceManager().setChannelSelected(i);
-
-			if(!ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
-
-				conn("CONN EYE " + i);
-
-			}
-		}
-
-		if(channelSelected > 4){
-
-			channelSelected = 1;
-
-		}
+//		for(int i = 1; i < 5; i++){
+//
+//			ui.getRaceManager().setChannelSelected(i);
+//
+//			if(!ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
+//
+//				conn("CONN EYE " + i);
+//
+//			}
+//		}
+//
+//		if(channelSelected > 4){
+//
+//			channelSelected = 1;
+//
+//		}
 
 
 		//End for testing only//
@@ -99,324 +99,325 @@ public class Idle extends State {
 					|| str.contains("RESET") || str.contains("TIME") || str.contains("TOG") || str.contains("CONN") || str.contains("TESTING"))
 					&& parallel == false && independent == false){
 
-				System.out.println("NO RACE TYPE SELECTED!");
+				independent = true;
 
+			}
+			
+			
+			if(ui.getSimulator().getRun() == 0){
+
+				ui.getRaceManager().propRace();
+
+			}
+
+
+			if(str.split("\\s").length <= 1){
+
+				switch(str){
+				case "POWER":
+					powerOnOff();
+					System.out.println("Power " + (ui.getBtnHandler().getPowerState() ? "on" : "off"));
+					break;
+				case "NEWRUN":
+
+					int enabled = channelsEnabled(1);
+
+					if(enabled > 2 && independent){
+
+						System.out.println("Cannot have more then 1 channel on IND");
+						break;
+
+					}
+
+					setRace();
+					ui.getSimulator().setActiveRun(true);
+
+					System.out.println("Races is null: " + (ui.getRaceManager().getRaces() == null));
+					System.out.println("Channels active: " + channelsEnabled(1));
+
+					break;
+
+				case "ENDRUN":
+
+					if(channelsEnabled(1) > 0){
+
+						for(int i = 0; i < ui.getRaceManager().getRaces().length; i++){
+
+							if(ui.getRaceManager().getRaces()[i] != null){
+
+								ui.getRaceManager().getRaces()[i].stopLastRace();
+
+							}
+						}
+					}
+
+					ui.getSimulator().setActiveRun(false);
+					break;
+
+				case "CANCEL":
+
+
+					System.out.println("Before cancel: " + ui.getRaceManager().racersPoolSize());
+
+					if(ui.getRaceManager().getChannelSelected() != 1 || ui.getRaceManager().getChannelSelected() != 3){
+
+						channelSelected -= 1;
+						ui.getRaceManager().setChannelSelected(channelSelected);
+
+					}
+
+					ui.getRaceManager().getRaces()[channelSelected - 1].CANCEL();
+
+					System.out.println("After cancel: " + ui.getRaceManager().racersPoolSize());
+
+					break;
+				case "START":     //Any amount can start in parallel, that's what I have in my notes
+					//You cannot start a racers after another has finished, because otherwise how do you keep track of the shift
+
+					System.out.println("Before start: " + ui.getRaceManager().racersPoolSize());
+
+					//						start();
+
+					if(ui.getSimulator().getRun() != 0 && ui.getSimulator().isActiveRun()){
+
+						trig("TRIG 1", false);
+
+					}else{
+
+						System.out.println("NO RUN!");
+
+					}
+
+					System.out.println("After start: " + ui.getRaceManager().racersPoolSize());
+
+					break;
+				case "FINISH":
+
+					System.out.println("Before finish: " + ui.getRaceManager().racersPoolSize());
+
+					if(ui.getSimulator().getRun() != 0 && ui.getSimulator().isActiveRun()){
+
+						trig("TRIG 2", false);
+
+					}else{
+
+						System.out.println("NO RUN!");
+
+					}
+
+					System.out.println("After finish: " + ui.getRaceManager().racersPoolSize());
+
+					break;
+				case "EXIT":
+					isIdle = false;
+					ui.getBtnHandler().EXIT();
+					break;
+				case "RESET":
+
+					powerOnOff();   //You said it's like power on/off
+
+					break;
+				case "TESTING":
+					testing();
+					break;
+				case "RACETEST":
+					ui.getRaceManager().makeOneRacer(111);
+					ui.getRaceManager().makeOneRacer(112);
+					ui.getRaceManager().makeOneRacer(224);
+					ui.getRaceManager().makeOneRacer(115);
+					ui.getRaceManager().makeOneRacer(227);
+					ui.getRaceManager().makeOneRacer(444);
+					ui.getRaceManager().makeOneRacer(144);
+					ui.getRaceManager().makeOneRacer(777);
+					break;
+				}
 			}else{
 
-				if(ui.getSimulator().getRun() == 0){
+				switch(str.split("\\s")[0].trim()){
 
-					ui.getRaceManager().propRace();
+				case "EVENT":
 
+					if(!ui.getSimulator().isActiveRun()){
+
+						if(str.split("\\s")[1].trim().equals("IND")){
+
+							independent = true;
+							parallel = false;
+
+						}else if(str.split("\\s")[1].trim().equals("PARIND")){
+
+							parallel = true;
+							independent = false;
+
+						}
+					}else{
+
+						System.out.println("Please end the run");
+
+					}
+
+					break;
+				case "EXPORT":
+
+					try{
+
+						int run = Integer.parseInt(str.split("\\s")[1]);
+
+						Race[] tempRaceArray = (Race[]) ui.getRaceManager().getSelectedRun(run);
+
+						System.out.print("Please enter the fileName: ");
+
+						String fileName = input.nextLine();
+
+						try {
+							Util.save(fileName, tempRaceArray);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+
+					}catch(InputMismatchException e){
+
+						e.printStackTrace();
+
+					}
+
+				case "PRINT":
+
+					try{
+
+						Race[] tempRaceArray = (Race[]) ui.getRaceManager().getSelectedRun(Integer.parseInt(str.split("\\s")[1]));
+
+
+						for(int i = 0; i < tempRaceArray.length; i++){
+
+							if(tempRaceArray[i] != null){
+
+								//									System.out.println("Race number: " + tempRaceArray[i].getRaceNbr());
+								//									System.out.println("Run " + tempRaceArray[i].getRun());
+								//									System.out.println("Racers active " + tempRaceArray[i].racersActive());
+								//									System.out.println("Is race active? " + tempRaceArray[i].isActive());
+								//									System.out.println("On channels " + tempRaceArray[i].getChannelsActive()[0]
+								//											+ " and " + tempRaceArray[i].getChannelsActive()[1]);
+								//									ui.getRaceManager().setChannelSelected(tempRaceArray[i].getChannelsActive()[0]);
+
+								Stack<Integer> tempStack = tempRaceArray[i].returnBids();
+
+
+								while(!tempStack.isEmpty()){
+
+									long start;
+									long finish;
+									int bid = tempStack.pop();
+
+
+									ui.getRaceManager().setChannelSelected(tempRaceArray[i].getChannelsActive()[0]);
+
+									//										System.out.println("Start time: " + ClockInterface.formatTime(
+									//												ui.getRaceManager().getCurrentChannel().retrieve(bid)));
+
+									start = ui.getRaceManager().getCurrentChannel().retrieve(bid);
+
+									ui.getRaceManager().setChannelSelected(tempRaceArray[i].getChannelsActive()[1]);
+
+									//										System.out.println("Finish time: " + ClockInterface.formatTime(
+									//												ui.getRaceManager().getCurrentChannel().retrieve(bid)));
+
+									finish = ui.getRaceManager().getCurrentChannel().retrieve(bid);
+
+									System.out.println("<" + bid + ">" + " " + "<" + ClockInterface.getTotalTimeFormatted(start, finish) + ">");
+
+								}
+							}
+						}
+
+					}catch(InputMismatchException ex){
+
+						ex.printStackTrace();
+
+					}
+
+
+
+					break;
+				case "TRIG":
+
+					System.out.println("Before trig: " + ui.getRaceManager().racersPoolSize());
+
+					System.out.println(ui.getSimulator().getRun());
+
+					if(ui.getSimulator().getRun() != 0 && ui.getSimulator().isActiveRun()){
+
+						trig(str, false);
+
+					}else{
+
+						System.out.println("NO RUN!");
+
+					}
+
+					System.out.println("After trig: " + ui.getRaceManager().racersPoolSize());
+
+					break;
+				case "NUM":
+
+					try{
+
+						ui.getRaceManager().makeOneRacer(Integer.parseInt(str.split("\\s")[1].trim()));
+
+
+					}catch(InputMismatchException e){}
+
+					break;
+				case "DNF":
+
+					try{
+
+						int race = Integer.parseInt(str.split("\\s")[1]) - 1;
+						ui.getRaceManager().getRaces()[race].finishRacer(true);
+
+					}catch(InputMismatchException ex){
+
+						ex.printStackTrace();
+
+					}
+
+					break;
+				case "TIME":    //Sets the current local time
+
+					setTime(str);
+
+					break;
+				case "TOG":
+
+					try{
+
+						channelSelected = Integer.parseInt(str.split("\\s")[1]);
+
+						if(channelSelected > 0 && channelSelected <= 4){
+
+							ui.getRaceManager().setChannelSelected(channelSelected);
+							ui.getRaceManager().getCurrentChannel().enable(!ui.getRaceManager().getCurrentChannel().isEnabled());
+
+						}
+
+					}catch(InputMismatchException e){}
+
+					break;
+				case "CONN":
+
+					conn(str);
+
+					break;
 				}
 
+				if(!isIdle){
 
-				if(str.split("\\s").length <= 1){
+					isIdle = true;
+					break;
 
-					switch(str){
-					case "POWER":
-						powerOnOff();
-						System.out.println("Power " + (ui.getBtnHandler().getPowerState() ? "on" : "off"));
-						break;
-					case "NEWRUN":
-
-						int enabled = channelsEnabled(1);
-
-						if(enabled > 2 && independent){
-
-							System.out.println("Cannot have more then 1 channel on IND");
-							break;
-
-						}
-
-						setRace();
-						ui.getSimulator().setActiveRun(true);
-
-						System.out.println("Races is null: " + (ui.getRaceManager().getRaces() == null));
-						System.out.println("Channels active: " + channelsEnabled(1));
-
-						break;
-
-					case "ENDRUN":
-
-						if(channelsEnabled(1) > 0){
-
-							for(int i = 0; i < ui.getRaceManager().getRaces().length; i++){
-
-								if(ui.getRaceManager().getRaces()[i] != null){
-
-									ui.getRaceManager().getRaces()[i].stopLastRace();
-
-								}
-							}
-						}
-
-						ui.getSimulator().setActiveRun(false);
-						break;
-
-					case "CANCEL":
-
-
-						System.out.println("Before cancel: " + ui.getRaceManager().racersPoolSize());
-
-						if(ui.getRaceManager().getChannelSelected() != 1 || ui.getRaceManager().getChannelSelected() != 3){
-
-							channelSelected -= 1;
-							ui.getRaceManager().setChannelSelected(channelSelected);
-
-						}
-
-						ui.getRaceManager().getRaces()[channelSelected - 1].CANCEL();
-
-						System.out.println("After cancel: " + ui.getRaceManager().racersPoolSize());
-
-						break;
-					case "START":     //Any amount can start in parallel, that's what I have in my notes
-						//You cannot start a racers after another has finished, because otherwise how do you keep track of the shift
-
-						System.out.println("Before start: " + ui.getRaceManager().racersPoolSize());
-
-						//						start();
-
-						if(ui.getSimulator().getRun() != 0 && ui.getSimulator().isActiveRun()){
-
-							trig("TRIG 1", false);
-
-						}else{
-
-							System.out.println("NO RUN!");
-
-						}
-
-						System.out.println("After start: " + ui.getRaceManager().racersPoolSize());
-
-						break;
-					case "FINISH":
-
-						System.out.println("Before finish: " + ui.getRaceManager().racersPoolSize());
-
-						if(ui.getSimulator().getRun() != 0 && ui.getSimulator().isActiveRun()){
-
-							trig("TRIG 2", false);
-
-						}else{
-
-							System.out.println("NO RUN!");
-
-						}
-
-						System.out.println("After finish: " + ui.getRaceManager().racersPoolSize());
-
-						break;
-					case "EXIT":
-						isIdle = false;
-						ui.getBtnHandler().EXIT();
-						break;
-					case "RESET":
-
-						powerOnOff();   //You said it's like power on/off
-
-						break;
-					case "TESTING":
-						testing();
-						break;
-					case "RACETEST":
-						ui.getRaceManager().makeOneRacer(111);
-						ui.getRaceManager().makeOneRacer(112);
-						ui.getRaceManager().makeOneRacer(224);
-						ui.getRaceManager().makeOneRacer(115);
-						ui.getRaceManager().makeOneRacer(227);
-						ui.getRaceManager().makeOneRacer(444);
-						ui.getRaceManager().makeOneRacer(144);
-						ui.getRaceManager().makeOneRacer(777);
-						break;
-					}
-				}else{
-
-					switch(str.split("\\s")[0].trim()){
-
-					case "EVENT":
-
-						if(!ui.getSimulator().isActiveRun()){
-
-							if(str.split("\\s")[1].trim().equals("IND")){
-
-								independent = true;
-								parallel = false;
-
-							}else if(str.split("\\s")[1].trim().equals("PARIND")){
-
-								parallel = true;
-								independent = false;
-
-							}
-						}else{
-
-							System.out.println("Please end the run");
-
-						}
-
-						break;
-					case "EXPORT":
-
-						try{
-
-							int run = Integer.parseInt(str.split("\\s")[1]);
-
-							Race[] tempRaceArray = (Race[]) ui.getRaceManager().getSelectedRun(run);
-
-							System.out.print("Please enter the fileName: ");
-
-							String fileName = input.nextLine();
-
-							try {
-								Util.save(fileName, tempRaceArray);
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
-
-						}catch(InputMismatchException e){
-
-							e.printStackTrace();
-
-						}
-
-					case "PRINT":
-
-						try{
-
-							Race[] tempRaceArray = (Race[]) ui.getRaceManager().getSelectedRun(Integer.parseInt(str.split("\\s")[1]));
-
-
-							for(int i = 0; i < tempRaceArray.length; i++){
-
-								if(tempRaceArray[i] != null){
-
-//									System.out.println("Race number: " + tempRaceArray[i].getRaceNbr());
-//									System.out.println("Run " + tempRaceArray[i].getRun());
-//									System.out.println("Racers active " + tempRaceArray[i].racersActive());
-//									System.out.println("Is race active? " + tempRaceArray[i].isActive());
-//									System.out.println("On channels " + tempRaceArray[i].getChannelsActive()[0]
-//											+ " and " + tempRaceArray[i].getChannelsActive()[1]);
-//									ui.getRaceManager().setChannelSelected(tempRaceArray[i].getChannelsActive()[0]);
-
-									Stack<Integer> tempStack = tempRaceArray[i].returnBids();
-									
-									
-									while(!tempStack.isEmpty()){
-										
-										long start;
-										long finish;
-										int bid = tempStack.pop();
-
-										
-										ui.getRaceManager().setChannelSelected(tempRaceArray[i].getChannelsActive()[0]);
-										
-//										System.out.println("Start time: " + ClockInterface.formatTime(
-//												ui.getRaceManager().getCurrentChannel().retrieve(bid)));
-										
-										start = ui.getRaceManager().getCurrentChannel().retrieve(bid);
-										
-										ui.getRaceManager().setChannelSelected(tempRaceArray[i].getChannelsActive()[1]);
-
-//										System.out.println("Finish time: " + ClockInterface.formatTime(
-//												ui.getRaceManager().getCurrentChannel().retrieve(bid)));
-										
-										finish = ui.getRaceManager().getCurrentChannel().retrieve(bid);
-										
-										System.out.println("<" + bid + ">" + " " + "<" + ClockInterface.getTotalTimeFormatted(start, finish) + ">");
-										
-									}
-								}
-							}
-
-						}catch(InputMismatchException ex){
-
-							ex.printStackTrace();
-
-						}
-
-
-
-						break;
-					case "TRIG":
-
-						System.out.println("Before trig: " + ui.getRaceManager().racersPoolSize());
-
-						System.out.println(ui.getSimulator().getRun());
-
-						if(ui.getSimulator().getRun() != 0 && ui.getSimulator().isActiveRun()){
-
-							trig(str, false);
-
-						}else{
-
-							System.out.println("NO RUN!");
-
-						}
-
-						System.out.println("After trig: " + ui.getRaceManager().racersPoolSize());
-
-						break;
-					case "NUM":
-
-						try{
-
-							ui.getRaceManager().makeOneRacer(Integer.parseInt(str.split("\\s")[1].trim()));
-
-
-						}catch(InputMismatchException e){}
-
-						break;
-					case "DNF":
-
-						try{
-
-							int race = Integer.parseInt(str.split("\\s")[1]) - 1;
-							ui.getRaceManager().getRaces()[race].finishRacer(true);
-
-						}catch(InputMismatchException ex){
-
-							ex.printStackTrace();
-
-						}
-
-						break;
-					case "TIME":    //Sets the current local time
-
-						setTime(str);
-
-						break;
-					case "TOG":
-
-						try{
-
-							channelSelected = Integer.parseInt(str.split("\\s")[1]);
-
-							if(channelSelected > 0 && channelSelected <= 4){
-
-								ui.getRaceManager().setChannelSelected(channelSelected);
-								ui.getRaceManager().getCurrentChannel().enable(!ui.getRaceManager().getCurrentChannel().isEnabled());
-
-							}
-
-						}catch(InputMismatchException e){}
-
-						break;
-					case "CONN":
-
-						conn(str);
-
-						break;
-					}
-
-					if(!isIdle){
-
-						isIdle = true;
-						break;
-
-					}
 				}
 			}
+
 		}
 	}
 

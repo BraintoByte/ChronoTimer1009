@@ -5,6 +5,8 @@ import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.InputMismatchException;
+
 import org.junit.Test;
 import entitiesStatic.Clock;
 import environment.RaceEventsManager;
@@ -111,6 +113,8 @@ public class SystemTest {
 		raceManager.setChannelSelected(1);
 		raceManager.propRace();													// setup pool for racers
 		raceManager.startNewRace(1);
+		raceManager.theseManySensors(4, 4, 4);
+		connectSensors();
 		int[] bibs = new int[200];
 
 		bibs = makeTheRacersTest(raceManager, bibs);								// populates array of bib#'s and adds racers to pool
@@ -137,27 +141,31 @@ public class SystemTest {
 
 		System.out.println("Please wait while the test simulates a PARIND run...");
 		raceManager.setChannelSelected(1);
-		raceManager.propRace();													// setup pool for racers
+		raceManager.propRace();														// setup pool for racers
+		assertNull(raceManager.getRaces());
+		raceManager.startNewRace(1);
+		assertNull(raceManager.getRaces()[1]);
+		raceManager.setChannelSelected(3);
 		raceManager.startNewRace(2);
+		raceManager.theseManySensors(4, 4, 4);
+		connectSensors();
 		//raceManager.startNewRace(3);
 		int[] bibs = new int[400];	
 
 		bibs = makeTheRacersTest(raceManager, bibs);								// populates array of bib#'s and adds racers to pool
 
-		// again issue with the pool!!! should not have one pool for all the races!!!
-
-		assertEquals(raceManager.racersPoolSize(), bibs.length);					// checks pool size
-
 		raceManager.getRaces()[0].startNRacers(200);								// starts run for 200 racers in lane 1 (chan 1 & 2)
 		assertEquals(raceManager.getRaces()[0].racersActive(), 200);				// check lane 1 size
 
+		
+		raceManager.getRaces()[1].startNRacers(0);
 		assertEquals(raceManager.getRaces()[1].racersActive(), 0);					// other lane is empty
 
 		raceManager.getRaces()[1].startNRacers(200);								// starts run for 200 racers in lane 1 (chan 1 & 2)
 		assertEquals(raceManager.getRaces()[1].racersActive(), 200);				// check lane 2 size
 
 		raceManager.getRaces()[0].stopLastRace();									// finishes all racers in lane 1
-		assertEquals(raceManager.racersPoolSize(), 200);							// checks pool size
+		assertEquals(raceManager.racersPoolSize(), 400);							// checks pool size
 
 		assertEquals(raceManager.getRaces()[1].racersActive(), 200);				// check lane 2 size
 
@@ -165,17 +173,20 @@ public class SystemTest {
 
 		assertEquals(raceManager.getRaces()[1].racersActive(), 0);					// checks lane 2 empty
 		endrun();
-		
+
 	}
-	
+
 	private void endrun(){
-		
+
 		if(raceManager.getRaces() != null){
 
 			for(int i = 0; i < raceManager.getRaces().length; i++){
 
-				raceManager.getRaces()[i].stopLastRace();
+				if(raceManager.getRaces()[i] != null){
 
+					raceManager.getRaces()[i].stopLastRace();
+
+				}
 			}
 		}
 	}
@@ -190,6 +201,45 @@ public class SystemTest {
 
 		return bibs;
 
+	}
+
+	private void connectSensors(){
+
+		for(int i = 1; i < 5; i++){
+
+			raceManager.setChannelSelected(i);
+
+			if(!raceManager.getCurrentChannel().isPairedToSensor()){
+
+				conn("CONN EYE " + i);
+
+			}
+		}
+	}
+
+	private void conn(String str){
+
+
+		try{
+
+			int channelSelected = Integer.parseInt(str.split("\\s")[2]);
+
+			if(channelSelected > 0 && channelSelected <= 4){
+
+				raceManager.setChannelSelected(channelSelected);
+
+				if(!raceManager.getCurrentChannel().isPairedToSensor()){
+
+					raceManager.CONN(str.split("\\s")[1].equalsIgnoreCase("eye"), 
+							str.split("\\s")[1].equalsIgnoreCase("gate"), str.split("\\s")[1].equalsIgnoreCase("pad"));
+				}
+			}
+
+		}catch(InputMismatchException ex){
+
+			ex.printStackTrace();
+
+		}
 	}
 
 }
