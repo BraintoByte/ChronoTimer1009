@@ -248,14 +248,6 @@ public class IOState extends State {
 
 							if(tempRaceArray[i] != null){
 
-								//									System.out.println("Race number: " + tempRaceArray[i].getRaceNbr());
-								//									System.out.println("Run " + tempRaceArray[i].getRun());
-								//									System.out.println("Racers active " + tempRaceArray[i].racersActive());
-								//									System.out.println("Is race active? " + tempRaceArray[i].isActive());
-								//									System.out.println("On channels " + tempRaceArray[i].getChannelsActive()[0]
-								//											+ " and " + tempRaceArray[i].getChannelsActive()[1]);
-								//									ui.getRaceManager().setChannelSelected(tempRaceArray[i].getChannelsActive()[0]);
-
 								Stack<Integer> tempStack = tempRaceArray[i].returnBids();
 
 
@@ -268,15 +260,9 @@ public class IOState extends State {
 
 									ui.getRaceManager().setChannelSelected(tempRaceArray[i].getChannelsActive()[0]);
 
-									//										System.out.println("Start time: " + ClockInterface.formatTime(
-									//												ui.getRaceManager().getCurrentChannel().retrieve(bid)));
-
 									start = ui.getRaceManager().getCurrentChannel().retrieve(bid);
 
 									ui.getRaceManager().setChannelSelected(tempRaceArray[i].getChannelsActive()[1]);
-
-									//										System.out.println("Finish time: " + ClockInterface.formatTime(
-									//												ui.getRaceManager().getCurrentChannel().retrieve(bid)));
 
 									finish = ui.getRaceManager().getCurrentChannel().retrieve(bid);
 
@@ -298,9 +284,7 @@ public class IOState extends State {
 				case "TRIG":
 
 					System.out.println("Before trig: " + ui.getRaceManager().racersPoolSize());
-
-					System.out.println(ui.getSimulator().getRun());
-
+					
 					if(ui.getSimulator().getRun() != 0 && ui.getSimulator().isActiveRun()){
 
 						trig(str, false);
@@ -556,21 +540,6 @@ public class IOState extends State {
 
 			}
 		}
-
-		//		if(independent){
-		//
-		//			ui.getRaceManager().propRace(1);
-		//			ui.getSimulator().setRun(ui.getSimulator().getRun() + 1);
-		//			ui.getRaceManager().startNewRace(ui.getSimulator().getRun());
-		//
-		//		}else{
-		//
-		//			ui.getRaceManager().propRace(2);
-		//			ui.getSimulator().setRun(ui.getSimulator().getRun() + 1);
-		//			ui.getRaceManager().startNewRace(ui.getSimulator().getRun());
-		//			ui.getRaceManager().startNewRace(ui.getSimulator().getRun());
-		//
-		//		}
 	}
 
 	private int channelsEnabled(int from){

@@ -343,8 +343,6 @@ public class Idle extends State {
 
 					System.out.println("Before trig: " + ui.getRaceManager().racersPoolSize());
 
-					System.out.println(ui.getSimulator().getRun());
-
 					if(ui.getSimulator().getRun() != 0 && ui.getSimulator().isActiveRun()){
 
 						trig(str, false);
@@ -610,21 +608,6 @@ public class Idle extends State {
 
 			}
 		}
-
-		//		if(independent){
-		//
-		//			ui.getRaceManager().propRace(1);
-		//			ui.getSimulator().setRun(ui.getSimulator().getRun() + 1);
-		//			ui.getRaceManager().startNewRace(ui.getSimulator().getRun());
-		//
-		//		}else{
-		//
-		//			ui.getRaceManager().propRace(2);
-		//			ui.getSimulator().setRun(ui.getSimulator().getRun() + 1);
-		//			ui.getRaceManager().startNewRace(ui.getSimulator().getRun());
-		//			ui.getRaceManager().startNewRace(ui.getSimulator().getRun());
-		//
-		//		}
 	}
 
 	private int channelsEnabled(int from){
