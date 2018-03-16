@@ -93,3 +93,18 @@ Before trig: 8
 NO RUN!
 After trig: 8
 NEWRUN
+
+
+Sequence test 2:
+
+TOG 1
+TOG 2
+TOG 3
+TOG 4
+EVENT IND
+RACETEST
+NEWRUN
+TRIG 1
+TRIG 2
+ENDRUN
+EXPORT 1

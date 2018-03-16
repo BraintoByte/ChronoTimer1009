@@ -490,14 +490,14 @@ public class RaceEventsManager {
 	//	}
 
 
-	public Object[] getSelectedRun(int run){
+	public Race[] getSelectedRun(int run){
 
-		Iterator<Entry<Integer, Race>> it = record.entrySet().iterator();
+		Iterator<Integer> it = record.keySet().iterator();
 		Stack<Race> tempStack = new Stack<>();
 
 		while(it.hasNext()){
 
-			Race temp = it.next().getValue();
+			Race temp = record.get(it.next());
 
 			if(temp.getRun() == run){
 
@@ -505,8 +505,10 @@ public class RaceEventsManager {
 
 			}
 		}
+		
+		Race[] tempArr = (Race[]) tempStack.toArray(new Race[tempStack.size()]);
 
-		return tempStack.toArray();
+		return tempArr;
 
 	}
 }

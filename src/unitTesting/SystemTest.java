@@ -119,7 +119,7 @@ public class SystemTest {
 		raceManager.getRaces()[0].startNRacers(bibs.length);						// starts run for all racers in bibs[]
 		assertEquals(bibs.length, raceManager.getRaces()[0].racersActive());		// check active size
 		assertEquals(raceManager.getRaces()[0].racersActive(), 200);
-		raceManager.getRaces()[0].stopLastRace();									// finishes all racers in active and puts them back into pool
+		raceManager.getRaces()[0].stopLastRace();								// finishes all racers in active and puts them back into pool
 		assertEquals(raceManager.racersPoolSize(), bibs.length);					// checks pool size
 		assertEquals(raceManager.getRaces()[0].racersActive(), 0);					// checks active size
 		endrun();

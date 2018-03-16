@@ -34,9 +34,6 @@ public class Idle extends State {
 		this.isIdle = true;
 	}
 
-	/* (non-Javadoc)
-	 * @see states.State#update()
-	 */
 	@Override
 	public void update() {
 
@@ -44,9 +41,7 @@ public class Idle extends State {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see states.State#display()
-	 */
+
 	@Override
 	public void display() {
 
@@ -219,7 +214,6 @@ public class Idle extends State {
 						ui.getRaceManager().makeOneRacer(444);
 						ui.getRaceManager().makeOneRacer(144);
 						ui.getRaceManager().makeOneRacer(777);
-
 						break;
 					}
 				}else{
@@ -255,9 +249,13 @@ public class Idle extends State {
 							int run = Integer.parseInt(str.split("\\s")[1]);
 
 							Race[] tempRaceArray = (Race[]) ui.getRaceManager().getSelectedRun(run);
+							
+							System.out.print("Please enter the fileName: ");
+							
+							String fileName = input.nextLine();
 
 							try {
-								Util.save(tempRaceArray);
+								Util.save(fileName, tempRaceArray);
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
