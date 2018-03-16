@@ -180,8 +180,8 @@ public class Idle extends State {
 
 						break;
 					case "TESTING":
-						
-						
+						testing();
+						break;
 					}
 				}else{
 
