@@ -173,7 +173,17 @@ public class Idle extends State {
 
 						System.out.println("Before start: " + ui.getRaceManager().racersPoolSize());
 
-						start();
+//						start();
+						
+						if(ui.getSimulator().getRun() != 0 && ui.getSimulator().isActiveRun()){
+
+							trig("TRIG 1", false);
+
+						}else{
+
+							System.out.println("NO RUN!");
+
+						}
 
 						System.out.println("After start: " + ui.getRaceManager().racersPoolSize());
 
@@ -182,11 +192,13 @@ public class Idle extends State {
 
 						System.out.println("Before finish: " + ui.getRaceManager().racersPoolSize());
 
-						channelSelected = 2;
+						if(ui.getSimulator().getRun() != 0 && ui.getSimulator().isActiveRun()){
 
-						if(isRaceActive()){
+							trig("TRIG 2", false);
 
-							ui.getRaceManager().getRaces()[channelSelected - 1].finishRacer(false);
+						}else{
+
+							System.out.println("NO RUN!");
 
 						}
 
@@ -267,9 +279,19 @@ public class Idle extends State {
 						}
 
 					case "PRINT":
+						
+						try{
 
+						Race[] tempRaceArray = (Race[]) ui.getRaceManager().getSelectedRun(Integer.parseInt(str.split("\\s")[1]));
 
-
+						}catch(InputMismatchException ex){
+							
+							ex.printStackTrace();
+							
+						}
+						
+						
+						
 						break;
 					case "TRIG":
 

@@ -250,7 +250,7 @@ public class Util {
 			Gson g = new Gson();
 
 
-			fileWriter.write(g.toJson(race[i]));
+			fileWriter.write(g.toJson(race[i].getClass()));
 			fileWriter.flush();
 			fileWriter.close();
 

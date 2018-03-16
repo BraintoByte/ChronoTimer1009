@@ -108,3 +108,17 @@ TRIG 1
 TRIG 2
 ENDRUN
 EXPORT 1
+C:\Users\TheLaw\Desktop\save.txt
+
+
+
+Sequence test 3:
+
+TOG 1
+TOG 2
+EVENT IND
+NUM 1
+NEWRUN
+NUM 1
+TRIG 1
+TRIG 2
