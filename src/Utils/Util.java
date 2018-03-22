@@ -2,12 +2,17 @@ package Utils;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FilePermission;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.security.AccessController;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Scanner;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -198,32 +203,58 @@ public class Util {
 
 
 
-	public static boolean save(Race race )throws IOException{
+	public static boolean save(String fileName, Race...race)throws IOException{
 
-		if(race == null ){
+		if(race == null || race.length == 0){
 
 			return false;
 
 		}
 
+		fileName = System.getProperty("user.dir", fileName);
+		boolean filePath = false;
 
-		if(race.racersActive()== 0) {
-			return false;
+		for(int i = 0; i < race.length; i++){
+
+			if(race[i] == null){
+
+				continue;
+
+			}
+
+			if(!filePath){
+
+				try{
+
+					AccessController.checkPermission(new FilePermission(System.getProperty("user.dir"), "read,write"));
+
+				}catch(SecurityException e){
+
+					System.out.print("Please run as admin or select path: ");
+					Scanner tempScan = new Scanner(System.in);
+					fileName = tempScan.nextLine();
+					
+					System.out.println(fileName);
+
+				}
+			}
+
+			File tmp = new File(fileName);
+			System.out.println("Saved in " + fileName);
+
+			if(!tmp.exists()){
+				tmp.createNewFile();
+			}
+
+			FileWriter fileWriter = new FileWriter(tmp,true);
+			Gson g = new Gson();
+
+
+			fileWriter.write(g.toJson(race[i].getClass()));
+			fileWriter.flush();
+			fileWriter.close();
+
 		}
-
-		File tmp = new File(System.getProperty("user.dir","json.txt"));
-
-		if(!tmp.exists()){
-			tmp.createNewFile();
-		}
-
-		FileWriter fileWriter = new FileWriter(tmp,true);
-		Gson g = new Gson();
-		String ret;
-		ret = g.toJson(race);
-
-		fileWriter.write(ret);
-		fileWriter.close();
 
 		return true;
 
@@ -234,9 +265,5 @@ public class Util {
 		File tmp = new File(System.getProperty("user.dir"),"json.txt");
 		tmp.delete();
 		tmp.createNewFile();
-
 	}
-
-
-
 }

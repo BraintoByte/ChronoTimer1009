@@ -1,7 +1,10 @@
 package environment;
 
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Stack;
@@ -29,7 +32,7 @@ public class RaceEventsManager {
 		private SensorCoupler(){
 
 			factory = new SensorFactory();
-			
+
 		}
 
 		/**
@@ -116,13 +119,13 @@ public class RaceEventsManager {
 
 			return -1;
 		}
-		
+
 		protected void uncoupleSensors(int channel){
-			
+
 			if(channel - 1 < Channels.channels.length){
-				
+
 				Channels.channels[channel - 1].unPairToSensor();
-				
+
 			}
 		}
 
@@ -138,90 +141,188 @@ public class RaceEventsManager {
 	private Pool racePool;
 	protected Race[] races;
 	private int raceNbr;
-	
-	
-	
-	
-	public boolean startNewRace(){
-		
-		if(raceNbr < races.length){
-			
-			races[raceNbr] = new Race(this, raceNbr + 1, raceNbr + 2);
-			
-			return true;
-			
+	private HashMap<Integer, Race> record = new HashMap<>();
+	private int racesRecords = 1;
+	private int index;
+
+
+
+
+
+	public boolean startNewRace(int run){
+
+		if(races == null){
+
+			races = new Race[8];    //For future races, max of 8, will implement group as well, that's why 8
+
 		}
 		
+		
+//		else{
+//
+//			ensureCapacity(races.length * 2);
+//
+//		}
+		
+		
+		if(raceNbr < races.length){      //For later on when an input is created, don't worry not an NOP!
+
+			races[index] = new Race(this, channelSelected, channelSelected + 1);
+			races[index].setRaceNbr(raceNbr + 1);
+			races[index].setRun(run);
+			raceNbr++;
+			index++;
+
+			return true;
+
+		}
+
 		return false;
 		
 	}
 	
+	public void reset(){
+		
+		index = 0;
+		
+	}
+
+
+	private void ensureCapacity(int eSize){
+
+		Race[] temp = new Race[eSize];
+
+		for(int i = 0; i < races.length; i++){
+
+			temp[i] = races[i];
+
+		}
+
+		races = temp;
+
+	}
+	
+	
+	public int racesActive(){
+		
+		if(races == null){
+			
+			return 0;
+			
+		}
+		
+		int count = 0;
+		
+		for(int i = 0; i < races.length; i++){
+			
+			if(races[i] != null && races[i].isActive()){
+				
+				count++;
+				
+			}
+		}
+		
+		return count;
+		
+	}
+
+
 	public void propRace(){
 
-		racePool = Pool.getPool();
-		races = new Race[2];
-		
+		if(racePool == null){
+
+			racePool = Pool.getPool();
+
+		}
 	}
-	
+
 	public void makeOneRacer(int racer){
-		
-		if(racer >= 0)
+
+		if(racer >= 0){
 			racePool.makeRacer(racer);
-			
+		}
 	}
-	
-	
+
+
 	protected void returnRacer(Racer racer){
-		
+
 		racePool.returnRacer(racer);
-		
+
 	}
-	
-	
+
+
 	protected void returnRacerCancel(Racer racer){
-		
+
 		racePool.returnCancel(racer);
-		
+
 	}
-	
-//	public void finishOneRacerOnRaceSelected(){
-//		
-//		races[raceNbr].CANCEL();
-//		
-//	}
-//	
-//	public void finishRaceSelected(){
-//		
-//		if(channelSelected == 1 || channelSelected == 2){
-//			
-//			races[0].finishRacer();
-//			
-//		}else{
-//			
-//			races[1].finishRacer();
-//			
-//		}
-//	}
-//	
-//	public void startOneRacerOnSelectedChannel(){
-//		
-//		races[raceNbr].startNRacers(1);
-//		
-//	}
-	
+
+	//	public void finishOneRacerOnRaceSelected(){
+	//		
+	//		races[raceNbr].CANCEL();
+	//		
+	//	}
+	//	
+	//	public void finishRaceSelected(){
+	//		
+	//		if(channelSelected == 1 || channelSelected == 2){
+	//			
+	//			races[0].finishRacer();
+	//			
+	//		}else{
+	//			
+	//			races[1].finishRacer();
+	//			
+	//		}
+	//	}
+	//	
+	//	public void startOneRacerOnSelectedChannel(){
+	//		
+	//		races[raceNbr].startNRacers(1);
+	//		
+	//	}
+
+	protected void engrave(boolean mod, int raceNbr){
+
+		if(mod){
+
+			record.remove(raceNbr);
+
+			int temp = channelSelected == 1 || channelSelected == 2 ? 0 : 1;
+
+			record.put(raceNbr, races[temp]);
+
+		}else{
+
+			if(races[0] != null){
+
+				record.put(racesRecords, races[0]);
+				racesRecords++;
+
+			}
+
+			if(races[1] != null){
+
+				record.put(racesRecords, races[1]);
+				racesRecords++;
+
+			}
+		}
+	}
+
 	public Race[] getRaces() {
 		return races;
 	}
-	
-//
-//
-//	/**
-//	 * Set a specific channel to be the selected channel
-//	 * 
-//	 * @param channelSelected
-//	 * @return true if channel exists and will be selected, false if not!
-//	 */
-//
+
+	//
+	//
+	//	/**
+	//	 * Set a specific channel to be the selected channel
+	//	 * 
+	//	 * @param channelSelected
+	//	 * @return true if channel exists and will be selected, false if not!
+	//	 */
+	//
 	public boolean setChannelSelected(int channelSelected) {
 
 		if(channelSelected <= Channels.channels.length){
@@ -233,84 +334,82 @@ public class RaceEventsManager {
 		}
 
 		return false;
-		
+
 	}
-//	
-//	public void stopLastRace(){
-//		
-//		while(!active.isEmpty()){
-//
-//			finishRacer();
-//			
-//		}
-//	}
-//	
-//	
-//	public void startNRacers(int n){
-//
-//		if(n <= racePool.racersAmount()){
-//
-//			for(int i = 0; i < n; i++){
-//				
-//				Channels.channels[0].TriggerSensor();
-//				Racer racer = racePool.startRacer();
-//				Channels.channels[0].activate(racer.getBib());
-//				active.add(racer);
-//	
-//			}
-//		}
-//	}
-//	
-//	
-//	public void finishRacer(){
-//		
-//		Racer racer = active.remove();
-//		
-//		
-//		Random rand = new Random();       //You told me it was random, nothing in the guidelines suggests otherwise
-//		int randomNum = rand.nextInt((20 - 0) + 1) + 0;
-//		int randomNum2 = rand.nextInt((20 - 0) + 1) + 0;
-//
-//		if(randomNum == randomNum2){
-//
-//			racer.setDNF();
-//			
-//		}
-//		
-//		Channels.channels[1].TriggerSensor();
-//		Channels.channels[1].activate(racer.getBib());
-//		racePool.returnRacer(racer);
-//		
-//	}
-//	
+	//	
+	//	public void stopLastRace(){
+	//		
+	//		while(!active.isEmpty()){
+	//
+	//			finishRacer();
+	//			
+	//		}
+	//	}
+	//	
+	//	
+	//	public void startNRacers(int n){
+	//
+	//		if(n <= racePool.racersAmount()){
+	//
+	//			for(int i = 0; i < n; i++){
+	//				
+	//				Channels.channels[0].TriggerSensor();
+	//				Racer racer = racePool.startRacer();
+	//				Channels.channels[0].activate(racer.getBib());
+	//				active.add(racer);
+	//	
+	//			}
+	//		}
+	//	}
+	//	
+	//	
+	//	public void finishRacer(){
+	//		
+	//		Racer racer = active.remove();
+	//		
+	//		
+	//		Random rand = new Random();       //You told me it was random, nothing in the guidelines suggests otherwise
+	//		int randomNum = rand.nextInt((20 - 0) + 1) + 0;
+	//		int randomNum2 = rand.nextInt((20 - 0) + 1) + 0;
+	//
+	//		if(randomNum == randomNum2){
+	//
+	//			racer.setDNF();
+	//			
+	//		}
+	//		
+	//		Channels.channels[1].TriggerSensor();
+	//		Channels.channels[1].activate(racer.getBib());
+	//		racePool.returnRacer(racer);
+	//		
+	//	}
+	//	
 	public int racersPoolSize(){
-		
 
-		return racePool.racersAmount();
+		return racePool == null ? 0 : racePool.racersAmount();
 
-		
 	}
-//	
-//
-//	public int racersActive(){
-//
-//		return active.size();
-//
-//	}
-//	
-//	public void CANCEL(){
-//		
-//		racePool.returnCancel(active.remove());
-//		
-//	}
-	
-	
+	//	
+	//
+	//	public int racersActive(){
+	//
+	//		return active.size();
+	//
+	//	}
+	//	
+	//	public void CANCEL(){
+	//		
+	//		racePool.returnCancel(active.remove());
+	//		
+	//	}
+
+
 	/**
 	 * Gets the selected channel
 	 * 
 	 * @return the channel selected
 	 */
-	
+
 	public int getChannelSelected() {
 		return channelSelected;
 	}
@@ -353,34 +452,57 @@ public class RaceEventsManager {
 			}
 		}
 	}
-	
-	
-	protected Racer getRacer(){
-		
-		return racePool.startRacer();
-		
-	}
-	
 
-//	/**
-//	 * Helper of {@link RaceEventsManager#allPairedSensors()} puts one channel sensors into the final array from index to index
-//	 * and sends back the ending index
-//	 * 
-//	 * @param sensors
-//	 * @param tempSensor
-//	 * @param fromIndex
-//	 * @return fromIndex
-//	 */
-//	
-//	private int putIntoArray(Sensor[] sensors, Object[] tempSensor, int fromIndex){
-//
-//		for(int i = 0; i < tempSensor.length; i++){
-//
-//			sensors[fromIndex] = (Sensor) tempSensor[i];
-//			fromIndex++;
-//		}
-//
-//		return fromIndex;
-//
-//	}
+
+	protected Racer getRacer(){
+
+		return racePool.startRacer();
+
+	}
+
+
+	//	/**
+	//	 * Helper of {@link RaceEventsManager#allPairedSensors()} puts one channel sensors into the final array from index to index
+	//	 * and sends back the ending index
+	//	 * 
+	//	 * @param sensors
+	//	 * @param tempSensor
+	//	 * @param fromIndex
+	//	 * @return fromIndex
+	//	 */
+	//	
+	//	private int putIntoArray(Sensor[] sensors, Object[] tempSensor, int fromIndex){
+	//
+	//		for(int i = 0; i < tempSensor.length; i++){
+	//
+	//			sensors[fromIndex] = (Sensor) tempSensor[i];
+	//			fromIndex++;
+	//		}
+	//
+	//		return fromIndex;
+	//
+	//	}
+
+
+	public Race[] getSelectedRun(int run){
+
+		Iterator<Integer> it = record.keySet().iterator();
+		Stack<Race> tempStack = new Stack<>();
+
+		while(it.hasNext()){
+
+			Race temp = record.get(it.next());
+
+			if(temp.getRun() == run){
+
+				tempStack.push(record.remove(temp.getRaceNbr()));
+
+			}
+		}
+		
+		Race[] tempArr = (Race[]) tempStack.toArray(new Race[tempStack.size()]);
+
+		return tempArr;
+
+	}
 }

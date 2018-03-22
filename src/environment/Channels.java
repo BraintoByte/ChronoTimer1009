@@ -3,8 +3,10 @@ package environment;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 import entitiesDynamic.Pool;
 import entitiesDynamic.Racer;
@@ -19,7 +21,7 @@ import hardware.external.sensors.gate.Gate;
 
 public abstract class Channels {
 
-	public static Channels[] channels = new Channels[2];
+	public static Channels[] channels = new Channels[4];
 	private HashMap<Integer, Long> activeRacers = new HashMap<>();
 	private Sensor sensorPaired;
 	private String name;
@@ -37,6 +39,7 @@ public abstract class Channels {
 	 * @param name
 	 * @param chId
 	 */
+	
 	public Channels(String name, int chId) {
 
 		this.name = name;
@@ -74,7 +77,15 @@ public abstract class Channels {
 	}
 
 	public boolean isEnabled() {
-		return isEnabled;
+		
+		return this.isEnabled;
+		
+	}
+	
+	private boolean isActive(){
+		
+		return activeRacers.size() != 0;
+		
 	}
 
 	public void TriggerSensor(){
