@@ -21,68 +21,25 @@ import com.google.gson.Gson;
 
 import environment.Race;
 
+/**
+ * @author Andy
+ * The Util class, apart of the Utils package, is the Utility class for the ChronoTimer,
+ * is resposible for processing input files, Exporting Runs among other things.
+ */
 public class Util {
 
-	//	12:01:02.0	POWER
-	//	12:01:04.0	POWER
-	//	12:01:06.0	POWER
-	//	12:01:20.0	EVENT IND
-	//	12:01:25.0	NEWRUN
-	//	12:02:00.0	TOG 1
-	//	12:02:04.0	TOG 2
-	//	12:02:10.0	NUM 234
-	//	12:02:25.0	NUM 315
-	//	12:02:50.0	TRIG 1
-	//	12:02:52.0	TRIG 3
-	//	12:03:35.0	TRIG 2
-	//	12:03:55.0	TRIG 4
-	//	12:04:50.0	PRINT
-	//	12:06:00.0	ENDRUN
-	//	12:06:10.0	NEWRUN
-	//	13:01:00.0	EVENT IND
-	//	13:02:10.0	NUM 167
-	//	13:02:15.0	NUM 166
-	//	13:02:20.0	NUM 200
-	//	13:02:25.0	NUM 201
-	//	13:04:30.0	TRIG 1
-	//	13:05:00.0	TRIG 1
-	//	13:05:02.0	TRIG 2
-	//	13:05:15.0	TRIG 2
-	//	13:05:18.0	TRIG 4
-	//	13:05:19.0	PRINT
-	//	13:05:25.3	POWER
-	//	13:05:26.3	POWER
-	//	13:06:00.0	NEWRUN
-	//	13:35:52.0	POWER
-	//	13:35:55.0	EXIT
-	//	POWER	 	 	 	 (if	off)	Turn	system	on,	enter	quiescent	state	
-	//	POWER	 	 	 	 (if	on)	Turn	system	off	(but	stay	in	simulator)	
-	//	EXIT	 	 	 	 	 Exit	the	simulator	
-	//	RESET		 	 	 	 Resets	the	System	to	initial	state	
-	//	TIME		<hour>:<min>:<sec>	 Set	the	current	time.		Default	time	is	the	host	
-	//	system	time	
-	//	TOG	<channel>	 	 	 Toggle	the	state	of	the	channel	<CHANNEL>	
-	//	CONN	 <sensor>	<NUM>	 	 Connect	a	type	of	sensor	to	channel	<NUM>	
-	//		 	 	 	 	 <sensor>	=	{EYE,	GATE,	PAD}	
-	//	DISC	<NUM>	 	 	 	 Disconnect	a	sensor	from	channel	<NUM>	
-	//	EVENT	<TYPE>	 	 	 IND	|	PARIND	|	GRP	|	PARGRP	
-	//	NEWRUN	 	 	 	 Create	a	new	Run	(must	end	a	run	first)	
-	//	ENDRUN	 	 	 	 Done	with	a	Run	
-	//	PRINT	<RUN>	 	 	 Print	the	run	on	stdout	
-	//	EXPORT	<RUN>	 	 	 Export	run	in	XML	to	file	“RUN<RUN>”	
-	//	NUM	<NUMBER>	 	 	 Set	<NUMBER>	as	the	next	competitor	to	start.	
-	//	CLR	<NUMBER>	 	 	 Clear	<NUMBER>	the	competitor	from	queue	
-	//	SWAP	 	 	 	 	 Exchange	next	two	competitors	to	finish	in	IND	
-	//	DNF		 	 	 	 	 The	next	competitor	to	finish	will	not	finish	
-	//	TRIG	<NUM>	 	 	 	 Trigger	channel	<NUM>	
-	//	START		 	 	 	 Start	trigger	channel	1	(shorthand	for	TRIG	1)	
-	//	FINISH	 	 	 	 Finish	trigger	channel	2	(shorthand	for	TRIG	2)
-
+	/**
+	 * @author Andy
+	 * The ProcessFile class, an inner class of Util, is responsible for generating a stack of commands.
+	 */
 	private static class ProcessFile{
 
 		private static Stack<String> commands = new Stack<>();
 
-
+		/**
+		 * Processes commands from a file and adds them to a queue which is used by makeCommands()
+		 * @see ProcessFile#makeCommands().
+		 */
 		private static void commandProcessing(){
 
 			String[] splitted = fileContent.toString().split("\\s");
@@ -109,14 +66,14 @@ public class Util {
 			makeCommands();
 
 		}
-
+		/**
+		 * TBH idk what this does...
+		 */
 		private static void makeCommands(){
 
 			Deque<String> temp = new LinkedList<>();
 
 			StringBuilder sb = new StringBuilder();
-
-
 
 			while(!commands.isEmpty()){     //C:\Users\TheLaw\git\ChronoTimer1009\CTS1RUN2.txt
 
@@ -151,11 +108,8 @@ public class Util {
 	private static StringBuilder fileContent;
 
 	/**
-	 * Opens and reads a file, and returns the contents as one String.
-	 */
-	/**
 	 * @param filename
-	 * @return
+	 * Opens and reads a file, and returns the contents as one String.
 	 */
 	public static void readFileAsString(String filename) {
 
@@ -189,20 +143,31 @@ public class Util {
 		ProcessFile.commandProcessing();
 	}
 
+	/**
+	 * @return the next Command as a String
+	 */
 	public static String getNextCommand(){
 
 		return ProcessFile.commands.isEmpty() ? null : ProcessFile.commands.pop();
 
 	}
 
+	/**
+	 * @return true if there are more commands
+	 */
 	public static boolean areCommandIssued(){
 
 		return !ProcessFile.commands.isEmpty();
-
 	}
 
-
-
+	/**
+	 * @param fileName
+	 * @param race
+	 * @return
+	 * @throws IOException
+	 * Creates a File named fileName and saves the Race paramter 'race' to it in Json format.
+	 * (See EXPORT command documentation) 
+	 */
 	public static boolean save(String fileName, Race...race)throws IOException{
 
 		if(race == null || race.length == 0){
@@ -219,7 +184,6 @@ public class Util {
 			if(race[i] == null){
 
 				continue;
-
 			}
 
 			if(!filePath){
@@ -235,7 +199,6 @@ public class Util {
 					fileName = tempScan.nextLine();
 					
 					System.out.println(fileName);
-
 				}
 			}
 
@@ -249,18 +212,17 @@ public class Util {
 			FileWriter fileWriter = new FileWriter(tmp,true);
 			Gson g = new Gson();
 
-
 			fileWriter.write(g.toJson(race[i].getClass()));
 			fileWriter.flush();
 			fileWriter.close();
-
 		}
 
 		return true;
-
 	}
 
-
+	/**
+	 * @throws IOException
+	 */
 	public static void clear() throws IOException {
 		File tmp = new File(System.getProperty("user.dir"),"json.txt");
 		tmp.delete();

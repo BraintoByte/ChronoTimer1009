@@ -2,10 +2,15 @@ package hardware.buttons;
 
 import hardware.user.Button;
 
+/**
+ * @author Andy
+ * The Start button, an extension of the Button class @see hardware.user.Button.
+ */
 public class Start extends Button{
 
 	/**
-	 * @param id
+	 * @param id - the ID of the button
+	 * Constructor for Start button.
 	 */
 	public Start(int id) {
 		super("START", id);

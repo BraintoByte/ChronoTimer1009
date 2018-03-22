@@ -1,4 +1,4 @@
-package unitTesting;
+package testing;
 
 import static org.junit.Assert.*;
 import java.sql.Time;
@@ -12,6 +12,11 @@ import entitiesStatic.Clock;
 import environment.RaceEventsManager;
 import states.State;
 
+/**
+ * @author Andy & Matt
+ * Tests some of the system level tests like connecting sensors to channels and ensuring the clock works.
+ * TestINDRun() and TestPARINDRun are stress tests that ensure the two event types work properly.
+ */
 public class SystemTest {
 
 	private  Clock clock = new Clock();

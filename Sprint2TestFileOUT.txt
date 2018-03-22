@@ -1,0 +1,72 @@
+Power on
+Races is null: false
+Channels active: 0
+Before trig: 4
+After trig: 4
+Before trig: 4
+After trig: 4
+Before trig: 4
+After trig: 4
+Before trig: 4
+After trig: 4
+Before trig: 4
+No more racers!
+After trig: 4
+Before trig: 4
+No more racers!
+After trig: 4
+Before trig: 4
+No more racers!
+After trig: 4
+Before trig: 4
+No more racers!
+After trig: 4
+Races is null: false
+Channels active: 2
+Before trig: 7
+After trig: 7
+Before trig: 7
+After trig: 7
+Before trig: 7
+After trig: 7
+Before trig: 7
+After trig: 7
+Before trig: 7
+No more racers!
+After trig: 7
+Before trig: 7
+No more racers!
+After trig: 7
+Before trig: 7
+No more racers!
+After trig: 7
+Before trig: 7
+No more racers!
+After trig: 7
+Races is null: false
+Channels active: 2
+Before trig: 9
+Channel 1 is not toggled!
+After trig: 9
+Before trig: 9
+Channel 3 is not toggled!
+After trig: 9
+Before trig: 9
+Channel 3 is not toggled!
+After trig: 9
+Before trig: 9
+Channel 1 is not toggled!
+After trig: 9
+Before trig: 9
+Channel 2 is not toggled!
+After trig: 9
+Before trig: 9
+Channel 2 is not toggled!
+After trig: 9
+Before trig: 9
+Channel 4 is not toggled!
+After trig: 9
+Before trig: 9
+Channel 4 is not toggled!
+After trig: 9
+Power on

@@ -4,123 +4,130 @@ import java.util.Scanner;
 
 import entitiesStatic.Clock;
 
+/**
+ * @author Andy & Matt
+ * The ButtonHandler class, apart of the hardware.user package, is in charge of setting the Button's states among other things.
+ */
 public class ButtonHandler {
 
+	/**
+	 * @author Andy
+	 * The ButtonManager class, an inner class of ButtonHandler, is responsible for getting all of the Buttons.
+	 */
 	private class ButtonManager {
-		
 
 		/**
-		 * @return
+		 * @return the Power Button
 		 */
 		protected Button getPower() {
 			return Button.buttons[0];
 		}
+		
 		/**
-		 * @return
+		 * @return the Reset Button
 		 */
 		protected Button getReset() {
 			return Button.buttons[1];
 		}
+		
 		/**
-		 * @return
+		 * @return the Start Button
 		 */
 		protected Button getStart() {
 			return Button.buttons[2];
 		}
+		
 		/**
-		 * @return
+		 * @return the Finish Button
 		 */
 		protected Button getFinish() {
 			return Button.buttons[3];
 		}
+		
 		/**
-		 * @return
+		 * @return the Tog Button
 		 */
 		protected Button getTog() {
 			return Button.buttons[4];
 		}
+		
 		/**
-		 * @return
+		 * @return the Trig Button
 		 */
 		protected Button getTrig() {
 			return Button.buttons[5];
 		}
+		
 		/**
-		 * @return
+		 * @return the Exit Button
 		 */
 		protected Button getExit() {
 			return Button.buttons[6];
 		}
+		
 		/**
-		 * @return
+		 * @return the Cancel Button
 		 */
 		protected Button getCancel() {
 			return Button.buttons[7];
 		}
+		
 		/**
-		 * @return
+		 * @return the Time Button
 		 */
 		protected Button getTime(){
-			
+
 			return Button.buttons[8];
-			
 		}
 	}
-	
+
 	private ButtonManager manager;
-	
+
 	/**
-	 * 
+	 * Constructor for ButtonHandler
 	 */
 	public ButtonHandler(){
 		manager = new ButtonManager();
 	}
-	
-	
+
 	/**
-	 * 
+	 * Exits the simulator
 	 */
 	public void EXIT(){
-		
 		manager.getExit().EXIT();
-		
 	}
-	
+
 	/**
-	 * @return
+	 * @return true if the Button is on
 	 */
 	public boolean getPowerState(){
-		
 		return manager.getPower().isOn;
-		
 	}
-	
+
 	/**
-	 * @param on
-	 * @return
+	 * @param state
+	 * @return true if the Button is on
+	 * 
+	 * Sets the Buttons power state to the parameter state.
 	 */
-	public boolean setPowerOnOff(boolean on){
-		
-		manager.getPower().setOn(on);
+	public boolean setPowerOnOff(boolean state){
+
+		manager.getPower().setOn(state);
 		return manager.getPower().isOn;  //For later in the develpment!
-		
 	}
-	
+
 	/**
-	 * @return
+	 * @return true if the Cancel Button is on
 	 */
-	public boolean getOtherStates(){
-		
+	public boolean getCancelState(){
 		return manager.getCancel().isOn;
-		
 	}
-	
+
 	/**
-	 * @return
+	 * @return the current time of the system
 	 */
 	public String getCurrentTime(){
-		
 		return manager.getTime().getCurrentTime();
-		
 	}
+	
 }

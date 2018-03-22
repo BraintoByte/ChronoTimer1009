@@ -4,6 +4,10 @@ import entitiesStatic.Clock;
 import entitiesStatic.ClockInterface;
 import hardware.external.Sensor;
 
+/**
+ * @author Andy
+ * The Eye sensor.
+ */
 public class Eye implements Sensor {
 	
 	private static Eyes eyes = Eyes.getSingletonEyes();
@@ -12,44 +16,37 @@ public class Eye implements Sensor {
 	private long endTime;
 	private boolean isTrigger;
 	
-	
-	
 	/**
-	 * @param id
+	 * @param id - the ID of the Sensor
+	 * Constructor for the Eye Sensor.
 	 */
 	public Eye(int id) {
 		
 		this.id = id;
 		this.eyes.addEye(this);
-		
 	}
 	
-	/**
-	 * 
-	 */
+	/*
 	private void triggerStart(){
 		
 		this.startTime = ClockInterface.getTimeInLong();
-		
 	}
 	
-	/**
-	 * 
-	 */
 	private void triggerEnd(){
 		
 		this.endTime = ClockInterface.getTimeInLong();
 		
 	}
+	*/
 	
-	
+	/**
+	 * Resets the start and end time of this sensor.
+	 */
 	public void resetEye(){
 		
 		this.startTime = 0;
 		this.endTime = 0;
-		
 	}
-	
 	
 	/* (non-Javadoc)
 	 * @see hardware.external.Sensor#getCurrentFormattedTime()
@@ -67,13 +64,12 @@ public class Eye implements Sensor {
 		return ClockInterface.getTimeInLong();
 	}
 	
-	
 	/* (non-Javadoc)
 	 * @see hardware.external.Sensor#computeTime()
 	 */
 	@Override
-	public long computeTime() {
-		return ClockInterface.computeTime(this.startTime, this.endTime);
+	public long computeDifferenceInTime() {
+		return ClockInterface.computeDifference(this.startTime, this.endTime);
 	}
 	
 	/* (non-Javadoc)
@@ -81,7 +77,6 @@ public class Eye implements Sensor {
 	 */
 	@Override
 	public int getId() {
-		
 		return this.id;
 	}
 
@@ -93,11 +88,17 @@ public class Eye implements Sensor {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see hardware.external.Sensor#trigger()
+	 */
 	@Override
 	public void trigger() {
 		isTrigger = !isTrigger;
 	}
 	
+	/* (non-Javadoc)
+	 * @see hardware.external.Sensor#isTriggered()
+	 */
 	@Override
 	public boolean isTriggered() {
 		return isTrigger;

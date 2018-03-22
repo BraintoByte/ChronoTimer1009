@@ -1,11 +1,11 @@
 package states.hardware;
 
-
 import java.io.IOException;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.Stack;
@@ -17,8 +17,11 @@ import exceptions.NoSuchRacerException;
 import interfaces.UI;
 import states.State;
 
+/**
+ * @author Andy & Matt
+ * The Idle State, apart of states.hardware, is the State in which the system idles, or waits for the user to input a command.
+ */
 public class Idle extends State {
-
 
 	private boolean isIdle;
 	private Scanner input;
@@ -29,6 +32,7 @@ public class Idle extends State {
 	/**
 	 * @param ui
 	 * @param input
+	 * Constructor for Idle that takes UI and Scanner as parameters.
 	 */
 	public Idle(UI ui, Scanner input) {
 		super(ui, input);
@@ -36,14 +40,18 @@ public class Idle extends State {
 		this.isIdle = true;
 	}
 
+	/* (non-Javadoc)
+	 * @see states.State#update()
+	 */
 	@Override
 	public void update() {
 
 		idleWait();
-
 	}
 
-
+	/* (non-Javadoc)
+	 * @see states.State#display()
+	 */
 	@Override
 	public void display() {
 
@@ -51,40 +59,29 @@ public class Idle extends State {
 
 	}
 
-
 	/**
-	 * 
+	 * The idle method for this State which runs continuesly, waiting for user input.
 	 */
-
-
-
-	//	if(ui.getRaceManager().racersPoolSize() == 0){
-	//
-	//		throw new NoSuchRacerException();
-	//
-	//	}
-
 	protected void idleWait(){
-
 
 		//Testing only//
 
-//		for(int i = 1; i < 5; i++){
-//
-//			ui.getRaceManager().setChannelSelected(i);
-//
-//			if(!ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
-//
-//				conn("CONN EYE " + i);
-//
-//			}
-//		}
-//
-//		if(channelSelected > 4){
-//
-//			channelSelected = 1;
-//
-//		}
+		//		for(int i = 1; i < 5; i++){
+		//
+		//			ui.getRaceManager().setChannelSelected(i);
+		//
+		//			if(!ui.getRaceManager().getCurrentChannel().isPairedToSensor()){
+		//
+		//				conn("CONN EYE " + i);
+		//
+		//			}
+		//		}
+		//
+		//		if(channelSelected > 4){
+		//
+		//			channelSelected = 1;
+		//
+		//		}
 
 
 		//End for testing only//
@@ -102,8 +99,8 @@ public class Idle extends State {
 				independent = true;
 
 			}
-			
-			
+
+
 			if(ui.getSimulator().getRun() == 0){
 
 				ui.getRaceManager().propRace();
@@ -214,8 +211,8 @@ public class Idle extends State {
 					break;
 				case "RESET":
 
-					powerOnOff();   //You said it's like power on/off
-
+					powerOnOff();   // turns power off then back on
+					powerOnOff();
 					break;
 				case "TESTING":
 					testing();
@@ -292,15 +289,7 @@ public class Idle extends State {
 
 							if(tempRaceArray[i] != null){
 
-								//									System.out.println("Race number: " + tempRaceArray[i].getRaceNbr());
-								//									System.out.println("Run " + tempRaceArray[i].getRun());
-								//									System.out.println("Racers active " + tempRaceArray[i].racersActive());
-								//									System.out.println("Is race active? " + tempRaceArray[i].isActive());
-								//									System.out.println("On channels " + tempRaceArray[i].getChannelsActive()[0]
-								//											+ " and " + tempRaceArray[i].getChannelsActive()[1]);
-								//									ui.getRaceManager().setChannelSelected(tempRaceArray[i].getChannelsActive()[0]);
-
-								Stack<Integer> tempStack = tempRaceArray[i].returnBids();
+								Stack<Integer> tempStack = tempRaceArray[i].returnBibs();
 
 
 								while(!tempStack.isEmpty()){
@@ -312,15 +301,9 @@ public class Idle extends State {
 
 									ui.getRaceManager().setChannelSelected(tempRaceArray[i].getChannelsActive()[0]);
 
-									//										System.out.println("Start time: " + ClockInterface.formatTime(
-									//												ui.getRaceManager().getCurrentChannel().retrieve(bid)));
-
-									start = ui.getRaceManager().getCurrentChannel().retrieve(bid);
-
+									start = ui.getRaceManager().getCurrentChannel().retrieve(bid);		// why are the channels in charge of the racers times?!?!
+																										// shouldn't the racers use their respective fields?
 									ui.getRaceManager().setChannelSelected(tempRaceArray[i].getChannelsActive()[1]);
-
-									//										System.out.println("Finish time: " + ClockInterface.formatTime(
-									//												ui.getRaceManager().getCurrentChannel().retrieve(bid)));
 
 									finish = ui.getRaceManager().getCurrentChannel().retrieve(bid);
 
@@ -415,10 +398,13 @@ public class Idle extends State {
 
 				}
 			}
-
 		}
 	}
 
+	/**
+	 * @param str
+	 * Sets the time of the system to the string represented by str in the form "HH:mm:ss"
+	 */
 	private void setTime(String str){
 
 		try{
@@ -448,16 +434,24 @@ public class Idle extends State {
 		}
 	}
 
-
+	/**
+	 * Toggles the power of the system.
+	 */
 	private void powerOnOff(){
 
 		isIdle = false;
-		ui.getBtnHandler().setPowerOnOff(false);
-		ui.getSimulator().getClock().setActive(false);
+
+		ui.getBtnHandler().setPowerOnOff(!ui.getBtnHandler().getPowerState());
+		ui.getSimulator().getClock().setActive(ui.getBtnHandler().getPowerState());
+
+		ui.getSimulator().getClock().setTime(new Date());
+
 		State.setState(ui.getSimulator().getInitState());
 	}
 
-
+	/**
+	 * Triggers channel 1 if it is paired to a sensor.
+	 */
 	private void start(){
 
 
@@ -475,14 +469,17 @@ public class Idle extends State {
 		}
 	}
 
-
+	/**
+	 * @param str
+	 * @param DNF
+	 * Triggers the channel specified in str, where str = "TRIG<chanID>" and if the next racer to finish Did not Finish (DNF = true),
+	 * then their time is recorded as DNF.
+	 */
 	private void trig(String str, boolean DNF){     //We need to refactor this, is channel enabled method, is channel valid method choice 1 choice 2
 
 		try{
 
-
 			channelSelected = Integer.parseInt(str.split("\\s")[1].trim());
-
 
 			ui.getRaceManager().setChannelSelected(channelSelected);
 
@@ -545,7 +542,10 @@ public class Idle extends State {
 		}
 	}
 
-
+	/**
+	 * @param str
+	 * Connects the channel and sensor specified in str, where str = "CONN <Sensor> <chanID>"
+	 */
 	private void conn(String str){
 
 
@@ -571,6 +571,9 @@ public class Idle extends State {
 		}
 	}
 
+	/**
+	 * Creates a New Run with the specified event type (independent | parallel).
+	 */
 	private void setRace() {
 
 		if(independent){
@@ -610,6 +613,11 @@ public class Idle extends State {
 		}
 	}
 
+	/**
+	 * @param from
+	 * @return the number of enabled channels with ID in the range [from, 4)
+	 * Counts the number of enabled channels from parameter 'from'.
+	 */
 	private int channelsEnabled(int from){
 
 		int count = 0;
@@ -629,6 +637,9 @@ public class Idle extends State {
 
 	}
 
+	/**
+	 * @return true if there is an active Race
+	 */
 	private boolean isRaceActive(){
 
 		if(ui.getRaceManager().getRaces()[channelSelected - 1] == null){
@@ -646,9 +657,11 @@ public class Idle extends State {
 
 	}
 
-
 	//ONLY FOR TESTING TO PUT IN A FILE!//
 
+	/**
+	 * Prints some helpful information for testing/debugging.
+	 */
 	private void testing(){
 
 		if(ui.getRaceManager().getRaces() != null){
@@ -673,7 +686,6 @@ public class Idle extends State {
 
 		}
 	}
-
 
 	//END TESTING//
 }
