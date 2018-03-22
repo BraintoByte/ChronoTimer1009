@@ -57,13 +57,6 @@ public class Idle extends State {
 	 */
 
 
-
-	//	if(ui.getRaceManager().racersPoolSize() == 0){
-	//
-	//		throw new NoSuchRacerException();
-	//
-	//	}
-
 	protected void idleWait(){
 
 
@@ -292,14 +285,6 @@ public class Idle extends State {
 
 							if(tempRaceArray[i] != null){
 
-								//									System.out.println("Race number: " + tempRaceArray[i].getRaceNbr());
-								//									System.out.println("Run " + tempRaceArray[i].getRun());
-								//									System.out.println("Racers active " + tempRaceArray[i].racersActive());
-								//									System.out.println("Is race active? " + tempRaceArray[i].isActive());
-								//									System.out.println("On channels " + tempRaceArray[i].getChannelsActive()[0]
-								//											+ " and " + tempRaceArray[i].getChannelsActive()[1]);
-								//									ui.getRaceManager().setChannelSelected(tempRaceArray[i].getChannelsActive()[0]);
-
 								Stack<Integer> tempStack = tempRaceArray[i].returnBids();
 
 
@@ -312,15 +297,9 @@ public class Idle extends State {
 
 									ui.getRaceManager().setChannelSelected(tempRaceArray[i].getChannelsActive()[0]);
 
-									//										System.out.println("Start time: " + ClockInterface.formatTime(
-									//												ui.getRaceManager().getCurrentChannel().retrieve(bid)));
-
 									start = ui.getRaceManager().getCurrentChannel().retrieve(bid);
 
 									ui.getRaceManager().setChannelSelected(tempRaceArray[i].getChannelsActive()[1]);
-
-									//										System.out.println("Finish time: " + ClockInterface.formatTime(
-									//												ui.getRaceManager().getCurrentChannel().retrieve(bid)));
 
 									finish = ui.getRaceManager().getCurrentChannel().retrieve(bid);
 

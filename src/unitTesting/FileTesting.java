@@ -14,15 +14,11 @@ public class FileTesting {
 	private Clock clock;
 	private RaceEventsManager raceManager;
 	
-	// NOTE to Andy!!!
-	// I changed file input from full file path on the local machine to file name 
-	// because its way easier to test/do it this way.
-	//
 	
 	@Test
 	public void TestFile1() {
 				
-		System.setIn(new ByteArrayInputStream(("f" + "CTS2RUN1.txt").getBytes()));
+		System.setIn(new ByteArrayInputStream(("f" + " CTS2RUN1.txt").getBytes()));
 		System.setOut(System.out);
 		sim = new Simulator();
 		ui = new UI(sim);
@@ -35,7 +31,7 @@ public class FileTesting {
 	@Test
 	public void TestFile2() {
 	
-		System.setIn(new ByteArrayInputStream(("f" + "CTS2RUN2.txt").getBytes()));
+		System.setIn(new ByteArrayInputStream(("f" + " CTS2RUN2.txt").getBytes()));
 		sim = new Simulator();
 		ui = new UI(sim);
 		clock = new Clock();
@@ -47,7 +43,7 @@ public class FileTesting {
 	@Test
 	public void TestSequence1() {
 		
-		System.setIn(new ByteArrayInputStream(("f" + "Sprint2TestFile.txt").getBytes()));
+		System.setIn(new ByteArrayInputStream(("f" + " Sprint2TestFile.txt").getBytes()));
 		sim = new Simulator();
 		ui = new UI(sim);
 		clock = new Clock();
