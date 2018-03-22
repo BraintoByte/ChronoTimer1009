@@ -14,6 +14,11 @@ import hardware.buttons.Time;
 import hardware.buttons.Tog;
 import hardware.buttons.Trig;
 
+/**
+ * @author Andy & Matt
+ * The Button class, apart of the hardware.user package, is the super class for all buttons in the ChronoTimer.
+ * The
+ */
 public abstract class Button {     //Abstract Factory
 
 	public static Button[] buttons = new Button[9];
@@ -22,11 +27,10 @@ public abstract class Button {     //Abstract Factory
 	protected boolean isOn;
 	private int DEFAULT_MIN = 0;
 	private int DEFAULT_MAX = 2;
-	private int[] validNubers;
-
+	private int[] validNumbers;
 
 	//BUTTONS!//
-
+	
 	//WE MADE IT LIKE THIS SO WHEN WE ARE DOING THE GUI WE ARE BASICALLY SET!
 
 	private static Button power = new Power(0);
@@ -39,111 +43,103 @@ public abstract class Button {     //Abstract Factory
 	private static Button cancel = new Cancel(7);
 	private static Button time = new Time(8);
 
-
 	/**
-	 * @param name
-	 * @param id
+	 * @param name of the Button
+	 * @param id of the Button
+	 * Constructor for Button
 	 */
 	public Button(String name, int id){
 
 		this.name = name;
 		this.btnId = id;
 		buttons[id] = this;
-
 	}
 
 	/**
-	 * @return
+	 * @return true if the Button is on
 	 */
 	public boolean isOn(){
-
 		return true;
-
 	}
 
 	/**
-	 * @param on
+	 * @param state
+	 * sets the boolean isOn value to the parameter state.
 	 */
-	public void setOn(boolean on){
-
-		isOn = on;
-
+	public void setOn(boolean state){
+		isOn = state;
 	}
 
 	/**
-	 * @return
+	 * @return the current time of the system as a string in the form "HH:mm:ss"
 	 */
 	public String getCurrentTime(){
 
 		return ClockInterface.getCurrentTimeFormatted();
-
 	}
 
 	/**
-	 * 
+	 * exits the simulator
 	 */
 	public void EXIT(){
-
 		System.exit(1);
-
 	}
 
 	/**
 	 * @param min
 	 * @param max
-	 * @return
+	 * @return true if min and max are in the range (DEFAULT_MIN, DEFAULT_MAX] and min < max
+	 * 
+	 * Checks that the parameters min and max are in range.
 	 */
 	private boolean rangeNumber(int min, int max){
 
-		if(min > DEFAULT_MAX || max > DEFAULT_MAX || min > max || min <= DEFAULT_MIN || max <= DEFAULT_MIN){
-
+		if(min > DEFAULT_MAX || max > DEFAULT_MAX || min > max || min <= DEFAULT_MIN || max <= DEFAULT_MIN)
 			return false;
 
-		}
-
 		return true;
-
 	}
 
 	/**
-	 * @param nbrs
+	 * @param nbrs - the array
+	 * sorts the nbrs array and checks if the smallest int and biggest int in nbrs[] is in range,
+	 * then sets the field validNumbers to the sorted array.
 	 */
-	public void setNumber(int[] nbrs){
+	public void validateAndSetNumbers(int[] nbrs){
 
 		nbrs = selectionSort(nbrs);
 
-		if(rangeNumber(nbrs[0], nbrs[nbrs.length - 1])){
+		if(rangeNumber(nbrs[0], nbrs[nbrs.length - 1]))
+			this.validNumbers = nbrs;
 
-			this.validNubers = nbrs;
-
-		}
 	}
 
 	/**
-	 * @param number
-	 * @return
+	 * @param number - the number to search for
+	 * @return true if number is in the validNumbers array
 	 */
 	public boolean isValidNumber(int number){
 
-		int index = Arrays.binarySearch(this.validNubers, number);
+		int index = Arrays.binarySearch(this.validNumbers, number);
 
 		return index == -1 ? false : true;
 
 	}
 
-
 	/**
-	 * @param arr
-	 * @return
+	 * @param arr - the array to sort
+	 * @return sorted array
+	 * 
+	 * simple selection sort that sorts arr in ascending order.
 	 */
 	private static int[] selectionSort(int[] arr){
 
 		for (int i = 0; i < arr.length - 1; i++) {
 			int index = i;
 			for (int j = i + 1; j < arr.length; j++){
-				if (arr[j] < arr[index]){
+				if (arr[j] < arr[index])
 					index = j;
-				}
+				
 			}
 			int smallerNumber = arr[index];  
 			arr[index] = arr[i];
@@ -154,9 +150,10 @@ public abstract class Button {     //Abstract Factory
 	}
 
 	/**
-	 * @return
+	 * @return ID of this button
 	 */
 	public int getBtnId() {
-		return btnId;
+		return this.btnId;
 	}
+	
 }

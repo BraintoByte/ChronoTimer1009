@@ -1,0 +1,26 @@
+﻿Master Branch 
+
+Delegation of work: 
+
+
+
+Design/Coding: Andy
+
+
+Testing: Andy, Matt 
+
+
+User testing: Matt, Luis
+
+Use Cases: Nic & Ben 
+
+
+Luis did the save method, user tested the application
+
+UML: Zach, Matt, Nic, Luis (had to help him to create the relationships that were left after giving him 98% of the classes and UML)
+ 
+
+
+Backlog: Matt
+
+

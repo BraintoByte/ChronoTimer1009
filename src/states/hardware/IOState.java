@@ -1,49 +1,61 @@
 package states.hardware;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.InputMismatchException;
-import java.util.Random;
 import java.util.Scanner;
 import java.util.Stack;
-import java.util.TimeZone;
-
 import Utils.Util;
 import entitiesStatic.ClockInterface;
 import environment.Race;
 import interfaces.UI;
 import states.State;
 
+/**
+ * @author Andy & Matt
+ *
+ */
 public class IOState extends State {
 
 	private int channelSelected;
 	private boolean independent;
 	private boolean parallel;
 
+	/**
+	 * @param ui
+	 * @param input
+	 * Constructor for IOState that takes UI and Scanner as parameters.
+	 */
 	public IOState(UI ui, Scanner input) {
 		super(ui, input);
 		input();
 	}
 
+	/* (non-Javadoc)
+	 * @see states.State#update()
+	 */
 	@Override
 	public void update() {
 
 		input();
-
 	}
 
+	/* (non-Javadoc)
+	 * @see states.State#display()
+	 */
 	@Override
 	public void display() {
 
 		input();
-
 	}
 
-
+	/**
+	 * The input method for this State which runs continuesly, waiting for user input.
+	 */
 	public void input(){
 
 		Util.readFileAsString(ui.getSimulator().getFilePath());
@@ -81,9 +93,8 @@ public class IOState extends State {
 
 					if(enabled > 2 && independent){
 
-						System.out.println("Cannot have more then 1 channel on IND");
+						System.out.println("Cannot have more than 1 lane (i.e. 2 channels) for IND type event");
 						break;
-
 					}
 
 					setRace();
@@ -170,8 +181,8 @@ public class IOState extends State {
 					break;
 				case "RESET":
 
-					powerOnOff();   //You said it's like power on/off
-
+					powerOnOff();   // turns power off then back on
+					powerOnOff();
 					break;
 				case "TESTING":
 					testing();
@@ -246,9 +257,10 @@ public class IOState extends State {
 
 						for(int i = 0; i < tempRaceArray.length; i++){
 
+
 							if(tempRaceArray[i] != null){
 
-								Stack<Integer> tempStack = tempRaceArray[i].returnBids();
+								Stack<Integer> tempStack = tempRaceArray[i].returnBibs();
 
 
 								while(!tempStack.isEmpty()){
@@ -260,8 +272,8 @@ public class IOState extends State {
 
 									ui.getRaceManager().setChannelSelected(tempRaceArray[i].getChannelsActive()[0]);
 
-									start = ui.getRaceManager().getCurrentChannel().retrieve(bid);
-
+									start = ui.getRaceManager().getCurrentChannel().retrieve(bid);					// why are the channels in charge of the racers times?!?!
+																													// shouldn't the racers use their respective fields?
 									ui.getRaceManager().setChannelSelected(tempRaceArray[i].getChannelsActive()[1]);
 
 									finish = ui.getRaceManager().getCurrentChannel().retrieve(bid);
@@ -284,7 +296,7 @@ public class IOState extends State {
 				case "TRIG":
 
 					System.out.println("Before trig: " + ui.getRaceManager().racersPoolSize());
-					
+
 					if(ui.getSimulator().getRun() != 0 && ui.getSimulator().isActiveRun()){
 
 						trig(str, false);
@@ -353,14 +365,23 @@ public class IOState extends State {
 		}
 	}
 
+	/**
+	 * Toggles the power of the system.
+	 */
 	private void powerOnOff(){
 
 		ui.getBtnHandler().setPowerOnOff(!ui.getBtnHandler().getPowerState());
-		ui.getSimulator().getClock().setActive(!ui.getBtnHandler().getPowerState());
+		ui.getSimulator().getClock().setActive(ui.getBtnHandler().getPowerState());
+
+		ui.getSimulator().getClock().setTime(new Date());
+
 
 	}
 
-
+	/**
+	 * @param str
+	 * Sets the time of the system to the string represented by str in the form "HH:mm:ss"
+	 */
 	private void setTime(String str){
 
 		try{
@@ -390,6 +411,9 @@ public class IOState extends State {
 		}
 	}
 
+	/**
+	 * Triggers channel 1 if it is paired to a sensor.
+	 */
 	private void start(){
 
 
@@ -407,7 +431,12 @@ public class IOState extends State {
 		}
 	}
 
-
+	/**
+	 * @param str
+	 * @param DNF
+	 * Triggers the channel specified in str, where str = "TRIG<chanID>" and if the next racer to finish Did not Finish (DNF = true),
+	 * then their time is recorded as DNF.
+	 */
 	private void trig(String str, boolean DNF){     //We need to refactor this, is channel enabled method, is channel valid method choice 1 choice 2
 
 		try{
@@ -477,7 +506,10 @@ public class IOState extends State {
 		}
 	}
 
-
+	/**
+	 * @param str
+	 * Connects the channel and sensor specified in str, where str = "CONN <Sensor> <chanID>"
+	 */
 	private void conn(String str){
 
 
@@ -503,6 +535,9 @@ public class IOState extends State {
 		}
 	}
 
+	/**
+	 * Creates a New Run with the specified event type (independent | parallel).
+	 */
 	private void setRace() {
 
 		if(independent){
@@ -542,6 +577,11 @@ public class IOState extends State {
 		}
 	}
 
+	/**
+	 * @param from
+	 * @return the number of enabled channels with ID in the range [from, 4)
+	 * Counts the number of enabled channels from parameter 'from'.
+	 */
 	private int channelsEnabled(int from){
 
 		int count = 0;
@@ -561,6 +601,9 @@ public class IOState extends State {
 
 	}
 
+	/**
+	 * @return true if there is an active Race
+	 */
 	private boolean isRaceActive(){
 
 		if(ui.getRaceManager().getRaces()[channelSelected - 1] == null){
@@ -578,9 +621,11 @@ public class IOState extends State {
 
 	}
 
-
 	//ONLY FOR TESTING TO PUT IN A FILE!//
 
+	/**
+	 * Prints some helpful information for testing/debugging.
+	 */
 	private void testing(){
 
 		if(ui.getRaceManager().getRaces() != null){
@@ -605,5 +650,6 @@ public class IOState extends State {
 
 		}
 	}
-
+	
+	//END TESTING//
 }

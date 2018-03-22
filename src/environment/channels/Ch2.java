@@ -3,51 +3,73 @@ package environment.channels;
 import environment.Channels;
 import hardware.external.Sensor;
 
+/**
+ * @author Andy
+ * The Channel2 class, an extension of the Channels class @see enviroment.Channels
+ */
 public class Ch2 extends Channels {
 
 	/**
-	 * @param chId
+	 * @param id - the ID of the channel
+	 * Constructor for Channel2.
 	 */
 	public Ch2(int chId) {
 		super("ch2", chId);	
 	}
 	
+	/* (non-Javadoc)
+	 * @see environment.Channels#activate(int)
+	 */
 	@Override
 	public void activate(int bid) {
 		super.activate(bid);
 	}
 	
+	/* (non-Javadoc)
+	 * @see environment.Channels#reset()
+	 */
 	@Override
 	public void reset() {
 		super.reset();
 	}
 	
+	/* (non-Javadoc)
+	 * @see environment.Channels#retrieve(int)
+	 */
 	@Override
 	public Long retrieve(int bid) {
 		return super.retrieve(bid);
 	}
 	
+	/* (non-Javadoc)
+	 * @see environment.Channels#TriggerSensor()
+	 */
 	@Override
 	public void TriggerSensor() {
-		
 		super.TriggerSensor();
 	}
 	
+	/* (non-Javadoc)
+	 * @see environment.Channels#isSensorTriggered()
+	 */
 	@Override
 	public boolean isSensorTriggered() {
-		
 		return super.isSensorTriggered();
 	}
 	
+	/* (non-Javadoc)
+	 * @see environment.Channels#enable(boolean)
+	 */
 	@Override
 	public void enable(boolean isEnabled) {
-		
 		super.enable(isEnabled);
 	}
 	
+	/* (non-Javadoc)
+	 * @see environment.Channels#isEnabled()
+	 */
 	@Override
 	public boolean isEnabled() {
-		
 		return super.isEnabled();
 	}
 	
@@ -68,7 +90,7 @@ public class Ch2 extends Channels {
 	}
 	
 	/* (non-Javadoc)
-	 * @see environment.Channels#unPairToSensor(hardware.external.Sensor)
+	 * @see environment.Channels#unPairToSensor()
 	 */
 	@Override
 	public Sensor unPairToSensor() {

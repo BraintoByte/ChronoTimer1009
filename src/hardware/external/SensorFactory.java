@@ -4,13 +4,18 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Stack;
 
-import hardware.external.pad.Pad;
-import hardware.external.pad.Pads;
+import hardware.external.sensor.pad.Pad;
+import hardware.external.sensor.pad.Pads;
 import hardware.external.sensors.eye.Eye;
 import hardware.external.sensors.eye.Eyes;
 import hardware.external.sensors.gate.Gate;
 import hardware.external.sensors.gate.Gates;
 
+/**
+ * @author Andy
+ * SensorFactory, apart of the hardware.external package, is responsible for generation of all of the sensors.
+ * SensorFactory also keeps track of all of the sensors in the system.
+ */
 public class SensorFactory {
 
 	private Gates gates;
@@ -21,7 +26,7 @@ public class SensorFactory {
 	private int amountPad;
 
 	/**
-	 * 
+	 * Constructor for SensorFactory
 	 */
 	public SensorFactory(){
 
@@ -30,9 +35,7 @@ public class SensorFactory {
 		gates = Gates.getSingletonGates();
 		eyes = Eyes.getSingletonEyes();
 		pads = Pads.getSingletonPads();
-
 	}
-
 
 	//	public Gate getGate(int gate){
 	//		
@@ -40,6 +43,14 @@ public class SensorFactory {
 	//		
 	//	}
 
+	/**
+	 * @param gate
+	 * @param eye
+	 * @param pad
+	 * @return a stack of the sensor ID's
+	 * 
+	 * Creates a stack of sensor ID's, either all gates, eyes, or pads depending on the truth values of the parameters.
+	 */
 	public Stack<Integer> sensorToStack(boolean gate, boolean eye, boolean pad){
 
 		Stack<Integer> temp = new Stack<>();
@@ -61,7 +72,6 @@ public class SensorFactory {
 			for(int i = tempIntArr.length - 1; i >= 0; i--){
 
 				temp.push(tempIntArr[i]);
-
 			}
 
 		}else if(eye){
@@ -79,7 +89,6 @@ public class SensorFactory {
 			for(int i = tempIntArr.length - 1; i >= 0; i--){
 
 				temp.push(tempIntArr[i]);
-
 			}
 
 		}else if(pad){
@@ -97,24 +106,25 @@ public class SensorFactory {
 			for(int i = tempIntArr.length - 1; i >= 0; i--){
 
 				temp.push(tempIntArr[i]);
-
 			}
 		}
 
 		return temp;
 	}
 
-
 	/**
-	 * @param totalAmount
+	 * @param eyeAmount
+	 * @param gateAmount
+	 * @param padAmount
 	 * @param eye
 	 * @param gates
 	 * @param pad
+	 * 
+	 * Makes <sensor>Amount of sensors according to the parameters.
 	 */
 	public void makeSensors(int eyeAmount, int gateAmount, int padAmount, boolean eye, boolean gates, boolean pad){
 
 		int lastIndex = 0;
-
 
 		if(gates){
 
@@ -122,11 +132,9 @@ public class SensorFactory {
 
 				Sensor tempGate = new Gate(i);
 				lastIndex = i;
-
 			}
 			
 			amountGates = gateAmount;
-			
 		}
 		
 		int index = lastIndex;
@@ -137,11 +145,9 @@ public class SensorFactory {
 
 				Sensor tempEye = new Eye(i);
 				lastIndex = i;
-
 			}
 			
 			amountEye = eyeAmount;
-			
 		}
 		
 		index = lastIndex;
@@ -152,18 +158,13 @@ public class SensorFactory {
 
 				Sensor tempPad = new Pad(i);
 				lastIndex = i;
-
 			}
 			
 			amountPad = padAmount;
-
 		}
 	}
 
-
-
 	//Temporary for number discrimination//
-
 
 	//	if(eye && gates){
 	//	
@@ -202,25 +203,35 @@ public class SensorFactory {
 
 	//END NUMBER DISCRIMINATION//
 
+	/**
+	 * @param sensor
+	 * @param pad
+	 * @param eye
+	 * @param gate
+	 * 
+	 * Puts the sensor back into its associated container class (e.g. if pad = true then sensor is put back into Pads.pads).
+	 */
 	public void backToTheSource(Sensor sensor, boolean pad, boolean eye, boolean gate){
 
-		if(pad){
-
+		if(pad)
 			pads.returnPadToSource((Pad) sensor);
 
-		}else if(eye){
-
+		else if(eye)
 			eyes.returnEyeToSource((Eye) sensor);
 
-		}else if(gate){
-
+		else if(gate)
 			gates.returnGateToSource((Gate) sensor);
-
-		}
+		
 	}
 
-
-
+	/**
+	 * @param pad - the ID of the Pad to find
+	 * @return the Pad with ID = pad
+	 * @throws IllegalArgumentException
+	 * @throws ConcurrentModificationException
+	 * 
+	 * Finds the Pad with ID = pad iteratively and returns it.
+	 */
 	public Pad findPadIteratively(int pad) throws IllegalArgumentException, ConcurrentModificationException {
 
 		Iterator<Pad> it = pads.getPadIterator();
@@ -233,7 +244,6 @@ public class SensorFactory {
 
 				it.remove();
 				return temp;
-
 			}
 		}
 
@@ -241,26 +251,30 @@ public class SensorFactory {
 
 	}
 
-
+	/**
+	 * @param pad - the ID of the Pad to find
+	 * @return the Pad with ID = pad
+	 * @throws IllegalArgumentException
+	 * 
+	 * Finds the Pad with ID = pad and returns it.
+	 */
 	public Pad findPad(int pad) throws IllegalArgumentException {
 
 		Pad temp = pads.getPad(pad);
 
-		if(temp == null){
-
+		if(temp == null)
 			throw new IllegalArgumentException();
 
-		}
-
 		return temp;
-
 	}
 
 	/**
-	 * @param eye
-	 * @return
+	 * @param eye - the ID of the Eye to find
+	 * @return the Eye with ID = eye
 	 * @throws IllegalArgumentException
 	 * @throws ConcurrentModificationException
+	 * 
+	 * Finds the Eye with ID = eye iteratively and returns it.
 	 */
 	public Eye findEyeIteratively(int eye) throws IllegalArgumentException, ConcurrentModificationException {
 
@@ -274,40 +288,36 @@ public class SensorFactory {
 
 				it.remove();
 				return temp;
-
 			}
 		}
 
 		throw new IllegalArgumentException();
-
 	}
 
 	/**
-	 * @param eye
-	 * @return
+	 * @param eye - the ID of the Eye to find
+	 * @return the Eye with ID = eye
 	 * @throws IllegalArgumentException
-	 * @throws ConcurrentModificationException
+	 * 
+	 * Finds the Eye with ID = eye and returns it.
 	 */
 	public Eye findEye(int eye) throws IllegalArgumentException {
 
 		Eye temp = eyes.getEye(eye);
 
-		if(temp == null){
-
+		if(temp == null)
 			throw new IllegalArgumentException();
-
-		}
-
+		
 		return temp;
-
 	}
 
-
 	/**
-	 * @param gate
-	 * @return
+	 * @param gate - the ID of the Gate to find
+	 * @return the Gate with ID = gate
 	 * @throws IllegalArgumentException
 	 * @throws ConcurrentModificationException
+	 * 
+	 * Finds the Gate with ID = gate iteratively and returns it.
 	 */
 	public Gate findGateIteratively(int gate) throws IllegalArgumentException, ConcurrentModificationException {
 
@@ -321,45 +331,48 @@ public class SensorFactory {
 
 				it.remove();
 				return temp;
-
 			}
 		}
 
 		throw new IllegalArgumentException();
-
 	}
 
 	/**
-	 * @param gate
-	 * @return
+	 * @param gate - the ID of the Gate to find
+	 * @return the Gate with ID = gate
 	 * @throws IllegalArgumentException
-	 * @throws ConcurrentModificationException
+	 * 
+	 * Finds the Gate with ID = gate and returns it.
 	 */
 	public Gate findGate(int gate) throws IllegalArgumentException {
 
 		Gate temp = gates.getGate(gate);
 
-		if(temp == null){
-
+		if(temp == null)
 			throw new IllegalArgumentException();
-
-		}
-
+		
 		return temp;
-
 	}
 
 	/**
-	 * @return
+	 * @return number of Eye sensors
 	 */
 	public int getAmountEye() {
 		return amountEye;
 	}
 
 	/**
-	 * @return
+	 * @return number of Gate sensors
 	 */
 	public int getAmountGates() {
 		return amountGates;
 	}
+	
+	/**
+	 * @return number of Pad sensors
+	 */
+	public int getAmountPads() {
+		return amountPad;
+	}
+	
 }

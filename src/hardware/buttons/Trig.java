@@ -2,10 +2,15 @@ package hardware.buttons;
 
 import hardware.user.Button;
 
+/**
+ * @author Andy
+ * The Trig button, an extension of the Button class @see hardware.user.Button.
+ */
 public class Trig extends Button{
 
 	/**
-	 * @param id
+	 * @param id - the ID of the button
+	 * Constructor for Trig button.
 	 */
 	public Trig(int id) {
 		super("TRIG", id);
@@ -15,8 +20,8 @@ public class Trig extends Button{
 	 * @see hardware.user.Button#setNumber(int[])
 	 */
 	@Override
-	public void setNumber(int[] nbrs) {
-		super.setNumber(nbrs);
+	public void validateAndSetNumbers(int[] nbrs) {
+		super.validateAndSetNumbers(nbrs);
 	}
 	
 	/* (non-Javadoc)

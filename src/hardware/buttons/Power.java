@@ -2,11 +2,15 @@ package hardware.buttons;
 
 import hardware.user.Button;
 
+/**
+ * @author Andy
+ * The Power button, an extension of the Button class @see hardware.user.Button.
+ */
 public class Power extends Button{
 	
-	
 	/**
-	 * @param id
+	 * @param id - the ID of the button
+	 * Constructor for Power button.
 	 */
 	public Power(int id) {
 		super("POWER", id);
@@ -25,8 +29,7 @@ public class Power extends Button{
 	 */
 	@Override
 	public boolean isOn(){
-		
 		return super.isOn();
-		
 	}
+	
 }

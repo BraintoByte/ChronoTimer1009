@@ -2,10 +2,15 @@ package hardware.buttons;
 
 import hardware.user.Button;
 
+/**
+ * @author Andy
+ * The Finish button, an extension of the Button class @see hardware.user.Button.
+ */
 public class Finish extends Button{
 
 	/**
-	 * @param id
+	 * @param id - the ID of the button
+	 * Constructor for Finish button.
 	 */
 	public Finish(int id) {
 		super("FINISH", id);

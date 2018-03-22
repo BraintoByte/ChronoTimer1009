@@ -2,11 +2,15 @@ package hardware.buttons;
 
 import hardware.user.Button;
 
+/**
+ * @author Andy
+ * The Exit button, an extension of the Button class @see hardware.user.Button.
+ */
 public class Exit extends Button {
 	
-	
 	/**
-	 * @param id
+	 * @param id - the ID of the button
+	 * Constructor for Exit button.
 	 */
 	public Exit(int id) {
 		super("EXIT", id);
@@ -25,9 +29,7 @@ public class Exit extends Button {
 	 */
 	@Override
 	public boolean isOn(){
-		
 		return super.isOn();
-		
 	}
 	
 	/* (non-Javadoc)
@@ -35,8 +37,6 @@ public class Exit extends Button {
 	 */
 	@Override
 	public void EXIT(){
-		
 		super.EXIT();
-		
 	}
 }
