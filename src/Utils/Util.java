@@ -62,10 +62,10 @@ public class Util {
 				}
 			}
 
-
 			makeCommands();
-
 		}
+    
+    
 		/**
 		 * TBH idk what this does...
 		 */
@@ -149,7 +149,6 @@ public class Util {
 	public static String getNextCommand(){
 
 		return ProcessFile.commands.isEmpty() ? null : ProcessFile.commands.pop();
-
 	}
 
 	/**
@@ -218,14 +217,5 @@ public class Util {
 		}
 
 		return true;
-	}
-
-	/**
-	 * @throws IOException
-	 */
-	public static void clear() throws IOException {
-		File tmp = new File(System.getProperty("user.dir"),"json.txt");
-		tmp.delete();
-		tmp.createNewFile();
 	}
 }

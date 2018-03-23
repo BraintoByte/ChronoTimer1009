@@ -29,8 +29,8 @@ public class Ch1 extends Channels {
 	 * @see environment.Channels#reset()
 	 */
 	@Override
-	public void reset() {
-		super.reset();
+	public void clearData() {
+		super.clearData();
 	}
 
 	/* (non-Javadoc)
