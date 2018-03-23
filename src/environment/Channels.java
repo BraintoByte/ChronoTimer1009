@@ -59,10 +59,22 @@ public abstract class Channels {
 	}
 	
 	/**
+	 * Resets all of the channels.
+	 */
+	public static void reset(){
+		
+		for(Channels ch: channels) {
+			ch.clearData();
+			ch.unPairToSensor();
+			ch.enable(false);
+		}
+		
+	}
+	
+	/**
 	 * Clears the activeRacers HashMap.
 	 */
-	public void reset(){
-		
+	public void clearData() {
 		activeRacers.clear();
 	}
 	

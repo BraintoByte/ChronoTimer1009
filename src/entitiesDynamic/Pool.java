@@ -31,7 +31,12 @@ public class Pool {
 	private static class SingletonPool{
 		
 		private static final Pool pool = new Pool();
-		
+		/*
+		protected void clearPool() {
+			this.racers.clear();
+			this.racersAmount = 0;
+		}
+		*/
 	}
 	
 	/**
@@ -106,6 +111,13 @@ public class Pool {
 	public int getRacersAmount(){
 		
 		return racers.size();
+	}
+	
+	public boolean clearPool() {
+		
+		this.racers.clear();
+		this.racersAmount = 0;
+		return true;
 	}
 	
 }
