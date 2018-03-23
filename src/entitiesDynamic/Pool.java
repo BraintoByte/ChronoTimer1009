@@ -119,5 +119,4 @@ public class Pool {
 		this.racersAmount = 0;
 		return true;
 	}
-	
 }

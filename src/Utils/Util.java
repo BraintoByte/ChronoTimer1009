@@ -64,7 +64,8 @@ public class Util {
 
 			makeCommands();
 		}
-		
+    
+    
 		/**
 		 * TBH idk what this does...
 		 */
@@ -217,5 +218,4 @@ public class Util {
 
 		return true;
 	}
-
 }

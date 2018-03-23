@@ -212,7 +212,6 @@ public class Idle extends State {
 					ui.getBtnHandler().EXIT();
 					break;
 				case "RESET":
-					
 					Channels.reset();
 					ui.getRaceManager().reset();
 					ui.getSimulator().setRun(0);

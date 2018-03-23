@@ -181,12 +181,11 @@ public class IOState extends State {
 					ui.getBtnHandler().EXIT();
 					break;
 				case "RESET":
-					
 					Channels.reset();
 					ui.getRaceManager().reset();
 					ui.getSimulator().setRun(0);
 					ui.getSimulator().setActiveRun(false);
-					powerOnOff();   
+					powerOnOff();  
 					powerOnOff();
 					break;
 				case "TESTING":
@@ -377,10 +376,7 @@ public class IOState extends State {
 
 		ui.getBtnHandler().setPowerOnOff(!ui.getBtnHandler().getPowerState());
 		ui.getSimulator().getClock().setActive(ui.getBtnHandler().getPowerState());
-
 		ui.getSimulator().getClock().setTime(new Date());
-
-
 	}
 
 	/**

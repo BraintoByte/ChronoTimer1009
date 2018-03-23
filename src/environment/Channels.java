@@ -45,7 +45,6 @@ public abstract class Channels {
 	 * Adds the racer (i.e. the bib number) to the activeRacers HashMap.
 	 */
 	public void activate(int bib){
-		
 		activeRacers.put(bib, ClockInterface.getTimeInLong());
 	}
 	
@@ -69,6 +68,7 @@ public abstract class Channels {
 			ch.enable(false);
 		}
 		
+		return activeRacers.get(bib);
 	}
 	
 	/**
