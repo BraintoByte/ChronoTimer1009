@@ -1,5 +1,6 @@
 package environment;
 
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -19,8 +20,10 @@ import hardware.external.SensorFactory;
 
 /**
  * @author Andy & Matt
+ *
  */
 public class RaceEventsManager {
+
 
 	/**
 	 * @author Andy
@@ -39,6 +42,7 @@ public class RaceEventsManager {
 		private SensorCoupler(){
 
 			factory = new SensorFactory();
+
 		}
 
 		/**
@@ -180,18 +184,9 @@ public class RaceEventsManager {
 	}
 	
 	/**
-	 * Resets everything in RaceEventManager.
+	 * Resets the index to 0.
 	 */
 	public void reset(){
-		racePool.clearPool();
-		index = 0;
-		races = null;
-		raceNbr = 0;
-		racesRecords = 1;
-		record = new HashMap<Integer, Race>();
-	}
-	
-	public void resetIndex() {
 		index = 0;
 	}
 

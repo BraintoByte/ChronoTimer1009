@@ -45,6 +45,7 @@ public abstract class Channels {
 	 * Adds the racer (i.e. the bib number) to the activeRacers HashMap.
 	 */
 	public void activate(int bib){
+		
 		activeRacers.put(bib, ClockInterface.getTimeInLong());
 	}
 	
@@ -58,23 +59,10 @@ public abstract class Channels {
 	}
 	
 	/**
-	 * Resets all of the channels.
-	 */
-	public static void reset(){
-		
-		for(Channels ch: channels) {
-			ch.clearData();
-			ch.unPairToSensor();
-			ch.enable(false);
-		}
-		
-		return activeRacers.get(bib);
-	}
-	
-	/**
 	 * Clears the activeRacers HashMap.
 	 */
-	public void clearData() {
+	public void reset(){
+		
 		activeRacers.clear();
 	}
 	

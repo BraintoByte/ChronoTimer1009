@@ -11,7 +11,6 @@ import java.util.Scanner;
 import java.util.Stack;
 import Utils.Util;
 import entitiesStatic.ClockInterface;
-import environment.Channels;
 import environment.Race;
 import interfaces.UI;
 import states.State;
@@ -181,11 +180,8 @@ public class IOState extends State {
 					ui.getBtnHandler().EXIT();
 					break;
 				case "RESET":
-					Channels.reset();
-					ui.getRaceManager().reset();
-					ui.getSimulator().setRun(0);
-					ui.getSimulator().setActiveRun(false);
-					powerOnOff();  
+
+					powerOnOff();   // turns power off then back on
 					powerOnOff();
 					break;
 				case "TESTING":
@@ -376,7 +372,10 @@ public class IOState extends State {
 
 		ui.getBtnHandler().setPowerOnOff(!ui.getBtnHandler().getPowerState());
 		ui.getSimulator().getClock().setActive(ui.getBtnHandler().getPowerState());
+
 		ui.getSimulator().getClock().setTime(new Date());
+
+
 	}
 
 	/**
@@ -553,7 +552,7 @@ public class IOState extends State {
 
 				}
 
-				ui.getRaceManager().resetIndex();
+				ui.getRaceManager().reset();
 				ui.getRaceManager().setChannelSelected(1);
 				ui.getRaceManager().startNewRace(ui.getSimulator().getRun() + 1);
 				ui.getSimulator().setRun(ui.getSimulator().getRun() + 1);
@@ -566,7 +565,7 @@ public class IOState extends State {
 			if((ui.getRaceManager().getRaces() != null && ui.getRaceManager().getRaces()[0] != null 
 					&& !ui.getRaceManager().getRaces()[0].isActive()) || ui.getRaceManager().racesActive() < 2){
 
-				ui.getRaceManager().resetIndex();
+				ui.getRaceManager().reset();
 				ui.getRaceManager().setChannelSelected(1);
 				ui.getRaceManager().startNewRace(ui.getSimulator().getRun() + 1);
 				ui.getSimulator().setRun(ui.getSimulator().getRun() + 1);
