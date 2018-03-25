@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import java.util.Scanner;
 import org.junit.Test;
 import entitiesStatic.Clock;
+import hardware.user.InterfaceHandler;
 import interfaces.UI;
 import states.State;
 import states.hardware.ButtonsActivation;
@@ -46,6 +47,8 @@ public class Simulator implements Runnable {    //Chain
 		this.initState = new ButtonsActivation(ui, input);
 		this.idleState = new Idle(ui, input);
 		this.clock = new Clock();
+		
+		InterfaceHandler ie = new InterfaceHandler();      //Temporary!
 		
 		State.setState(initState);
 		
