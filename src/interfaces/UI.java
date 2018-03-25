@@ -2,6 +2,7 @@ package interfaces;
 
 import environment.RaceEventsManager;
 import hardware.user.ButtonHandler;
+import hardware.user.UserGraphical;
 import main.Simulator;
 
 /**
@@ -15,6 +16,7 @@ public class UI {
 	private ButtonHandler btnHandler;
 	private RaceEventsManager raceManager;
 	private int[] validChannels = { 1, 2, 3, 4 };
+	private UserGraphical userInterface;
 	
 	/**
 	 * @param sim
@@ -23,6 +25,7 @@ public class UI {
 	public UI(Simulator sim){
 		
 		this.sim = sim;
+
 	}
 	
 	/**
@@ -30,6 +33,16 @@ public class UI {
 	 */
 	public Simulator getSimulator(){
 		return sim;
+	}
+	
+	public void setInterfaceVisible(boolean visible){
+		
+		userInterface.setVisible(visible);
+		
+	}
+	
+	public void setUserInterface(UserGraphical userInterface) {
+		this.userInterface = userInterface;
 	}
 	
 	/**

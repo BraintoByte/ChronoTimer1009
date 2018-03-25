@@ -1,6 +1,7 @@
 package hardware.user;
 
 import java.util.Arrays;
+import javax.swing.JButton;
 
 import entitiesStatic.Clock;
 import entitiesStatic.ClockInterface;
@@ -42,6 +43,8 @@ public abstract class Button {     //Abstract Factory
 	private static Button exit = new Exit(6);
 	private static Button cancel = new Cancel(7);
 	private static Button time = new Time(8);
+	
+	
 
 	/**
 	 * @param name of the Button
@@ -54,6 +57,7 @@ public abstract class Button {     //Abstract Factory
 		this.btnId = id;
 		buttons[id] = this;
 	}
+
 
 	/**
 	 * @return true if the Button is on

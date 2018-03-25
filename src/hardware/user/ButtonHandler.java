@@ -76,7 +76,6 @@ public class ButtonHandler {
 		 * @return the Time Button
 		 */
 		protected Button getTime(){
-
 			return Button.buttons[8];
 		}
 	}

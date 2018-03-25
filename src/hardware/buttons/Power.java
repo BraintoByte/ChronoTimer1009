@@ -1,5 +1,7 @@
 package hardware.buttons;
 
+import javax.swing.JButton;
+
 import hardware.user.Button;
 
 /**
@@ -7,6 +9,8 @@ import hardware.user.Button;
  * The Power button, an extension of the Button class @see hardware.user.Button.
  */
 public class Power extends Button{
+	
+	private volatile JButton button;
 	
 	/**
 	 * @param id - the ID of the button
@@ -30,6 +34,14 @@ public class Power extends Button{
 	@Override
 	public boolean isOn(){
 		return super.isOn();
+	}
+
+	public void setButton(JButton button) {
+		this.button = button;
+	}
+
+	public JButton getButton() {
+		return this.button;
 	}
 	
 }

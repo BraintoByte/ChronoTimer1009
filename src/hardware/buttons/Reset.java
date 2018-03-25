@@ -1,5 +1,7 @@
 package hardware.buttons;
 
+import javax.swing.JButton;
+
 import hardware.user.Button;
 
 /**
@@ -7,6 +9,8 @@ import hardware.user.Button;
  * The Reset button, an extension of the Button class @see hardware.user.Button.
  */
 public class Reset extends Button{
+	
+	private volatile JButton button;
 
 	/**
 	 * @param id - the ID of the button
