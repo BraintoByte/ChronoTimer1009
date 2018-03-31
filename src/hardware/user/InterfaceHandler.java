@@ -29,9 +29,6 @@ public class InterfaceHandler {
 	}
 	
 	
-	
-	
-	
 	public UserGraphical getUserInterface() {
 		return userInterface;
 	}

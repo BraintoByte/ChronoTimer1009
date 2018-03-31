@@ -14,9 +14,9 @@ public class UserGraphical extends JFrame {
 	
 
 	private JToggleButton btnCh1bk, btnCh2bk, btnCh3bk, btnCh4bk, btnCh5bk, btnCh6bk, btnCh7bk, btnCh8bk, 
-    btnPower, btnTogCh1, btnTogCh2, btnTogCh3, btnTogCh4, btnTogCh5, btnTogCh6, btnTogCh7, btnTogCh8, usbBtn;
+    btnPower, btnTogCh1, btnTogCh2, btnTogCh3, btnTogCh4, btnTogCh5, btnTogCh6, btnTogCh7, btnTogCh8, usbBtn, btnFunction;
     
-    private JButton btnDown, btnFunction, btnNxt, btnPrevious, btnSwap, btnTr5, btnTrg1, btnTrg2, btnTrg3, 
+    private JButton btnDown, btnNxt, btnPrevious, btnSwap, btnTr5, btnTrg1, btnTrg2, btnTrg3, 
     btnTrg4, btnTrg6, btnTrg7, btnTrg8, btnUp, btnPrintPwr, btn3KeyPad, btn6KeyPad, btn9KeyPad, btn1KeyPad, 
     btn2KeyPad, btn4KeyPad, btn5KeyPad, btn8KeyPad, btnHashKeyPad, btn7KeyPad, btnStarKeyPad, btn0KeyPad;
     private JLabel jLabel1, lblCh5Bk, lblCh7Bk, lblCh2Bk, lblCh4Bk, lblCh6Bk, lblChanBk, jLabel2, jLabel3, jLabel4, jLabel5, lblCh8Bk, lblUsbBk, lblCh1Bk, 
@@ -101,7 +101,7 @@ public class UserGraphical extends JFrame {
         btnTogCh6 = new JToggleButton();
         btnTogCh8 = new JToggleButton();
         btnSwap = new JButton();
-        btnFunction = new JButton();
+        btnFunction = new JToggleButton();
         btnDown = new Triangular(Rotation.UP);
         btnPrevious = new Triangular(Rotation.RIGHT);
         btnNxt = new Triangular(Rotation.LEFT);
@@ -498,7 +498,7 @@ public class UserGraphical extends JFrame {
 		return btnDown;
 	}
 
-	protected JButton getBtnFunction() {
+	protected JToggleButton getBtnFunction() {
 		return btnFunction;
 	}
 

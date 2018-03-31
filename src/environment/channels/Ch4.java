@@ -25,15 +25,7 @@ public class Ch4 extends Channels {
 	public void activate(int bid) {
 		super.activate(bid);
 	}
-	
-	/* (non-Javadoc)
-	 * @see environment.Channels#reset()
-	 */
-	@Override
-	public void reset() {
-		super.reset();
-	}
-	
+
 	/* (non-Javadoc)
 	 * @see environment.Channels#retrieve(int)
 	 */

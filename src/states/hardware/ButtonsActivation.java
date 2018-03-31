@@ -5,34 +5,32 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.Scanner;
+
 import entitiesStatic.ClockInterface;
 import environment.RaceEventsManager;
 import hardware.user.ButtonHandler;
 import interfaces.UI;
 import states.State;
 
-/**
- * @author Andy & Matt
- * The ButtonsActivation class, apart of the states.hardware package,
- * is responsible for displaying and updating all of the buttons in the ChronoTimer system.
- */
 public class ButtonsActivation extends State {
 
 	private ButtonHandler btnHandler;
 	private Scanner input;
 	private boolean fromFile;
 
+
 	/**
 	 * @param ui
 	 * @param input
-	 * Constructor for ButtonsActivation that takes UI and Scanner as parameters
 	 */
 	public ButtonsActivation(UI ui, Scanner input){
 
 		super(ui, input);
 		this.btnHandler = new ButtonHandler();
 		this.input = input;
+
 	}
 
 	/* (non-Javadoc)
@@ -41,112 +39,162 @@ public class ButtonsActivation extends State {
 	@Override
 	public void update() {
 
-		if(!btnHandler.getPowerState())
+		if(!btnHandler.getPowerState()){
+			
 			offState();
+			
 
-		else{
+		}else{
 
-			if(fromFile)
+			if(fromFile){
+
 				State.setState(ui.getSimulator().getFileState());
 
-			else
+			}else{
+
 				State.setState(ui.getSimulator().getIdleState());
 
+			}
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see states.State#display()
-	 */
+
+
 	@Override
 	public void display() {
 
-		if(!btnHandler.getPowerState())
-			offState();	
+		if(!btnHandler.getPowerState()){
+
+			offState();
+
+		}
 	}
 
 	/**
-	 * State of the system when the power is off.
-	 * (Initial state after fist power up of Simulator)
+	 * 
 	 */
+
 	private void offState(){
 
-		String str = "";
-		do {
 
-			System.out.print("From [F]ile or [C]onsole? ");
-			str = input.next();
+		//		while(true){
 
-		}while(!("c".equalsIgnoreCase(str) || "f".equalsIgnoreCase(str) || "EXIT".equals(str)));
+		System.out.print("From [F]ile or [C]onsole? ");
+		String str = input.nextLine();
+		//
+		//			if(str.equalsIgnoreCase("f") || str.equalsIgnoreCase("c") || str.equalsIgnoreCase("POWER") || str.equalsIgnoreCase("EXIT")){
+		//
+		//				break;
+		//				
+		//			}
+		//		}
 
-		// console input
+		timeSetDefault(str);
+
 		if(str.equalsIgnoreCase("c")){
+
+			System.out.println("\nDear client,\n\nWe know how important trying this product is for you, and especially keeping track of time! \n"
+					+ "So we added RACETEST and TESTING command for making a new race in an instant\nand TESTING for displaying it "
+					+ "current runs and what's going on, plus as a bonus we have added TIMEDISP which displays the time\n(you can turn it off by retyping the command) and TIMEDFREQ"
+					+ " to change the frequency of what rate you are going to display, IMPORTANT: if you type 1 that's not 1s!\nThat's 1 nano second, so if you want 1 second type 1000"
+					+ " 10 seconds 10000 and so on!!\n");
+
 
 			while(!str.equals("POWER") && !str.equals("EXIT")){
 
-				// sets the clock to the current time!!!
-				// no need to use command TIME upon start up
-				try{
 
-					ui.getSimulator().getClock().setTime(new Time((new Date().getTime())));
+//				if(!ui.getSimulator().getClock().isActive()) {
 
-					if(!ui.getSimulator().getClock().isClockRunning()){
 
-						ui.getSimulator().getClock().clockStart();
-
-						Thread.sleep(800);
-					}
-
-				}catch(InterruptedException ex){
-
-					ex.printStackTrace();
-				}
-
-				str = input.nextLine();
+					str = input.nextLine();
+					timeSetDefault(str);
+					
+					
+//				}
 			}
-			
 		}
-		// file input or EXIT
+
+
 		if(str.equalsIgnoreCase("f") || str.equalsIgnoreCase("POWER") || str.equalsIgnoreCase("EXIT")){
 
-			if(str.equals("EXIT")) {
+			if(str.equals("EXIT")){
+
 				btnHandler.EXIT();
 
 			}else{
 
 				ui.setBtnHandler(btnHandler);
 				ui.setRaceManager(new RaceEventsManager());
-				ui.getSimulator().getClock().setActive(true);
-				//ui.getRaceManager().propRace(2);
+				//				ui.getSimulator().getClock().setActive(true);
+				//				ui.getRaceManager().propRace(2);
 				ui.getRaceManager().theseManySensors(4, 4, 4);
-				
+
+
 				if(str.equalsIgnoreCase("f")){
-					
+
 					fromFile = true;
 					System.out.print("Please provide filepath: ");
-					str = input.next();
+
+					str = "";
+
+					while(str.equals("") && !str.matches("([a-zA-Z]:)?(\\\\[a-zA-Z0-9_.-]+)+\\\\?")) {
+						str = input.nextLine();
+					}
+
 					ui.getSimulator().setFilePath(str);
 					ui.getSimulator().setFileState(new IOState(ui, input));
-					
-				}else {
+
+
+				}else{
+
 					btnHandler.setPowerOnOff(true);
+
 				}
 			}
-		}
-		
-		if(!str.isEmpty() && !str.trim().isEmpty()){
 
-			System.out.println("Power " + (ui.getBtnHandler().getPowerState() ? "on" : "off"));
+
+			if(!str.isEmpty() && !str.trim().isEmpty()){
+
+				str = str.trim();
+				System.out.println("Power " + (ui.getBtnHandler().getPowerState() ? "on" : "off"));
+
+			}
+		}
+	}
+
+	private void timeSetDefault(String str){
+
+		try{
+
+			if(!ui.getSimulator().getClock().isClockRunning() && !str.contains("TIME")){
+
+				//				ui.getSimulator().getClock().clockStart();
+
+				ui.getSimulator().getClock().setTime(new Time((new Date().getTime())));
+
+				ui.getSimulator().getClock().clockStart();
+				Thread.sleep(800);
+
+			}
+
+			if(str.contains("TIME")){
+
+				DateFormat formatter = new SimpleDateFormat("HH:mm:ss.SS");
+				ui.getSimulator().getClock().setTime(new Time(formatter.parse(str.split("\\s")[1].trim()).getTime()));
+
+			}
+			
+//			System.out.println(ClockInterface.getCurrentTimeFormatted());
+
+		}catch(InputMismatchException | InterruptedException | ParseException ex){
+
+			System.out.println("Come on seriously? Check your format!!!!! Wrong input!!!!");
 
 		}
 
 	}
 
-	/**
-	 * @return true if input is from a file
-	 */
 	public boolean isFromFile() {
 		return fromFile;
 	}
-
 }

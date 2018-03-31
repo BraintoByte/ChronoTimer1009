@@ -1,6 +1,7 @@
 package Utils;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FilePermission;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.security.AccessController;
 import java.util.Deque;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
@@ -19,6 +21,7 @@ import java.util.regex.Pattern;
 
 import com.google.gson.Gson;
 
+import entitiesDynamic.Racer;
 import environment.Race;
 
 /**
@@ -48,6 +51,7 @@ public class Util {
 
 				if(!splitted[i].equals("") && !splitted[i].equals(" ") && (!splitted[i].contains(":"))){
 
+
 					if(splitted[i].contains("TIME")){
 
 
@@ -65,20 +69,19 @@ public class Util {
 			makeCommands();
 
 		}
-		/**
-		 * TBH idk what this does...
-		 */
+
 		private static void makeCommands(){
 
 			Deque<String> temp = new LinkedList<>();
 
 			StringBuilder sb = new StringBuilder();
 
-			while(!commands.isEmpty()){     //C:\Users\TheLaw\git\ChronoTimer1009\CTS1RUN2.txt
+			while(!commands.isEmpty()){     
 
 				sb.append(commands.pop().trim());
 
-				if(sb.toString().equals("TIME") || sb.toString().equals("TRIG") || sb.toString().equals("EVENT") || sb.toString().equals("NUM") || sb.toString().equals("TOG")){
+				if(sb.toString().equals("TIME") || sb.toString().equals("TRIG") || sb.toString().equals("EVENT") || sb.toString().equals("NUM") || sb.toString().equals("TOG")
+						|| sb.toString().equals("PRINT") || sb.toString().equals("EXPORT")){
 
 					sb.append(" " + commands.pop());
 
@@ -100,6 +103,8 @@ public class Util {
 				commands.push(temp.removeLast());
 
 			}
+
+
 		}
 	}
 
@@ -167,7 +172,7 @@ public class Util {
 	 * Creates a File named fileName and saves the Race paramter 'race' to it in Json format.
 	 * (See EXPORT command documentation) 
 	 */
-	public static boolean save(String fileName, Race...race)throws IOException{
+	public static boolean save(String fileName, boolean ioState, Race...race)throws IOException{
 
 		if(race == null || race.length == 0){
 
@@ -175,7 +180,7 @@ public class Util {
 
 		}
 
-		fileName = System.getProperty("user.dir", fileName);
+		fileName = System.getProperty("user.dir") + fileName;
 		boolean filePath = false;
 
 		for(int i = 0; i < race.length; i++){
@@ -192,28 +197,41 @@ public class Util {
 					AccessController.checkPermission(new FilePermission(System.getProperty("user.dir"), "read,write"));
 
 				}catch(SecurityException e){
-
-					System.out.print("Please run as admin or select path: ");
+					
+					if(!ioState){
+					
+					System.out.print("Please run as admin or write the full path: ");
 					Scanner tempScan = new Scanner(System.in);
 					fileName = tempScan.nextLine();
+
+					}
 					
 					System.out.println(fileName);
 				}
 			}
 
 			File tmp = new File(fileName);
+			tmp.setWritable(true);
 			System.out.println("Saved in " + fileName);
 
 			if(!tmp.exists()){
 				tmp.createNewFile();
 			}
+			
 
-			FileWriter fileWriter = new FileWriter(tmp,true);
+			BufferedWriter bw = new BufferedWriter(new FileWriter(tmp.getAbsolutePath(), true));
+
 			Gson g = new Gson();
 
-			fileWriter.write(g.toJson(race[i].getClass()));
-			fileWriter.flush();
-			fileWriter.close();
+			Iterator<Racer> it = race[i].getRecord();
+
+			while(it.hasNext()){
+				bw.write(g.toJson(it.next()));
+			}
+			
+			bw.flush();
+			bw.close();
+
 		}
 
 		return true;

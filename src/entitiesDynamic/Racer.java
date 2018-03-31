@@ -8,13 +8,13 @@ import entitiesStatic.ClockInterface;
  * A racer object represents a competitor in the timing system identified with a bib number.
  * Racers also have an associated name, start time, finish time, and DNF field that are used in other areas of the system.
  */
-public class Racer {
+public class Racer implements Cloneable {
 	
-	private int bib;						// @Andy
-	private String timeStartFormatted;		// Why are these not being used?
+	private int bib;
+	private String timeStartFormatted;
 	private String timeFinishFormatted;
-	private long timeStart;
-	private long timeFinish;
+	private long finish;
+	private long start;
 	private boolean DNF;
 	private boolean isActive;
 	
@@ -26,9 +26,8 @@ public class Racer {
 
 		this.bib = bib;
 		this.DNF = false;
-		this.timeStart = 0;
-		this.timeFinish = 0;
 		this.isActive = false;
+		
 	}
 
 	/**
@@ -37,15 +36,67 @@ public class Racer {
 	public int getBib() {
 		return bib;
 	}
+	
+	public void setTimeStartFormatted(String timeStartFormatted) {
+		this.timeStartFormatted = timeStartFormatted;
+	}
+	
+	public void setTimeFinishFormatted(String timeFinishFormatted) {
+		this.timeFinishFormatted = timeFinishFormatted;
+	}
+	
+	public String getTimeStartFormatted() {
+		return timeStartFormatted;
+	}
+	
+	public String getTimeFinishFormatted() {
+		return timeFinishFormatted;
+	}
+	
+	@Override
+	public Racer clone() {
+		
+		Racer temp = null;
+		
+		try{
+		
+			temp = (Racer) super.clone();
+		
+		}catch(CloneNotSupportedException ex){
+			
+			ex.printStackTrace();			//This should not happen please erase before submit!
+			
+		}
+		
+		return temp;
+	}
+	
+	
+	public void setStartInLong(long start) {
+		this.start = start;
+	}
+	
+	public void setFinishInLong(long finish) {
+		this.finish = finish;
+	}
+	
+	public long getStartInLong() {
+		return start;
+	}
+	
+	public long getFinishInLong() {
+		return finish;
+	}
 
 	/**
 	 * Sets the racer's time to Did Not Finish (DNF).
 	 */
 	public void setDNF() {
-		timeStart = 0;
-		timeFinish = 0;
 		isActive = false;
 		this.DNF = true;
+		this.timeStartFormatted = "DNF";
+		this.timeFinishFormatted = "DNF";
+		System.out.println("RACER: " + bib + " DNFFED!");
 	}
 
 	/**

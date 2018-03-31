@@ -108,4 +108,18 @@ public class Pool {
 		return racers.size();
 	}
 	
+	// new
+	
+	/**
+	 * 
+	 * @return true if the pool is cleared
+	 */
+	public boolean clearPool() {
+		
+		this.racers.clear();
+		this.racersAmount = 0;
+		return true;
+	}
+	
+	// new
 }

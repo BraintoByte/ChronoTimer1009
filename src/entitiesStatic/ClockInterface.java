@@ -57,7 +57,7 @@ public class ClockInterface {
 
 		try {
 			Thread.sleep(100);
-		} catch (InterruptedException e) { }
+		} catch (InterruptedException e) {}
 		
 		return currentTime;
 	}

@@ -12,5 +12,6 @@ public class Driver {
 		
 		Simulator sim = new Simulator();
 		sim.start();
+		
 	}
 }

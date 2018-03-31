@@ -1,9 +1,11 @@
 package environment;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 import entitiesDynamic.Racer;
+import entitiesStatic.ClockInterface;
 
 /**
  * @author Andy & Matt
@@ -14,8 +16,8 @@ import entitiesDynamic.Racer;
 public class Race {
 
 	private int[] onChannels;
-	private Stack<Integer> bibsInRace; 
 	private Queue<Racer> active;
+	private Queue<Racer> record;
 	private RaceEventsManager manager;
 	private int raceNbr;
 	private int run;
@@ -31,7 +33,8 @@ public class Race {
 		this.onChannels = channels;
 		this.manager = manager;
 		this.active = new LinkedList<>();
-		this.bibsInRace = new Stack<>();
+		this.record = new LinkedList<>();
+
 	}
 
 	/**
@@ -39,11 +42,12 @@ public class Race {
 	 * then engraves (saves) the Race.
 	 */
 	public void stopLastRace(){
-		
-		while(!active.isEmpty())
+
+		while(!active.isEmpty()){
 			finishRacer(false);
-		
-		manager.engrave(false, 0);
+		}
+
+		//		manager.engrave(false, 0);
 	}
 
 	/**
@@ -52,20 +56,21 @@ public class Race {
 	 * as well as records their bibs in 'bibsInRace'.
 	 */
 	public void startNRacers(int n){
-		
+
 		if(n <= manager.racersPoolSize()){
 
 			for(int i = 0; i < n; i++){
-				
+
 				Racer racer = manager.getRacer();
 				Channels.channels[onChannels[0] - 1].activate(racer.getBib());
-				bibsInRace.push(racer.getBib());
+				racer.setTimeStartFormatted(ClockInterface.getCurrentTimeFormatted());
+				racer.setStartInLong(ClockInterface.getTimeInLong());
 				active.add(racer);
 
 			}
 		}
 	}
-	
+
 	/**
 	 * @param raceNbr
 	 * Sets the race number to raceNbr.
@@ -73,14 +78,14 @@ public class Race {
 	public void setRaceNbr(int raceNbr) {
 		this.raceNbr = raceNbr;
 	}
-	
+
 	/**
 	 * @return race number (raceNbr)
 	 */
 	public int getRaceNbr() {
 		return raceNbr;
 	}
-	
+
 	/**
 	 * @param run
 	 * Sets the runID (run) to run.
@@ -88,7 +93,7 @@ public class Race {
 	public void setRun(int run) {
 		this.run = run;
 	}
-	
+
 	/**
 	 * @return runID
 	 * Gets the runID of this Run.
@@ -104,25 +109,41 @@ public class Race {
 	 * If DNF is true the Racer is marked as Did Not Finish (DNF).
 	 */
 	public Racer finishRacer(boolean DNF){
-		
+
 		Racer racer = active.remove();
-		
-		if(DNF)
+
+		if(DNF){
+
 			racer.setDNF();
 
-		Channels.channels[onChannels[0] - 1].TriggerSensor();			// I don't think we need to trigger the sensor
-		Channels.channels[onChannels[1] - 1].activate(racer.getBib());	// just record the time of the event.
+		}else{
+
+			racer.setTimeFinishFormatted(ClockInterface.getCurrentTimeFormatted());
+			racer.setFinishInLong(ClockInterface.getTimeInLong());
+
+		}
+
+//		Channels.channels[onChannels[0] - 1].TriggerSensor();			 
+		Channels.channels[onChannels[1] - 1].activate(racer.getBib());
 		manager.addRacerToEndOfPool(racer);
+		Racer temp = racer.clone();
 		
-		manager.engrave(true, this.raceNbr);
-		
+		System.out.println("Racer: " + temp.getBib() + " stopped");
+
+		if(temp != null){
+
+			record.add(temp);
+
+		}
+
 		return racer;
+		
 	}
 
 	/**
 	 * @return number of active racers (size of 'active' queue).
 	 */
-	public int racersActive(){
+	public int racersActive() {    //To erase
 		return active.size();
 	}
 
@@ -136,17 +157,22 @@ public class Race {
 	/**
 	 * @return the stack of bib numbers (Racer ID's).
 	 */
-	public Stack<Integer> returnBibs(){
-		return this.bibsInRace;
+	//	public Stack<Integer> returnBibs(){
+	//		return this.bibsInRace;
+	//	}
+
+	public Iterator<Racer> getRecord() {
+		return record.iterator();
 	}
 
+	
 	/**
 	 * @return an array of active channel associated with this Race.
 	 */
 	public int[] getChannelsActive() {
 		return onChannels;
 	}
-	
+
 	/**
 	 * @return true if there is an active Racer.
 	 */

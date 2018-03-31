@@ -58,13 +58,30 @@ public abstract class Channels {
 		return activeRacers.get(bib);
 	}
 	
+	// new
+	
+//	/**
+//	 * Clears the activeRacers HashMap.
+//	 */
+//	public void reset(){
+//		
+//		activeRacers.clear();
+//	}
+	
 	/**
-	 * Clears the activeRacers HashMap.
+	 * Resets all of the channels.
 	 */
-	public void reset(){
+	public static void reset(){
 		
-		activeRacers.clear();
+		for(Channels ch: channels) {
+//			ch.clearData();
+			ch.unPairToSensor();
+			ch.enable(false);
+		}
+		
 	}
+	
+	// new
 	
 	/**
 	 * @param isEnabled

@@ -1,6 +1,7 @@
 package environment;
 
 
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -17,6 +18,9 @@ import entitiesStatic.ClockInterface;
 import exceptions.NoSuchSensorException;
 import hardware.external.Sensor;
 import hardware.external.SensorFactory;
+import hardware.external.sensor.pad.Pad;
+import hardware.external.sensors.eye.Eye;
+import hardware.external.sensors.gate.Gate;
 
 /**
  * @author Andy & Matt
@@ -116,7 +120,7 @@ public class RaceEventsManager {
 				if(padAvailable.isEmpty()) {
 					throw new IllegalAccessError();
 				}
-				
+
 				return padAvailable.pop();
 			}
 
@@ -140,17 +144,17 @@ public class RaceEventsManager {
 		protected SensorFactory getSensors(){
 			return factory;
 		}
-		
 	}
 
 	private int channelSelected;
 	private SensorCoupler sensorCoupler;
 	private Pool racePool;
-	protected Race[] races;
+	protected Race[] racesActive;
+	private Queue<Race> recordRaces = new LinkedList<>();
 	private int raceNbr;
-	private HashMap<Integer, Race> record = new HashMap<>();
-	private int racesRecords = 1;
+	private int raceCount = 1;
 	private int index;
+
 
 	/**
 	 * @param run
@@ -160,20 +164,22 @@ public class RaceEventsManager {
 	 */
 	public boolean startNewRace(int run){
 
-		if(races == null)
-			races = new Race[8];    //F or future races, max of 8, will implement group as well, that's why 8
+		if(racesActive == null){
 
-//		else{
-//
-//			ensureCapacity(races.length * 2);
-//
-//		}
-		
-		if(raceNbr < races.length){      // For later on when an input is created, don't worry not an NOP!
+			racesActive = new Race[8];
+			index = 0;
 
-			races[index] = new Race(this, channelSelected, channelSelected + 1);
-			races[index].setRaceNbr(raceNbr + 1);
-			races[index].setRun(run);
+		}
+
+		//		if(racesActive == null){     //Modify this, make so you can make 8 races parallel
+		//			racesActive = new Race[8];    //F or future races, max of 8, will implement group as well, that's why 8
+		//		}
+
+		if(raceNbr < racesActive.length){      // For later on when an input is created, don't worry not an NOP!
+
+			racesActive[index] = new Race(this, channelSelected, channelSelected + 1);
+			racesActive[index].setRaceNbr(raceNbr + 1);
+			racesActive[index].setRun(run);
 			raceNbr++;
 			index++;
 
@@ -182,46 +188,76 @@ public class RaceEventsManager {
 
 		return false;
 	}
+
+	// new
 	
 	/**
 	 * Resets the index to 0.
 	 */
-	public void reset(){
+	public void resetIndex(){
 		index = 0;
 	}
 
 	/**
-	 * @param eSize
-	 * 
-	 * Resizes the races array to eSize.
+	 * Resets everything in RaceEventManager.
+	 * clears the racePool, sets currentRun to null, and creates a new HashMap for record.
 	 */
-	private void ensureCapacity(int eSize){
-
-		Race[] temp = new Race[eSize];
-
-		for(int i = 0; i < races.length; i++){
-
-			temp[i] = races[i];
+	public void reset(){
+		
+		for(Channels c:Channels.channels) {
+			if(c != null && c.isPairedToSensor()) {
+				Sensor tmp = c.unPairToSensor();
+				boolean isPad = Pad.class.isInstance(tmp);
+				boolean isGate = Gate.class.isInstance(tmp);
+				boolean isEye = Eye.class.isInstance(tmp);
+				sensorCoupler.factory.backToTheSource(tmp, isPad, isEye, isGate);
+			}
+			c.enable(false);
 		}
-		races = temp;
+		if(racePool != null)
+			racePool.clearPool();
+		index = 0;
+		racesActive = null;
+		raceNbr = 0;
+		raceCount = 1;
+		recordRaces = new LinkedList<>();
 	}
 	
+	// new
+	
+	//	/**
+	//	 * @param eSize
+	//	 * 
+	//	 * Resizes the races array to eSize.
+	//	 */
+	//	private void ensureCapacity(int eSize){
+	//
+	//		Race[] temp = new Race[eSize];
+	//
+	//		for(int i = 0; i < racesActive.length; i++){
+	//
+	//			temp[i] = racesActive[i];
+	//		}
+	//		racesActive = temp;
+	//	}
+
 	/**
 	 * @return the number of active Races (i.e. Lanes for PARIND).
 	 */
 	public int racesActive(){
-		
-		if(races == null)
+
+		if(racesActive == null)
 			return 0;
 
 		int count = 0;
-		
-		for(int i = 0; i < races.length; i++){
-			
-			if(races[i] != null && races[i].isActive())
+
+		for(int i = 0; i < racesActive.length; i++){
+
+			if(racesActive[i] != null && racesActive[i].isActive()){
 				count++;
+			}
 		}
-		
+
 		return count;
 	}
 
@@ -229,9 +265,9 @@ public class RaceEventsManager {
 	 * Prepares racePool if null (i.e. gets the singleton from the Pool class).
 	 */
 	public void propRace(){
-
-		if(racePool == null)
+		if(racePool == null){
 			racePool = Pool.getPool();
+		}
 	}
 
 	/**
@@ -240,9 +276,9 @@ public class RaceEventsManager {
 	 * Creates a Racer with bib number racer and adds them to racePool.
 	 */
 	public void makeOneRacer(int racer){
-
-		if(racer >= 0)
+		if(racer >= 0){
 			racePool.makeRacer(racer);	
+		}
 	}
 
 	/**
@@ -263,77 +299,66 @@ public class RaceEventsManager {
 		racePool.addRacerBeginning(racer);
 	}
 
-	//	public void finishOneRacerOnRaceSelected(){
-	//		
-	//		races[raceNbr].CANCEL();
-	//		
-	//	}
-	//	
-	//	public void finishRaceSelected(){
-	//		
-	//		if(channelSelected == 1 || channelSelected == 2){
-	//			
-	//			races[0].finishRacer();
-	//			
-	//		}else{
-	//			
-	//			races[1].finishRacer();
-	//			
-	//		}
-	//	}
-	//	
-	//	public void startOneRacerOnSelectedChannel(){
-	//		
-	//		races[raceNbr].startNRacers(1);
-	//		
-	//	}
+	public boolean keepRecord(){
 
-	/**
-	 * @param mod
-	 * @param raceNbr
-	 * 
-	 * if mod is true - modifies the current entry in record with race number = raceNbr,
-	 * else creates a new entry in record for the Race with race number = raceNbr. 
-	 */
-	protected void engrave(boolean mod, int raceNbr){
+		int count = 0;
 
-		if(mod){
+		for(int i = 0; i < racesActive.length; i++){
 
-			record.remove(raceNbr);
+			if(racesActive[i] == null){
 
-			int temp = channelSelected == 1 || channelSelected == 2 ? 0 : 1;
+				break;
 
-			record.put(raceNbr, races[temp]);
-
-		}else{
-
-			if(races[0] != null){
-
-				record.put(racesRecords, races[0]);
-				racesRecords++;
 			}
 
-			if(races[1] != null){
+//			if(!recordRaces.isEmpty()){
+//
+//				recordRaces.remove();
+//
+//			}
+			
+			recordRaces.add(racesActive[i]);
 
-				record.put(racesRecords, races[1]);
-				racesRecords++;
+			if(!racesActive[i].isActive()){
+
+				count++;
+
 			}
 		}
+
+		if(count < 8){
+
+			return false;
+
+		}
+
+		racesActive = null;
+
+		return true;
+
 	}
+
+
+	public Iterator<Race> getRecords() {
+		return recordRaces.iterator();
+	}
+
 
 	/**
 	 * @return the array of races (lanes).
 	 */
 	public Race[] getRaces() {
-		return races;
+		return racesActive;
 	}
-	
+
+
 	/**
 	 * @param channelSelected
 	 * @return true if channel exists and is selected
 	 * 
 	 * Set a specific channel to be the selected channel
 	 */
+
 	public boolean setChannelSelected(int channelSelected) {
 
 		if(channelSelected <= Channels.channels.length){
@@ -392,13 +417,15 @@ public class RaceEventsManager {
 	//		racePool.returnRacer(racer);
 	//		
 	//	}
-	
+
+
 	/**
 	 * @return size of racePool
 	 */
 	public int racersPoolSize(){
-
+		
 		return racePool == null ? 0 : racePool.getRacersAmount();
+
 	}
 
 	//	public int racersActive(){
@@ -424,7 +451,6 @@ public class RaceEventsManager {
 	 * @return the selected channel
 	 */
 	public Channels getCurrentChannel(){
-
 		return Channels.channels[channelSelected - 1];
 	}
 
@@ -436,7 +462,6 @@ public class RaceEventsManager {
 	 * Allocates space/makes the number of gates, eyes, and pads according to the truth values of the parameters. 
 	 */
 	public void theseManySensors(int gates, int eyes, int pads){
-
 		sensorCoupler = new SensorCoupler();
 		sensorCoupler.getSensors().makeSensors(eyes, gates, pads, eyes > 0, gates > 0, pads > 0);
 	}
@@ -467,7 +492,6 @@ public class RaceEventsManager {
 	 * Removes and returns the Racer at the beginning of racePool.
 	 */
 	protected Racer getRacer(){
-
 		return racePool.removeRacerBeginning();
 	}
 
@@ -493,27 +517,26 @@ public class RaceEventsManager {
 	//
 	//	}
 
-	/**
-	 * @param run - the ID of the Run to get
-	 * @return array of Races (lanes) for the Run with ID = run
-	 */
-	public Race[] getSelectedRun(int run){
-
-		Iterator<Integer> it = record.keySet().iterator();
-		Stack<Race> tempStack = new Stack<>();
-
-		while(it.hasNext()){
-
-			Race temp = record.get(it.next());
-
-			if(temp.getRun() == run)
-				tempStack.push(record.remove(temp.getRaceNbr()));
-			
-		}
-		
-		Race[] tempArr = (Race[]) tempStack.toArray(new Race[tempStack.size()]);
-
-		return tempArr;
-	}
-	
+	//	/**
+	//	 * @param run - the ID of the Run to get
+	//	 * @return array of Races (lanes) for the Run with ID = run
+	//	 */
+	//	public Race[] getSelectedRun(int run) throws ConcurrentModificationException {
+	//
+	//		Iterator<Integer> it = record.keySet().iterator();
+	//		Stack<Race> tempStack = new Stack<>();
+	//
+	//		while(it.hasNext()){
+	//
+	//			Race temp = record.get(it.next());
+	//
+	//			if(temp.getRun() == run)
+	//				tempStack.push(record.get(temp.getRaceNbr()));
+	//
+	//		}
+	//
+	//		Race[] tempArr = (Race[]) tempStack.toArray(new Race[tempStack.size()]);
+	//
+	//		return tempArr;
+	//	}
 }

@@ -124,6 +124,7 @@ public class Simulator implements Runnable {    //Chain
 		running = true;
 		this.threadSimulator = new Thread(this);
 		this.threadSimulator.start();
+		
 	}
 
 	/**
