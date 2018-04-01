@@ -214,6 +214,7 @@ public class Run {
 		return false;
 
 	}
+	
 
 	protected Race[] getRaces() {
 		return racesActive;
@@ -225,7 +226,7 @@ public class Run {
 
 			for (int i = 0; i < racesActive.length; i++) {
 
-				if(racesActive[i].onChannels[0] == channel || racesActive[i].onChannels[1] == channel){
+				if(racesActive[i] != null && (racesActive[i].onChannels[0] == channel || racesActive[i].onChannels[1] == channel)){
 
 					return racesActive[i];
 

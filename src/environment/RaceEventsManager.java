@@ -280,7 +280,7 @@ public class RaceEventsManager {
 					Race tempRace = currentRun.getRaceFromChannel(channelSelected);
 
 					if(tempRace != null){
-
+						
 						tempRace.startNRacers(1, racePool);
 						keepRecord();
 						System.out.println("Racers inactive after action: " + racePool.getRacersAmount());
