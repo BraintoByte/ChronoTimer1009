@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 import com.google.gson.Gson;
 
 import entitiesDynamic.Racer;
-import environment.Race;
+import environment.Run.Race;
 
 /**
  * @author Andy

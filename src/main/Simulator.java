@@ -204,34 +204,4 @@ public class Simulator implements Runnable {    //Chain
 	public UI getUi() {
 		return ui;
 	}
-	
-	/**
-	 * @return the current Run's ID number
-	 */
-	public int getRun() {
-		return run;
-	}
-	
-	/**
-	 * @param run
-	 * Sets the current Run's ID to run.
-	 */
-	public void setRun(int run) {
-		this.run = run;
-	}
-	
-	/**
-	 * @return true if there is an active Run
-	 */
-	public boolean isActiveRun() {
-		return activeRun;
-	}
-	
-	/**
-	 * @param activeRun
-	 * Sets the state of the field activeRun to the truth value of the parameter activeRun.
-	 */
-	public void setActiveRun(boolean activeRun) {
-		this.activeRun = activeRun;
-	}
 }
