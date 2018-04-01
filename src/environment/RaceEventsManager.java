@@ -280,7 +280,7 @@ public class RaceEventsManager {
 					Race tempRace = currentRun.getRaceFromChannel(channelSelected);
 
 					if(tempRace != null){
-						
+
 						tempRace.startNRacers(1, racePool);
 						keepRecord();
 						System.out.println("Racers inactive after action: " + racePool.getRacersAmount());
@@ -350,48 +350,79 @@ public class RaceEventsManager {
 
 	}
 
-
 	public boolean keepRecord(){
 
 		if(!checkRunInitiated()){
 			return false;
 		}
-
-		int count = 0;
+		
+		
 		Race[] racesActive = currentRun.getRaces();
-
+		
 		if(racesActive != null && racesActive.length > 0){
-
-			for(int i = 0; i < racesActive.length; i++){
-
+			
+			for (int i = 0; i < racesActive.length; i++) {
+				
 				if(racesActive[i] == null){
 					break;
 				}
-
-				recordRaces.add(racesActive[i]);
-
-				if(!racesActive[i].isActive()){
-
-					count++;
-
+				
+				if(recordRaces.contains(racesActive[i])){
+					
+					recordRaces.remove(racesActive[i]);
+					
 				}
+				
+				recordRaces.add(racesActive[i]);
+				
 			}
-
-			if(count < 8){
-
-				return false;
-
-			}
-
-			racesActive = null;
-
-			return true;
-
 		}
-
-		return false;
-
+		
+		return true;
 	}
+
+
+	//	public boolean keepRecord(){
+	//
+	//		if(!checkRunInitiated()){
+	//			return false;
+	//		}
+	//
+	//		int count = 0;
+	//		Race[] racesActive = currentRun.getRaces();
+	//
+	//		if(racesActive != null && racesActive.length > 0){
+	//
+	//			for(int i = 0; i < racesActive.length; i++){
+	//
+	//				if(racesActive[i] == null){
+	//					break;
+	//				}
+	//
+	//				recordRaces.add(racesActive[i]);
+	//
+	//				if(!racesActive[i].isActive()){
+	//
+	//					count++;
+	//
+	//				}
+	//			}
+	//
+	//			if(count < 8){
+	//
+	//				return false;
+	//
+	//			}
+	//
+	//			racesActive = null;
+	//
+	//			return true;
+	//
+	//		}
+	//
+	//		return false;
+	//
+	//	}
 
 
 	public int racesActive(){
@@ -407,23 +438,30 @@ public class RaceEventsManager {
 
 		Race[] racesActive = currentRun.getRaces();
 
-		for(int i = 0; i < racesActive.length; i++){      //Change this
+		if(racesActive != null){
 
-			if(racesActive[i] != null){
+			for(int i = 0; i < racesActive.length; i++){      //Change this
 
-				racesActive[i].stopLastRace(racePool);
+				if(racesActive[i] != null){
 
+					racesActive[i].stopLastRace(racePool);
+
+				}
 			}
+
+			currentRun = null;
+
+		}else{
+
+			System.out.println("YOU CANNOT STOP WHAT'S NOT STARTED!");
+
 		}
-
-		currentRun = null;
-
 	}
-	
+
 	public boolean isRunActive(){
-		
+
 		return currentRun != null;
-		
+
 	}
 
 	public void setNewRun(){

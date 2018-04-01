@@ -125,7 +125,6 @@ public class Run {
 			}
 
 			return racer;
-
 		}
 
 		/**
@@ -195,7 +194,7 @@ public class Run {
 				setRaceFromScratch(1);
 				break;
 			case PARIND:
-				setRaceFromScratch(8);
+				setRaceFromScratch(4);
 				break;
 			}
 		}

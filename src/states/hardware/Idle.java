@@ -121,8 +121,8 @@ public class Idle extends State {
 					if(ui.getRaceManager().getType() == null){
 
 						System.out.println("You have not initialized what type of even it is, so by default it's "
-								+ "initialized to independent");
-						ui.getRaceManager().setType(Run_Types.IND);
+								+ "initialized to independent CHANGE THIS TO IND!");
+						ui.getRaceManager().setType(Run_Types.PARIND);
 
 					}
 				}
@@ -161,12 +161,15 @@ public class Idle extends State {
 					case "ENDRUN":
 
 
-						if(channelsEnabled(1) > 0){
+						//						if(channelsEnabled(1) > 0){
 
-							ui.getRaceManager().keepRecord();
-							ui.getRaceManager().endRun();
+						ui.getRaceManager().keepRecord();
+						ui.getRaceManager().endRun();
 
-						}
+						//						}
+
+						System.out.println("Run ended");
+
 						break;
 					case "CANCEL":				//Redo!
 
@@ -217,7 +220,7 @@ public class Idle extends State {
 
 							//						channelSelected = Integer.parseInt(str.split("\\s")[1]);
 
-							for (int i = 0; i < 4; i++) {
+							for (int i = 0; i < 8; i++) {
 
 								ui.getRaceManager().setChannelSelected(i + 1);
 								ui.getRaceManager().getCurrentChannel().enable(!ui.getRaceManager().getCurrentChannel().isEnabled());
@@ -235,6 +238,10 @@ public class Idle extends State {
 						conn("CONN GATE 2");
 						conn("CONN GATE 3");
 						conn("CONN GATE 4");
+						conn("CONN EYE 5");
+						conn("CONN EYE 6");
+						conn("CONN EYE 7");
+						conn("CONN EYE 8");
 
 						System.out.println("All sensors are connected your are good to go!");
 
@@ -316,12 +323,12 @@ public class Idle extends State {
 					case "TRIG":
 
 
-						if(ui.getRaceManager().racesActive() == 0){
-
-							System.out.print("No races active!");
-							break;
-
-						}
+//						if(ui.getRaceManager().racesActive() == 0){
+//
+//							System.out.print("No races active!");
+//							break;
+//
+//						}
 
 
 						ui.getRaceManager().trig(str, false);
@@ -557,6 +564,7 @@ public class Idle extends State {
 			//
 			//			}
 
+			boolean exists = false;
 			Race temp = null;
 
 			if(!it.hasNext()){
@@ -565,44 +573,70 @@ public class Idle extends State {
 
 			}else{
 
+				System.out.println("Run <" + run + ">");
+				
 				while(it.hasNext()){
 
 					temp = it.next();
 
 					if(temp != null && temp.getRun() == run){
 
-						break;
+						Iterator<Racer> it2 = temp.getRecord();
+						exists = true;
+						
+						while(it2.hasNext()){
+							
+							Racer tempRacer = it2.next();
+							
+							if(tempRacer != null && !tempRacer.isDNF()){
 
-					}
-				}
+								System.out.println("<" + tempRacer.getBib() + ">" + " " + "<" + ClockInterface.getTotalTimeFormatted(tempRacer.getStartInLong(), tempRacer.getFinishInLong()) + ">");
 
-				if(temp.getRun() == run){
+							}else{
 
-					Iterator<Racer> racer = temp.getRecord();
-					System.out.println("Run <" + run + ">");
+								if(tempRacer.isDNF()){
 
-					while(racer.hasNext()){
+									System.out.println("<" + tempRacer.getBib() + ">" + " " + "<" + " DNF" + ">");
 
-						Racer tempRacer = racer.next();
-
-						if(tempRacer != null && !tempRacer.isDNF()){
-
-							System.out.println("<" + tempRacer.getBib() + ">" + " " + "<" + ClockInterface.getTotalTimeFormatted(tempRacer.getStartInLong(), tempRacer.getFinishInLong()) + ">");
-
-						}else{
-
-							if(tempRacer.isDNF()){
-
-								System.out.println("<" + tempRacer.getBib() + ">" + " " + "<" + " DNF" + ">");
-
+								}
 							}
 						}
 					}
-				}else{
-
-					System.out.println("Run selected does not exists!");
-
 				}
+				
+				if(!exists){
+					
+					System.out.println("No such run!");
+					
+				}
+
+//				if(temp.getRun() == run){
+//
+//					Iterator<Racer> racer = temp.getRecord();
+//					System.out.println("\n\nRun <" + run + ">");
+//
+//					while(racer.hasNext()){
+//
+//						Racer tempRacer = racer.next();
+//
+//						if(tempRacer != null && !tempRacer.isDNF()){
+//
+//							System.out.println("<" + tempRacer.getBib() + ">" + " " + "<" + ClockInterface.getTotalTimeFormatted(tempRacer.getStartInLong(), tempRacer.getFinishInLong()) + ">");
+//
+//						}else{
+//
+//							if(tempRacer.isDNF()){
+//
+//								System.out.println("<" + tempRacer.getBib() + ">" + " " + "<" + " DNF" + ">");
+//
+//							}
+//						}
+//					}
+//				}else{
+//
+//					System.out.println("Run selected does not exists!");
+//
+//				}
 			}
 
 		}catch(ConcurrentModificationException e){

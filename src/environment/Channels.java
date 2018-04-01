@@ -6,6 +6,10 @@ import environment.channels.Ch1;
 import environment.channels.Ch2;
 import environment.channels.Ch3;
 import environment.channels.Ch4;
+import environment.channels.Ch5;
+import environment.channels.Ch6;
+import environment.channels.Ch7;
+import environment.channels.Ch8;
 import hardware.external.Sensor;
 
 /**
@@ -15,7 +19,7 @@ import hardware.external.Sensor;
  */
 public abstract class Channels {
 
-	public static Channels[] channels = new Channels[4];
+	public static Channels[] channels = new Channels[8];
 	private HashMap<Integer, Long> activeRacers = new HashMap<>();
 	private Sensor sensorPaired;
 	private String name;
@@ -27,7 +31,11 @@ public abstract class Channels {
 	private static Channels ch2 = new Ch2(2);
 	private static Channels ch3 = new Ch3(3);
 	private static Channels ch4 = new Ch4(4);
-
+	private static Channels ch5 = new Ch5(5);
+	private static Channels ch6 = new Ch6(6);
+	private static Channels ch7 = new Ch7(7);
+	private static Channels ch8 = new Ch8(8);
+	
 	/**
 	 * @param name - the name of the channel
 	 * @param chId - the ID of the channel
