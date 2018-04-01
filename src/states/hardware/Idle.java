@@ -41,7 +41,7 @@ public class Idle extends State {
 	private Scanner input;
 	private int channelSelected;
 	private boolean displayingTime;
-	
+
 
 	/**
 	 * @param ui
@@ -123,7 +123,7 @@ public class Idle extends State {
 						System.out.println("You have not initialized what type of even it is, so by default it's "
 								+ "initialized to independent");
 						ui.getRaceManager().setType(Run_Types.IND);
-						
+
 					}
 				}
 
@@ -145,10 +145,17 @@ public class Idle extends State {
 							break;
 
 						}
-						
-						
-						ui.getRaceManager().setNewRun();
-						System.out.println("New run created!");
+
+						if(!ui.getRaceManager().isRunActive()){
+
+							ui.getRaceManager().setNewRun();
+							System.out.println("New run created!");
+
+						}else{
+
+							System.out.println("Run is active please stop the last run before starting a new one!");
+
+						}
 
 						break;
 					case "ENDRUN":
@@ -181,13 +188,13 @@ public class Idle extends State {
 					case "START":     //Any amount can start in parallel, that's what I have in my notes
 						//You cannot start a racers after another has finished, because otherwise how do you keep track of the shift
 
-//						ui.getRaceManager().keepRecord();
-						
+						//						ui.getRaceManager().keepRecord();
+
 						ui.getRaceManager().trig("TRIG 1", false);
 
 						break;
 					case "FINISH":
-						
+
 						ui.getRaceManager().trig("TRIG 2", false);
 
 						break;
@@ -205,7 +212,7 @@ public class Idle extends State {
 						powerOnOff();
 						break;
 					case "RACETEST":
-						
+
 						try{
 
 							//						channelSelected = Integer.parseInt(str.split("\\s")[1]);
@@ -307,16 +314,16 @@ public class Idle extends State {
 
 						break;
 					case "TRIG":
-						
-						
+
+
 						if(ui.getRaceManager().racesActive() == 0){
-							
+
 							System.out.print("No races active!");
 							break;
-							
+
 						}
-						
-						
+
+
 						ui.getRaceManager().trig(str, false);
 						break;
 					case "NUM":
@@ -474,9 +481,9 @@ public class Idle extends State {
 		}
 
 		System.out.println("Power " + (ui.getBtnHandler().getPowerState() ? "on" : "off"));
-		
+
 	}
-	
+
 	/**
 	 * @param str
 	 * Connects the channel and sensor specified in str, where str = "CONN <Sensor> <chanID>"
@@ -509,24 +516,24 @@ public class Idle extends State {
 
 
 
-//	private boolean isGoodToGo(){
-//
-//		Iterator<Race> it = ui.getRaceManager().getRecords();
-//		int count = 0;
-//
-//		while(it.hasNext()){
-//
-//			Race temp = it.next();
-//
-//			if(temp != null && temp.getRun() == ui.getSimulator().getRun()){
-//
-//				return true;
-//
-//			}
-//		}
-//
-//		return false;
-//	}
+	//	private boolean isGoodToGo(){
+	//
+	//		Iterator<Race> it = ui.getRaceManager().getRecords();
+	//		int count = 0;
+	//
+	//		while(it.hasNext()){
+	//
+	//			Race temp = it.next();
+	//
+	//			if(temp != null && temp.getRun() == ui.getSimulator().getRun()){
+	//
+	//				return true;
+	//
+	//			}
+	//		}
+	//
+	//		return false;
+	//	}
 
 	public void keepPrint(int run){     //Should the runs be replaced?!
 
@@ -568,10 +575,11 @@ public class Idle extends State {
 
 					}
 				}
-				
+
 				if(temp.getRun() == run){
 
 					Iterator<Racer> racer = temp.getRecord();
+					System.out.println("Run <" + run + ">");
 
 					while(racer.hasNext()){
 
@@ -591,12 +599,12 @@ public class Idle extends State {
 						}
 					}
 				}else{
-					
+
 					System.out.println("Run selected does not exists!");
-					
+
 				}
 			}
-			
+
 		}catch(ConcurrentModificationException e){
 
 			System.out.println("Something went wrong in retriving the race, did you ended run?!");
@@ -628,56 +636,56 @@ public class Idle extends State {
 
 	}
 
-//	/**
-//	 * @return true if there is an active Race
-//	 */
-//	private boolean isRaceActive(){
-//
-//		if(ui.getRaceManager().getRaces()[channelSelected - 1] == null){
-//
-//			System.out.println(channelSelected);
-//
-//			if(ui.getRaceManager().getRaces()[channelSelected - 1].isActive()){
-//
-//				return true;
-//
-//			}
-//		}
-//
-//		return false;
-//
-//	}
+	//	/**
+	//	 * @return true if there is an active Race
+	//	 */
+	//	private boolean isRaceActive(){
+	//
+	//		if(ui.getRaceManager().getRaces()[channelSelected - 1] == null){
+	//
+	//			System.out.println(channelSelected);
+	//
+	//			if(ui.getRaceManager().getRaces()[channelSelected - 1].isActive()){
+	//
+	//				return true;
+	//
+	//			}
+	//		}
+	//
+	//		return false;
+	//
+	//	}
 
 	//ONLY FOR TESTING TO PUT IN A FILE!//
 
-//	/**
-//	 * Prints some helpful information for testing/debugging.
-//	 */
-//	private void testing(){
-//
-//		if(ui.getRaceManager().getRaces() != null){
-//
-//			System.out.println("Races amount: " + ui.getRaceManager().getRaces().length);
-//
-//			for(int i = 0; i < ui.getRaceManager().getRaces().length; i++){
-//
-//				if(ui.getRaceManager().getRaces()[i] != null){
-//
-//					System.out.println("Active on race " + (i + 1) + ": " + ui.getRaceManager().getRaces()[i].isActive());
-//					System.out.println("RaceNbr: " + ui.getRaceManager().getRaces()[i].getRaceNbr());
-//					System.out.println("RunNbr: " + ui.getRaceManager().getRaces()[i].getRun());
-//					System.out.println("Racers active: " + ui.getRaceManager().getRaces()[i].racersActive());
-//					System.out.println("Races active: " + ui.getRaceManager().racesActive());
-//					System.out.println("Racers pool size: " + ui.getRaceManager().racersPoolSize());
-//					System.out.println("Current time: " + ClockInterface.getCurrentTimeFormatted());
-//
-//				}
-//			}
-//
-//			System.out.println("Channels active: " + channelsEnabled(1));
-//
-//		}
-//	}
+	//	/**
+	//	 * Prints some helpful information for testing/debugging.
+	//	 */
+	//	private void testing(){
+	//
+	//		if(ui.getRaceManager().getRaces() != null){
+	//
+	//			System.out.println("Races amount: " + ui.getRaceManager().getRaces().length);
+	//
+	//			for(int i = 0; i < ui.getRaceManager().getRaces().length; i++){
+	//
+	//				if(ui.getRaceManager().getRaces()[i] != null){
+	//
+	//					System.out.println("Active on race " + (i + 1) + ": " + ui.getRaceManager().getRaces()[i].isActive());
+	//					System.out.println("RaceNbr: " + ui.getRaceManager().getRaces()[i].getRaceNbr());
+	//					System.out.println("RunNbr: " + ui.getRaceManager().getRaces()[i].getRun());
+	//					System.out.println("Racers active: " + ui.getRaceManager().getRaces()[i].racersActive());
+	//					System.out.println("Races active: " + ui.getRaceManager().racesActive());
+	//					System.out.println("Racers pool size: " + ui.getRaceManager().racersPoolSize());
+	//					System.out.println("Current time: " + ClockInterface.getCurrentTimeFormatted());
+	//
+	//				}
+	//			}
+	//
+	//			System.out.println("Channels active: " + channelsEnabled(1));
+	//
+	//		}
+	//	}
 
 	//END TESTING//
 }

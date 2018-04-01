@@ -279,7 +279,6 @@ public class RaceEventsManager {
 					//					currentRun.getRaces()[channelSelected].startNRacers(1, racePool);
 					Race tempRace = currentRun.getRaceFromChannel(channelSelected);
 
-
 					if(tempRace != null){
 
 						tempRace.startNRacers(1, racePool);
@@ -419,6 +418,12 @@ public class RaceEventsManager {
 
 		currentRun = null;
 
+	}
+	
+	public boolean isRunActive(){
+		
+		return currentRun != null;
+		
 	}
 
 	public void setNewRun(){

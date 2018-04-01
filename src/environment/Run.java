@@ -222,7 +222,7 @@ public class Run {
 	protected Race getRaceFromChannel(int channel){
 
 		if(racesActive != null){
-			
+
 			for (int i = 0; i < racesActive.length; i++) {
 
 				if(racesActive[i].onChannels[0] == channel || racesActive[i].onChannels[1] == channel){
@@ -237,16 +237,10 @@ public class Run {
 
 	}
 
-	private boolean setRaceFromScratch(int eSize){
+	private void setRaceFromScratch(int eSize){
 
-		if(eSize < 8){
+		racesActive = new Race[eSize];
 
-			racesActive = new Race[eSize];
-			return true;
-
-		}
-
-		return false;
 	}
 
 	protected void resetIndex(){
