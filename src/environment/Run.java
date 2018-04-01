@@ -195,7 +195,7 @@ public class Run {
 				setRaceFromScratch(1);
 				break;
 			case PARIND:
-				setNewRace(8);
+				setRaceFromScratch(8);
 				break;
 			}
 		}
