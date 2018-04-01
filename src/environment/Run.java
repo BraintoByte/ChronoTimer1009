@@ -8,6 +8,7 @@ import entitiesDynamic.Pool;
 import entitiesDynamic.Racer;
 import entitiesStatic.ClockInterface;
 import environment.Run.Race;
+import states.hardware.Idle.Run_Types;
 
 public class Run {
 
@@ -44,14 +45,14 @@ public class Run {
 				finishRacer(false, racePool);
 			}
 		}
-		
+
 		/**
 		 * @param n - the number of Racers
 		 * Starts n Racers by removing them from the Pool and adding them to the active queue, 
 		 * as well as records their bibs in 'bibsInRace'.
 		 */
 		protected void startNRacers(int n, Pool racePool){
-			
+
 			if(n <= racePool.getRacersAmount()){
 
 				for(int i = 0; i < n; i++){
@@ -80,13 +81,13 @@ public class Run {
 		protected int getRaceNbr() {
 			return raceNbr;
 		}
-		
+
 		/**
 		 * @return runID
 		 * Gets the runID of this Run.
 		 */
 		public int getRun() {
-			return run;
+			return runNbr;
 		}
 
 		/**
@@ -169,29 +170,36 @@ public class Run {
 	}
 
 
-	
+
 	private int raceNbr;
 	private int index;
 	private Race[] racesActive;
-	private int run;
 	private int runNbr;
+	private Run_Types type;
 
 
 
-	protected Run(int runNbr){
+	protected Run(int runNbr, Run_Types type){
 
 		this.runNbr = runNbr;
-		
+		this.type = type;
+
 	}
-	
-	
+
+
 	protected boolean setNewRace(int channelSelected) {
 
 		if(racesActive == null){
-
-			throw new IllegalArgumentException("Race is not started!");
-
+			switch(type){
+			case IND:
+				setRaceFromScratch(1);
+				break;
+			case PARIND:
+				setNewRace(8);
+				break;
+			}
 		}
+
 
 		if(raceNbr < racesActive.length){      // For later on when an input is created, don't worry not an NOP!
 
@@ -199,30 +207,45 @@ public class Run {
 			racesActive[index].setRaceNbr(raceNbr + 1);
 			raceNbr++;
 			index++;
-			
+
 			return true;
 		}
 
 		return false;
-		
+
 	}
-	
-	
+
 	protected Race[] getRaces() {
 		return racesActive;
 	}
 
+	protected Race getRaceFromChannel(int channel){
 
-	
-	protected boolean setRaceFromScratch(int eSize){
+		if(racesActive != null){
+			
+			for (int i = 0; i < racesActive.length; i++) {
+
+				if(racesActive[i].onChannels[0] == channel || racesActive[i].onChannels[1] == channel){
+
+					return racesActive[i];
+
+				}
+			}
+		}
+
+		return null;
+
+	}
+
+	private boolean setRaceFromScratch(int eSize){
 
 		if(eSize < 8){
 
 			racesActive = new Race[eSize];
 			return true;
-			
+
 		}
-		
+
 		return false;
 	}
 

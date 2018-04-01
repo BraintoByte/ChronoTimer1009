@@ -40,9 +40,8 @@ public class Idle extends State {
 	private boolean isIdle;
 	private Scanner input;
 	private int channelSelected;
-	private boolean independent;
-	private boolean parallel;
 	private boolean displayingTime;
+	
 
 	/**
 	 * @param ui
@@ -117,16 +116,14 @@ public class Idle extends State {
 			}else if(ui.getBtnHandler().getPowerState()) {
 
 				if(!(str.contains("EVENT") || str.contains("POWER") || str.contains("EXIT") 
-						|| str.contains("RESET") || str.contains("TIME") || str.contains("TOG") || str.contains("CONN") || str.contains("TESTING"))
-						&& parallel == false && independent == false){
+						|| str.contains("RESET") || str.contains("TIME") || str.contains("TOG") || str.contains("CONN") || str.contains("TESTING"))){
 
-					if(!independent && !parallel){
+					if(ui.getRaceManager().getType() == null){
 
 						System.out.println("You have not initialized what type of even it is, so by default it's "
 								+ "initialized to independent");
 						ui.getRaceManager().setType(Run_Types.IND);
-						independent = true;
-
+						
 					}
 				}
 
@@ -142,7 +139,7 @@ public class Idle extends State {
 
 						int enabled = channelsEnabled(1);
 
-						if(enabled > 2 && independent){
+						if(enabled > 2 && ui.getRaceManager().getType() == Run_Types.IND){
 
 							System.out.println("Cannot have more then 1 channel on IND");
 							break;
@@ -151,11 +148,6 @@ public class Idle extends State {
 						
 						
 						ui.getRaceManager().setNewRun();
-						//							ui.getSimulator().setActiveRun(true);
-
-						//							System.out.println("Races is null: " + (ui.getRaceManager().getRaces() == null));
-						//							System.out.println("Channels active: " + channelsEnabled(1));
-						
 						System.out.println("New run created!");
 
 						break;
@@ -189,12 +181,13 @@ public class Idle extends State {
 					case "START":     //Any amount can start in parallel, that's what I have in my notes
 						//You cannot start a racers after another has finished, because otherwise how do you keep track of the shift
 
-						ui.getRaceManager().keepRecord();
+//						ui.getRaceManager().keepRecord();
+						
 						ui.getRaceManager().trig("TRIG 1", false);
 
 						break;
 					case "FINISH":
-
+						
 						ui.getRaceManager().trig("TRIG 2", false);
 
 						break;
@@ -251,16 +244,10 @@ public class Idle extends State {
 
 						if(str.split("\\s")[1].trim().equals("IND")){
 
-							independent = true;
-							parallel = false;
-
 							ui.getRaceManager().setType(Run_Types.IND);
 
 
 						}else if(str.split("\\s")[1].trim().equals("PARIND")){
-
-							parallel = true;
-							independent = false;
 
 							ui.getRaceManager().setType(Run_Types.PARIND);
 
@@ -320,10 +307,16 @@ public class Idle extends State {
 
 						break;
 					case "TRIG":
+						
+						
 						if(ui.getRaceManager().racesActive() == 0){
 							
+							System.out.print("No races active!");
+							break;
 							
 						}
+						
+						
 						ui.getRaceManager().trig(str, false);
 						break;
 					case "NUM":
@@ -428,7 +421,6 @@ public class Idle extends State {
 					}
 				}
 			}
-
 		}
 	}
 
@@ -479,8 +471,6 @@ public class Idle extends State {
 		if(isOn) {
 			ui.getRaceManager().resetRun();
 			ui.getSimulator().getClock().setTime(new Date());
-			independent = false;
-			parallel = false;
 		}
 
 		System.out.println("Power " + (ui.getBtnHandler().getPowerState() ? "on" : "off"));
@@ -542,8 +532,6 @@ public class Idle extends State {
 
 		try{
 
-
-
 			Iterator<Race> it = ui.getRaceManager().getRecords();
 
 			//			if(tempRaceArray == null){
@@ -580,9 +568,8 @@ public class Idle extends State {
 
 					}
 				}
-
+				
 				if(temp.getRun() == run){
-
 
 					Iterator<Racer> racer = temp.getRecord();
 
@@ -603,6 +590,10 @@ public class Idle extends State {
 							}
 						}
 					}
+				}else{
+					
+					System.out.println("Run selected does not exists!");
+					
 				}
 			}
 			

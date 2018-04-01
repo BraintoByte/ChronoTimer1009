@@ -170,11 +170,11 @@ public class RaceEventsManager {
 			racePool.makeRacer(racer);	
 		}
 	}
-	
+
 	public void resetPool(){
 		racePool.clearPool();
 	}
-	
+
 	/**
 	 * @param gates
 	 * @param eyes
@@ -186,12 +186,12 @@ public class RaceEventsManager {
 		sensorCoupler = new SensorCoupler();
 		sensorCoupler.getSensors().makeSensors(eyes, gates, pads, eyes > 0, gates > 0, pads > 0);
 	}
-	
-	
-		/**
-		 * Resets everything in RaceEventManager.
-		 * clears the racePool, sets currentRun to null, and creates a new HashMap for record.
-		 */
+
+
+	/**
+	 * Resets everything in RaceEventManager.
+	 * clears the racePool, sets currentRun to null, and creates a new HashMap for record.
+	 */
 	public void resetRun(){			//I don't think we will need this but just in case
 
 		if(!checkRunInitiated()){
@@ -222,22 +222,23 @@ public class RaceEventsManager {
 	public int getRunNbr() {
 		return runNbr;
 	}
-	
+
 	public void setType(Run_Types type) {
-		
+
 		if(checkRunInitiated()){
-			
+
 			System.out.println("PLEASE END THE CURRENT RUN FIRST!");
 			return;
-			
+
 		}
-		
+
 		this.type = type;
 	}
-	
+
 	public Run_Types getType() {
 		return type;
 	}
+
 
 	/**
 	 * @param str
@@ -254,7 +255,6 @@ public class RaceEventsManager {
 			return;
 		}
 
-
 		try{
 
 			channelSelected = Integer.parseInt(str.split("\\s")[1].trim());
@@ -270,13 +270,34 @@ public class RaceEventsManager {
 
 				if(channelSelected % 2 == 1){
 
-					if(currentRun.getRaces() == null){
+					//					if(currentRun.getRaces() == null){
+					//
+					//						setRace();
+					//
+					//					}
 
-						setRace();
+					//					currentRun.getRaces()[channelSelected].startNRacers(1, racePool);
+					Race tempRace = currentRun.getRaceFromChannel(channelSelected);
+
+
+					if(tempRace != null){
+
+						tempRace.startNRacers(1, racePool);
+						keepRecord();
+						System.out.println("Racers inactive after action: " + racePool.getRacersAmount());
+						return;
 
 					}
 
-					currentRun.getRaces()[channelSelected - 1].startNRacers(1, racePool);
+					if(currentRun.setNewRace(channelSelected)){
+						tempRace = currentRun.getRaceFromChannel(channelSelected);
+						tempRace.startNRacers(1, racePool);
+						keepRecord();
+						System.out.println("Race STARTED!");
+						return;
+					}
+
+					System.out.println("YOU CANNOT CREATE THESE MANY RUNS!");
 
 
 				}else if(channelSelected % 2 == 0){
@@ -306,6 +327,9 @@ public class RaceEventsManager {
 							}
 						}
 
+
+						keepRecord();
+
 					}else{
 
 						System.out.println("NO MORE RACERS!");
@@ -324,8 +348,9 @@ public class RaceEventsManager {
 		}
 
 		System.out.println("Racers inactive after action: " + racePool.getRacersAmount());
-		
+
 	}
+
 
 	public boolean keepRecord(){
 
@@ -398,54 +423,58 @@ public class RaceEventsManager {
 
 	public void setNewRun(){
 		runNbr++;
-		currentRun = new Run(runNbr);
+		currentRun = new Run(runNbr, type);
 	}
 
 	private boolean checkRunInitiated(){
 		return currentRun != null;
 	}
-	
+
 	public int getChannelSelected() {
 		return channelSelected;
 	}
 
+
+
 	/**
 	 * Creates a New Run with the specified event type (independent | parallel).
 	 */
-	private void setRace() {
-
-		if(!checkRunInitiated()){
-			return;
-		}
-
-		switch(type){
-
-		case IND:
-			//			setChannelSelected(1); //From idle
-
-			if(racesActive() > 0){
-
-				System.out.println("Can't have more then one race in IND!");
-				return;
-
-			}
-			currentRun.setRaceFromScratch(1);
-			currentRun.setNewRace(1);
-			break;
-		case PARIND:
-
-			if(racesActive() <= 8){
-
-				currentRun.setNewRace(channelSelected);
-
-			}
-
-			break;
-		case GROUP:
-			break;
-
-		}
-	}
+	//	private void setRace() {
+	//
+	//		if(!checkRunInitiated()){
+	//			return;
+	//		}
+	//
+	//		switch(type){
+	//
+	//		case IND:
+	//			//			setChannelSelected(1); //From idle
+	//
+	//			if(racesActive() > 0){
+	//
+	//				System.out.println("Can't have more then one race in IND!");
+	//				return;
+	//
+	//			}
+	//			currentRun.setRaceFromScratch(1);
+	//			currentRun.setNewRace(1);
+	//			break;
+	//		case PARIND:
+	//			
+	//			if(racesActive() == 0){
+	//				currentRun.setRaceFromScratch(8);
+	//			}
+	//
+	//			if(racesActive() <= 8){
+	//				currentRun.setNewRace(channelSelected);
+	//			}
+	//
+	//			break;
+	//		case GROUP:
+	//			break;
+	//
+	//		}
+	//	}
 
 	//					^^
 	//					||
@@ -520,7 +549,7 @@ public class RaceEventsManager {
 
 
 	public void setUpRaceForArbitrarySimulation(){
-		
+
 		Random rand = new Random();
 
 		for(int i = 0; i < 10; i++){
@@ -537,8 +566,8 @@ public class RaceEventsManager {
 	public Channels getCurrentChannel(){
 		return Channels.channels[channelSelected - 1];
 	}
-	
-	
+
+
 	/**
 	 * @param eye
 	 * @param gate

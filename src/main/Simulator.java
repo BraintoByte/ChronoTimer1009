@@ -48,7 +48,7 @@ public class Simulator implements Runnable {    //Chain
 		this.idleState = new Idle(ui, input);
 		this.clock = new Clock();
 		
-		InterfaceHandler ie = new InterfaceHandler();      //Temporary!
+//		InterfaceHandler ie = new InterfaceHandler();      //Temporary!
 		
 		State.setState(initState);
 		
