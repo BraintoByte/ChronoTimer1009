@@ -29,6 +29,17 @@ public class Racer implements Cloneable {
 		this.isActive = false;
 		
 	}
+	
+	public void reset(){
+		
+		this.DNF = false;
+		this.isActive = false;
+		timeStartFormatted = "";
+		timeFinishFormatted = "";
+		finish = 0;
+		start = 0;
+		
+	}
 
 	/**
 	 * @return bib number

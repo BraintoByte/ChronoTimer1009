@@ -596,7 +596,7 @@ public class Idle extends State {
 
 								if(tempRacer.isDNF()){
 
-									System.out.println("<" + tempRacer.getBib() + ">" + " " + "<" + " DNF" + ">");
+									System.out.println("<" + tempRacer.getBib() + ">" + " " + "<" + "DNF" + ">");
 
 								}
 							}

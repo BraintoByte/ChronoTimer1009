@@ -113,8 +113,9 @@ public class Run {
 
 			//			Channels.channels[onChannels[0] - 1].TriggerSensor();			 
 			Channels.channels[onChannels[1] - 1].activate(racer.getBib());
-			racePool.addRacerLast(racer);
 			Racer temp = racer.clone();
+			racePool.addRacerLast(racer);
+			racer.reset();
 
 			System.out.println("Racer: " + temp.getBib() + " stopped");
 
