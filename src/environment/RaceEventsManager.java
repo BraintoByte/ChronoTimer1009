@@ -259,14 +259,6 @@ public class RaceEventsManager {
 
 			channelSelected = Integer.parseInt(str.split("\\s")[1].trim());
 
-			//			 (channelSelected == 2 || channelSelected == 4) && 
-			//			if(currentRun.getRaces() != null){
-			//
-			//				currentRun.keepRecord();
-			//
-			//			}
-
-
 			if(channelSelected > 8){
 				System.out.println("WRONG CHANNEL!");
 				return;
@@ -334,30 +326,6 @@ public class RaceEventsManager {
 		System.out.println("Racers inactive after action: " + racePool.getRacersAmount());
 		
 	}
-
-
-	//
-	//	/**
-	//	 * @return the number of active Races (i.e. Lanes for PARIND).
-	//	 */
-	//
-	//	public int racesActive(){
-	//
-	//		if(racesActive == null)
-	//			return 0;
-	//
-	//		int count = 0;
-	//
-	//		for(int i = 0; i < racesActive.length; i++){
-	//
-	//			if(racesActive[i] != null && racesActive[i].isActive()){
-	//				count++;
-	//			}
-	//		}
-	//
-	//		return count;
-	//	}
-
 
 	public boolean keepRecord(){
 
@@ -445,14 +413,6 @@ public class RaceEventsManager {
 	 * Creates a New Run with the specified event type (independent | parallel).
 	 */
 	private void setRace() {
-
-		//		if((currentRun.getRaces() != null && currentRun.getRaces()[0] != null && racesActive() == 0) 
-		//				|| currentRun.getRaces() == null){
-		//			
-		//			
-		//			
-		//			
-		//		}
 
 		if(!checkRunInitiated()){
 			return;
@@ -577,110 +537,8 @@ public class RaceEventsManager {
 	public Channels getCurrentChannel(){
 		return Channels.channels[channelSelected - 1];
 	}
-
-//	public void makeSingle(int bib){
-//
-//		if(!checkRunInitiated() && bib > 0 && bib < 999){
-//
-//			currentRun.makeRacers(bib);
-//
-//		}
-//	}
-
-	//
-	//	//	public void stopLastRace(){
-	//	//		
-	//	//		while(!active.isEmpty()){
-	//	//
-	//	//			finishRacer();
-	//	//			
-	//	//		}
-	//	//	}
-	//	//	
-	//	//	
-	//	//	public void startNRacers(int n){
-	//	//
-	//	//		if(n <= racePool.racersAmount()){
-	//	//
-	//	//			for(int i = 0; i < n; i++){
-	//	//				
-	//	//				Channels.channels[0].TriggerSensor();
-	//	//				Racer racer = racePool.startRacer();
-	//	//				Channels.channels[0].activate(racer.getBib());
-	//	//				active.add(racer);
-	//	//	
-	//	//			}
-	//	//		}
-	//	//	}
-	//	//	
-	//	//	
-	//	//	public void finishRacer(){
-	//	//		
-	//	//		Racer racer = active.remove();
-	//	//		
-	//	//		
-	//	//		Random rand = new Random();       //You told me it was random, nothing in the guidelines suggests otherwise
-	//	//		int randomNum = rand.nextInt((20 - 0) + 1) + 0;
-	//	//		int randomNum2 = rand.nextInt((20 - 0) + 1) + 0;
-	//	//
-	//	//		if(randomNum == randomNum2){
-	//	//
-	//	//			racer.setDNF();
-	//	//			
-	//	//		}
-	//	//		
-	//	//		Channels.channels[1].TriggerSensor();
-	//	//		Channels.channels[1].activate(racer.getBib());
-	//	//		racePool.returnRacer(racer);
-	//	//		
-	//	//	}
-	//
-	//
-	//	/**
-	//	 * @return size of racePool
-	//	 */
-	//	public int racersPoolSize(){
-	//		
-	//		return racePool == null ? 0 : racePool.getRacersAmount();
-	//
-	//	}
-	//
-	//	//	public int racersActive(){
-	//	//
-	//	//		return active.size();
-	//	//
-	//	//	}
-	//	//	
-	//	//	public void CANCEL(){
-	//	//		
-	//	//		racePool.returnCancel(active.remove());
-	//	//		
-	//	//	}
-	//
-	//	/**
-	//	 * @return the ID of the selected channel
-	//	 */
-	//	public int getChannelSelected() {
-	//		return channelSelected;
-	//	}
-	//
-	//	/**
-	//	 * @return the selected channel
-	//	 */
-
-	//
-	//	/**
-	//	 * @param gates
-	//	 * @param eyes
-	//	 * @param pads
-	//	 * 
-	//	 * Allocates space/makes the number of gates, eyes, and pads according to the truth values of the parameters. 
-	//	 */
-	//	public void theseManySensors(int gates, int eyes, int pads){
-	//		sensorCoupler = new SensorCoupler();
-	//		sensorCoupler.getSensors().makeSensors(eyes, gates, pads, eyes > 0, gates > 0, pads > 0);
-	//	}
-	//
+	
+	
 	/**
 	 * @param eye
 	 * @param gate
@@ -701,58 +559,4 @@ public class RaceEventsManager {
 			}
 		}
 	}
-	//
-	//	/**
-	//	 * @return the Racer at the beginning of racePool
-	//	 * 
-	//	 * Removes and returns the Racer at the beginning of racePool.
-	//	 */
-	//	protected Racer getRacer(){
-	//		return racePool.removeRacerBeginning();
-	//	}
-
-	//	/**
-	//	 * Helper of {@link RaceEventsManager#allPairedSensors()} puts one channel sensors into the final array from index to index
-	//	 * and sends back the ending index
-	//	 * 
-	//	 * @param sensors
-	//	 * @param tempSensor
-	//	 * @param fromIndex
-	//	 * @return fromIndex
-	//	 */
-	//	
-	//	private int putIntoArray(Sensor[] sensors, Object[] tempSensor, int fromIndex){
-	//
-	//		for(int i = 0; i < tempSensor.length; i++){
-	//
-	//			sensors[fromIndex] = (Sensor) tempSensor[i];
-	//			fromIndex++;
-	//		}
-	//
-	//		return fromIndex;
-	//
-	//	}
-
-	//	/**
-	//	 * @param run - the ID of the Run to get
-	//	 * @return array of Races (lanes) for the Run with ID = run
-	//	 */
-	//	public Race[] getSelectedRun(int run) throws ConcurrentModificationException {
-	//
-	//		Iterator<Integer> it = record.keySet().iterator();
-	//		Stack<Race> tempStack = new Stack<>();
-	//
-	//		while(it.hasNext()){
-	//
-	//			Race temp = record.get(it.next());
-	//
-	//			if(temp.getRun() == run)
-	//				tempStack.push(record.get(temp.getRaceNbr()));
-	//
-	//		}
-	//
-	//		Race[] tempArr = (Race[]) tempStack.toArray(new Race[tempStack.size()]);
-	//
-	//		return tempArr;
-	//	}
 }
