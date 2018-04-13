@@ -1,6 +1,7 @@
 package entitiesDynamic;
 
 import java.util.Deque;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -119,6 +120,27 @@ public class Pool {
 		this.racers.clear();
 		this.racersAmount = 0;
 		return true;
+	}
+	
+	public boolean clearRacer(int bib) {
+		
+		Iterator<Racer> it = racers.iterator();
+		LinkedList<Racer> result = new LinkedList<Racer>();
+		Racer tmp;
+		boolean flag = false;
+		
+		while(it.hasNext()) {
+			tmp = it.next();
+			if(tmp.getBib() == bib) 
+				flag = true;
+			else
+				result.add(tmp);
+			
+		}
+		
+		racers = result;
+		return flag;
+		
 	}
 	
 	// new

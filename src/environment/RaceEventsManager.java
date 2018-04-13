@@ -194,10 +194,6 @@ public class RaceEventsManager {
 	 */
 	public void resetRun(){			//I don't think we will need this but just in case
 
-		if(!checkRunInitiated()){
-			return;
-		}
-
 		for(Channels c:Channels.channels) {
 			if(c != null && c.isPairedToSensor()) {
 				Sensor tmp = c.unPairToSensor();
@@ -209,6 +205,8 @@ public class RaceEventsManager {
 			c.enable(false);
 		}
 
+		type = Run_Types.IND;
+		racePool.clearPool();
 		runNbr = 0;
 		currentRun = null;
 		recordRaces = new LinkedList<>();
@@ -264,9 +262,24 @@ public class RaceEventsManager {
 				return;
 			}
 
-			//			setChannelSelected(channelSelected);
+			setChannelSelected(channelSelected);
 
 			if(getCurrentChannel().isEnabled()){
+				
+				int n = 1;
+				if(type == Run_Types.GRP) {
+					switch(channelSelected) {
+					case 3:
+					case 4:
+					case 5:
+					case 6:
+					case 7:
+					case 8:
+						System.out.println("Cannot trigger channels > 2 for GRP event");
+						return;
+					}
+					n = racePool.getRacersAmount();
+				}
 
 				if(channelSelected % 2 == 1){
 
@@ -280,8 +293,9 @@ public class RaceEventsManager {
 					Race tempRace = currentRun.getRaceFromChannel(channelSelected);
 
 					if(tempRace != null){
-
-						tempRace.startNRacers(1, racePool);
+						
+						tempRace.startNRacers(n, racePool);
+					
 						keepRecord();
 						System.out.println("Racers inactive after action: " + racePool.getRacersAmount());
 						return;
@@ -290,7 +304,9 @@ public class RaceEventsManager {
 
 					if(currentRun.setNewRace(channelSelected)){
 						tempRace = currentRun.getRaceFromChannel(channelSelected);
-						tempRace.startNRacers(1, racePool);
+						
+						tempRace.startNRacers(n, racePool);
+						
 						keepRecord();
 						System.out.println("Race STARTED!");
 						return;
@@ -459,9 +475,7 @@ public class RaceEventsManager {
 	}
 
 	public boolean isRunActive(){
-
 		return currentRun != null;
-
 	}
 
 	public void setNewRun(){
@@ -630,5 +644,13 @@ public class RaceEventsManager {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public boolean swap() {
+		return currentRun != null? currentRun.swap() : false; 
+	}
+	
+	public boolean clearRacer(int bib) {
+		return racePool != null? racePool.clearRacer(bib) : false;
 	}
 }

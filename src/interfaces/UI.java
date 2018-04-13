@@ -35,14 +35,12 @@ public class UI {
 		return sim;
 	}
 	
-	public void setInterfaceVisible(boolean visible){
-		
-		userInterface.setVisible(visible);
-		
-	}
-	
 	public void setUserInterface(UserGraphical userInterface) {
 		this.userInterface = userInterface;
+	}
+	
+	public UserGraphical getUserInterface() {
+		return userInterface;
 	}
 	
 	/**
@@ -80,5 +78,4 @@ public class UI {
 	public int[] getValidChannels() {
 		return validChannels;
 	}
-	
 }

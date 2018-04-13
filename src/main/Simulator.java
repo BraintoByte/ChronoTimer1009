@@ -44,11 +44,10 @@ public class Simulator implements Runnable {    //Chain
 
 		input = new Scanner(System.in);
 		this.ui = new UI(this);
+		this.ui.setUserInterface(new InterfaceHandler(this.ui).getUserInterface());
 		this.initState = new ButtonsActivation(ui, input);
 		this.idleState = new Idle(ui, input);
 		this.clock = new Clock();
-		
-//		InterfaceHandler ie = new InterfaceHandler();      //Temporary!
 		
 		State.setState(initState);
 		

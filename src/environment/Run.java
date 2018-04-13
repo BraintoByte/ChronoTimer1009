@@ -14,6 +14,7 @@ public class Run {
 
 	public class Race {
 
+		private boolean isGroup;
 		private int[] onChannels;
 		private Queue<Racer> active;
 		private Queue<Racer> record;
@@ -42,7 +43,7 @@ public class Run {
 		protected void stopLastRace(Pool racePool){
 
 			while(!active.isEmpty()){
-				finishRacer(false, racePool);
+				finishRacer(true, racePool);
 			}
 		}
 
@@ -58,7 +59,7 @@ public class Run {
 				for(int i = 0; i < n; i++){
 
 					Racer racer = racePool.removeRacerBeginning();
-					Channels.channels[onChannels[0] - 1].activate(racer.getBib());
+//					Channels.channels[onChannels[0] - 1].activate(racer.getBib());
 					racer.setTimeStartFormatted(ClockInterface.getCurrentTimeFormatted());
 					racer.setStartInLong(ClockInterface.getTimeInLong());
 					active.add(racer);
@@ -89,6 +90,10 @@ public class Run {
 		public int getRun() {
 			return runNbr;
 		}
+		
+		public boolean isGRP() {
+			return isGroup;
+		}
 
 		/**
 		 * @param DNF
@@ -112,12 +117,13 @@ public class Run {
 			}
 
 			//			Channels.channels[onChannels[0] - 1].TriggerSensor();			 
-			Channels.channels[onChannels[1] - 1].activate(racer.getBib());
+//			Channels.channels[onChannels[1] - 1].activate(racer.getBib());
 			Racer temp = racer.clone();
 			racePool.addRacerLast(racer);
 			racer.reset();
 
-			System.out.println("Racer: " + temp.getBib() + " stopped");
+			if(!isGroup)
+				System.out.println("Racer: " + temp.getBib() + " stopped");
 
 			if(temp != null){
 
@@ -192,6 +198,7 @@ public class Run {
 		if(racesActive == null){
 			switch(type){
 			case IND:
+			case GRP:
 				setRaceFromScratch(1);
 				break;
 			case PARIND:
@@ -205,9 +212,15 @@ public class Run {
 
 			racesActive[index] = new Race(channelSelected, channelSelected + 1);
 			racesActive[index].setRaceNbr(raceNbr + 1);
+			
+			if(type == Run_Types.GRP)
+				racesActive[index].isGroup = true;
+			
 			raceNbr++;
 			index++;
 
+			
+			
 			return true;
 		}
 
@@ -215,7 +228,6 @@ public class Run {
 
 	}
 	
-
 	protected Race[] getRaces() {
 		return racesActive;
 	}
@@ -239,9 +251,7 @@ public class Run {
 	}
 
 	private void setRaceFromScratch(int eSize){
-
 		racesActive = new Race[eSize];
-
 	}
 
 	protected void resetIndex(){
@@ -251,4 +261,25 @@ public class Run {
 	protected Race getARace(int raceNbr){
 		return racesActive[raceNbr];
 	}
+	
+	protected boolean swap() {
+		
+		if(type == Run_Types.IND && racesActive != null && racesActive[0] != null 
+		&& racesActive[0].active != null && racesActive[0].active.size() >= 2) {
+			try {
+				
+				LinkedList<Racer> result = (LinkedList<Racer>) racesActive[0].active;
+
+				result.add(1, result.remove(0));
+				racesActive[0].active = result;
+				return true;
+			
+			}catch(ClassCastException e) {
+				// shouldn't happen
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+	
 }

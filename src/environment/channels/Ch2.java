@@ -17,38 +17,38 @@ public class Ch2 extends Channels {
 		super("ch2", chId);	
 	}
 	
-	/* (non-Javadoc)
-	 * @see environment.Channels#activate(int)
-	 */
-	@Override
-	public void activate(int bid) {
-		super.activate(bid);
-	}
-	
-
-	/* (non-Javadoc)
-	 * @see environment.Channels#retrieve(int)
-	 */
-	@Override
-	public Long retrieve(int bid) {
-		return super.retrieve(bid);
-	}
-	
-	/* (non-Javadoc)
-	 * @see environment.Channels#TriggerSensor()
-	 */
-	@Override
-	public void TriggerSensor() {
-		super.TriggerSensor();
-	}
-	
-	/* (non-Javadoc)
-	 * @see environment.Channels#isSensorTriggered()
-	 */
-	@Override
-	public boolean isSensorTriggered() {
-		return super.isSensorTriggered();
-	}
+//	/* (non-Javadoc)
+//	 * @see environment.Channels#activate(int)
+//	 */
+//	@Override
+//	public void activate(int bid) {
+//		super.activate(bid);
+//	}
+//	
+//
+//	/* (non-Javadoc)
+//	 * @see environment.Channels#retrieve(int)
+//	 */
+//	@Override
+//	public Long retrieve(int bid) {
+//		return super.retrieve(bid);
+//	}
+//	
+//	/* (non-Javadoc)
+//	 * @see environment.Channels#TriggerSensor()
+//	 */
+//	@Override
+//	public void TriggerSensor() {
+//		super.TriggerSensor();
+//	}
+//	
+//	/* (non-Javadoc)
+//	 * @see environment.Channels#isSensorTriggered()
+//	 */
+//	@Override
+//	public boolean isSensorTriggered() {
+//		return super.isSensorTriggered();
+//	}
 	
 	/* (non-Javadoc)
 	 * @see environment.Channels#enable(boolean)
