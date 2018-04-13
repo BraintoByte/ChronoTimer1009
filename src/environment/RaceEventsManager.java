@@ -166,7 +166,7 @@ public class RaceEventsManager {
 	//	public boolean startNewRace(int run){
 
 	public void makeRacers(int racer) {
-		if(racer >= 0){
+		if(racer >= 0 && racer < 1000){
 			racePool.makeRacer(racer);	
 		}
 	}

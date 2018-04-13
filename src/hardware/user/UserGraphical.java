@@ -422,191 +422,191 @@ public class UserGraphical extends JFrame {
     
 
 
-    protected JToggleButton getBtnCh1bk() {
+    public JToggleButton getBtnCh1bk() {
 		return btnCh1bk;
 	}
 
-	protected JToggleButton getBtnCh2bk() {
+	public JToggleButton getBtnCh2bk() {
 		return btnCh2bk;
 	}
 
-	protected JToggleButton getBtnCh3bk() {
+	public JToggleButton getBtnCh3bk() {
 		return btnCh3bk;
 	}
 
-	protected JToggleButton getBtnCh4bk() {
+	public JToggleButton getBtnCh4bk() {
 		return btnCh4bk;
 	}
 
-	protected JToggleButton getBtnCh5bk() {
+	public JToggleButton getBtnCh5bk() {
 		return btnCh5bk;
 	}
 
-	protected JToggleButton getBtnCh6bk() {
+	public JToggleButton getBtnCh6bk() {
 		return btnCh6bk;
 	}
 
-	protected JToggleButton getBtnCh7bk() {
+	public JToggleButton getBtnCh7bk() {
 		return btnCh7bk;
 	}
 
-	protected JToggleButton getBtnCh8bk() {
+	public JToggleButton getBtnCh8bk() {
 		return btnCh8bk;
 	}
 
-	protected JToggleButton getBtnPower() {
+	public JToggleButton getBtnPower() {
 		return btnPower;
 	}
 
-	protected JToggleButton getBtnTogCh1() {
+	public JToggleButton getBtnTogCh1() {
 		return btnTogCh1;
 	}
 
-	protected JToggleButton getBtnTogCh2() {
+	public JToggleButton getBtnTogCh2() {
 		return btnTogCh2;
 	}
 
-	protected JToggleButton getBtnTogCh3() {
+	public JToggleButton getBtnTogCh3() {
 		return btnTogCh3;
 	}
 
-	protected JToggleButton getBtnTogCh4() {
+	public JToggleButton getBtnTogCh4() {
 		return btnTogCh4;
 	}
 
-	protected JToggleButton getBtnTogCh5() {
+	public JToggleButton getBtnTogCh5() {
 		return btnTogCh5;
 	}
 
-	protected JToggleButton getBtnTogCh6() {
+	public JToggleButton getBtnTogCh6() {
 		return btnTogCh6;
 	}
 
-	protected JToggleButton getBtnTogCh7() {
+	public JToggleButton getBtnTogCh7() {
 		return btnTogCh7;
 	}
 
-	protected JToggleButton getBtnTogCh8() {
+	public JToggleButton getBtnTogCh8() {
 		return btnTogCh8;
 	}
 
-	protected JToggleButton getUsbBtn() {
+	public JToggleButton getUsbBtn() {
 		return usbBtn;
 	}
 
-	protected JButton getBtnDown() {
+	public JButton getBtnDown() {
 		return btnDown;
 	}
 
-	protected JToggleButton getBtnFunction() {
+	public JToggleButton getBtnFunction() {
 		return btnFunction;
 	}
 
-	protected JButton getBtnNxt() {
+	public JButton getBtnNxt() {
 		return btnNxt;
 	}
 
-	protected JButton getBtnPrevious() {
+	public JButton getBtnPrevious() {
 		return btnPrevious;
 	}
 
-	protected JButton getBtnSwap() {
+	public JButton getBtnSwap() {
 		return btnSwap;
 	}
 
-	protected JButton getBtnTr5() {
+	public JButton getBtnTr5() {
 		return btnTr5;
 	}
 
-	protected JButton getBtnTrg1() {
+	public JButton getBtnTrg1() {
 		return btnTrg1;
 	}
 
-	protected JButton getBtnTrg2() {
+	public JButton getBtnTrg2() {
 		return btnTrg2;
 	}
 
-	protected JButton getBtnTrg3() {
+	public JButton getBtnTrg3() {
 		return btnTrg3;
 	}
 
-	protected JButton getBtnTrg4() {
+	public JButton getBtnTrg4() {
 		return btnTrg4;
 	}
 
-	protected JButton getBtnTrg6() {
+	public JButton getBtnTrg6() {
 		return btnTrg6;
 	}
 
-	protected JButton getBtnTrg7() {
+	public JButton getBtnTrg7() {
 		return btnTrg7;
 	}
 
-	protected JButton getBtnTrg8() {
+	public JButton getBtnTrg8() {
 		return btnTrg8;
 	}
 
-	protected JButton getBtnUp() {
+	public JButton getBtnUp() {
 		return btnUp;
 	}
 
-	protected JButton getBtnPrintPwr() {
+	public JButton getBtnPrintPwr() {
 		return btnPrintPwr;
 	}
 
-	protected JButton getBtn3KeyPad() {
+	public JButton getBtn3KeyPad() {
 		return btn3KeyPad;
 	}
 
-	protected JButton getBtn6KeyPad() {
+	public JButton getBtn6KeyPad() {
 		return btn6KeyPad;
 	}
 
-	protected JButton getBtn9KeyPad() {
+	public JButton getBtn9KeyPad() {
 		return btn9KeyPad;
 	}
 
-	protected JButton getBtn1KeyPad() {
+	public JButton getBtn1KeyPad() {
 		return btn1KeyPad;
 	}
 
-	protected JButton getBtn2KeyPad() {
+	public JButton getBtn2KeyPad() {
 		return btn2KeyPad;
 	}
 
-	protected JButton getBtn4KeyPad() {
+	public JButton getBtn4KeyPad() {
 		return btn4KeyPad;
 	}
 
-	protected JButton getBtn5KeyPad() {
+	public JButton getBtn5KeyPad() {
 		return btn5KeyPad;
 	}
 
-	protected JButton getBtn8KeyPad() {
+	public JButton getBtn8KeyPad() {
 		return btn8KeyPad;
 	}
 
-	protected JButton getBtnHashKeyPad() {
+	public JButton getBtnHashKeyPad() {
 		return btnHashKeyPad;
 	}
 
-	protected JButton getBtn7KeyPad() {
+	public JButton getBtn7KeyPad() {
 		return btn7KeyPad;
 	}
 
-	protected JButton getBtnStarKeyPad() {
+	public JButton getBtnStarKeyPad() {
 		return btnStarKeyPad;
 	}
 
-	protected JButton getBtn0KeyPad() {
+	public JButton getBtn0KeyPad() {
 		return btn0KeyPad;
 	}
 
-	protected JTextArea getjTextArea1() {
+	public JTextArea getjTextArea1() {
 		return jTextArea1;
 	}
 
-	protected JTextField getjTextField2() {
+	public JTextField getjTextField2() {
 		return jTextField2;
 	}
 }

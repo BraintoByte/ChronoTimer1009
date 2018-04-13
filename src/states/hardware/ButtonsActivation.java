@@ -30,7 +30,6 @@ public class ButtonsActivation extends State {
 		super(ui, input);
 		this.btnHandler = new ButtonHandler();
 		this.input = input;
-		ui.getUserInterface().setVisible(true);
 
 	}
 
@@ -80,7 +79,7 @@ public class ButtonsActivation extends State {
 
 		//		while(true){
 
-		System.out.print("From [F]ile or [C]onsole? ");
+		System.out.print("From [F]ile or [C]onsole or [G]raphical? ");
 		String str = input.nextLine();
 		//
 		//			if(str.equalsIgnoreCase("f") || str.equalsIgnoreCase("c") || str.equalsIgnoreCase("POWER") || str.equalsIgnoreCase("EXIT")){
@@ -116,7 +115,7 @@ public class ButtonsActivation extends State {
 		}
 
 
-		if(str.equalsIgnoreCase("f") || str.equalsIgnoreCase("POWER") || str.equalsIgnoreCase("EXIT")){
+		if(str.equalsIgnoreCase("f") || str.equalsIgnoreCase("g") || str.equalsIgnoreCase("POWER") || str.equalsIgnoreCase("EXIT")){
 
 			if(str.equals("EXIT")){
 
@@ -144,6 +143,11 @@ public class ButtonsActivation extends State {
 					ui.getSimulator().setFileState(new IOState(ui, input));
 
 
+				}else if(str.equalsIgnoreCase("g")){
+					
+					ui.getUserInterface().setVisible(true);
+					State.setState(new GraphicalControl(ui, input));
+					
 				}else{
 
 					btnHandler.setPowerOnOff(true);
@@ -166,9 +170,6 @@ public class ButtonsActivation extends State {
 		try{
 
 			if(!ui.getSimulator().getClock().isClockRunning() && !str.contains("TIME")){
-
-				//				ui.getSimulator().getClock().clockStart();
-
 				ui.getSimulator().getClock().setTime(new Time((new Date().getTime())));
 
 				ui.getSimulator().getClock().clockStart();
@@ -183,8 +184,6 @@ public class ButtonsActivation extends State {
 
 			}
 			
-//			System.out.println(ClockInterface.getCurrentTimeFormatted());
-
 		}catch(InputMismatchException | InterruptedException | ParseException ex){
 
 			System.out.println("Come on seriously? Check your format!!!!! Wrong input!!!!");
