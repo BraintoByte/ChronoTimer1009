@@ -80,6 +80,8 @@ public class InterfaceHandler {
 
 		}catch(ParseException | InputMismatchException ex){
 
+			System.out.println(str);
+			ex.printStackTrace();
 			System.out.println("You know it's wrong to input that!");
 
 		}
@@ -293,7 +295,7 @@ public class InterfaceHandler {
 
 			ui.getBtnHandler().EXIT();
 
-		}else if(ui.getBtnHandler().getPowerState()) {
+		}else if(ui.getBtnHandler().getPowerState() || str.split("\\s")[0].trim().equals("TIME")) {
 
 			if(!(str.contains("EVENT") || str.contains("POWER") || str.contains("EXIT") 
 					|| str.contains("RESET") || str.contains("TIME") || str.contains("TOG") || str.contains("CONN") || str.contains("TESTING"))){

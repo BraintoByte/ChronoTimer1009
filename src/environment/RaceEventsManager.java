@@ -170,8 +170,6 @@ public class RaceEventsManager {
 
 	public boolean makeRacers(int racer) {
 		
-		System.out.println(isRacerIn(racer) + " " + racer);
-		
 		if(racer >= 0 && racer < 1000 && !isRacerIn(racer)){
 			racePool.makeRacer(racer);
 			bibs = racePool.getAllBibs();

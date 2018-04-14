@@ -38,6 +38,7 @@ public class Util {
 	private static class ProcessFile{
 
 		private static Stack<String> commands = new Stack<>();
+		private static Stack<String> times = new Stack<>();
 
 		/**
 		 * Processes commands from a file and adds them to a queue which is used by makeCommands()
@@ -46,6 +47,7 @@ public class Util {
 		private static void commandProcessing(){
 
 			String[] splitted = fileContent.toString().split("\\s");
+			
 
 			for(int i = splitted.length - 1; i >= 0; i--){
 
@@ -63,21 +65,38 @@ public class Util {
 						commands.push(splitted[i].replace("\\n", "").replace("\\r", "").replace("\\b", "").replace("\\d", "").trim());
 
 					}
+				}else{
+					
+					times.push(splitted[i].trim());
+//					System.out.println(splitted[i].trim());
+					
 				}
 			}
+			
 
 			makeCommands();
-
+			
+			
+			if(times.size() != commands.size()){
+				
+				System.out.println("Times: " + times.size() + " Commands: " + commands.size());
+				System.out.println("Problem!");
+				
+			}
 		}
-
+		
+		
+		
 		private static void makeCommands(){
 
 			Deque<String> temp = new LinkedList<>();
-
 			StringBuilder sb = new StringBuilder();
-
+			
+			
 			while(!commands.isEmpty()){     
-
+				
+				System.out.println(commands.peek());
+				
 				sb.append(commands.pop().trim());
 
 				if(sb.toString().equals("TIME") || sb.toString().equals("TRIG") || sb.toString().equals("EVENT") || sb.toString().equals("NUM") || sb.toString().equals("TOG")
@@ -90,6 +109,8 @@ public class Util {
 					sb.append(" " + commands.pop() + " " + commands.pop());
 
 				}
+				
+				System.out.println(sb.toString());
 
 				temp.add(sb.toString());
 
@@ -146,21 +167,22 @@ public class Util {
 
 		ProcessFile.commandProcessing();
 	}
+	
+	public static String getTimeCommand(){
+		return ProcessFile.times.isEmpty() ? null : ProcessFile.times.pop();
+	}
 
 	/**
 	 * @return the next Command as a String
 	 */
 	public static String getNextCommand(){
-
 		return ProcessFile.commands.isEmpty() ? null : ProcessFile.commands.pop();
-
 	}
 
 	/**
 	 * @return true if there are more commands
 	 */
 	public static boolean areCommandIssued(){
-
 		return !ProcessFile.commands.isEmpty();
 	}
 
@@ -243,7 +265,7 @@ public class Util {
 	 * @throws IOException
 	 */
 	public static void clear() throws IOException {
-		File tmp = new File(System.getProperty("user.dir"),"json.txt");
+		File tmp = new File(System.getProperty("user.dir"), "json.txt");
 		tmp.delete();
 		tmp.createNewFile();
 	}
