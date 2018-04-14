@@ -165,10 +165,14 @@ public class RaceEventsManager {
 	 */
 	//	public boolean startNewRace(int run){
 
-	public void makeRacers(int racer) {
+	public boolean makeRacers(int racer) {
+		
 		if(racer >= 0 && racer < 1000){
-			racePool.makeRacer(racer);	
+			racePool.makeRacer(racer);
+			return true;
 		}
+//		System.out.println("Cannot do that must be a bib number major then 0 and minor then 1000");
+		return false;
 	}
 
 	public void resetPool(){
@@ -182,6 +186,7 @@ public class RaceEventsManager {
 	 * 
 	 * Allocates space/makes the number of gates, eyes, and pads according to the truth values of the parameters. 
 	 */
+
 	public void theseManySensors(int gates, int eyes, int pads){
 		sensorCoupler = new SensorCoupler();
 		sensorCoupler.getSensors().makeSensors(eyes, gates, pads, eyes > 0, gates > 0, pads > 0);
@@ -265,7 +270,7 @@ public class RaceEventsManager {
 			setChannelSelected(channelSelected);
 
 			if(getCurrentChannel().isEnabled()){
-				
+
 				int n = 1;
 				if(type == Run_Types.GRP) {
 					switch(channelSelected) {
@@ -293,9 +298,9 @@ public class RaceEventsManager {
 					Race tempRace = currentRun.getRaceFromChannel(channelSelected);
 
 					if(tempRace != null){
-						
+
 						tempRace.startNRacers(n, racePool);
-					
+
 						keepRecord();
 						System.out.println("Racers inactive after action: " + racePool.getRacersAmount());
 						return;
@@ -304,9 +309,9 @@ public class RaceEventsManager {
 
 					if(currentRun.setNewRace(channelSelected)){
 						tempRace = currentRun.getRaceFromChannel(channelSelected);
-						
+
 						tempRace.startNRacers(n, racePool);
-						
+
 						keepRecord();
 						System.out.println("Race STARTED!");
 						return;
@@ -371,29 +376,29 @@ public class RaceEventsManager {
 		if(!checkRunInitiated()){
 			return false;
 		}
-		
-		
+
+
 		Race[] racesActive = currentRun.getRaces();
-		
+
 		if(racesActive != null && racesActive.length > 0){
-			
+
 			for (int i = 0; i < racesActive.length; i++) {
-				
+
 				if(racesActive[i] == null){
 					break;
 				}
-				
+
 				if(recordRaces.contains(racesActive[i])){
-					
+
 					recordRaces.remove(racesActive[i]);
-					
+
 				}
-				
+
 				recordRaces.add(racesActive[i]);
-				
+
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -621,7 +626,7 @@ public class RaceEventsManager {
 
 
 	public Channels getCurrentChannel(){
-		return Channels.channels[channelSelected - 1];
+		return Channels.channels[channelSelected];
 	}
 
 
@@ -645,11 +650,11 @@ public class RaceEventsManager {
 			}
 		}
 	}
-	
+
 	public boolean swap() {
 		return currentRun != null? currentRun.swap() : false; 
 	}
-	
+
 	public boolean clearRacer(int bib) {
 		return racePool != null? racePool.clearRacer(bib) : false;
 	}

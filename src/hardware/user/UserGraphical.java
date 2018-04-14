@@ -22,11 +22,12 @@ public class UserGraphical extends JFrame {
     private JLabel jLabel1, lblCh5Bk, lblCh7Bk, lblCh2Bk, lblCh4Bk, lblCh6Bk, lblChanBk, jLabel2, jLabel3, jLabel4, jLabel5, lblCh8Bk, lblUsbBk, lblCh1Bk, 
     lblCh3Bk;
     
-    private JPanel jPanel1, jPanel2, jPanel3, jPanel4, jPanel5, jPanel6;
+    private JPanel jPanel1, jPanel2, jPanel3, jPanel4, jPanel5, jPanel6, panelConsole;
     private JScrollPane jScrollPane1;
-    private JTextArea jTextArea1;
+    private JTextArea jTextArea1, txtAConsole;
     private JTextField jTextField2;
     private Label label1;
+    private JTextPane txtPConsole;
     
     private static class SingletonUserGraphical {
     	
@@ -55,6 +56,8 @@ public class UserGraphical extends JFrame {
         
     }
     
+    
+    
     private void initObjects(){
     	
         btnPower = new JToggleButton();
@@ -63,59 +66,102 @@ public class UserGraphical extends JFrame {
         jLabel3 = new JLabel();
         jLabel4 = new JLabel();
         btn3KeyPad = new JButton();
+        btn3KeyPad.setEnabled(false);
         btn1KeyPad = new JButton();
+        btn1KeyPad.setEnabled(false);
         btn2KeyPad = new JButton();
+        btn2KeyPad.setEnabled(false);
         btn4KeyPad = new JButton();
+        btn4KeyPad.setEnabled(false);
         btn5KeyPad = new JButton();
+        btn5KeyPad.setEnabled(false);
         btn6KeyPad = new JButton();
+        btn6KeyPad.setEnabled(false);
         btn8KeyPad = new JButton();
+        btn8KeyPad.setEnabled(false);
         btnHashKeyPad = new JButton();
+        btnHashKeyPad.setEnabled(false);
         btn9KeyPad = new JButton();
+        btn9KeyPad.setEnabled(false);
         btn7KeyPad = new JButton();
+        btn7KeyPad.setEnabled(false);
         btnStarKeyPad = new JButton();
+        btnStarKeyPad.setEnabled(false);
         btn0KeyPad = new JButton();
+        btn0KeyPad.setEnabled(false);
         label1 = new Label();
         btnPrintPwr = new JButton();
+        btnPrintPwr.setEnabled(false);
         jLabel5 = new JLabel();
         jTextField2 = new JTextField();
         jScrollPane1 = new JScrollPane();
         jTextArea1 = new JTextArea();
         jPanel1 = new JPanel();
         btnTrg1 = new JButton();
+        btnTrg1.setEnabled(false);
         btnTrg3 = new JButton();
+        btnTrg3.setEnabled(false);
         btnTr5 = new JButton();
+        btnTr5.setEnabled(false);
         btnTrg7 = new JButton();
+        btnTrg7.setEnabled(false);
         jPanel2 = new JPanel();
         btnTogCh1 = new JToggleButton();
+        btnTogCh1.setEnabled(false);
         btnTogCh3 = new JToggleButton();
+        btnTogCh3.setEnabled(false);
         btnTogCh5 = new JToggleButton();
+        btnTogCh5.setEnabled(false);
         btnTogCh7 = new JToggleButton();
+        btnTogCh7.setEnabled(false);
         jPanel3 = new JPanel();
         btnTrg2 = new JButton();
+        btnTrg2.setEnabled(false);
         btnTrg4 = new JButton();
+        btnTrg4.setEnabled(false);
         btnTrg6 = new JButton();
+        btnTrg6.setEnabled(false);
         btnTrg8 = new JButton();
+        btnTrg8.setEnabled(false);
         jPanel4 = new JPanel();
         btnTogCh2 = new JToggleButton();
+        btnTogCh2.setEnabled(false);
         btnTogCh4 = new JToggleButton();
+        btnTogCh4.setEnabled(false);
         btnTogCh6 = new JToggleButton();
+        btnTogCh6.setEnabled(false);
         btnTogCh8 = new JToggleButton();
+        btnTogCh8.setEnabled(false);
         btnSwap = new JButton();
+        btnSwap.setEnabled(false);
         btnFunction = new JToggleButton();
+        btnFunction.setEnabled(false);
         btnDown = new Triangular(Rotation.UP);
+        btnDown.setEnabled(false);
         btnPrevious = new Triangular(Rotation.RIGHT);
+        btnPrevious.setEnabled(false);
         btnNxt = new Triangular(Rotation.LEFT);
+        btnNxt.setEnabled(false);
         btnUp = new Triangular(Rotation.DOWN);
+        btnUp.setEnabled(false);
         jPanel5 = new JPanel();
         btnCh1bk = new JToggleButton();
+        btnCh1bk.setEnabled(false);
         btnCh3bk = new JToggleButton();
+        btnCh3bk.setEnabled(false);
         btnCh5bk = new JToggleButton();
+        btnCh5bk.setEnabled(false);
         btnCh7bk = new JToggleButton();
+        btnCh7bk.setEnabled(false);
         jPanel6 = new JPanel();
         btnCh2bk = new JToggleButton();
+        btnCh2bk.setEnabled(false);
         btnCh4bk = new JToggleButton();
+        btnCh4bk.setEnabled(false);
         btnCh6bk = new JToggleButton();
+        btnCh6bk.setEnabled(false);
         btnCh8bk = new JToggleButton();
+        btnCh8bk.setEnabled(false);
         usbBtn = new JToggleButton();
         lblCh8Bk = new JLabel();
         lblUsbBk = new JLabel();
@@ -127,6 +173,10 @@ public class UserGraphical extends JFrame {
         lblCh4Bk = new JLabel();
         lblCh6Bk = new JLabel();
         lblChanBk = new JLabel();
+        panelConsole = new JPanel();
+        txtAConsole = new JTextArea();
+        txtAConsole.setWrapStyleWord(true);
+        txtAConsole.setLineWrap(true);
         
 
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -135,6 +185,94 @@ public class UserGraphical extends JFrame {
         this.getContentPane().setLayout(new AbsoluteLayout());
         
     }
+    
+    private void makePnls(){
+    	
+        jTextField2.setEditable(false);
+        jTextField2.setToolTipText("");
+        getContentPane().add(jTextField2, new AbsoluteConstraints(570, 70, 220, 150));
+
+        jScrollPane1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        jScrollPane1.setAutoscrolls(true);
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        getContentPane().add(jScrollPane1, new AbsoluteConstraints(210, 250, 300, 260));
+
+        jPanel1.setLayout(new GridLayout(0, 4, 20, 7));
+        jPanel1.add(btnTrg1);
+        jPanel1.add(btnTrg3);
+        jPanel1.add(btnTr5);
+        jPanel1.add(btnTrg7);
+
+        getContentPane().add(jPanel1, new AbsoluteConstraints(250, 60, 240, 40));
+
+        jPanel2.setLayout(new GridLayout(0, 4, 50, 0));
+        jPanel2.add(btnTogCh1);
+        jPanel2.add(btnTogCh3);
+        jPanel2.add(btnTogCh5);
+        jPanel2.add(btnTogCh7);
+
+        getContentPane().add(jPanel2, new AbsoluteConstraints(260, 110, 220, 20));
+
+        jPanel3.setLayout(new GridLayout(0, 4, 20, 7));
+        jPanel3.add(btnTrg2);
+        jPanel3.add(btnTrg4);
+        jPanel3.add(btnTrg6);
+        jPanel3.add(btnTrg8);
+
+        getContentPane().add(jPanel3, new AbsoluteConstraints(250, 140, 240, 40));
+
+        jPanel4.setLayout(new GridLayout(0, 4, 50, 0));
+        jPanel4.add(btnTogCh2);
+        jPanel4.add(btnTogCh4);
+        jPanel4.add(btnTogCh6);
+        jPanel4.add(btnTogCh8);
+
+        getContentPane().add(jPanel4, new AbsoluteConstraints(260, 200, 220, 20));
+
+        jPanel5.setLayout(new GridLayout(0, 4, 25, 0));
+        jPanel5.add(btnCh1bk);
+        jPanel5.add(btnCh3bk);
+        jPanel5.add(btnCh5bk);
+        jPanel5.add(btnCh7bk);
+
+        getContentPane().add(jPanel5, new AbsoluteConstraints(70, 560, 140, 20));
+
+        jPanel6.setLayout(new GridLayout(0, 4, 25, 0));
+        jPanel6.add(btnCh2bk);
+        jPanel6.add(btnCh4bk);
+        jPanel6.add(btnCh6bk);
+        jPanel6.add(btnCh8bk);
+
+        getContentPane().add(jPanel6, new AbsoluteConstraints(70, 610, 140, 20));
+        getContentPane().add(usbBtn, new AbsoluteConstraints(290, 580, 120, 20));
+        
+        
+//        jTextArea1.setColumns(20);
+//        jTextArea1.setRows(5);
+//        jScrollPane1.setViewportView(jTextArea1);
+//        getContentPane().add(jScrollPane1, new AbsoluteConstraints(210, 250, 300, 260));
+        
+        
+        panelConsole.setLayout(new FlowLayout());
+        txtAConsole.setBounds(0, 0, 10, 10);
+        txtAConsole.setColumns(16);
+        txtAConsole.setRows(3);
+        JScrollPane scroll = new JScrollPane();
+        scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        scroll.setAutoscrolls(true);
+        scroll.setViewportView(txtAConsole);
+        txtAConsole.setEditable(false);
+        getContentPane().add(scroll, new AbsoluteConstraints(10, 340, -1, -1));
+        
+        
+    }
+    
     
     
     private void makeBtns(){
@@ -326,12 +464,8 @@ public class UserGraphical extends JFrame {
         jLabel4.setText("Start");
         getContentPane().add(jLabel4, new AbsoluteConstraints(220, 70, -1, -1));
 
-
-
         label1.setText("Queue /Running/ Final Time");
         getContentPane().add(label1, new AbsoluteConstraints(270, 520, 160, -1));
-
-
 
         jLabel5.setFont(new Font("Ebrima", 2, 24)); 
         jLabel5.setText("CHRONOTIMER 1009");
@@ -340,73 +474,54 @@ public class UserGraphical extends JFrame {
     }
     
     
-    private void makePnls(){
+    public void enableContent(){
     	
-        jTextField2.setEditable(false);
-        jTextField2.setToolTipText("");
-        getContentPane().add(jTextField2, new AbsoluteConstraints(570, 70, 220, 150));
-
-        jScrollPane1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        jScrollPane1.setAutoscrolls(true);
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        getContentPane().add(jScrollPane1, new AbsoluteConstraints(210, 250, 300, 260));
-
-        jPanel1.setLayout(new GridLayout(0, 4, 20, 7));
-        jPanel1.add(btnTrg1);
-        jPanel1.add(btnTrg3);
-        jPanel1.add(btnTr5);
-        jPanel1.add(btnTrg7);
-
-        getContentPane().add(jPanel1, new AbsoluteConstraints(250, 60, 240, 40));
-
-        jPanel2.setLayout(new GridLayout(0, 4, 50, 0));
-        jPanel2.add(btnTogCh1);
-        jPanel2.add(btnTogCh3);
-        jPanel2.add(btnTogCh5);
-        jPanel2.add(btnTogCh7);
-
-        getContentPane().add(jPanel2, new AbsoluteConstraints(260, 110, 220, 20));
-
-        jPanel3.setLayout(new GridLayout(0, 4, 20, 7));
-        jPanel3.add(btnTrg2);
-        jPanel3.add(btnTrg4);
-        jPanel3.add(btnTrg6);
-        jPanel3.add(btnTrg8);
-
-        getContentPane().add(jPanel3, new AbsoluteConstraints(250, 140, 240, 40));
-
-        jPanel4.setLayout(new GridLayout(0, 4, 50, 0));
-        jPanel4.add(btnTogCh2);
-        jPanel4.add(btnTogCh4);
-        jPanel4.add(btnTogCh6);
-        jPanel4.add(btnTogCh8);
-
-        getContentPane().add(jPanel4, new AbsoluteConstraints(260, 200, 220, 20));
-
-        jPanel5.setLayout(new GridLayout(0, 4, 25, 0));
-        jPanel5.add(btnCh1bk);
-        jPanel5.add(btnCh3bk);
-        jPanel5.add(btnCh5bk);
-        jPanel5.add(btnCh7bk);
-
-        getContentPane().add(jPanel5, new AbsoluteConstraints(70, 560, 140, 20));
-
-        jPanel6.setLayout(new GridLayout(0, 4, 25, 0));
-        jPanel6.add(btnCh2bk);
-        jPanel6.add(btnCh4bk);
-        jPanel6.add(btnCh6bk);
-        jPanel6.add(btnCh8bk);
-
-        getContentPane().add(jPanel6, new AbsoluteConstraints(70, 610, 140, 20));
-        getContentPane().add(usbBtn, new AbsoluteConstraints(290, 580, 120, 20));
+        btnCh1bk.setEnabled(!btnCh1bk.isEnabled());
+    	btnCh2bk.setEnabled(!btnCh2bk.isEnabled());
+    	btnCh3bk.setEnabled(!btnCh3bk.isEnabled());
+    	btnCh4bk.setEnabled(!btnCh4bk.isEnabled());
+    	btnCh5bk.setEnabled(!btnCh5bk.isEnabled());
+    	btnCh6bk.setEnabled(!btnCh6bk.isEnabled());
+    	btnCh7bk.setEnabled(!btnCh7bk.isEnabled());
+    	btnCh8bk.setEnabled(!btnCh8bk.isEnabled());
+    	btnTogCh1.setEnabled(!btnTogCh1.isEnabled());
+    	btnTogCh2.setEnabled(!btnTogCh2.isEnabled());
+    	btnTogCh3.setEnabled(!btnTogCh3.isEnabled());
+    	btnTogCh4.setEnabled(!btnTogCh4.isEnabled());
+    	btnTogCh5.setEnabled(!btnTogCh5.isEnabled());
+    	btnTogCh6.setEnabled(!btnTogCh6.isEnabled());
+    	btnTogCh7.setEnabled(!btnTogCh7.isEnabled());
+    	btnTogCh8.setEnabled(!btnTogCh8.isEnabled());
+    	btnFunction.setEnabled(!btnFunction.isEnabled());
+    	btnDown.setEnabled(!btnDown.isEnabled());
+    	btnNxt.setEnabled(!btnNxt.isEnabled());
+    	btnPrevious.setEnabled(!btnPrevious.isEnabled());
+    	btnSwap.setEnabled(!btnSwap.isEnabled());
+    	btnTr5.setEnabled(!btnTr5.isEnabled());
+    	btnTrg1.setEnabled(!btnTrg1.isEnabled());
+    	btnTrg2.setEnabled(!btnTrg2.isEnabled());
+    	btnTrg3.setEnabled(!btnTrg3.isEnabled());
+    	btnTrg4.setEnabled(!btnTrg4.isEnabled());
+    	btnTrg6.setEnabled(!btnTrg6.isEnabled());
+    	btnTrg7.setEnabled(!btnTrg7.isEnabled());
+    	btnTrg8.setEnabled(!btnTrg8.isEnabled());
+    	btnUp.setEnabled(!btnUp.isEnabled());
+    	btnPrintPwr.setEnabled(!btnPrintPwr.isEnabled());
+    	btn3KeyPad.setEnabled(!btn3KeyPad.isEnabled());
+    	btn6KeyPad.setEnabled(!btn6KeyPad.isEnabled());
+    	btn9KeyPad.setEnabled(!btn9KeyPad.isEnabled());
+    	btn1KeyPad.setEnabled(!btn1KeyPad.isEnabled());
+    	btn2KeyPad.setEnabled(!btn2KeyPad.isEnabled());
+    	btn4KeyPad.setEnabled(!btn4KeyPad.isEnabled());
+    	btn5KeyPad.setEnabled(!btn5KeyPad.isEnabled());
+    	btn8KeyPad.setEnabled(!btn8KeyPad.isEnabled());
+    	btnHashKeyPad.setEnabled(!btnHashKeyPad.isEnabled());
+    	btn7KeyPad.setEnabled(!btn7KeyPad.isEnabled());
+    	btnStarKeyPad.setEnabled(!btnStarKeyPad.isEnabled());
+    	btn0KeyPad.setEnabled(!btn0KeyPad.isEnabled());
     	
     }
-    
+
     
 //    private void actionListenerAssignement(){
 //    	
@@ -420,6 +535,21 @@ public class UserGraphical extends JFrame {
 //    private void btnPowerActionPerformed(ActionEvent evt) {
 //    }
     
+    
+    
+    
+    public void togChannelsForRace(){
+    	
+    	btnTogCh1.setSelected(!btnTogCh1.isSelected());
+    	btnTogCh2.setSelected(!btnTogCh2.isSelected());
+    	btnTogCh3.setSelected(!btnTogCh3.isSelected());
+    	btnTogCh4.setSelected(!btnTogCh4.isSelected());
+    	btnTogCh5.setSelected(!btnTogCh5.isSelected());
+    	btnTogCh6.setSelected(!btnTogCh6.isSelected());
+    	btnTogCh7.setSelected(!btnTogCh7.isSelected());
+    	btnTogCh8.setSelected(!btnTogCh8.isSelected());
+    	
+    }
 
 
     public JToggleButton getBtnCh1bk() {
@@ -608,5 +738,9 @@ public class UserGraphical extends JFrame {
 
 	public JTextField getjTextField2() {
 		return jTextField2;
+	}
+	
+	public JTextArea getTxtAConsole() {
+		return txtAConsole;
 	}
 }

@@ -203,4 +203,8 @@ public class Simulator implements Runnable {    //Chain
 	public UI getUi() {
 		return ui;
 	}
+	
+	public Thread getThreadSimulator() {
+		return threadSimulator;
+	}
 }

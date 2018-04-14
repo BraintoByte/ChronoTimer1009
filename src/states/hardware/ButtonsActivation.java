@@ -11,6 +11,7 @@ import java.util.Scanner;
 import entitiesStatic.ClockInterface;
 import environment.RaceEventsManager;
 import hardware.user.ButtonHandler;
+import hardware.user.InterfaceHandler;
 import interfaces.UI;
 import states.State;
 
@@ -19,6 +20,7 @@ public class ButtonsActivation extends State {
 	private ButtonHandler btnHandler;
 	private Scanner input;
 	private boolean fromFile;
+	private GraphicalControl controlGui;
 
 
 	/**
@@ -125,7 +127,7 @@ public class ButtonsActivation extends State {
 
 				ui.setBtnHandler(btnHandler);
 				ui.setRaceManager(new RaceEventsManager());
-				ui.getRaceManager().theseManySensors(4, 4, 4);
+				ui.getRaceManager().theseManySensors(100, 100, 100);
 
 
 				if(str.equalsIgnoreCase("f")){
@@ -146,7 +148,9 @@ public class ButtonsActivation extends State {
 				}else if(str.equalsIgnoreCase("g")){
 					
 					ui.getUserInterface().setVisible(true);
-					State.setState(new GraphicalControl(ui, input));
+					InterfaceHandler.setGUI(ui.getBtnHandler().getPowerState());
+					controlGui = new GraphicalControl(ui, input);
+					State.setState(controlGui);
 					
 				}else{
 
