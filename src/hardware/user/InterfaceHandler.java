@@ -342,7 +342,23 @@ public class InterfaceHandler {
 					System.out.println("Run ended");
 					break;
 				case "CANCEL":				//Redo!
-
+					
+//					System.out.println("Before cancel: " + ui.getRaceManager().racersPoolSize());
+					
+					if(channelSelected % 2 == 0){
+						
+						ui.getRaceManager().CANCEL();
+						
+					}else{
+						
+						channelSelected--;
+						ui.getRaceManager().setChannelSelected(channelSelected);
+						ui.getRaceManager().CANCEL();
+						
+					}
+					
+					
+					
 
 					//					System.out.println("Before cancel: " + ui.getRaceManager().racersPoolSize());
 					//
@@ -354,6 +370,8 @@ public class InterfaceHandler {
 					//					}
 					//
 					//					System.out.println("After cancel: " + ui.getRaceManager().racersPoolSize());
+					
+//					System.out.println("After cancel: " + ui.getRaceManager().racersPoolSize());
 
 					break;
 				case "SWAP":

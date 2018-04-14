@@ -144,8 +144,8 @@ public class Run {
 		/**
 		 * Removes the lead Racer from the 'active' queue and puts them back into the Pool as next to start.
 		 */
-		protected void CANCEL(Pool racePool){
-			racePool.addRacerBeginning(active.remove());
+		protected Racer CANCEL(){
+			return active.remove();
 		}
 
 		/**
@@ -226,6 +226,20 @@ public class Run {
 
 		return false;
 
+	}
+	
+	protected Racer CANCEL(int findIt){
+		
+		for (int i = 0; i < racesActive.length; i++) {
+			
+			if(racesActive[i].onChannels[0] == findIt || racesActive[i].onChannels[1] == findIt){
+				
+				findIt = i;
+				break;
+			}
+		}
+		
+		return racesActive[findIt].CANCEL();
 	}
 	
 	protected Race[] getRaces() {

@@ -252,6 +252,10 @@ public class RaceEventsManager {
 	public Run_Types getType() {
 		return type;
 	}
+	
+	public void CANCEL(){
+		racePool.addRacerBeginning(currentRun.CANCEL(channelSelected));
+	}
 
 
 	/**
