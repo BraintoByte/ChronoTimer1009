@@ -1,16 +1,5 @@
 package hardware.user;
 
-import java.io.IOException;
-import java.util.ConcurrentModificationException;
-import java.util.InputMismatchException;
-import java.util.Iterator;
-import java.util.Scanner;
-
-import Utils.Util;
-import entitiesStatic.Clock;
-import environment.Run.Race;
-import states.hardware.Idle.Run_Types;
-
 /**
  * @author Andy & Matt
  * The ButtonHandler class, apart of the hardware.user package, is in charge of setting the Button's states among other things.

@@ -164,7 +164,16 @@ public class InterfaceHandler {
 
 			}else{
 
-				System.out.println("Run <" + run + ">");
+				if(isGUI){
+					
+					ui.getUserInterface().getjTextArea1().append("Run <" + run + ">\n");
+					
+				}else{
+					
+					System.out.println("Run <" + run + ">");
+				
+				}
+				
 				boolean isGroup = false;
 				int groupID = 1;
 
@@ -183,33 +192,55 @@ public class InterfaceHandler {
 							Racer tempRacer = it2.next();
 
 							if(tempRacer != null) {
+								
 								if(isGroup) {
 
 									// TODO
 									// still have to allow for user to change finish numbers for GRP
 
 									if(!tempRacer.isDNF()) {
-										System.out.format("<%05d> ", groupID);
-										System.out.println("<" + ClockInterface.getTotalTimeFormatted(tempRacer.getStartInLong(), tempRacer.getFinishInLong()) + ">");
-									}
-									else
-										System.out.format("<%05d> <DNF>\n", groupID);
-									groupID++;
-								}
-								else {
 
-									if(!tempRacer.isDNF()){
+										if(isGUI){
 
-										System.out.println("<" + tempRacer.getBib() + ">" + " " + "<" + ClockInterface.getTotalTimeFormatted(tempRacer.getStartInLong(), tempRacer.getFinishInLong()) + ">");
+											ui.getUserInterface().getjTextArea1().append(String.format("<%05d> ", groupID).toString() + "<"
+													+ ClockInterface.getTotalTimeFormatted(tempRacer.getStartInLong(), tempRacer.getFinishInLong()) + ">\n");
+
+										}else{
+											System.out.format("<%05d> ", groupID);
+											System.out.println("<" + ClockInterface.getTotalTimeFormatted(tempRacer.getStartInLong(), tempRacer.getFinishInLong()) + ">");
+										}
 									}else{
 
-										System.out.println("<" + tempRacer.getBib() + ">" + " " + "<" + "DNF" + ">");
+										if(isGUI){
+
+											ui.getUserInterface().getjTextArea1().append(String.format("<%05d>  <DNF>\n", groupID).toString());
+
+										}else{
+
+											System.out.format("<%05d> <DNF>\n", groupID);
+
+										}
+										groupID++;
+									}
+								} else {
+
+									if(isGUI){
+
+										ui.getUserInterface().getjTextArea1().append((!tempRacer.isDNF() ? ("<" + tempRacer.getBib() + ">"
+												+ " " + "<"
+												+ ClockInterface.getTotalTimeFormatted(tempRacer.getStartInLong(), tempRacer.getFinishInLong()) + ">\n") : ("<" + tempRacer.getBib() + ">" + " " + "<" + "DNF" + ">\n")));
+
+									}else{
+
+										System.out.println(!tempRacer.isDNF() ? "<" + (tempRacer.getBib() + ">"
+												+ " " + "<"
+												+ ClockInterface.getTotalTimeFormatted(tempRacer.getStartInLong(), tempRacer.getFinishInLong()) + ">") : "<" + tempRacer.getBib() + ">" + " " + "<" + "DNF" + ">");
+
 									}
 								}
 							}
 						}
 					}
-
 				}
 			}
 
@@ -367,7 +398,7 @@ public class InterfaceHandler {
 							}
 
 							System.out.println("Channel: " + (i + 1) + " togged!");
-							
+
 						}
 
 					}catch(InputMismatchException | NumberFormatException e){
@@ -499,7 +530,7 @@ public class InterfaceHandler {
 
 					try{
 
-						InterfaceHandler.keepPrint(Integer.parseInt(str.split("\\s")[1]));
+						keepPrint(Integer.parseInt(str.split("\\s")[1]));
 
 					}catch(InputMismatchException | NumberFormatException e){
 
@@ -536,7 +567,7 @@ public class InterfaceHandler {
 					break;
 				case "TIME":    //Sets the current local time
 
-					InterfaceHandler.setTime(str);
+					setTime(str);
 
 					break;
 				case "TOG":
@@ -563,7 +594,7 @@ public class InterfaceHandler {
 
 					if(str.split("\\s").length == 3){
 
-						InterfaceHandler.conn(str);
+						conn(str);
 
 					}else{
 
@@ -585,5 +616,6 @@ public class InterfaceHandler {
 
 	public static void setGUI(boolean isGUI) {
 		InterfaceHandler.isGUI = isGUI;
+		ui.getRaceManager().setGui(isGUI);
 	}
 }

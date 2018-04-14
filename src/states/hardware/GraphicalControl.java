@@ -11,6 +11,7 @@ import hardware.user.InterfaceHandler;
 import interfaces.UI;
 import states.State;
 
+
 public class GraphicalControl extends State {
 
 	private enum COMMANDS{
@@ -23,7 +24,9 @@ public class GraphicalControl extends State {
 
 	private StringBuilder sb;
 	private int channelSelected;
-	private String[] commands = { "EXIT", "NUM ", "NEWRUN", "ENDRUN", "CANCEL", "SWAP", "START", "FINISH", "TIMEDISP", "RACETEST", "RESET", "EVENT IND", "EVENT PARIND", "EVENT GRP", "TIMEFREQ", "CLR", "EXPORT ", "TRIG ", "PRINT ", "DNF ", "TIME ", "CONN " };
+	private String[] commands = { "EXIT", "NUM ", "NEWRUN", "ENDRUN", "CANCEL", "SWAP", "START", 
+			"FINISH", "TIMEDISP", "RACETEST", "RESET", "EVENT IND", "EVENT PARIND", "EVENT GRP", "TIMEFREQ", "CLR", 
+			"EXPORT ", "TRIG ", "PRINT ", "DNF ", "TIME ", "CONN " };
 	private int cCount;
 	private boolean functionActive;
 
@@ -273,15 +276,7 @@ public class GraphicalControl extends State {
 			public void actionPerformed(ActionEvent e) {
 
 				if(e.getSource() == ui.getUserInterface().getBtnCh5bk()){
-					//
-					//					channelSelected = 5;
-					//
-					//					if(channelSelected > 0 && channelSelected <= 8){
-					//
-					//						ui.getRaceManager().setChannelSelected(channelSelected);
-					//						ui.getRaceManager().getCurrentChannel().enable(!ui.getRaceManager().getCurrentChannel().isEnabled());
-					//
-					//					}
+
 				}
 			}
 		});
@@ -685,6 +680,21 @@ public class GraphicalControl extends State {
 				}
 			}
 		});
+		
+		ui.getUserInterface().getBtnPrintPwr().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if(e.getSource() == ui.getUserInterface().getBtnPrintPwr()){
+					
+					
+					
+					
+				}
+			}
+		});
+		
 	}
 
 	private String[] getCommands(Class<? extends Enum<?>> e) {

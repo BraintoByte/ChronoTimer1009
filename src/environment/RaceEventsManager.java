@@ -1,6 +1,7 @@
 package environment;
 
 
+import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.InputMismatchException;
@@ -156,6 +157,8 @@ public class RaceEventsManager {
 	private int runNbr;
 	private Run_Types type;
 	private Pool racePool = Pool.getPool();
+	private boolean isGui;
+	private int[] bibs = new int[1];
 
 	/**
 	 * @param run
@@ -167,12 +170,20 @@ public class RaceEventsManager {
 
 	public boolean makeRacers(int racer) {
 		
-		if(racer >= 0 && racer < 1000){
+		System.out.println(isRacerIn(racer) + " " + racer);
+		
+		if(racer >= 0 && racer < 1000 && !isRacerIn(racer)){
 			racePool.makeRacer(racer);
+			bibs = racePool.getAllBibs();
 			return true;
 		}
-//		System.out.println("Cannot do that must be a bib number major then 0 and minor then 1000");
 		return false;
+	}
+	
+	
+	
+	private boolean isRacerIn(int racer){
+		return Arrays.binarySearch(bibs, racer) >= 0;
 	}
 
 	public void resetPool(){
@@ -402,50 +413,6 @@ public class RaceEventsManager {
 		return true;
 	}
 
-
-	//	public boolean keepRecord(){
-	//
-	//		if(!checkRunInitiated()){
-	//			return false;
-	//		}
-	//
-	//		int count = 0;
-	//		Race[] racesActive = currentRun.getRaces();
-	//
-	//		if(racesActive != null && racesActive.length > 0){
-	//
-	//			for(int i = 0; i < racesActive.length; i++){
-	//
-	//				if(racesActive[i] == null){
-	//					break;
-	//				}
-	//
-	//				recordRaces.add(racesActive[i]);
-	//
-	//				if(!racesActive[i].isActive()){
-	//
-	//					count++;
-	//
-	//				}
-	//			}
-	//
-	//			if(count < 8){
-	//
-	//				return false;
-	//
-	//			}
-	//
-	//			racesActive = null;
-	//
-	//			return true;
-	//
-	//		}
-	//
-	//		return false;
-	//
-	//	}
-
-
 	public int racesActive(){
 		return checkRunInitiated() && currentRun.getRaces() == null ? 0 : currentRun.getRaces().length;
 	}
@@ -496,95 +463,6 @@ public class RaceEventsManager {
 		return channelSelected;
 	}
 
-
-
-	/**
-	 * Creates a New Run with the specified event type (independent | parallel).
-	 */
-	//	private void setRace() {
-	//
-	//		if(!checkRunInitiated()){
-	//			return;
-	//		}
-	//
-	//		switch(type){
-	//
-	//		case IND:
-	//			//			setChannelSelected(1); //From idle
-	//
-	//			if(racesActive() > 0){
-	//
-	//				System.out.println("Can't have more then one race in IND!");
-	//				return;
-	//
-	//			}
-	//			currentRun.setRaceFromScratch(1);
-	//			currentRun.setNewRace(1);
-	//			break;
-	//		case PARIND:
-	//			
-	//			if(racesActive() == 0){
-	//				currentRun.setRaceFromScratch(8);
-	//			}
-	//
-	//			if(racesActive() <= 8){
-	//				currentRun.setNewRace(channelSelected);
-	//			}
-	//
-	//			break;
-	//		case GROUP:
-	//			break;
-	//
-	//		}
-	//	}
-
-	//					^^
-	//					||
-	//|-------------------------------------------------------------------------|
-	//		if(type == Run_Types.IND){
-	//
-	//			if((currentRun.getRaces() != null && currentRun.getRaces()[0] != null && racesActive() == 0) 
-	//					|| currentRun.getRaces() == null){
-	//			
-	//			
-	//
-	////				if(channelsEnabled(1) > 2){
-	////
-	////					System.out.println("Cannot have more then 1 channel on IND");
-	////					return;
-	////
-	////				}
-	//
-	//				currentRun.resetIndex();
-	//				setChannelSelected(1);
-	//				currentRun.startNewRace(ui.getSimulator().getRun() + 1);
-	////				ui.getSimulator().setRun(ui.getSimulator().getRun() + 1);
-	//
-	//			}
-	//
-	//		}else if(type == Run_Types.PARIND){
-	//
-	//			if((currentRun.getRaces() != null && currentRun.getRaces()[0] != null 
-	//					&& !currentRun.getRaces()[0].isActive()) || racesActive() <= 8){
-	//
-	//				currentRun.resetIndex();
-	//				setChannelSelected(1);
-	//				currentRun.setNewRace(run);
-	////				currentRun.startNewRace(ui.getSimulator().getRun() + 1);
-	////				ui.getSimulator().setRun(ui.getSimulator().getRun() + 1);
-	//				setChannelSelected(3);
-	////				currentRun.startNewRace(ui.getSimulator().getRun() + 1);
-	////				ui.getSimulator().setRun(ui.getSimulator().getRun() + 1);
-	//
-	//			}
-	//		}else if(type == Run_Types.GROUP){
-	//			
-	//			System.out.println("NOTHING HERE YET!");
-	//			
-	//		}
-	//|------------------------------------------------------------------------|
-
-
 	public Iterator<Race> getRecords() {
 		return recordRaces.iterator();
 	}
@@ -626,7 +504,7 @@ public class RaceEventsManager {
 
 
 	public Channels getCurrentChannel(){
-		return Channels.channels[channelSelected];
+		return Channels.channels[channelSelected - 1];
 	}
 
 
@@ -657,5 +535,9 @@ public class RaceEventsManager {
 
 	public boolean clearRacer(int bib) {
 		return racePool != null? racePool.clearRacer(bib) : false;
+	}
+
+	public void setGui(boolean isGui) {
+		this.isGui = isGui;
 	}
 }

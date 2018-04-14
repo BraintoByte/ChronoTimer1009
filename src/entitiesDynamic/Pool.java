@@ -109,6 +109,22 @@ public class Pool {
 		return racers.size();
 	}
 	
+	public int[] getAllBibs(){
+		
+		int[] temp = new int[racers.size()];
+		int count = 0;
+		
+		for(Racer r : racers){
+			
+			temp[count] = r.getBib();
+			
+		}
+		
+		return temp;
+		
+	}
+	
+	
 	// new
 	
 	/**
