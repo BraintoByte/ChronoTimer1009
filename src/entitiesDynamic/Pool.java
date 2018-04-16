@@ -116,7 +116,11 @@ public class Pool {
 		
 		for(Racer r : racers){
 			
+<<<<<<< HEAD
 			temp[count++] = r.getBib();
+=======
+			temp[count] = r.getBib();
+>>>>>>> refs/remotes/origin/master
 			
 		}
 		
@@ -159,9 +163,12 @@ public class Pool {
 		
 	}
 	
+<<<<<<< HEAD
 	protected Racer peekRacer() {
 		return racers.peek();
 	}
 	
+=======
+>>>>>>> refs/remotes/origin/master
 	// new
 }

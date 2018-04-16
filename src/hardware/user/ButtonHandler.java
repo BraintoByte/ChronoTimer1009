@@ -124,6 +124,5 @@ public class ButtonHandler {
 	 */
 	public String getCurrentTime(){
 		return manager.getTime().getCurrentTime();
-	}
-	
+	}	
 }

@@ -77,7 +77,11 @@ public class Idle extends State {
 	 * The idle method for this State which runs continuesly, waiting for user input.
 	 */
 	protected void idleWait(){
+<<<<<<< HEAD
 
+=======
+
+>>>>>>> refs/remotes/origin/master
 		String str;
 
 		while(true){
@@ -94,5 +98,8 @@ public class Idle extends State {
 			}
 		}
 	}
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/master
 }

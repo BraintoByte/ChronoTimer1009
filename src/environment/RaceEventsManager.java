@@ -1,5 +1,9 @@
 package environment;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/remotes/origin/master
 import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
@@ -168,19 +172,31 @@ public class RaceEventsManager {
 	 *         Creates a new Race with RunID = run, and increments index and
 	 *         raceNbr.
 	 */
+<<<<<<< HEAD
 	// public boolean startNewRace(int run){
+=======
+	//	public boolean startNewRace(int run){
+>>>>>>> refs/remotes/origin/master
 
 	public boolean makeRacers(int racer) {
+<<<<<<< HEAD
 
 		if (racer >= 0 && racer < 1000 && !isRacerIn(racer)) {
 			racePool.makeRacer(racer);
 			bibs = racePool.getAllBibs();
 			if (isGui)
 				printPoolToGUI();
+=======
+		
+		if(racer >= 0 && racer < 1000 && !isRacerIn(racer)){
+			racePool.makeRacer(racer);
+			bibs = racePool.getAllBibs();
+>>>>>>> refs/remotes/origin/master
 			return true;
 		}
 		return false;
 	}
+<<<<<<< HEAD
 
 	private boolean isRacerIn(int racer) {
 		return Arrays.binarySearch(bibs, racer) >= 0;
@@ -188,7 +204,32 @@ public class RaceEventsManager {
 
 	public void resetPool() {
 		racePool.clearPool();
+=======
+	
+	
+	
+	private boolean isRacerIn(int racer){
+		return Arrays.binarySearch(bibs, racer) >= 0;
+>>>>>>> refs/remotes/origin/master
 	}
+
+	public void resetPool(){
+		racePool.clearPool();
+	}
+
+	/**
+	 * @param gates
+	 * @param eyes
+	 * @param pads
+	 * 
+	 * Allocates space/makes the number of gates, eyes, and pads according to the truth values of the parameters. 
+	 */
+
+	public void theseManySensors(int gates, int eyes, int pads){
+		sensorCoupler = new SensorCoupler();
+		sensorCoupler.getSensors().makeSensors(eyes, gates, pads, eyes > 0, gates > 0, pads > 0);
+	}
+
 
 	/**
 	 * @param gates
@@ -198,6 +239,7 @@ public class RaceEventsManager {
 	 *            Allocates space/makes the number of gates, eyes, and pads
 	 *            according to the truth values of the parameters.
 	 */
+<<<<<<< HEAD
 
 	public void theseManySensors(int gates, int eyes, int pads) {
 		sensorCoupler = new SensorCoupler();
@@ -212,6 +254,12 @@ public class RaceEventsManager {
 
 		for (Channels c : Channels.channels) {
 			if (c != null && c.isPairedToSensor()) {
+=======
+	public void resetRun(){			//I don't think we will need this but just in case
+
+		for(Channels c:Channels.channels) {
+			if(c != null && c.isPairedToSensor()) {
+>>>>>>> refs/remotes/origin/master
 				Sensor tmp = c.unPairToSensor();
 				boolean isPad = Pad.class.isInstance(tmp);
 				boolean isGate = Gate.class.isInstance(tmp);
@@ -221,16 +269,23 @@ public class RaceEventsManager {
 			c.enable(false);
 		}
 
+<<<<<<< HEAD
 		Printer.clearMiddleTxt(0);
 		Printer.clearMiddleTxt(1);
 		Printer.clearMiddleTxt(2);
 		type = Run_Types.IND;
 		resetPool();
 		bibs = new int[1];
+=======
+		type = Run_Types.IND;
+		racePool.clearPool();
+>>>>>>> refs/remotes/origin/master
 		runNbr = 0;
 		currentRun = null;
 		recordRaces = new LinkedList<>();
 
+<<<<<<< HEAD
+=======
 	}
 
 	public void setRunNbr(int runNbr) {
@@ -243,7 +298,7 @@ public class RaceEventsManager {
 
 	public void setType(Run_Types type) {
 
-		if (checkRunInitiated()) {
+		if(checkRunInitiated()){
 
 			System.out.println("PLEASE END THE CURRENT RUN FIRST!");
 			return;
@@ -255,12 +310,182 @@ public class RaceEventsManager {
 
 	public Run_Types getType() {
 		return type;
+>>>>>>> refs/remotes/origin/master
+	}
+<<<<<<< HEAD
+=======
+	
+	public void CANCEL(){
+		racePool.addRacerBeginning(currentRun.CANCEL(channelSelected));
+	}
+
+>>>>>>> refs/remotes/origin/master
+
+<<<<<<< HEAD
+	public void setRunNbr(int runNbr) {
+		this.runNbr = runNbr;
+	}
+=======
+	/**
+	 * @param str
+	 * @param DNF
+	 * Triggers the channel specified in str, where str = "TRIG<chanID>" and if the next racer to finish Did not Finish (DNF = true),
+	 * then their time is recorded as DNF.
+	 */
+	public void trig(String str, boolean DNF){     //We need to refactor this, is channel enabled method, is channel valid method choice 1 choice 2
+>>>>>>> refs/remotes/origin/master
+
+<<<<<<< HEAD
+	public int getRunNbr() {
+		return runNbr;
+	}
+=======
+		System.out.println("Racers inactive before action: " + racePool.getRacersAmount());
+>>>>>>> refs/remotes/origin/master
+
+<<<<<<< HEAD
+	public void setType(Run_Types type) {
+=======
+		if(!checkRunInitiated()){
+			System.out.println("NO RUN INITIATED!");
+			return;
+		}
+>>>>>>> refs/remotes/origin/master
+
+<<<<<<< HEAD
+		if (checkRunInitiated()) {
+=======
+		try{
+>>>>>>> refs/remotes/origin/master
+
+<<<<<<< HEAD
+			System.out.println("PLEASE END THE CURRENT RUN FIRST!");
+			return;
+=======
+			channelSelected = Integer.parseInt(str.split("\\s")[1].trim());
+
+			if(channelSelected > 8){
+				System.out.println("WRONG CHANNEL!");
+				return;
+			}
+
+			setChannelSelected(channelSelected);
+
+			if(getCurrentChannel().isEnabled()){
+
+				int n = 1;
+				if(type == Run_Types.GRP) {
+					switch(channelSelected) {
+					case 3:
+					case 4:
+					case 5:
+					case 6:
+					case 7:
+					case 8:
+						System.out.println("Cannot trigger channels > 2 for GRP event");
+						return;
+					}
+					n = racePool.getRacersAmount();
+				}
+
+				if(channelSelected % 2 == 1){
+
+					//					if(currentRun.getRaces() == null){
+					//
+					//						setRace();
+					//
+					//					}
+
+					//					currentRun.getRaces()[channelSelected].startNRacers(1, racePool);
+					Race tempRace = currentRun.getRaceFromChannel(channelSelected);
+
+					if(tempRace != null){
+
+						tempRace.startNRacers(n, racePool);
+
+						keepRecord();
+						System.out.println("Racers inactive after action: " + racePool.getRacersAmount());
+						return;
+
+					}
+
+					if(currentRun.setNewRace(channelSelected)){
+						tempRace = currentRun.getRaceFromChannel(channelSelected);
+
+						tempRace.startNRacers(n, racePool);
+
+						keepRecord();
+						System.out.println("Race STARTED!");
+						return;
+					}
+
+					System.out.println("YOU CANNOT CREATE THESE MANY RUNS!");
+
+
+				}else if(channelSelected % 2 == 0){
+
+					Race[] active = currentRun.getRaces();
+
+					if(active != null){
+
+						for(int i = 0; i < active.length; i++){
+
+							if(active[i] != null){
+
+								if(currentRun.getRaces()[i].getChannelsActive()[1] == channelSelected){
+
+									if(active[i].racersActive() != 0){
+
+										active[i].finishRacer(DNF, racePool);
+
+									}else{
+
+										System.out.println("No more racers!");
+
+									}
+
+									break;
+								}
+							}
+						}
+
+
+						keepRecord();
+
+					}else{
+
+						System.out.println("NO MORE RACERS!");
+
+					}
+				}
+			}else{
+
+				System.out.println("Channel " + channelSelected + " is not toggled!");
+
+			}
+		}catch(InputMismatchException | NumberFormatException e){
+
+			System.out.println("WRONG INPUT!");
+>>>>>>> refs/remotes/origin/master
+
+		}
+
+<<<<<<< HEAD
+		this.type = type;
+	}
+
+	public Run_Types getType() {
+		return type;
 	}
 
 	public void CANCEL() {
 		racePool.addRacerBeginning(currentRun.CANCEL(channelSelected));
 	}
+=======
+		System.out.println("Racers inactive after action: " + racePool.getRacersAmount());
+>>>>>>> refs/remotes/origin/master
 
+<<<<<<< HEAD
 	/**
 	 * @param str
 	 * @param DNF
@@ -283,7 +508,11 @@ public class RaceEventsManager {
 		try {
 
 			channelSelected = Integer.parseInt(str.split("\\s")[1].trim());
+=======
+	}
+>>>>>>> refs/remotes/origin/master
 
+<<<<<<< HEAD
 			if (channelSelected > 8) {
 				System.out.println("WRONG CHANNEL!");
 				return;
@@ -422,9 +651,15 @@ public class RaceEventsManager {
 	public boolean keepRecord() {
 
 		if (!checkRunInitiated()) {
+=======
+	public boolean keepRecord(){
+
+		if(!checkRunInitiated()){
+>>>>>>> refs/remotes/origin/master
 			return false;
 		}
 
+<<<<<<< HEAD
 		Race[] racesActive = currentRun.getRaces();
 
 		if (racesActive != null && racesActive.length > 0) {
@@ -436,6 +671,20 @@ public class RaceEventsManager {
 				}
 
 				if (recordRaces.contains(racesActive[i])) {
+=======
+
+		Race[] racesActive = currentRun.getRaces();
+
+		if(racesActive != null && racesActive.length > 0){
+
+			for (int i = 0; i < racesActive.length; i++) {
+
+				if(racesActive[i] == null){
+					break;
+				}
+
+				if(recordRaces.contains(racesActive[i])){
+>>>>>>> refs/remotes/origin/master
 
 					recordRaces.remove(racesActive[i]);
 
@@ -449,6 +698,7 @@ public class RaceEventsManager {
 		return true;
 	}
 
+<<<<<<< HEAD
 	public int racesActive() {
 		return checkRunInitiated() && currentRun.getRaces() == null ? 0 : currentRun.getRaces().length;
 	}
@@ -492,6 +742,51 @@ public class RaceEventsManager {
 	}
 
 	private boolean checkRunInitiated() {
+=======
+	public int racesActive(){
+		return checkRunInitiated() && currentRun.getRaces() == null ? 0 : currentRun.getRaces().length;
+	}
+
+	public void endRun(){
+
+		if(!checkRunInitiated()){
+			System.out.println("NO ACTIVE RUN!");
+			return;
+		}
+
+		Race[] racesActive = currentRun.getRaces();
+
+		if(racesActive != null){
+
+			for(int i = 0; i < racesActive.length; i++){      //Change this
+
+				if(racesActive[i] != null){
+
+					racesActive[i].stopLastRace(racePool);
+
+				}
+			}
+
+			currentRun = null;
+
+		}else{
+
+			System.out.println("YOU CANNOT STOP WHAT'S NOT STARTED!");
+
+		}
+	}
+
+	public boolean isRunActive(){
+		return currentRun != null;
+	}
+
+	public void setNewRun(){
+		runNbr++;
+		currentRun = new Run(runNbr, type);
+	}
+
+	private boolean checkRunInitiated(){
+>>>>>>> refs/remotes/origin/master
 		return currentRun != null;
 	}
 
@@ -503,6 +798,10 @@ public class RaceEventsManager {
 		return recordRaces.iterator();
 	}
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/remotes/origin/master
 	/**
 	 * @param channelSelected
 	 * @return true if channel exists and is selected
@@ -522,10 +821,18 @@ public class RaceEventsManager {
 		return false;
 	}
 
+<<<<<<< HEAD
 	public void setUpRaceForArbitrarySimulation() {
+=======
+>>>>>>> refs/remotes/origin/master
 
+<<<<<<< HEAD
 		Random rand = new Random();
+=======
+	public void setUpRaceForArbitrarySimulation(){
+>>>>>>> refs/remotes/origin/master
 
+<<<<<<< HEAD
 		for (int i = 0; i < 10; i++) {
 
 			int randRacer = rand.nextInt((999 - 1) + 1) + 1;
@@ -540,12 +847,32 @@ public class RaceEventsManager {
 		if (isGui) {
 			printPoolToGUI();
 		}
+=======
+		Random rand = new Random();
+>>>>>>> refs/remotes/origin/master
 
+		for(int i = 0; i < 10; i++){
+
+			int randRacer = rand.nextInt((999 - 1) + 1) + 1;
+
+			makeRacers(randRacer);
+			System.out.println("Racer bib: " + randRacer + " was added!");
+
+		}
 	}
 
+<<<<<<< HEAD
 	public Channels getCurrentChannel() {
+=======
+
+	public Channels getCurrentChannel(){
+>>>>>>> refs/remotes/origin/master
 		return Channels.channels[channelSelected - 1];
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/remotes/origin/master
 
 	/**
 	 * @param eye
@@ -570,21 +897,30 @@ public class RaceEventsManager {
 	}
 
 	public boolean swap() {
+<<<<<<< HEAD
 		boolean result =  currentRun != null ? currentRun.swap() : false;
 		printActiveToGUI();
 		return result;
+=======
+		return currentRun != null? currentRun.swap() : false; 
+>>>>>>> refs/remotes/origin/master
 	}
 
 	public boolean clearRacer(int bib) {
+<<<<<<< HEAD
 		boolean result = racePool != null ? racePool.clearRacer(bib) : false;
 		if (isGui)
 			printPoolToGUI();
 		return result;
+=======
+		return racePool != null? racePool.clearRacer(bib) : false;
+>>>>>>> refs/remotes/origin/master
 	}
 
 	public void setGui(boolean isGui) {
 		this.isGui = isGui;
 	}
+<<<<<<< HEAD
 
 	protected Pool getPool() {
 		return racePool;
@@ -632,4 +968,6 @@ public class RaceEventsManager {
 		}
 
 	}
+=======
+>>>>>>> refs/remotes/origin/master
 }
