@@ -593,15 +593,14 @@ public class RaceEventsManager {
 	private void printActiveToGUI() {
 
 		Printer.clearMiddleTxt(1);
+		
 		for (Race r : currentRun.getRaces()) {
 
 			Iterator<Racer> it = r.getActive().iterator();
 			while (it.hasNext()) {
 				Printer.printToMiddle(1, "<" + it.next().getBib() + ">\n");
 			}
-
 		}
-
 	}
 
 	private void printPoolToGUI() {

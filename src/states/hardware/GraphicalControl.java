@@ -42,6 +42,7 @@ public class GraphicalControl extends State {
 			"EXPORT ", "TRIG ", "PRINT ", "DNF ", "TIME ", "CONN " };
 	private int cCount;
 	private boolean functionActive;
+	private boolean isPrintDisabled;
 
 
 	public GraphicalControl(UI ui, Scanner input) {
@@ -206,12 +207,21 @@ public class GraphicalControl extends State {
 
 				if(e.getSource() == ui.getUserInterface().getBtnHashKeyPad()){
 					
+					if(commands[cCount].contains("PRINT") && !isPrintDisabled){
+						
+						ui.getUserInterface().getTxtAConsole().append("You have not enabled the printer, please click the printer button!");
+						
+						return;
+						
+					}
+					
+					
 					if(commands[cCount].equalsIgnoreCase("racetest")){
 						
 						ui.getUserInterface().togChannelsForRace();
 						
 					}
-
+					
 					InterfaceHandler.inputCommand(Pattern.compile("\\s").matcher(commands[cCount]).find() ? commands[cCount] + sb.toString() : commands[cCount]);
 					
 				}
@@ -801,6 +811,16 @@ public class GraphicalControl extends State {
 				
 			}
     	});
+    	
+    	ui.getUserInterface().getBtnPrintPwr().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				isPrintDisabled = !isPrintDisabled;
+				
+			}
+		});
     	
 		// new
 		

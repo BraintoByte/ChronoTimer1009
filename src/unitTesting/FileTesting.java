@@ -1,4 +1,4 @@
-package testing;
+package unitTesting;
 
 import java.io.ByteArrayInputStream;
 import org.junit.Test;
