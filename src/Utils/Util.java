@@ -95,11 +95,7 @@ public class Util {
 			
 			while(!commands.isEmpty()){     
 				
-<<<<<<< HEAD
 //				System.out.println(commands.peek());
-=======
-				System.out.println(commands.peek());
->>>>>>> refs/remotes/origin/master
 				
 				sb.append(commands.pop().trim());
 
@@ -114,11 +110,7 @@ public class Util {
 
 				}
 				
-<<<<<<< HEAD
 //				System.out.println(sb.toString());
-=======
-				System.out.println(sb.toString());
->>>>>>> refs/remotes/origin/master
 
 				temp.add(sb.toString());
 

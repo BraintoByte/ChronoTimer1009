@@ -26,19 +26,11 @@ public class UserGraphical extends JFrame {
     
     private JPanel jPanel1, jPanel2, jPanel3, jPanel4, jPanel5, jPanel6, panelConsole;
     private JScrollPane jScrollPane1;
-<<<<<<< HEAD
     private JTextArea txtAMiddle, txtAConsole, printerTextArea, txtBMiddle, txtCMiddle;
 //    private JTextField printerTextField;
-=======
-    private JTextArea jTextArea1, txtAConsole;
-    private JTextField jTextField2;
->>>>>>> refs/remotes/origin/master
     private Label label1;
     private JTextPane txtPConsole;
-<<<<<<< HEAD
     private JPopupMenu sensorPopupMenu;
-=======
->>>>>>> refs/remotes/origin/master
     
     private static class SingletonUserGraphical {
     	
@@ -66,8 +58,6 @@ public class UserGraphical extends JFrame {
         this.pack();
         
     }
-    
-    
     
     private void initObjects(){
     	
@@ -102,11 +92,7 @@ public class UserGraphical extends JFrame {
         btn0KeyPad = new JButton();
         btn0KeyPad.setEnabled(false);
         label1 = new Label();
-<<<<<<< HEAD
         btnPrintPwr = new JToggleButton();
-=======
-        btnPrintPwr = new JButton();
->>>>>>> refs/remotes/origin/master
         btnPrintPwr.setEnabled(false);
         jLabel5 = new JLabel();
         printerTextArea = new JTextArea();
@@ -167,53 +153,29 @@ public class UserGraphical extends JFrame {
         jPanel5 = new JPanel();
         btnCh1bk = new JToggleButton();
         btnCh1bk.setEnabled(false);
-<<<<<<< HEAD
         btnCh1bk.setName("1");			// new (used for JPopUpMenu) 
-=======
->>>>>>> refs/remotes/origin/master
         btnCh3bk = new JToggleButton();
         btnCh3bk.setEnabled(false);
-<<<<<<< HEAD
         btnCh3bk.setName("3");			// new
-=======
->>>>>>> refs/remotes/origin/master
         btnCh5bk = new JToggleButton();
         btnCh5bk.setEnabled(false);
-<<<<<<< HEAD
         btnCh5bk.setName("5");			// new
-=======
->>>>>>> refs/remotes/origin/master
         btnCh7bk = new JToggleButton();
         btnCh7bk.setEnabled(false);
-<<<<<<< HEAD
         btnCh7bk.setName("7");			// new
-=======
->>>>>>> refs/remotes/origin/master
         jPanel6 = new JPanel();
         btnCh2bk = new JToggleButton();
         btnCh2bk.setEnabled(false);
-<<<<<<< HEAD
         btnCh2bk.setName("2");			// new
-=======
->>>>>>> refs/remotes/origin/master
         btnCh4bk = new JToggleButton();
         btnCh4bk.setEnabled(false);
-<<<<<<< HEAD
         btnCh4bk.setName("4");			// new
-=======
->>>>>>> refs/remotes/origin/master
         btnCh6bk = new JToggleButton();
         btnCh6bk.setEnabled(false);
-<<<<<<< HEAD
         btnCh6bk.setName("6");			// new
-=======
->>>>>>> refs/remotes/origin/master
         btnCh8bk = new JToggleButton();
         btnCh8bk.setEnabled(false);
-<<<<<<< HEAD
         btnCh8bk.setName("8");			// new
-=======
->>>>>>> refs/remotes/origin/master
         usbBtn = new JToggleButton();
         lblCh8Bk = new JLabel();
         lblUsbBk = new JLabel();
@@ -229,10 +191,6 @@ public class UserGraphical extends JFrame {
         txtAConsole = new JTextArea();
         txtAConsole.setWrapStyleWord(true);
         txtAConsole.setLineWrap(true);
-<<<<<<< HEAD
-=======
-        
->>>>>>> refs/remotes/origin/master
 
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setMinimumSize(new Dimension(900, 700));
@@ -240,94 +198,6 @@ public class UserGraphical extends JFrame {
         this.getContentPane().setLayout(new AbsoluteLayout());
         
     }
-    
-    private void makePnls(){
-    	
-        jTextField2.setEditable(false);
-        jTextField2.setToolTipText("");
-        getContentPane().add(jTextField2, new AbsoluteConstraints(570, 70, 220, 150));
-
-        jScrollPane1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        jScrollPane1.setAutoscrolls(true);
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        getContentPane().add(jScrollPane1, new AbsoluteConstraints(210, 250, 300, 260));
-
-        jPanel1.setLayout(new GridLayout(0, 4, 20, 7));
-        jPanel1.add(btnTrg1);
-        jPanel1.add(btnTrg3);
-        jPanel1.add(btnTr5);
-        jPanel1.add(btnTrg7);
-
-        getContentPane().add(jPanel1, new AbsoluteConstraints(250, 60, 240, 40));
-
-        jPanel2.setLayout(new GridLayout(0, 4, 50, 0));
-        jPanel2.add(btnTogCh1);
-        jPanel2.add(btnTogCh3);
-        jPanel2.add(btnTogCh5);
-        jPanel2.add(btnTogCh7);
-
-        getContentPane().add(jPanel2, new AbsoluteConstraints(260, 110, 220, 20));
-
-        jPanel3.setLayout(new GridLayout(0, 4, 20, 7));
-        jPanel3.add(btnTrg2);
-        jPanel3.add(btnTrg4);
-        jPanel3.add(btnTrg6);
-        jPanel3.add(btnTrg8);
-
-        getContentPane().add(jPanel3, new AbsoluteConstraints(250, 140, 240, 40));
-
-        jPanel4.setLayout(new GridLayout(0, 4, 50, 0));
-        jPanel4.add(btnTogCh2);
-        jPanel4.add(btnTogCh4);
-        jPanel4.add(btnTogCh6);
-        jPanel4.add(btnTogCh8);
-
-        getContentPane().add(jPanel4, new AbsoluteConstraints(260, 200, 220, 20));
-
-        jPanel5.setLayout(new GridLayout(0, 4, 25, 0));
-        jPanel5.add(btnCh1bk);
-        jPanel5.add(btnCh3bk);
-        jPanel5.add(btnCh5bk);
-        jPanel5.add(btnCh7bk);
-
-        getContentPane().add(jPanel5, new AbsoluteConstraints(70, 560, 140, 20));
-
-        jPanel6.setLayout(new GridLayout(0, 4, 25, 0));
-        jPanel6.add(btnCh2bk);
-        jPanel6.add(btnCh4bk);
-        jPanel6.add(btnCh6bk);
-        jPanel6.add(btnCh8bk);
-
-        getContentPane().add(jPanel6, new AbsoluteConstraints(70, 610, 140, 20));
-        getContentPane().add(usbBtn, new AbsoluteConstraints(290, 580, 120, 20));
-        
-        
-//        jTextArea1.setColumns(20);
-//        jTextArea1.setRows(5);
-//        jScrollPane1.setViewportView(jTextArea1);
-//        getContentPane().add(jScrollPane1, new AbsoluteConstraints(210, 250, 300, 260));
-        
-        
-        panelConsole.setLayout(new FlowLayout());
-        txtAConsole.setBounds(0, 0, 10, 10);
-        txtAConsole.setColumns(16);
-        txtAConsole.setRows(3);
-        JScrollPane scroll = new JScrollPane();
-        scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        scroll.setAutoscrolls(true);
-        scroll.setViewportView(txtAConsole);
-        txtAConsole.setEditable(false);
-        getContentPane().add(scroll, new AbsoluteConstraints(10, 340, -1, -1));
-        
-        
-    }
-    
     
     private void makePnls(){
         
@@ -614,13 +484,8 @@ public class UserGraphical extends JFrame {
         jLabel4.setText("Start");
         getContentPane().add(jLabel4, new AbsoluteConstraints(220, 70, -1, -1));
 
-<<<<<<< HEAD
         label1.setText("Queue / Running / Final Time");
         getContentPane().add(label1, new AbsoluteConstraints(300, 520, 200, -1));
-=======
-        label1.setText("Queue /Running/ Final Time");
-        getContentPane().add(label1, new AbsoluteConstraints(270, 520, 160, -1));
->>>>>>> refs/remotes/origin/master
 
         jLabel5.setFont(new Font("Ebrima", 2, 24)); 
         jLabel5.setText("CHRONOTIMER 1009");
@@ -628,10 +493,6 @@ public class UserGraphical extends JFrame {
     	
     }
     
-<<<<<<< HEAD
-=======
-    
->>>>>>> refs/remotes/origin/master
     public void enableContent(){
     	
         btnCh1bk.setEnabled(!btnCh1bk.isEnabled());
@@ -693,12 +554,6 @@ public class UserGraphical extends JFrame {
 //    private void btnPowerActionPerformed(ActionEvent evt) {
 //    }
     
-<<<<<<< HEAD
-=======
-    
-    
-    
->>>>>>> refs/remotes/origin/master
     public void togChannelsForRace(){
     	
     	btnTogCh1.setSelected(!btnTogCh1.isSelected());
@@ -841,11 +696,7 @@ public class UserGraphical extends JFrame {
 		return btnUp;
 	}
 
-<<<<<<< HEAD
 	public JToggleButton getBtnPrintPwr() {
-=======
-	public JButton getBtnPrintPwr() {
->>>>>>> refs/remotes/origin/master
 		return btnPrintPwr;
 	}
 
@@ -897,7 +748,6 @@ public class UserGraphical extends JFrame {
 		return btn0KeyPad;
 	}
 
-<<<<<<< HEAD
 	public JTextArea getTxtAMiddle() {
 		return txtAMiddle;
 	}
@@ -908,31 +758,19 @@ public class UserGraphical extends JFrame {
 	
 	public JTextArea getTxtCMiddle() {
 		return txtCMiddle;
-=======
-	public JTextArea getjTextArea1() {
-		return jTextArea1;
->>>>>>> refs/remotes/origin/master
 	}
 
-<<<<<<< HEAD
 	public JTextArea getprinterTextArea() {
 		return printerTextArea;
-=======
-	public JTextField getjTextField2() {
-		return jTextField2;
->>>>>>> refs/remotes/origin/master
 	}
 	
 	public JTextArea getTxtAConsole() {
 		return txtAConsole;
 	}
-<<<<<<< HEAD
 	
 	public JPopupMenu getSensorMenu() {
 		return sensorPopupMenu;
 	}
 	
 	
-=======
->>>>>>> refs/remotes/origin/master
 }
