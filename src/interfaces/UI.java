@@ -1,5 +1,6 @@
 package interfaces;
 
+import Utils.Printer;
 import environment.RaceEventsManager;
 import hardware.user.ButtonHandler;
 import hardware.user.UserGraphical;

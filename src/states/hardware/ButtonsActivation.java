@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import Utils.Printer;
 import entitiesStatic.ClockInterface;
 import environment.RaceEventsManager;
 import hardware.user.ButtonHandler;
@@ -127,6 +128,7 @@ public class ButtonsActivation extends State {
 
 				ui.setBtnHandler(btnHandler);
 				ui.setRaceManager(new RaceEventsManager());
+				Printer.setUI(ui);
 				ui.getRaceManager().theseManySensors(100, 100, 100);
 
 
@@ -149,7 +151,7 @@ public class ButtonsActivation extends State {
 				}else if(str.equalsIgnoreCase("g")){
 					
 					ui.getUserInterface().setVisible(true);
-					InterfaceHandler.setGUI(ui.getBtnHandler().getPowerState());
+					InterfaceHandler.setGUI(true); // ui.getBtnHandler().getPowerState()
 					controlGui = new GraphicalControl(ui, input);
 					State.setState(controlGui);
 					
