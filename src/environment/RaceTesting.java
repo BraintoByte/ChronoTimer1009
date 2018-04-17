@@ -1,4 +1,4 @@
-package unitTesting;
+package environment;
 
 import static org.junit.Assert.*;
 import java.sql.Time;
@@ -17,7 +17,7 @@ import exceptions.NoSuchRacerException;
 public class RaceTesting {
 
 //	public void testHodgePodge (){
-		
+//		
 //		RaceEventsManager r = new RaceEventsManager();			//create new race event manager
 //		r.theseManySensors(2, 0, 0); 							//create 2 gate sensors
 //		r.setChannelSelected(1);

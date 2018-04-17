@@ -1,4 +1,4 @@
-package unitTesting;
+package environment;
 
 import static org.junit.Assert.*;
 import java.sql.Time;
@@ -14,7 +14,7 @@ import entitiesStatic.Clock;
 import states.State;
 
 public class racerTesting {
-//
+
 //	public void testBib(){
 //		
 //		Racer r1 = new Racer(1);			//create racer with bib number 1

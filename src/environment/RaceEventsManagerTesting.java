@@ -1,4 +1,4 @@
-package unitTesting;
+package environment;
 
 import static org.junit.Assert.*;
 
@@ -17,7 +17,6 @@ import entitiesStatic.Clock;
 import states.State;
 
 import java.util.NoSuchElementException;
-
 
 public class RaceEventsManagerTesting {
 

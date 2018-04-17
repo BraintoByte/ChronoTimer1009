@@ -1,4 +1,4 @@
-package unitTesting;
+package testing;
 
 import hardware.external.*;
 import hardware.external.sensor.pad.Pad;
