@@ -174,9 +174,6 @@ public class InterfaceHandler {
 
 								if (isGroup) {
 
-									// TODO
-									// still have to allow for user to change finish numbers for GRP
-
 									if (!tempRacer.isDNF()) {
 										
 										Printer.printToPrinter(String.format("<%05d> ", groupID).toString() + "<"

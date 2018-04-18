@@ -337,8 +337,8 @@ public class RaceEventsManager {
 							printPoolToGUI();
 							printActiveToGUI();
 						}
+						
 						return;
-
 					}
 
 					if (currentRun.setNewRace(channelSelected)) {
@@ -444,6 +444,8 @@ public class RaceEventsManager {
 
 		return true;
 	}
+	
+	
 
 	public int racesActive() {
 		return checkRunInitiated() && currentRun.getRaces() == null ? 0 : currentRun.getRaces().length;
@@ -616,8 +618,8 @@ public class RaceEventsManager {
 		}else{
 			Printer.printToConsole("You cannot finish what's not started!");
 		}
-
 	}
+	
 
 	private void printPoolToGUI() {
 
@@ -647,6 +649,5 @@ public class RaceEventsManager {
 			}
 			i++;
 		}
-
 	}
 }

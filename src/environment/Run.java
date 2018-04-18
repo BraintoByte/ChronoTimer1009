@@ -102,6 +102,7 @@ public class Run {
 			return isGroup;
 		}
 
+
 		/**
 		 * @param DNF
 		 * @return Racer that finished Finishes and returns the lead Racer and records
@@ -111,7 +112,13 @@ public class Run {
 		protected Racer finishRacer(boolean DNF, Pool racePool) {
 
 			Racer racer = active.remove();
-			Printer.clearMiddleTxt(2);
+
+			if(type != Run_Types.PARIND){
+
+				Printer.clearMiddleTxt(2);
+
+			}
+
 
 			if (DNF) {
 
@@ -126,16 +133,29 @@ public class Run {
 
 				//HERE!//
 
-				if(type == Run_Types.PARIND && !record.isEmpty()) {
+				if(type == Run_Types.PARIND) {
 
-					Printer.printToMiddle(2, "<" + record.peek().getBib() + "> <"
-							+ ((double) ClockInterface.computeDifference(racer.getStartInLong(), racer.getFinishInLong()) /1000) + ">\n");
+					if(countPrint == 1){
+						
+						Printer.clearMiddleTxt(2);
+						countPrint = 0;
+						
+						Printer.printToMiddle(2, "<" + previousPrinted + "> <"
+								+ ((double) ClockInterface.computeDifference(racer.getStartInLong(), racer.getFinishInLong()) /1000) + ">\n");
+						
+					}
 					
-				}
-				
-				Printer.printToMiddle(2, "<" + racer.getBib() + "> <"
-						+ ((double) ClockInterface.computeDifference(racer.getStartInLong(), racer.getFinishInLong()) /1000) + ">");
+					previousPrinted = racer.getBib();
+					
+					Printer.printToMiddle(2, "<" + racer.getBib() + "> <"
+							+ ((double) ClockInterface.computeDifference(racer.getStartInLong(), racer.getFinishInLong()) /1000) + ">");
 
+					countPrint++;
+				}else{
+
+					Printer.printToMiddle(2, "<" + racer.getBib() + "> <"
+							+ ((double) ClockInterface.computeDifference(racer.getStartInLong(), racer.getFinishInLong()) /1000) + ">");
+				}
 			}
 
 			Racer temp = racer.clone();
@@ -204,6 +224,8 @@ public class Run {
 	private Race[] racesActive;
 	private int runNbr;
 	private Run_Types type;
+	private int countPrint;
+	private int previousPrinted;
 
 	protected Run(int runNbr, Run_Types type) {
 
@@ -320,5 +342,4 @@ public class Run {
 		}
 		return false;
 	}
-
 }
