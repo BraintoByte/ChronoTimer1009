@@ -9,14 +9,12 @@ import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
-
 import javax.swing.AbstractAction;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JToggleButton;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
-
 import Utils.Printer;
 import environment.Channels;
 import hardware.user.Button;
@@ -36,9 +34,9 @@ public class GraphicalControl extends State {
 
 	private StringBuilder sb;
 	private int channelSelected;
-	private String[] commands = { "NUM ", "NEWRUN", "ENDRUN", "CANCEL", "SWAP", 
-			"TIMEDISP", "RACETEST", "RESET", "EVENT IND", "EVENT PARIND", "EVENT GRP", "TIMEFREQ", "CLR", 
-			"EXPORT ", "TRIG ", "PRINT ", "DNF ", "TIME " };
+	private String[] commands = { "NUM ", "NEWRUN", "ENDRUN", "CANCEL", 
+			"TIMEDISP", "RACETEST", "RESET", "EVENT IND", "EVENT PARIND", "EVENT GRP", "TIMEFREQ", "CLR ", 
+			"EXPORT ", "PRINT ", "DNF ", "TIME " };
 	private int cCount;
 	private boolean functionActive;
 

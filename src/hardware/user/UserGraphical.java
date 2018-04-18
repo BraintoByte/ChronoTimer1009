@@ -27,7 +27,6 @@ public class UserGraphical extends JFrame {
     private JPanel jPanel1, jPanel2, jPanel3, jPanel4, jPanel5, jPanel6, panelConsole;
     private JScrollPane jScrollPane1;
     private JTextArea txtAMiddle, txtAConsole, printerTextArea, txtBMiddle, txtCMiddle;
-//    private JTextField printerTextField;
     private Label label1;
     private JTextPane txtPConsole;
     private JPopupMenu sensorPopupMenu;
@@ -96,8 +95,10 @@ public class UserGraphical extends JFrame {
         btnPrintPwr.setEnabled(false);
         jLabel5 = new JLabel();
         printerTextArea = new JTextArea();
+
         printerTextArea.setWrapStyleWord(true);
         printerTextArea.setLineWrap(true);
+
         jScrollPane1 = new JScrollPane();
         
         txtAMiddle = new JTextArea();
@@ -155,29 +156,29 @@ public class UserGraphical extends JFrame {
         jPanel5 = new JPanel();
         btnCh1bk = new JToggleButton();
         btnCh1bk.setEnabled(false);
-        btnCh1bk.setName("1");			// new (used for JPopUpMenu) 
+        btnCh1bk.setName("1");			
         btnCh3bk = new JToggleButton();
         btnCh3bk.setEnabled(false);
-        btnCh3bk.setName("3");			// new
+        btnCh3bk.setName("3");			
         btnCh5bk = new JToggleButton();
         btnCh5bk.setEnabled(false);
-        btnCh5bk.setName("5");			// new
+        btnCh5bk.setName("5");			
         btnCh7bk = new JToggleButton();
         btnCh7bk.setEnabled(false);
-        btnCh7bk.setName("7");			// new
+        btnCh7bk.setName("7");			
         jPanel6 = new JPanel();
         btnCh2bk = new JToggleButton();
         btnCh2bk.setEnabled(false);
-        btnCh2bk.setName("2");			// new
+        btnCh2bk.setName("2");			
         btnCh4bk = new JToggleButton();
         btnCh4bk.setEnabled(false);
-        btnCh4bk.setName("4");			// new
+        btnCh4bk.setName("4");			
         btnCh6bk = new JToggleButton();
         btnCh6bk.setEnabled(false);
-        btnCh6bk.setName("6");			// new
+        btnCh6bk.setName("6");			
         btnCh8bk = new JToggleButton();
         btnCh8bk.setEnabled(false);
-        btnCh8bk.setName("8");			// new
+        btnCh8bk.setName("8");			
         usbBtn = new JToggleButton();
         lblCh8Bk = new JLabel();
         lblUsbBk = new JLabel();
@@ -208,6 +209,7 @@ public class UserGraphical extends JFrame {
         scroll1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scroll1.setAutoscrolls(true);
         scroll1.setViewportView(printerTextArea);
+
         printerTextArea.setEditable(false);
         
         getContentPane().add(scroll1, new AbsoluteConstraints(570, 70, 220, 150));
@@ -225,6 +227,14 @@ public class UserGraphical extends JFrame {
         txtCMiddle.setColumns(4);
         txtCMiddle.setRows(5);
         txtCMiddle.setEditable(false);
+        
+        txtAMiddle.setWrapStyleWord(true);
+        txtAMiddle.setLineWrap(true);
+        txtBMiddle.setWrapStyleWord(true);
+        txtBMiddle.setLineWrap(true);
+        txtCMiddle.setWrapStyleWord(true);
+        txtCMiddle.setLineWrap(true);
+        
         
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(1, 3));
@@ -543,7 +553,6 @@ public class UserGraphical extends JFrame {
     	
     }
 
-    
 //    private void actionListenerAssignement(){
 //    	
 //        btnPower.addActionListener(new ActionListener() {

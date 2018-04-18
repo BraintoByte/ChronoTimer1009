@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.InputMismatchException;
 import entitiesDynamic.Pool;
 import entitiesDynamic.Racer;
-
 import org.junit.Test;
 import entitiesStatic.Clock;
 import states.State;
@@ -268,6 +267,5 @@ public class RaceTesting {
 //		assertEquals(10, r.racersPoolSize());					//no racers had begun, pool size should still be 10
 //		
 //	}
-	
 	
 }

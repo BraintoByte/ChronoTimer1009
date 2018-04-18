@@ -187,7 +187,8 @@ public class RaceEventsManager {
 	}
 
 	public void resetPool() {
-		racePool.clearPool();
+		if(racePool != null)
+			racePool.clearPool();
 	}
 
 	/**
@@ -251,15 +252,18 @@ public class RaceEventsManager {
 		}
 
 		this.type = type;
+		Printer.printToConsole("Event set to " + type.toString() + "\n");
 	}
 
 	public Run_Types getType() {
 		return type;
 	}
 
-	public void CANCEL() {
-		if(currentRun.isThereRacersActive(channelSelected)){
-			racePool.addRacerBeginning(currentRun.CANCEL(channelSelected));
+	public void CANCEL(int channel) {
+
+//		System.out.println(channelSelected);
+		if(currentRun.isThereRacersActive(channel)){
+			racePool.addRacerBeginning(currentRun.CANCEL(channel));
 		}
 		
 		if(isGui) {
@@ -276,6 +280,7 @@ public class RaceEventsManager {
 	 *            their time is recorded as DNF.
 	 */
 	public void trig(String str, boolean DNF) { // We need to refactor this, is channel enabled method, is channel valid
+
 		// method choice 1 choice 2
 
 		if (!isGui) {
@@ -465,12 +470,22 @@ public class RaceEventsManager {
 				}
 			}
 
-			currentRun = null;
-
-		} else {
-
-			Printer.printToConsole("YOU CANNOT STOP WHAT'S NOT STARTED!\n");
+		} 
+		currentRun = null;
+		if(isGui) {
+			Printer.clearMiddleTxt(0);
+			Printer.clearMiddleTxt(1);
 		}
+		
+		// incase we need to reset pool
+//		resetPool();
+		
+		Printer.printToConsole("Run ended\n");
+
+//		else {
+//
+//			Printer.printToConsole("YOU CANNOT STOP WHAT'S NOT STARTED!\n");
+//		}
 	}
 
 	public boolean isRunActive() {
@@ -480,6 +495,8 @@ public class RaceEventsManager {
 	public void setNewRun() {
 		runNbr++;
 		currentRun = new Run(runNbr, type);
+		if(isGui)
+			printPoolToGUI();
 	}
 
 	private boolean checkRunInitiated() {
@@ -530,7 +547,6 @@ public class RaceEventsManager {
 
 		if (isGui) 
 			printPoolToGUI();
-
 
 	}
 
@@ -600,6 +616,7 @@ public class RaceEventsManager {
 		}else{
 			Printer.printToConsole("You cannot finish what's not started!");
 		}
+
 	}
 
 	private void printPoolToGUI() {

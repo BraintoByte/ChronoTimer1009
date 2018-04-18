@@ -71,8 +71,8 @@ public class Run {
 					active.add(racer);
 
 				}
-				
-				
+
+
 			}
 		}
 
@@ -112,7 +112,7 @@ public class Run {
 
 			Racer racer = active.remove();
 			Printer.clearMiddleTxt(2);
-			
+
 			if (DNF) {
 
 				racer.setDNF();
@@ -123,11 +123,21 @@ public class Run {
 				racer.setTimeFinishFormatted(ClockInterface.getCurrentTimeFormatted());
 				racer.setFinishInLong(ClockInterface.getTimeInLong());
 
+
+				//HERE!//
+
+				if(type == Run_Types.PARIND && !record.isEmpty()) {
+
+					Printer.printToMiddle(2, "<" + record.peek().getBib() + "> <"
+							+ ((double) ClockInterface.computeDifference(racer.getStartInLong(), racer.getFinishInLong()) /1000) + ">\n");
+					
+				}
+				
 				Printer.printToMiddle(2, "<" + racer.getBib() + "> <"
-						+ ((double) ClockInterface.computeDifference(racer.getStartInLong(), racer.getFinishInLong()) /1000) + ">\n");
-			
+						+ ((double) ClockInterface.computeDifference(racer.getStartInLong(), racer.getFinishInLong()) /1000) + ">");
+
 			}
-			
+
 			Racer temp = racer.clone();
 			racePool.addRacerLast(racer);
 			racer.reset();
@@ -183,7 +193,7 @@ public class Run {
 		protected boolean isActive() {
 			return !active.isEmpty();
 		}
-		
+
 		protected Queue<Racer> getActive() {
 			return active;
 		}
@@ -272,11 +282,11 @@ public class Run {
 
 		return null;
 	}
-	
+
 	protected boolean isThereRacersActive(int findIt){
-		
+
 		return racesActive[findIt].isActive();
-		
+
 	}
 
 	private void setRaceFromScratch(int eSize) {

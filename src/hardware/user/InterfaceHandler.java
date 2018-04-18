@@ -298,20 +298,22 @@ public class InterfaceHandler {
 
 					ui.getRaceManager().keepRecord();
 					ui.getRaceManager().endRun();
-
-					Printer.printToConsole("Run ended\n");
+					
 					break;
 				case "CANCEL": 
 
+					// testing
+					System.out.println(channelSelected);
+					
 					if (channelSelected % 2 == 0) {
 
-						ui.getRaceManager().CANCEL();
+						ui.getRaceManager().CANCEL(channelSelected);
 
 					} else {
 
 						channelSelected--;
 						ui.getRaceManager().setChannelSelected(channelSelected);
-						ui.getRaceManager().CANCEL();
+						ui.getRaceManager().CANCEL(channelSelected);
 
 					}
 
@@ -352,7 +354,7 @@ public class InterfaceHandler {
 
 					try {
 
-						for (int i = 0; i < 7; i++) {
+						for (int i = 0; i < 8; i++) {
 
 							ui.getRaceManager().setChannelSelected(i + 1);
 
@@ -363,9 +365,10 @@ public class InterfaceHandler {
 
 							}
 							
-							System.out.println(ui.getRaceManager().getCurrentChannel().isEnabled());
+//							System.out.println(ui.getRaceManager().getCurrentChannel().isEnabled());
 
-							System.out.println("Channel: " + (i + 1) + " togged!");
+							if(!isGUI)
+								System.out.println("Channel: " + (i + 1) + " togged!");
 
 						}
 
@@ -384,7 +387,8 @@ public class InterfaceHandler {
 					InterfaceHandler.conn("CONN EYE 7");
 					InterfaceHandler.conn("CONN EYE 8");
 
-					System.out.println("All sensors are connected your are good to go!");
+					if(!isGUI)
+						System.out.println("All sensors are connected your are good to go!");
 
 					ui.getRaceManager().setUpRaceForArbitrarySimulation();
 
@@ -428,6 +432,7 @@ public class InterfaceHandler {
 						int bib = Integer.parseInt(str.split("\\s")[1]);
 
 						if (ui.getRaceManager().clearRacer(bib)) {
+
 							if (!isGUI) {
 								System.out.println("Racer " + bib + " cleared from pool");
 							}
@@ -574,9 +579,7 @@ public class InterfaceHandler {
 						conn(str);
 
 					} else {
-
 						System.out.println("Seriously are we pulling the half written command trick?!");
-
 					}
 
 					break;

@@ -2,7 +2,6 @@ package hardware.user;
 
 import java.util.Arrays;
 import javax.swing.JButton;
-
 import entitiesStatic.Clock;
 import entitiesStatic.ClockInterface;
 import hardware.buttons.Cancel;

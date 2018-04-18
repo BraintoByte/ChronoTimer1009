@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.InputMismatchException;
 import entitiesDynamic.Pool;
 import entitiesDynamic.Racer;
-
 import org.junit.Test;
 import entitiesStatic.Clock;
 import states.State;
@@ -114,5 +113,5 @@ public class racerTesting {
 //		assertTrue(r.getPool().peekRacer().isDNF());			//racer should now be DNF
 //		
 //	}
-	
+
 }

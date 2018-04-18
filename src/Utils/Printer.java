@@ -64,19 +64,15 @@ public class Printer {
 	
 	private static JTextArea getArea(int index) {
 		
-		JTextArea tmp;
 		switch(index) {
 		case 0:
-			tmp = userInterface.getUserInterface().getTxtAMiddle();
-			break;
+			return userInterface.getUserInterface().getTxtAMiddle();
 		case 1:
-			tmp = userInterface.getUserInterface().getTxtBMiddle();
-			break;
+			return userInterface.getUserInterface().getTxtBMiddle();
 		default:
-			tmp = userInterface.getUserInterface().getTxtCMiddle();
+			return userInterface.getUserInterface().getTxtCMiddle();
 				
 		}
-		return tmp;
 	}
 
 }
