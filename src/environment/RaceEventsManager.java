@@ -168,7 +168,6 @@ public class RaceEventsManager {
 	 *         Creates a new Race with RunID = run, and increments index and
 	 *         raceNbr.
 	 */
-	// public boolean startNewRace(int run){
 
 	public boolean makeRacers(int racer) {
 

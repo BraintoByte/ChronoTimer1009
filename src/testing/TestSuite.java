@@ -12,7 +12,7 @@ import environment.RacerTesting;
 @RunWith(Suite.class)
 @SuiteClasses({RaceTesting.class, RacerTesting.class, poolTesting.class, 
 	
-ChannelsTesting.class, RaceEventsManagerTesting.class})
+ChannelsTesting.class, RaceEventsManagerTesting.class, SystemTest.class})
 
 
 public class TestSuite {}

@@ -124,8 +124,6 @@ public class Util {
 				commands.push(temp.removeLast());
 
 			}
-
-
 		}
 	}
 

@@ -95,7 +95,6 @@ public class Simulator implements Runnable {    //Chain
 			lastTime = now;
 
 			if(delta >= 1){
-				
 				update();
 				display();
 				ticks = ticks + 1;

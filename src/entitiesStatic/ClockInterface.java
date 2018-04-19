@@ -43,9 +43,9 @@ public class ClockInterface {
 
 		Date currentDate = new Date(currentTime);
 
-		try {
-			Thread.sleep(1);
-		} catch (InterruptedException e) { }
+//		try {
+//			Thread.sleep(1);
+//		} catch (InterruptedException e) { }
 
 		return timeFormatter.format(currentDate) + "";
 	}
