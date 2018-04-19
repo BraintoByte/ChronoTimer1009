@@ -76,13 +76,6 @@ public class Util {
 
 			makeCommands();
 			
-			
-			if(times.size() != commands.size()){
-				
-				System.out.println("Times: " + times.size() + " Commands: " + commands.size());
-				System.out.println("Problem!");
-				
-			}
 		}
 		
 		

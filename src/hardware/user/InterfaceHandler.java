@@ -57,7 +57,7 @@ public class InterfaceHandler {
 		}
 
 		this.userInterface = UserGraphical.getSingleton();
-		
+
 		// this.userInterface.setVisible(false); //Temporary true
 
 	}
@@ -100,10 +100,15 @@ public class InterfaceHandler {
 		boolean isOn = !ui.getBtnHandler().getPowerState();
 		ui.getBtnHandler().setPowerOnOff(isOn);
 		ui.getSimulator().getClock().setActive(isOn);
-		Printer.clearMiddleTxt(0);
-		Printer.clearMiddleTxt(1);
-		Printer.clearMiddleTxt(2);
-		Printer.clearPrinterTxt();
+
+		if(isGUI){
+
+			Printer.clearMiddleTxt(0);
+			Printer.clearMiddleTxt(1);
+			Printer.clearMiddleTxt(2);
+			Printer.clearPrinterTxt();
+
+		}
 
 		// happens for powering on only
 		if (isOn) {
@@ -151,52 +156,52 @@ public class InterfaceHandler {
 
 			boolean exists = false;
 			Race temp = null;
-				
-				Printer.printToPrinter("Run <" + run + ">\n");
 
-				boolean isGroup = false;
-				int groupID = 1;
+			Printer.printToPrinter("Run <" + run + ">\n");
 
-				while (it.hasNext()) {
+			boolean isGroup = false;
+			int groupID = 1;
 
-					temp = it.next();
+			while (it.hasNext()) {
 
-					if (temp != null && temp.getRun() == run) {
+				temp = it.next();
 
-						Iterator<Racer> it2 = temp.getRecord();
-						exists = true;
-						isGroup = temp.isGRP();
+				if (temp != null && temp.getRun() == run) {
 
-						while (it2.hasNext()) {
+					Iterator<Racer> it2 = temp.getRecord();
+					exists = true;
+					isGroup = temp.isGRP();
 
-							Racer tempRacer = it2.next();
+					while (it2.hasNext()) {
 
-							if (tempRacer != null) {
+						Racer tempRacer = it2.next();
 
-								if (isGroup) {
+						if (tempRacer != null) {
 
-									if (!tempRacer.isDNF()) {
-										
-										Printer.printToPrinter(String.format("<%05d> ", groupID).toString() + "<"
-												+ ClockInterface.getTotalTimeFormatted(
-														tempRacer.getStartInLong(),
-														tempRacer.getFinishInLong()) + ">\n");
-									} else {
+							if (isGroup) {
 
-										Printer.printToPrinter(String.format("<%05d>  <DNF>\n", groupID).toString() + '\n');
-									}
-									groupID++;
+								if (!tempRacer.isDNF()) {
+
+									Printer.printToPrinter(String.format("<%05d> ", groupID).toString() + "<"
+											+ ClockInterface.getTotalTimeFormatted(
+													tempRacer.getStartInLong(),
+													tempRacer.getFinishInLong()) + ">\n");
 								} else {
 
-									Printer.printToPrinter(!tempRacer.isDNF()
-												? ("<" + tempRacer.getBib() + ">" + " " + "<"
-														+ ClockInterface.getTotalTimeFormatted(
-																tempRacer.getStartInLong(), tempRacer.getFinishInLong())
-														+ ">\n")
-												: ("<" + tempRacer.getBib() + ">" + " " + "<" + "DNF" + ">\n"));
+									Printer.printToPrinter(String.format("<%05d>  <DNF>\n", groupID).toString() + '\n');
 								}
+								groupID++;
+							} else {
+
+								Printer.printToPrinter(!tempRacer.isDNF()
+										? ("<" + tempRacer.getBib() + ">" + " " + "<"
+												+ ClockInterface.getTotalTimeFormatted(
+														tempRacer.getStartInLong(), tempRacer.getFinishInLong())
+												+ ">\n")
+												: ("<" + tempRacer.getBib() + ">" + " " + "<" + "DNF" + ">\n"));
 							}
 						}
+					}
 				}
 			}
 
@@ -282,7 +287,7 @@ public class InterfaceHandler {
 
 					ui.getRaceManager().keepRecord();
 					ui.getRaceManager().endRun();
-					
+
 					break;
 				case "CANCEL": 
 
@@ -295,8 +300,8 @@ public class InterfaceHandler {
 							System.out.println("Swap sucessful");
 						}
 					} else {
-						
-							Printer.printToConsole("Swap failed\n");
+
+						Printer.printToConsole("Swap failed\n");
 					}
 					break;
 				case "START":
@@ -329,7 +334,7 @@ public class InterfaceHandler {
 							if (!ui.getRaceManager().getCurrentChannel().isEnabled()) {
 
 								ui.getRaceManager().getCurrentChannel()
-										.enable(true);
+								.enable(true);
 
 							}
 
@@ -535,7 +540,7 @@ public class InterfaceHandler {
 
 							ui.getRaceManager().setChannelSelected(channelSelected);
 							ui.getRaceManager().getCurrentChannel()
-									.enable(!ui.getRaceManager().getCurrentChannel().isEnabled());
+							.enable(!ui.getRaceManager().getCurrentChannel().isEnabled());
 
 						}
 
@@ -561,7 +566,7 @@ public class InterfaceHandler {
 				case "DISC":
 					try {
 						Channels.channels[Integer.parseInt(str.split("\\s")[1].trim()) - 1].unPairToSensor();
-						
+
 					} catch (InputMismatchException | NumberFormatException e) {
 						System.out.println("Wrong input!");
 					}
@@ -583,7 +588,7 @@ public class InterfaceHandler {
 	public static boolean isGUI() {
 		return isGUI;
 	}
-	
+
 	public static void setFileIO(boolean isFile) {
 		isFileIO = isFile;
 	}

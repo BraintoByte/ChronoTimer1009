@@ -196,6 +196,10 @@ public class Simulator implements Runnable {    //Chain
 		return clock;
 	}
 	
+	public void setClock(Clock clock) {
+		this.clock = clock;
+	}
+	
 	/**
 	 * @return the User Interface (UI) associated with this Simulator
 	 */
