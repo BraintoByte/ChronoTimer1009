@@ -140,11 +140,13 @@ public class Run {
 							countPrint = 0;
 
 							Printer.printToMiddle(2, "<" + previousPrinted + "> <"
-									+ ((double) ClockInterface.computeDifference(racer.getStartInLong(), racer.getFinishInLong()) /1000) + ">\n");
+									+ ((double) ClockInterface.computeDifference(previousStart, previousLong) /1000) + ">\n");
 
 						}
 
 						previousPrinted = racer.getBib();
+						previousLong = racer.getFinishInLong();
+						previousStart = racer.getStartInLong();
 
 						Printer.printToMiddle(2, "<" + racer.getBib() + "> <"
 								+ ((double) ClockInterface.computeDifference(racer.getStartInLong(), racer.getFinishInLong()) /1000) + ">\n");
@@ -246,6 +248,8 @@ public class Run {
 	private Run_Types type;
 	private int countPrint;
 	private int previousPrinted;
+	private long previousLong;
+	private long previousStart;
 
 	protected Run(int runNbr, Run_Types type) {
 
