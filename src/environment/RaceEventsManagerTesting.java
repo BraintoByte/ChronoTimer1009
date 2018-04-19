@@ -10,6 +10,9 @@ import org.junit.runners.MethodSorters;
 import states.hardware.Idle.Run_Types;
 
 
+
+
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 
 public class RaceEventsManagerTesting {
@@ -135,5 +138,6 @@ public class RaceEventsManagerTesting {
 		IntStream.range(1, n + 1).forEach(x->{
 			manager.makeRacers(x);
 		});
+		System.out.println(n + " Racers were created...");
 	}
 }

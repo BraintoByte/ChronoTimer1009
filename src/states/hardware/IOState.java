@@ -58,7 +58,7 @@ public class IOState extends State {
 
 		}
 
-		System.exit(1);
+//		System.exit(1);
 
 	}
 }
