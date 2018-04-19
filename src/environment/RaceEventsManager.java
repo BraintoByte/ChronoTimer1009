@@ -34,8 +34,8 @@ import states.hardware.Idle.Run_Types;
 public class RaceEventsManager {
 
 	/**
-	 * @author Andy SensorCoupler, an inner class of RaceEventManager, is
-	 *         responsible for coupling sensors to channels.
+	 * @author Andy 
+	 * SensorCoupler, an inner class of RaceEventManager, is responsible for coupling sensors to channels.
 	 */
 	private class SensorCoupler {
 
@@ -187,7 +187,7 @@ public class RaceEventsManager {
 	}
 
 	public void resetPool() {
-		if(racePool != null)
+		if (racePool != null)
 			racePool.clearPool();
 	}
 
@@ -222,9 +222,11 @@ public class RaceEventsManager {
 			c.enable(false);
 		}
 
-		Printer.clearMiddleTxt(0);
-		Printer.clearMiddleTxt(1);
-		Printer.clearMiddleTxt(2);
+		if(isGui) {
+			Printer.clearMiddleTxt(0);
+			Printer.clearMiddleTxt(1);
+			Printer.clearMiddleTxt(2);
+		}
 		type = Run_Types.IND;
 		resetPool();
 		bibs = new int[1];
@@ -261,12 +263,13 @@ public class RaceEventsManager {
 
 	public void CANCEL(int channel) {
 
-//		System.out.println(channelSelected);
-		if(currentRun.isThereRacersActive(channel)){
-			racePool.addRacerBeginning(currentRun.CANCEL(channel));
+		if (currentRun.getRaceFromChannel(channel) != null) {
+			Racer tmp = currentRun.CANCEL(channel);
+			if (tmp != null)
+				racePool.addRacerBeginning(tmp);
 		}
-		
-		if(isGui) {
+
+		if (isGui) {
 			printPoolToGUI();
 			printActiveToGUI();
 		}
@@ -337,7 +340,7 @@ public class RaceEventsManager {
 							printPoolToGUI();
 							printActiveToGUI();
 						}
-						
+
 						return;
 					}
 
@@ -444,8 +447,6 @@ public class RaceEventsManager {
 
 		return true;
 	}
-	
-	
 
 	public int racesActive() {
 		return checkRunInitiated() && currentRun.getRaces() == null ? 0 : currentRun.getRaces().length;
@@ -472,22 +473,18 @@ public class RaceEventsManager {
 				}
 			}
 
-		} 
+		}
 		currentRun = null;
-		if(isGui) {
+		if (isGui) {
 			Printer.clearMiddleTxt(0);
 			Printer.clearMiddleTxt(1);
 		}
-		
+
 		// incase we need to reset pool
-//		resetPool();
-		
+		// resetPool();
+
 		Printer.printToConsole("Run ended\n");
 
-//		else {
-//
-//			Printer.printToConsole("YOU CANNOT STOP WHAT'S NOT STARTED!\n");
-//		}
 	}
 
 	public boolean isRunActive() {
@@ -497,7 +494,7 @@ public class RaceEventsManager {
 	public void setNewRun() {
 		runNbr++;
 		currentRun = new Run(runNbr, type);
-		if(isGui)
+		if (isGui)
 			printPoolToGUI();
 	}
 
@@ -519,7 +516,6 @@ public class RaceEventsManager {
 	 * 
 	 *         Set a specific channel to be the selected channel
 	 */
-
 	public boolean setChannelSelected(int channelSelected) {
 
 		if (channelSelected <= Channels.channels.length && channelSelected >= 0) {
@@ -547,7 +543,7 @@ public class RaceEventsManager {
 
 		}
 
-		if (isGui) 
+		if (isGui)
 			printPoolToGUI();
 
 	}
@@ -580,7 +576,7 @@ public class RaceEventsManager {
 
 	public boolean swap() {
 		boolean result = currentRun != null ? currentRun.swap() : false;
-		if(isGui)
+		if (isGui)
 			printActiveToGUI();
 		return result;
 	}
@@ -596,7 +592,7 @@ public class RaceEventsManager {
 		this.isGui = isGui;
 	}
 
-	protected Pool getPool() {
+	public Pool getPool() {
 		return racePool;
 	}
 
@@ -604,7 +600,7 @@ public class RaceEventsManager {
 
 		Printer.clearMiddleTxt(1);
 
-		if(currentRun != null && currentRun.getRaces() != null){
+		if (currentRun != null && currentRun.getRaces() != null) {
 
 			for (Race r : currentRun.getRaces()) {
 
@@ -615,11 +611,12 @@ public class RaceEventsManager {
 					}
 				}
 			}
-		}else{
+		} else {
 			Printer.printToConsole("You cannot finish what's not started!");
+
 		}
+
 	}
-	
 
 	private void printPoolToGUI() {
 
@@ -649,5 +646,9 @@ public class RaceEventsManager {
 			}
 			i++;
 		}
+	}
+	
+	protected Run getCurrentRun() {
+		return currentRun;
 	}
 }

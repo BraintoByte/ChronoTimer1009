@@ -267,5 +267,4 @@ public class RaceTesting {
 //		assertEquals(10, r.racersPoolSize());					//no racers had begun, pool size should still be 10
 //		
 //	}
-	
 }

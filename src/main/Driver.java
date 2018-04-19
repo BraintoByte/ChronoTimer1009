@@ -1,7 +1,5 @@
 package main;
 
-import java.io.IOException;
-
 /**
  * @author Andy and Matt
  * The Driver class, apart of the main package of the ChronoTimer, is where the main method lives.

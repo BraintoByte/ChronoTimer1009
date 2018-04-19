@@ -113,17 +113,17 @@ public class Run {
 
 			Racer racer = active.remove();
 
-			if(type != Run_Types.PARIND){
+			if(type != Run_Types.PARIND && InterfaceHandler.isGUI()){
 
 				Printer.clearMiddleTxt(2);
 
 			}
 
-
 			if (DNF) {
 
 				racer.setDNF();
-				Printer.printToMiddle(2, "<" + racer.getBib() + "> <DNF>\n");
+				if(InterfaceHandler.isGUI())
+					Printer.printToMiddle(2, "<" + racer.getBib() + "> <DNF>\n");
 
 			} else {
 
@@ -148,14 +148,15 @@ public class Run {
 					previousPrinted = racer.getBib();
 					
 					Printer.printToMiddle(2, "<" + racer.getBib() + "> <"
-							+ ((double) ClockInterface.computeDifference(racer.getStartInLong(), racer.getFinishInLong()) /1000) + ">");
+							+ ((double) ClockInterface.computeDifference(racer.getStartInLong(), racer.getFinishInLong()) /1000) + ">\n");
 
 					countPrint++;
 				}else{
 
 					Printer.printToMiddle(2, "<" + racer.getBib() + "> <"
-							+ ((double) ClockInterface.computeDifference(racer.getStartInLong(), racer.getFinishInLong()) /1000) + ">");
+							+ ((double) ClockInterface.computeDifference(racer.getStartInLong(), racer.getFinishInLong()) /1000) + ">\n");
 				}
+
 			}
 
 			Racer temp = racer.clone();
@@ -186,7 +187,9 @@ public class Run {
 		 * Pool as next to start.
 		 */
 		protected Racer CANCEL() {
-			return active.remove();
+			if(!active.isEmpty())
+				return RemoveLast(active);
+			return null;
 		}
 
 		/**
@@ -216,6 +219,22 @@ public class Run {
 
 		protected Queue<Racer> getActive() {
 			return active;
+		}
+		
+		private Racer RemoveLast(Queue<Racer> q) {
+		    Racer first = q.peek();
+		    Racer current = null;
+		    if(q.size() == 1)
+		    	return q.remove();
+		    
+		    while (true) {
+		        current = q.remove();
+		        if (q.peek() == first) {
+		            break;
+		        }
+		        q.add(current);
+		    }
+		    return current;
 		}
 	}
 
@@ -269,18 +288,18 @@ public class Run {
 
 	}
 
-	protected Racer CANCEL(int findIt) {
+	protected Racer CANCEL(int channel) {
 
-		for (int i = 0; i < racesActive.length; i++) {
-
-			if (racesActive[i].onChannels[0] == findIt || racesActive[i].onChannels[1] == findIt) {
-
-				findIt = i;
-				break;
-			}
-		}
-
-		return racesActive[findIt].CANCEL();
+//		for (int i = 0; i < racesActive.length; i++) {
+//
+//			if (racesActive[i].onChannels[0] == findIt || racesActive[i].onChannels[1] == findIt) {
+//
+//				findIt = i;
+//				break;
+//			}
+//		}
+		return getRaceFromChannel(channel).CANCEL();
+//		return racesActive[].CANCEL();
 	}
 
 	protected Race[] getRaces() {

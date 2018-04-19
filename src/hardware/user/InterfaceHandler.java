@@ -299,20 +299,7 @@ public class InterfaceHandler {
 					break;
 				case "CANCEL": 
 
-					// testing
-					System.out.println(channelSelected);
-					
-					if (channelSelected % 2 == 0) {
-
-						ui.getRaceManager().CANCEL(channelSelected);
-
-					} else {
-
-						channelSelected--;
-						ui.getRaceManager().setChannelSelected(channelSelected);
-						ui.getRaceManager().CANCEL(channelSelected);
-
-					}
+					ui.getRaceManager().CANCEL(channelSelected);
 
 					break;
 				case "SWAP":
@@ -361,8 +348,6 @@ public class InterfaceHandler {
 										.enable(true);
 
 							}
-							
-//							System.out.println(ui.getRaceManager().getCurrentChannel().isEnabled());
 
 							if(!isGUI)
 								System.out.println("Channel: " + (i + 1) + " togged!");
@@ -490,6 +475,14 @@ public class InterfaceHandler {
 
 					break;
 				case "TRIG":
+					// this is for CANCEL to work properly
+					int chan = Integer.parseInt(str.split("\\s")[1]);
+					if(chan % 2 == 0) {
+						channelSelected = chan - 1;
+					}
+					else {
+						channelSelected = chan;
+					}
 					ui.getRaceManager().trig(str, false);
 					break;
 				case "NUM":

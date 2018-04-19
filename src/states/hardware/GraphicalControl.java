@@ -36,6 +36,7 @@ public class GraphicalControl extends State {
 			"EVENT GRP", "NEWRUN", "ENDRUN", "CANCEL",
 			"TIMEDISP", "RESET", "TIMEFREQ", "CLR ", 
 			"EXPORT ", "PRINT ", "DNF ", "TIME ", "NUM " };
+	
 	private int cCount;
 	private boolean functionActive;
 

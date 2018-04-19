@@ -19,7 +19,7 @@ public class Pool {
 	/**
 	 * Constructor for Pool
 	 */
-	protected Pool(){
+	private Pool(){
 
 		racers = new LinkedList<>();
 	}
@@ -159,7 +159,7 @@ public class Pool {
 		
 	}
 	
-	protected Racer peekRacer() {
+	public Racer peekRacer() {
 		return racers.peek();
 	}
 	
