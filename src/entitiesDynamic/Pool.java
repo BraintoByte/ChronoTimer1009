@@ -159,8 +159,12 @@ public class Pool {
 		
 	}
 	
-	public Racer peekRacer() {
+	public Racer first() {
 		return racers.peek();
+	}
+	
+	public Racer last(){
+		return racers.peekLast();
 	}
 	
 	// new
