@@ -1,0 +1,3 @@
+Matt, Andy, Nic = Design, Code (Nic Minor), Testing (Andy and Matt Minor, Nic major bulk)
+Luis and Zach = UML diagram
+Andy: Use cases since Ben has left 2 days before this was due
