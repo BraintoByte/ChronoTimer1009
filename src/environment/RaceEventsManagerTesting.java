@@ -1,23 +1,19 @@
 package environment;
 
 import static org.junit.Assert.*;
-
 import java.security.SecureRandom;
 import java.util.stream.IntStream;
-
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-
 import states.hardware.Idle.Run_Types;
-
 
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 
 public class RaceEventsManagerTesting {
-	
+
 	private RaceEventsManager manager;
 	
 	@Before
@@ -26,7 +22,6 @@ public class RaceEventsManagerTesting {
 		manager.setGui(false);
 		System.out.println("Racers are starting please wait!");
 	}
-	
 	
 	
 	@Test
@@ -107,6 +102,7 @@ public class RaceEventsManagerTesting {
 	
 	private void makeREMIND(){
 		
+		manager.getPool().clearPool();
 		manager.setType(Run_Types.IND);
 		manager.setNewRun();
 		manager.getCurrentRun().setNewRace(0);
@@ -115,6 +111,7 @@ public class RaceEventsManagerTesting {
 	
 	private void makeREMPARIND(){
 		
+		manager.getPool().clearPool();
 		manager.setType(Run_Types.PARIND);
 		manager.setNewRun();
 		manager.getCurrentRun().setNewRace(0);
@@ -127,6 +124,7 @@ public class RaceEventsManagerTesting {
 	
 	private void makeGRP(){
 		
+		manager.getPool().clearPool();
 		manager.setType(Run_Types.GRP);
 		manager.setNewRun();
 		manager.getCurrentRun().setNewRace(0);

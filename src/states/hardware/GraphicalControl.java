@@ -532,7 +532,7 @@ public class GraphicalControl extends State {
 
 				if(e.getSource() == ui.getUserInterface().getUsbBtn()){
 
-					ui.getUserInterface().getTxtAConsole().append("This button was not defined!\n");
+					InterfaceHandler.inputCommand("EXPORT " + ui.getRaceManager().getRunNbr());
 
 				}
 			}

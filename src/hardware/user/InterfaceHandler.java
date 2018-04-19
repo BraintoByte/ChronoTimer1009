@@ -17,12 +17,15 @@ import entitiesStatic.ClockInterface;
 import environment.Channels;
 import environment.Run.Race;
 import interfaces.UI;
+import states.State;
+import states.hardware.IOState;
 import states.hardware.Idle.Run_Types;
 
 public class InterfaceHandler {
 
 	private UserGraphical userInterface;
 	private static boolean isGUI;
+	private static boolean isFileIO;
 	private static UI ui;
 	private static int channelSelected;
 	private static boolean displayingTime;
@@ -30,7 +33,7 @@ public class InterfaceHandler {
 
 	public InterfaceHandler(UI ui) {
 
-		this.ui = ui;
+		InterfaceHandler.ui = ui;
 
 		try {
 			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -107,8 +110,6 @@ public class InterfaceHandler {
 			ui.getRaceManager().resetRun();
 			ui.getSimulator().getClock().setTime(new Date());
 		}
-
-//		InterfaceHandler.setGUI(ui.getBtnHandler().getPowerState());
 
 		Printer.printToConsole("Power " + (ui.getBtnHandler().getPowerState() ? "on...\n" : "off...\n"));
 	}
@@ -265,20 +266,6 @@ public class InterfaceHandler {
 				switch (str) {
 				case "NEWRUN":
 
-					int enabled = InterfaceHandler.channelsEnabled(1);
-
-//					if (enabled > 2 && ui.getRaceManager().getType() == Run_Types.IND) {
-//
-////						if (isGUI) {
-////							ui.getUserInterface().getTxtAConsole().append("Cannot have more then 1 channel on IND\n");
-////						} else {
-////							System.out.println("Cannot have more then 1 channel on IND");
-////						}
-//						Printer.printToConsole("Cannot have more then 1 channel on IND\n");
-//						break;
-//
-//					}
-
 					if (!ui.getRaceManager().isRunActive()) {
 
 						ui.getRaceManager().setNewRun();
@@ -313,9 +300,6 @@ public class InterfaceHandler {
 					}
 					break;
 				case "START":
-					// Any amount can start in parallel, that's what I have in my notes
-					// You cannot start a racers after another has finished, because otherwise how
-					// do you keep track of the shift
 
 					ui.getRaceManager().trig("TRIG 1", false);
 
@@ -444,7 +428,7 @@ public class InterfaceHandler {
 
 						String fileName;
 						boolean b = false;
-						if (isGUI) {
+						if (isGUI || isFileIO) {
 							fileName = "/RUN" + run + ".txt";
 							b = true;
 						} else {
@@ -598,5 +582,9 @@ public class InterfaceHandler {
 
 	public static boolean isGUI() {
 		return isGUI;
+	}
+	
+	public static void setFileIO(boolean isFile) {
+		isFileIO = isFile;
 	}
 }

@@ -1,24 +1,6 @@
 package states.hardware;
 
-import java.io.IOException;
-import java.sql.Time;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ConcurrentModificationException;
-import java.util.Date;
-import java.util.InputMismatchException;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.Scanner;
-import java.util.Stack;
-
-import Utils.Util;
-import entitiesDynamic.Racer;
-import entitiesStatic.ClockInterface;
-import environment.Channels;
-import environment.Run.Race;
-import exceptions.NoSuchRacerException;
 import hardware.user.InterfaceHandler;
 import interfaces.UI;
 import states.State;
@@ -40,8 +22,6 @@ public class Idle extends State {
 
 	private boolean isIdle;
 	private Scanner input;
-	private int channelSelected;
-	private boolean displayingTime;
 
 	/**
 	 * @param ui

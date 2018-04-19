@@ -1,7 +1,6 @@
 package states;
 
 import java.util.Scanner;
-
 import hardware.user.ButtonHandler;
 import interfaces.UI;
 

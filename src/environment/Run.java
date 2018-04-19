@@ -20,7 +20,6 @@ public class Run {
 		private int[] onChannels;
 		private Queue<Racer> active;
 		private Queue<Racer> record;
-		// private RaceEventsManager manager;
 		private int raceNbr;
 
 		/**
@@ -35,7 +34,6 @@ public class Run {
 		protected Race(int... channels) {
 
 			this.onChannels = channels;
-			// this.manager = manager;
 			this.active = new LinkedList<>();
 			this.record = new LinkedList<>();
 
@@ -65,7 +63,6 @@ public class Run {
 				for (int i = 0; i < n; i++) {
 
 					Racer racer = racePool.removeRacerBeginning();
-					// Channels.channels[onChannels[0] - 1].activate(racer.getBib());
 					racer.setTimeStartFormatted(ClockInterface.getCurrentTimeFormatted());
 					racer.setStartInLong(ClockInterface.getTimeInLong());
 					active.add(racer);
@@ -111,7 +108,9 @@ public class Run {
 		 */
 		protected Racer finishRacer(boolean DNF, Pool racePool) {
 
-			Racer racer = active.remove();
+			Racer racer;
+			if(!active.isEmpty()) {
+				racer = active.remove();
 
 			if(type != Run_Types.PARIND && InterfaceHandler.isGUI()){
 
@@ -132,29 +131,30 @@ public class Run {
 
 
 				//HERE!//
+				if(InterfaceHandler.isGUI()) {
+					if(type == Run_Types.PARIND) {
 
-				if(type == Run_Types.PARIND) {
+						if(countPrint == 1){
 
-					if(countPrint == 1){
-						
-						Printer.clearMiddleTxt(2);
-						countPrint = 0;
-						
-						Printer.printToMiddle(2, "<" + previousPrinted + "> <"
+							Printer.clearMiddleTxt(2);
+							countPrint = 0;
+
+							Printer.printToMiddle(2, "<" + previousPrinted + "> <"
+									+ ((double) ClockInterface.computeDifference(racer.getStartInLong(), racer.getFinishInLong()) /1000) + ">\n");
+
+						}
+
+						previousPrinted = racer.getBib();
+
+						Printer.printToMiddle(2, "<" + racer.getBib() + "> <"
 								+ ((double) ClockInterface.computeDifference(racer.getStartInLong(), racer.getFinishInLong()) /1000) + ">\n");
-						
+
+						countPrint++;
+					}else{
+
+						Printer.printToMiddle(2, "<" + racer.getBib() + "> <"
+								+ ((double) ClockInterface.computeDifference(racer.getStartInLong(), racer.getFinishInLong()) /1000) + ">\n");
 					}
-					
-					previousPrinted = racer.getBib();
-					
-					Printer.printToMiddle(2, "<" + racer.getBib() + "> <"
-							+ ((double) ClockInterface.computeDifference(racer.getStartInLong(), racer.getFinishInLong()) /1000) + ">\n");
-
-					countPrint++;
-				}else{
-
-					Printer.printToMiddle(2, "<" + racer.getBib() + "> <"
-							+ ((double) ClockInterface.computeDifference(racer.getStartInLong(), racer.getFinishInLong()) /1000) + ">\n");
 				}
 
 			}
@@ -169,10 +169,11 @@ public class Run {
 			if (temp != null) {
 
 				record.add(temp);
-
 			}
 
-			return racer;
+			return temp;
+			}
+			return null;
 		}
 
 		/**
@@ -220,21 +221,21 @@ public class Run {
 		protected Queue<Racer> getActive() {
 			return active;
 		}
-		
+
 		private Racer RemoveLast(Queue<Racer> q) {
-		    Racer first = q.peek();
-		    Racer current = null;
-		    if(q.size() == 1)
-		    	return q.remove();
-		    
-		    while (true) {
-		        current = q.remove();
-		        if (q.peek() == first) {
-		            break;
-		        }
-		        q.add(current);
-		    }
-		    return current;
+			Racer first = q.peek();
+			Racer current = null;
+			if(q.size() == 1)
+				return q.remove();
+
+			while (true) {
+				current = q.remove();
+				if (q.peek() == first) {
+					break;
+				}
+				q.add(current);
+			}
+			return current;
 		}
 	}
 
@@ -290,16 +291,7 @@ public class Run {
 
 	protected Racer CANCEL(int channel) {
 
-//		for (int i = 0; i < racesActive.length; i++) {
-//
-//			if (racesActive[i].onChannels[0] == findIt || racesActive[i].onChannels[1] == findIt) {
-//
-//				findIt = i;
-//				break;
-//			}
-//		}
 		return getRaceFromChannel(channel).CANCEL();
-//		return racesActive[].CANCEL();
 	}
 
 	protected Race[] getRaces() {
@@ -345,7 +337,7 @@ public class Run {
 	protected boolean swap() {
 
 		if (type == Run_Types.IND && racesActive != null && racesActive[0] != null && racesActive[0].active != null
-				&& racesActive[0].active.size() >= 2) {
+				&& racesActive[0].active.size() > 1) {
 			try {
 
 				LinkedList<Racer> result = (LinkedList<Racer>) racesActive[0].active;

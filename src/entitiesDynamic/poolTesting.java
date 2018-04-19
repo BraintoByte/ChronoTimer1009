@@ -19,6 +19,7 @@ public class poolTesting {
 	public void testSize() {
 		
 		Pool pool = Pool.getPool();							//create a new, empty pool
+		pool.clearPool();
 		
 		assertTrue(pool.getRacersAmount() == 0);			//new pool should have 0 racers
 		
@@ -49,6 +50,7 @@ public class poolTesting {
 		
 		Pool pool = Pool.getPool();							//create a new, empty pool
 		pool.clearPool();
+
 		assertTrue(pool.first() == null);				//peek racer should be null, as there are no racers in the pool
 		
 		pool.makeRacer(15); 								//add racer 15 to pool
@@ -60,7 +62,7 @@ public class poolTesting {
 				
 	}
 	
-	@Test
+	
 	public void testStartingRacers() {
 		
 		Pool pool = Pool.getPool();							//create new, empty pool
@@ -102,7 +104,6 @@ public class poolTesting {
 		try {
 			pool.removeRacerBeginning();
 		} catch (NoSuchElementException ex) {
-			//expected... how to test? do we test?
 		}
 		
 		assertEquals(0, pool.getRacersAmount());			//pool should still be empty
@@ -295,6 +296,7 @@ public class poolTesting {
 		
 		r.getPool().addRacerBeginning(r1);						//return racer 22 to the pool
 		assertTrue(r.getPool().first().equals(r1));			//racer 11 should be head of the pool still
+
 		assertEquals(3, r.getPool().getRacersAmount());			//pool should now have 3 occupants
 		
 		r.getPool().removeRacerBeginning();						//first racer in pool should be racer 11

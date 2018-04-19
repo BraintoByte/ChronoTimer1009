@@ -199,13 +199,9 @@ public class Util {
 		if(race == null || race.length == 0){
 
 			return false;
-
 		}
 
 		fileName = System.getProperty("user.dir") + fileName;
-		fileName = fileName.substring(0, fileName.indexOf("\\")) + '/' + fileName.substring(fileName.indexOf("\\") + 1);
-
-//		boolean filePath = false;
 
 		for(int i = 0; i < race.length; i++){
 
@@ -214,7 +210,6 @@ public class Util {
 				continue;
 			}
 
-//			if(!filePath){
 
 				try{
 
@@ -230,13 +225,12 @@ public class Util {
 
 					}
 					
-					System.out.println(fileName);
 				}
-//			}
 
 			File tmp = new File(fileName);
 			tmp.setWritable(true);
-			System.out.println("Saved in " + fileName);
+			
+			Printer.printToConsole("Saved in " + fileName);
 
 			if(!tmp.exists()){
 				tmp.createNewFile();
