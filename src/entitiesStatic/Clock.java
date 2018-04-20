@@ -47,13 +47,13 @@ public class Clock implements Runnable {
 
 				Thread.sleep(precision_factor_dydx);
 
-
 			}catch(InterruptedException ex){
 
 				ex.printStackTrace();
 
 			}
-
+			
+			
 			if(isActive){
 
 				keepTrackOfTime();

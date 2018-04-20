@@ -5,10 +5,12 @@ import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Iterator;
+import java.util.stream.IntStream;
 
 import Utils.Printer;
 import Utils.Util;
@@ -58,13 +60,35 @@ public class InterfaceHandler {
 
 		this.userInterface = UserGraphical.getSingleton();
 
-		// this.userInterface.setVisible(false); //Temporary true
-
 	}
 
 	public static void setTime(String str) {
 
 		try {
+
+			String[] check = (str.split("\\s"))[1].split(":");
+			
+
+			if(check.length > 4){
+				throw new NumberFormatException();
+			}
+
+			for (int i = 0; i < check.length; i++) {
+
+				if(i == 0){
+					if(Integer.parseInt(check[i]) > 24 || Integer.parseInt(check[i]) < 0){
+						System.out.println("here 24");
+						throw new InputMismatchException();
+					}
+				}else if(i > 0 && i < 2){
+					if(Integer.parseInt(check[i]) >= 60 || Integer.parseInt(check[i]) < 0){
+						System.out.println("here 60");
+						throw new InputMismatchException();
+					}
+				}
+			}
+
+
 
 			DateFormat formatter = new SimpleDateFormat("HH:mm:ss.SS");
 			ui.getSimulator().getClock().setTime(new Time(formatter.parse(str.split("\\s")[1].trim()).getTime()));
@@ -83,7 +107,7 @@ public class InterfaceHandler {
 				}
 			}
 
-		} catch (ParseException | InputMismatchException ex) {
+		} catch (ParseException | InputMismatchException | NumberFormatException ex) {
 
 			System.out.println(str);
 			System.out.println("You know it's wrong to input that!");

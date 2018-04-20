@@ -9,6 +9,8 @@ import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
+
 import javax.swing.AbstractAction;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -208,8 +210,6 @@ public class GraphicalControl extends State {
 						char[] tempChars = sb.toString().toCharArray();
 						StringBuilder tempBuilder = new StringBuilder();
 
-						System.out.println(tempChars.length);
-
 						for(int i = 0; i < tempChars.length; i++){
 
 							if(tempChars.length == 6){
@@ -238,9 +238,10 @@ public class GraphicalControl extends State {
 						}
 
 						sb = tempBuilder;
-
+						
 					}
-
+					
+					
 
 					InterfaceHandler.inputCommand(Pattern.compile("\\s").matcher(commands[cCount]).find() ? commands[cCount] + sb.toString() : commands[cCount]);
 
@@ -438,9 +439,8 @@ public class GraphicalControl extends State {
 					InterfaceHandler.inputCommand(COMMANDS.TOG + " 1");
 
 					ui.getUserInterface().getTxtAConsole().append("Channel number: " 
-							+ ui.getRaceManager().getCurrentChannel() + " is "
+							+ "1" + " is "
 							+ (ui.getRaceManager().getCurrentChannel().isEnabled() ? "enabled!\n" : "disabled!\n"));
-
 				}
 			}
 		});
@@ -455,9 +455,8 @@ public class GraphicalControl extends State {
 					InterfaceHandler.inputCommand(COMMANDS.TOG + " 2");
 
 					ui.getUserInterface().getTxtAConsole().append("Channel number: " 
-							+ ui.getRaceManager().getCurrentChannel() + " is "
+							+ "2" + " is "
 							+ (ui.getRaceManager().getCurrentChannel().isEnabled() ? "enabled!\n" : "disabled!\n"));
-
 				}
 			}
 		});
@@ -472,9 +471,8 @@ public class GraphicalControl extends State {
 					InterfaceHandler.inputCommand(COMMANDS.TOG + " 3");
 
 					ui.getUserInterface().getTxtAConsole().append("Channel number: " 
-							+ ui.getRaceManager().getCurrentChannel() + " is "
+							+ "3" + " is "
 							+ (ui.getRaceManager().getCurrentChannel().isEnabled() ? "enabled!\n" : "disabled!\n"));
-
 				}
 			}
 		});
@@ -489,9 +487,8 @@ public class GraphicalControl extends State {
 					InterfaceHandler.inputCommand(COMMANDS.TOG + " 4");
 
 					ui.getUserInterface().getTxtAConsole().append("Channel number: " 
-							+ ui.getRaceManager().getCurrentChannel() + " is "
+							+ "4" + " is "
 							+ (ui.getRaceManager().getCurrentChannel().isEnabled() ? "enabled!\n" : "disabled!\n"));
-
 				}
 			}
 		});
@@ -506,9 +503,8 @@ public class GraphicalControl extends State {
 					InterfaceHandler.inputCommand(COMMANDS.TOG + " 5");
 
 					ui.getUserInterface().getTxtAConsole().append("Channel number: " 
-							+ ui.getRaceManager().getCurrentChannel() + " is "
+							+ "5" + " is "
 							+ (ui.getRaceManager().getCurrentChannel().isEnabled() ? "enabled!\n" : "disabled!\n"));
-
 				}
 			}
 		});
@@ -523,9 +519,8 @@ public class GraphicalControl extends State {
 					InterfaceHandler.inputCommand(COMMANDS.TOG + " 6");
 
 					ui.getUserInterface().getTxtAConsole().append("Channel number: " 
-							+ ui.getRaceManager().getCurrentChannel() + " is "
+							+ "6" + " is "
 							+ (ui.getRaceManager().getCurrentChannel().isEnabled() ? "enabled!\n" : "disabled!\n"));
-
 				}
 			}
 		});
@@ -540,9 +535,8 @@ public class GraphicalControl extends State {
 					InterfaceHandler.inputCommand(COMMANDS.TOG + " 7");
 
 					ui.getUserInterface().getTxtAConsole().append("Channel number: " 
-							+ ui.getRaceManager().getCurrentChannel() + " is "
+							+ "7" + " is "
 							+ (ui.getRaceManager().getCurrentChannel().isEnabled() ? "enabled!\n" : "disabled!\n"));
-
 				}
 			}
 		});
@@ -557,9 +551,8 @@ public class GraphicalControl extends State {
 					InterfaceHandler.inputCommand(COMMANDS.TOG + " 8");
 
 					ui.getUserInterface().getTxtAConsole().append("Channel number: " 
-							+ ui.getRaceManager().getCurrentChannel() + " is "
+							+ "8" + " is "
 							+ (ui.getRaceManager().getCurrentChannel().isEnabled() ? "enabled!\n" : "disabled!\n"));
-
 				}
 			}
 		});
