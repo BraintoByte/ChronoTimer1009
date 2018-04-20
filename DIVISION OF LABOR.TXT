@@ -1,3 +1,4 @@
 Matt, Andy, Nic = Design, Code (Nic Minor), Testing (Andy and Matt Minor, Nic major bulk)
 Luis and Zach = UML diagram
-Andy: Use cases since Ben has left 2 days before this was due
+Andy: Use cases since Ben has left 2 days before this was due, Ben does have our project and it seems that was incouraged to copy our project, 
+we do not agree with this

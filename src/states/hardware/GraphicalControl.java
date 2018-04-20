@@ -36,7 +36,7 @@ public class GraphicalControl extends State {
 			"EVENT GRP", "NEWRUN", "ENDRUN", "CANCEL",
 			"TIMEDISP", "RESET", "TIMEFREQ", "CLR ", 
 			"EXPORT ", "PRINT ", "DNF ", "TIME ", "NUM " };
-	
+
 	private int cCount;
 	private boolean functionActive;
 
@@ -202,6 +202,45 @@ public class GraphicalControl extends State {
 						ui.getUserInterface().togChannelsForRace(false);
 
 					}
+
+					if(commands[cCount].equalsIgnoreCase("time ")){
+
+						char[] tempChars = sb.toString().toCharArray();
+						StringBuilder tempBuilder = new StringBuilder();
+
+						System.out.println(tempChars.length);
+
+						for(int i = 0; i < tempChars.length; i++){
+
+							if(tempChars.length == 6){
+
+								if(i % 2 == 0 && i < tempChars.length - 1 && i != 0){
+
+									tempBuilder.append(":");
+
+								}
+							}else if(tempChars.length == 7 || tempChars.length == 8){
+
+								if(i % 2 == 0 && i != 0 && i < tempChars.length - 1){
+
+									if(i != 6 && i != 7){
+
+										tempBuilder.append(":");
+
+									}else{
+										tempBuilder.append(".");
+									}
+								}
+							}
+							
+							tempBuilder.append(tempChars[i]);
+
+						}
+
+						sb = tempBuilder;
+
+					}
+
 
 					InterfaceHandler.inputCommand(Pattern.compile("\\s").matcher(commands[cCount]).find() ? commands[cCount] + sb.toString() : commands[cCount]);
 

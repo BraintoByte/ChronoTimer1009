@@ -8,7 +8,6 @@ import Utils.Printer;
 import entitiesDynamic.Pool;
 import entitiesDynamic.Racer;
 import entitiesStatic.ClockInterface;
-import environment.Run.Race;
 import hardware.user.InterfaceHandler;
 import states.hardware.Idle.Run_Types;
 
@@ -121,8 +120,32 @@ public class Run {
 			if (DNF) {
 
 				racer.setDNF();
-				if(InterfaceHandler.isGUI())
-					Printer.printToMiddle(2, "<" + racer.getBib() + "> <DNF>\n");
+				if(InterfaceHandler.isGUI()) {
+//					Printer.printToMiddle(2, "<" + racer.getBib() + "> <DNF>\n");
+					
+					if(type == Run_Types.PARIND) {
+
+						if(countPrint == 1){
+
+							Printer.clearMiddleTxt(2);
+							countPrint = 0;
+
+							Printer.printToMiddle(2, "<" + previousPrinted + "> <DNF>\n");
+
+						}
+
+						previousPrinted = racer.getBib();
+//						previousLong = racer.getFinishInLong();
+//						previousStart = racer.getStartInLong();
+
+						Printer.printToMiddle(2, "<" + racer.getBib() + "> <DNF>\n");
+
+						countPrint++;
+					}else{
+
+						Printer.printToMiddle(2, "<" + racer.getBib() + "> <DNF>\n");
+					}
+				}
 
 			} else {
 

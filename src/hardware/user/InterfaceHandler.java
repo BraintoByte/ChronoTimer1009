@@ -86,7 +86,6 @@ public class InterfaceHandler {
 		} catch (ParseException | InputMismatchException ex) {
 
 			System.out.println(str);
-			ex.printStackTrace();
 			System.out.println("You know it's wrong to input that!");
 
 		}
