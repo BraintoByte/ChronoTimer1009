@@ -48,7 +48,7 @@ public class SystemTest {
 		} catch (InterruptedException e2) {}
 
 
-		assertEquals(new Time((new Date().getTime())) + "", ClockInterface.getCurrentTimeFormatted() + "");
+		assertEquals(new Time((new Date().getTime()) - 1) + "", ClockInterface.getCurrentTimeFormatted() + "");
 
 		DateFormat formatter = new SimpleDateFormat("HH:mm:ss.SS");
 		try {
@@ -122,11 +122,7 @@ public class SystemTest {
 				}
 			}
 
-		}catch(InputMismatchException ex){
-
-			ex.printStackTrace();
-
-		}
+		}catch(InputMismatchException ex){}
 	}
 
 }

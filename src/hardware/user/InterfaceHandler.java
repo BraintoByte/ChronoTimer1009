@@ -59,7 +59,7 @@ public class InterfaceHandler {
 		}
 
 		this.userInterface = UserGraphical.getSingleton();
-
+		
 	}
 
 	public static void setTime(String str) {
@@ -109,7 +109,6 @@ public class InterfaceHandler {
 
 		} catch (ParseException | InputMismatchException | NumberFormatException ex) {
 
-			System.out.println(str);
 			System.out.println("You know it's wrong to input that!");
 
 		}
@@ -310,6 +309,7 @@ public class InterfaceHandler {
 
 					ui.getRaceManager().keepRecord();
 					ui.getRaceManager().endRun();
+					ui.getServer().refresh();
 
 					break;
 				case "CANCEL": 
@@ -487,14 +487,13 @@ public class InterfaceHandler {
 
 					break;
 				case "TRIG":
-					// this is for CANCEL to work properly
 					int chan = Integer.parseInt(str.split("\\s")[1]);
-					if(chan % 2 == 0) {
-						channelSelected = chan - 1;
-					}
-					else {
-						channelSelected = chan;
-					}
+					channelSelected = chan;
+//					if(chan % 2 == 0) {
+//						channelSelected = chan - 1;
+//					} else {
+//						channelSelected = chan;
+//					}
 					ui.getRaceManager().trig(str, false);
 					break;
 				case "NUM":

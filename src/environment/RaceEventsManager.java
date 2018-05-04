@@ -1,11 +1,20 @@
 package environment;
 
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Random;
@@ -14,7 +23,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import org.junit.Before;
 
+import com.google.gson.Gson;
+
 import Utils.Printer;
+import Utils.Util;
 import entitiesDynamic.Pool;
 import entitiesDynamic.Racer;
 import entitiesStatic.ClockInterface;
@@ -34,8 +46,8 @@ import states.hardware.Idle.Run_Types;
 public class RaceEventsManager {
 
 	/**
-	 * @author Andy 
-	 * SensorCoupler, an inner class of RaceEventManager, is responsible for coupling sensors to channels.
+	 * @author Andy SensorCoupler, an inner class of RaceEventManager, is
+	 *         responsible for coupling sensors to channels.
 	 */
 	private class SensorCoupler {
 
@@ -160,6 +172,7 @@ public class RaceEventsManager {
 	private Pool racePool = Pool.getPool();
 	private boolean isGui;
 	private int[] bibs = new int[1];
+	private int parGrpCount = 0;
 
 	/**
 	 * @param run
@@ -221,7 +234,7 @@ public class RaceEventsManager {
 			c.enable(false);
 		}
 
-		if(isGui) {
+		if (isGui) {
 			Printer.clearMiddleTxt(0);
 			Printer.clearMiddleTxt(1);
 			Printer.clearMiddleTxt(2);
@@ -274,6 +287,7 @@ public class RaceEventsManager {
 		}
 	}
 
+
 	/**
 	 * @param str
 	 * @param DNF
@@ -284,6 +298,8 @@ public class RaceEventsManager {
 	public void trig(String str, boolean DNF) { // We need to refactor this, is channel enabled method, is channel valid
 
 		// method choice 1 choice 2
+
+		boolean setPargrp = false;
 
 		if (!isGui) {
 			System.out.println("Racers inactive before action: " + racePool.getRacersAmount());
@@ -305,109 +321,84 @@ public class RaceEventsManager {
 
 			setChannelSelected(channelSelected);
 
+			int n = 1;
+
 			if (getCurrentChannel().isEnabled()) {
 
-				int n = 1;
 				if (type == Run_Types.GRP) {
-					switch (channelSelected) {
-					case 3:
-					case 4:
-					case 5:
-					case 6:
-					case 7:
-					case 8:
-						if (!isGui) {
-							System.out.println("Cannot trigger channels > 2 for GRP event");
-						}
-						return;
+					//					switch (channelSelected) {
+					//					case 3:
+					//					case 4:
+					//					case 5:
+					//					case 6:
+					//					case 7:
+					//					case 8:
+					if(channelSelected > 2 && !isGui){
+
+						System.out.println("Cannot trigger channels > 2 for GRP event");
+						return;					
 					}
 					n = racePool.getRacersAmount();
-				}
+				}else if(type == Run_Types.PARGRP){
 
-				if (channelSelected % 2 == 1) {
-
-					Race tempRace = currentRun.getRaceFromChannel(channelSelected);
-
-					if (tempRace != null) {
-
-						tempRace.startNRacers(n, racePool);
-
-						keepRecord();
-						if (!isGui) {
-							System.out.println("Racers inactive after action: " + racePool.getRacersAmount());
-						} else {
-							printPoolToGUI();
-							printActiveToGUI();
+					if(channelSelected == 1 && currentRun.getRaces() == null){
+						
+						for (int i = 0; i < 8; i++) {
+							channelSelected = i;
+							triggerStart(n);
 						}
-
-						return;
-					}
-
-					if (currentRun.setNewRace(channelSelected)) {
-						tempRace = currentRun.getRaceFromChannel(channelSelected);
-
-						tempRace.startNRacers(n, racePool);
-
-						keepRecord();
-						if (!isGui) {
-							System.out.println("Race STARTED!");
-						} else {
-							printPoolToGUI();
-							printActiveToGUI();
-						}
-						return;
-					}
-
-					if (!isGui) {
-						System.out.println("YOU CANNOT CREATE THESE MANY RUNS!");
-					}
-
-				} else if (channelSelected % 2 == 0) {
-
-					Race[] active = currentRun.getRaces();
-
-					if (active != null) {
-
-						for (int i = 0; i < active.length; i++) {
-
-							if (active[i] != null) {
-
-								if (currentRun.getRaces()[i].getChannelsActive()[1] == channelSelected) {
-
-									if (active[i].racersActive() != 0) {
-
-										active[i].finishRacer(DNF, racePool);
-
-									} else {
-										if (!isGui) {
-											System.out.println("No more racers!");
-										}
-									}
-
-									break;
+						
+						setPargrp = true;
+						parGrpCount = 8;
+						
+					}else if(channelSelected == 1 && currentRun.getRaces() != null){
+						
+						if(parGrpCount < 8 && !currentRun.getARace(0).isActive()){
+							
+							int tempSize = 7 - parGrpCount;
+							
+							for (int i = 0; i <= tempSize; i++) {
+								if(!currentRun.getARace(i).isActive()){
+									channelSelected = i;
+									triggerStart(n);
+									parGrpCount++;
 								}
 							}
-						}
-
-						keepRecord();
-
-					} else {
-
-						if (!isGui) {
-							System.out.println("No more racers!");
+							setPargrp = true;
 						}
 					}
 				}
-			} else {
-				if (!isGui) {
-					System.out.println("Channel " + channelSelected + " is not toggled!");
+			}
+
+			if(type != Run_Types.PARGRP){
+
+				if (channelSelected % 2 == 1) {
+					triggerStart(n);
+				} else if (channelSelected % 2 == 0) {
+					triggerStop(DNF);
+				} else {
+					if (!isGui) {
+						System.out.println("Channel " + channelSelected + " is not toggled!");
+					}
+				}
+				
+			}else{
+				
+				if(!setPargrp){
+					if(DNF){
+						triggerStop(DNF);
+					}else{
+						triggerParGRP();
+					}
+					if (!isGui) {
+						System.out.println("Channel " + channelSelected + " is not toggled!");
+					}
 				}
 			}
 		} catch (InputMismatchException | NumberFormatException e) {
-
 			System.out.println("WRONG INPUT!");
-
 		}
+
 
 		if (!isGui) {
 			System.out.println("Racers inactive after action: " + racePool.getRacersAmount());
@@ -443,8 +434,100 @@ public class RaceEventsManager {
 
 			}
 		}
-
 		return true;
+	}
+
+
+	private void triggerStart(int n){
+
+		Race tempRace = currentRun.getRaceFromChannel(channelSelected);
+
+		if (tempRace != null) {
+
+			tempRace.startNRacers(n, racePool);
+
+			keepRecord();
+			if (!isGui) {
+				System.out.println("Racers inactive after action: " + racePool.getRacersAmount());
+			} else {
+				printPoolToGUI();
+				printActiveToGUI();
+			}
+
+			return;
+		}
+
+		if (currentRun.setNewRace(channelSelected)) {
+			tempRace = currentRun.getRaceFromChannel(channelSelected);
+
+			tempRace.startNRacers(n, racePool);
+			keepRecord();
+
+			if (!isGui) {
+				System.out.println("Race STARTED!");
+			} else {
+				printPoolToGUI();
+				printActiveToGUI();
+			}
+			return;
+		}
+		
+		if (!isGui) {
+			System.out.println("YOU CANNOT CREATE THESE MANY RUNS!");
+		}
+	}
+	
+	
+	
+	private void triggerParGRP(){
+		
+		if(channelSelected < 9 && currentRun.getRaceFromChannel(channelSelected - 1) != null && currentRun.getRaceFromChannel(channelSelected - 1).isActive()){
+			
+			channelSelected = channelSelected - 1;
+			triggerStop(false);
+			parGrpCount--;
+			
+		}else{
+			if (!isGui) {
+				System.out.println("Channel " + channelSelected + " is not toggled!");
+			}
+		}
+	}
+	
+	
+	private void triggerStop(boolean DNF){
+
+		Race[] active = currentRun.getRaces();
+
+		if (active != null) {
+
+			for (int i = 0; i < active.length; i++) {
+
+				if (active[i] != null) {
+
+					if (currentRun.getRaces()[i].getChannelsActive()[1] == channelSelected) {
+
+						if (active[i].racersActive() != 0) {
+
+							active[i].finishRacer(DNF, racePool);
+
+						} else {
+							if (!isGui) {
+								System.out.println("No more racers!");
+							}
+						}
+						break;
+					}
+				}
+			}
+
+			keepRecord();
+
+		} else {
+			if (!isGui) {
+				System.out.println("No more racers!");
+			}
+		}
 	}
 
 	public int racesActive() {
@@ -473,6 +556,44 @@ public class RaceEventsManager {
 			}
 
 		}
+
+		List<Racer> tmpList = new ArrayList<Racer>();
+		Iterator<Racer> tmp;
+
+		for (Race r : racesActive) {
+			if (r != null) {
+				tmp = r.getRecord();
+				while (tmp.hasNext())
+					tmpList.add(tmp.next());
+			}
+		}
+
+		tmpList.sort(new Comparator<Racer>() {
+
+			@Override
+			public int compare(Racer arg0, Racer arg1) {
+
+				if (arg0.isDNF()) {
+
+					if (arg1.isDNF())
+						return 0;
+
+					return 1;
+				} else if (arg1.isDNF()) {
+
+					return -1;
+				} else if (arg0.getTotalTime() < arg1.getTotalTime())
+					return -1;
+				else if (arg0.getTotalTime() > arg1.getTotalTime())
+
+					return 1;
+				else
+					return 0;
+			}
+		});
+
+		sendCommandToServer("ADD " + runNbr + " " + new Gson().toJson(tmpList));
+
 		currentRun = null;
 		if (isGui) {
 			Printer.clearMiddleTxt(0);
@@ -483,7 +604,7 @@ public class RaceEventsManager {
 		// resetPool();
 
 		Printer.printToConsole("Run ended\n");
-
+		
 	}
 
 	public boolean isRunActive() {
@@ -568,7 +689,6 @@ public class RaceEventsManager {
 
 			} catch (NoSuchSensorException e) {
 
-				e.printStackTrace();
 			}
 		}
 	}
@@ -611,10 +731,11 @@ public class RaceEventsManager {
 				}
 			}
 		} else {
+
+			Printer.clearConsole();
 			Printer.printToConsole("You cannot finish what's not started!");
 
 		}
-
 	}
 
 	private void printPoolToGUI() {
@@ -646,8 +767,52 @@ public class RaceEventsManager {
 			i++;
 		}
 	}
-	
+
 	protected Run getCurrentRun() {
 		return currentRun;
+	}
+
+	private void sendCommandToServer(String command) {
+
+		try {
+
+			Util.readFileAsString("config.txt");
+
+			// e.g. command = "ADD 1 {list for run1}
+
+			URL site = new URL(Util.getContent());
+			HttpURLConnection conn = (HttpURLConnection) site.openConnection();
+
+			// now create a POST request
+			conn.setRequestMethod("POST");
+			conn.setDoOutput(true);
+			conn.setDoInput(true);
+			DataOutputStream out = new DataOutputStream(conn.getOutputStream());
+
+			// clear first
+			if(command.split(" ").length > 1 && command.split(" ")[1].equals("1")) {
+				sendCommandToServer("CLEAR");
+			}
+
+			out.writeBytes(command);
+			out.flush();
+			out.close();
+
+			InputStreamReader inputStr = new InputStreamReader(conn.getInputStream());
+
+			// string to hold the result of reading in the response
+			StringBuilder sb = new StringBuilder();
+
+			// read the characters from the request byte by byte and build up
+			// the Response
+			int nextChar;
+			while ((nextChar = inputStr.read()) > -1) {
+				sb = sb.append((char) nextChar);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Error exporting list");
+		}
 	}
 }

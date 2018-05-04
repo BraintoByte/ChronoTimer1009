@@ -35,7 +35,7 @@ public class GraphicalControl extends State {
 	private StringBuilder sb;
 	private int channelSelected;
 	private String[] commands = { "RACETEST", "EVENT IND", "EVENT PARIND", 
-			"EVENT GRP", "NEWRUN", "ENDRUN", "CANCEL",
+			"EVENT GRP", "EVENT PARGRP", "NEWRUN", "ENDRUN", "CANCEL",
 			"TIMEDISP", "RESET", "TIMEFREQ", "CLR ", 
 			"EXPORT ", "PRINT ", "DNF ", "TIME ", "NUM " };
 

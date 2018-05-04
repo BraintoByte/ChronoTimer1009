@@ -1,21 +1,12 @@
 package environment;
 
 import static org.junit.Assert.*;
-import java.sql.Time;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.InputMismatchException;
 import java.util.Iterator;
-
-import entitiesDynamic.Pool;
 import entitiesDynamic.Racer;
 import org.junit.Test;
-import entitiesStatic.Clock;
-import states.State;
 import states.hardware.Idle.Run_Types;
 
-public class RacerTesting {
+public class racerTesting {
 
 	@Test
 	public void testBib(){

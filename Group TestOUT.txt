@@ -1,0 +1,60 @@
+Power on...
+Channel: 1 togged!
+Channel: 2 togged!
+Channel: 3 togged!
+Channel: 4 togged!
+Channel: 5 togged!
+Channel: 6 togged!
+Channel: 7 togged!
+Channel: 8 togged!
+All sensors are connected your are good to go!
+Racer bib: 601 was added!
+Racer bib: 545 was added!
+Racer bib: 831 was added!
+Racer bib: 836 was added!
+Racer bib: 227 was added!
+Racer bib: 182 was added!
+Racer bib: 947 was added!
+Racer bib: 749 was added!
+Racer bib: 707 was added!
+Racer bib: 353 was added!
+Event set to GRP
+New run created!
+Racers inactive before action: 10
+Race STARTED!
+Racers inactive before action: 0
+Racers inactive after action: 1
+Racers inactive before action: 1
+Racers inactive after action: 2
+Racers inactive before action: 2
+Racers inactive after action: 3
+Racers inactive before action: 3
+Racers inactive after action: 4
+Racers inactive before action: 4
+Racers inactive after action: 5
+Racers inactive before action: 5
+Racers inactive after action: 6
+Racers inactive before action: 6
+Racers inactive after action: 7
+Racers inactive before action: 7
+Racers inactive after action: 8
+Racers inactive before action: 8
+Racers inactive after action: 9
+RACER: 353 DNFFED!
+http://localhost:8000/sendresults
+
+ADD 1 [{"bib":353,"timeStartFormatted":"DNF","timeFinishFormatted":"DNF","finish":0,"start":64820881,"totalTime":0.0,"DNF":true,"isActive":false},{"bib":601,"timeStartFormatted":"12:00:05","timeFinishFormatted":"12:00:20","finish":64825090,"start":64820089,"totalTime":5.001,"DNF":false,"isActive":false},{"bib":545,"timeStartFormatted":"12:00:20","timeFinishFormatted":"12:00:25","finish":64830089,"start":64820175,"totalTime":9.914,"DNF":false,"isActive":false},{"bib":831,"timeStartFormatted":"12:00:20","timeFinishFormatted":"12:00:30","finish":64835087,"start":64820262,"totalTime":14.825,"DNF":false,"isActive":false},{"bib":836,"timeStartFormatted":"12:00:20","timeFinishFormatted":"12:00:40","finish":64840086,"start":64820351,"totalTime":19.735,"DNF":false,"isActive":false},{"bib":227,"timeStartFormatted":"12:00:20","timeFinishFormatted":"12:00:40","finish":64845085,"start":64820437,"totalTime":24.648,"DNF":false,"isActive":false},{"bib":182,"timeStartFormatted":"12:00:20","timeFinishFormatted":"12:00:45","finish":64850089,"start":64820527,"totalTime":29.562,"DNF":false,"isActive":false},{"bib":947,"timeStartFormatted":"12:00:20","timeFinishFormatted":"12:00:50","finish":64855085,"start":64820617,"totalTime":34.468,"DNF":false,"isActive":false},{"bib":749,"timeStartFormatted":"12:00:20","timeFinishFormatted":"12:00:55","finish":64860090,"start":64820706,"totalTime":39.384,"DNF":false,"isActive":false},{"bib":707,"timeStartFormatted":"12:00:20","timeFinishFormatted":"12:01:10","finish":64870087,"start":64820796,"totalTime":49.291,"DNF":false,"isActive":false}]
+Run ended
+Run <1>
+<00001> <5.001 Seconds>
+<00002> <9.914 Seconds>
+<00003> <14.825 Seconds>
+<00004> <19.735 Seconds>
+<00005> <24.648 Seconds>
+<00006> <29.562 Seconds>
+<00007> <34.468 Seconds>
+<00008> <39.384 Seconds>
+<00009> <49.291 Seconds>
+<00010>  <DNF>
+
+Saved in /home/mattm/git/ChronoTimer1009/RUN1.txt

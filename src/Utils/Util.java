@@ -68,7 +68,6 @@ public class Util {
 				}else{
 					
 					times.push(splitted[i].trim());
-//					System.out.println(splitted[i].trim());
 					
 				}
 			}
@@ -88,8 +87,6 @@ public class Util {
 			
 			while(!commands.isEmpty()){     
 				
-//				System.out.println(commands.peek());
-				
 				sb.append(commands.pop().trim());
 
 				if(sb.toString().equals("TIME") || sb.toString().equals("TRIG") || sb.toString().equals("EVENT") || sb.toString().equals("NUM") || sb.toString().equals("TOG")
@@ -102,8 +99,6 @@ public class Util {
 					sb.append(" " + commands.pop() + " " + commands.pop());
 
 				}
-				
-//				System.out.println(sb.toString());
 
 				temp.add(sb.toString());
 
@@ -150,15 +145,21 @@ public class Util {
 
 			reader.close();
 
-		}catch(IOException ex){
-
-			ex.printStackTrace();
-
-		}
-
-		ProcessFile.commandProcessing();
+		
+		}catch(IOException ex){	}
+		
+		
 	}
 	
+	public static String getContent() {
+		return fileContent.toString();
+	}
+	
+	public static void buildCommands(String path) {
+		readFileAsString(path);
+		ProcessFile.commandProcessing();
+		
+	}
 	public static String getTimeCommand(){
 		return ProcessFile.times.isEmpty() ? null : ProcessFile.times.pop();
 	}
@@ -213,7 +214,7 @@ public class Util {
 					System.out.print("Please run as admin or write the full path: ");
 					Scanner tempScan = new Scanner(System.in);
 					fileName = tempScan.nextLine();
-
+					tempScan.close();
 					}
 					
 				}
@@ -221,7 +222,8 @@ public class Util {
 			File tmp = new File(fileName);
 			tmp.setWritable(true);
 			
-			Printer.printToConsole("Saved in " + fileName);
+			Printer.printToConsole("Saved in " + fileName + "\n");
+
 
 			if(!tmp.exists()){
 				tmp.createNewFile();
@@ -254,4 +256,5 @@ public class Util {
 		tmp.delete();
 		tmp.createNewFile();
 	}
+
 }

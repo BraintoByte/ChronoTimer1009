@@ -1,7 +1,4 @@
-package entitiesDynamic;
-
-import entitiesStatic.ClockInterface;
-
+package server;
 /**
  * @author Andy & Matt
  * The Racer class, apart of the entitiesDynamic package of the ChronoTimer1009.
@@ -126,3 +123,4 @@ public class Racer implements Cloneable {
 		this.totalTime = d;
 	}
 }
+

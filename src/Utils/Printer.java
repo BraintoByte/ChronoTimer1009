@@ -47,7 +47,13 @@ public class Printer {
 		}else {
 			System.out.print(str);
 		}
+	}
+	
+	public static void clearConsole() {
 
+		if (InterfaceHandler.isGUI()) {
+			userInterface.getUserInterface().getTxtAConsole().setText("");
+		}
 	}
 	
 	public static void clearMiddleTxt(int index) {
@@ -58,7 +64,6 @@ public class Printer {
 	}
 	
 	public static void clearPrinterTxt() {
-
 		userInterface.getUserInterface().getprinterTextArea().setText("");
 	}
 	

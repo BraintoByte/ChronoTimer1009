@@ -1,0 +1,44 @@
+Power on...
+Power off...
+Power on...
+Event set to IND
+New run created!
+Racers inactive before action: 2
+Race STARTED!
+Racers inactive before action: 1
+Channel 3 is not toggled!
+Racers inactive after action: 1
+Racers inactive before action: 1
+Racer: 234 stopped
+Racers inactive after action: 2
+Racers inactive before action: 2
+Channel 4 is not toggled!
+Racers inactive after action: 2
+Run <1>
+<234> <44.999 Seconds>
+http://localhost:8000/sendresults
+
+ADD 1 [{"bib":234,"timeStartFormatted":"12:02:50","timeFinishFormatted":"12:02:52","finish":65015090,"start":64970091,"totalTime":44.999,"DNF":false,"isActive":false}]
+Run ended
+New run created!
+Please end the current run
+Racers inactive before action: 6
+Race STARTED!
+Racers inactive before action: 5
+Racers inactive after action: 4
+Racers inactive before action: 4
+Racer: 315 stopped
+Racers inactive after action: 5
+Racers inactive before action: 5
+Racer: 234 stopped
+Racers inactive after action: 6
+Racers inactive before action: 6
+Channel 4 is not toggled!
+Racers inactive after action: 6
+Run <2>
+<315> <32.002 Seconds>
+<234> <14.999 Seconds>
+Power off...
+Power on...
+New run created!
+Power off...

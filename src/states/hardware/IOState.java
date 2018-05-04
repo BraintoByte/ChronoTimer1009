@@ -45,7 +45,7 @@ public class IOState extends State {
 	 */
 	public void input(){
 
-		Util.readFileAsString(ui.getSimulator().getFilePath());
+		Util.buildCommands(ui.getSimulator().getFilePath());
 		InterfaceHandler.setFileIO(true);
 		InterfaceHandler.setGUI(false);
 		
@@ -58,7 +58,7 @@ public class IOState extends State {
 
 		}
 
-//		System.exit(1);
+		System.exit(1);
 
 	}
 }
