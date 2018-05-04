@@ -1,22 +1,11 @@
 package main;
 
-import static org.junit.Assert.*;
-
-import java.net.InetSocketAddress;
 import java.util.Scanner;
-import org.junit.Test;
-
-import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpServer;
-
 import entitiesStatic.Clock;
 import hardware.user.InterfaceHandler;
 import interfaces.UI;
-import server.ChronoServer;
-import server.HyperTextGenerator;
 import states.State;
 import states.hardware.ButtonsActivation;
-import states.hardware.IOState;
 import states.hardware.Idle;
 
 /**
@@ -34,7 +23,6 @@ public class Simulator implements Runnable {    //Chain
 	private String filePath;
 	private int run;
 	private boolean activeRun;
-	private ChronoServer server;
 
 	private State initState;
 	private State idleState;
@@ -43,9 +31,7 @@ public class Simulator implements Runnable {    //Chain
 	/**
 	 * Construct for Simulator
 	 */
-	public Simulator(){
-		this.server = new ChronoServer();
-	}
+	public Simulator(){}
 
 	/**
 	 * Initializes all of the fields of Simulator.
@@ -224,7 +210,4 @@ public class Simulator implements Runnable {    //Chain
 		running = true;
 	}
 	
-	public ChronoServer getServer() {
-		return server;
-	}
 }

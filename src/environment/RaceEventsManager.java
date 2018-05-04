@@ -811,8 +811,7 @@ public class RaceEventsManager {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("Error exporting list");
+			Printer.printToConsole("Error exporting list to Server\n");
 		}
 	}
 }

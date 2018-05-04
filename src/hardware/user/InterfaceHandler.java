@@ -67,7 +67,7 @@ public class InterfaceHandler {
 		try {
 
 			String[] check = (str.split("\\s"))[1].split(":");
-			
+			System.out.println(str);
 
 			if(check.length > 4){
 				throw new NumberFormatException();
@@ -230,12 +230,13 @@ public class InterfaceHandler {
 			if (!exists) {
 
 				Printer.printToPrinter("No such run!\n");
+				
 			}
 
 		} catch (ConcurrentModificationException e) {
-
+			
 			System.out.println("Something went wrong in retriving the race, did you ended run?!");
-
+			
 		}
 	}
 
@@ -309,7 +310,6 @@ public class InterfaceHandler {
 
 					ui.getRaceManager().keepRecord();
 					ui.getRaceManager().endRun();
-					ui.getServer().refresh();
 
 					break;
 				case "CANCEL": 

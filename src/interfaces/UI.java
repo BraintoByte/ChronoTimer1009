@@ -5,7 +5,6 @@ import environment.RaceEventsManager;
 import hardware.user.ButtonHandler;
 import hardware.user.UserGraphical;
 import main.Simulator;
-import server.ChronoServer;
 
 /**
  * @author Andy & Matt
@@ -81,7 +80,4 @@ public class UI {
 		return validChannels;
 	}
 	
-	public ChronoServer getServer(){
-		return sim.getServer();
-	}
 }
