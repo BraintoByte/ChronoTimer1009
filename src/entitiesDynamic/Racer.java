@@ -72,11 +72,11 @@ public class Racer implements Cloneable {
 		
 		Racer temp = null;
 		
-		try{
+		try {
 		
 			temp = (Racer) super.clone();
 		
-		}catch(CloneNotSupportedException ex){
+		} catch(CloneNotSupportedException ex) {
 			
 		}
 		

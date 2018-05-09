@@ -12,10 +12,6 @@ import hardware.user.UserGraphical;
 
 public class Clock implements Runnable {
 
-	/**
-	 * 
-	 */
-
 	private boolean isClockRunning;
 	private boolean isActive;
 	private Thread treadClock;
@@ -28,11 +24,10 @@ public class Clock implements Runnable {
 
 	public Clock(){}
 
-
-
 	private void keepTrackOfTime(){
 
 		time = new Time(time.getTime() + precision_factor_dydx);
+
 		ClockInterface.setCurrentTime(time.getTime());
 
 	}
@@ -52,24 +47,24 @@ public class Clock implements Runnable {
 				ex.printStackTrace();
 
 			}
-			
-			
+
+
 			if(isActive){
 
 				keepTrackOfTime();
-				
+
 				if(displayCurrent && (dxdy == timeDispFreq)){
-					
+
 					System.out.println("Current time: " + ClockInterface.getCurrentTimeFormatted());
 					dxdy = 0;
-					
+
 				}
-				
+
 				if(displayCurrent){
 
 					dxdy++;
 					timeDispFreq = timeDispFreq == 0 ? 1000 : timeDispFreq;
-					
+
 				}
 			}
 		}
@@ -93,7 +88,7 @@ public class Clock implements Runnable {
 			this.treadClock.start();
 			isActive = true;
 			dxdy = 0;
-			
+
 		}
 	}
 

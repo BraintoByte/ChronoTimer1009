@@ -473,7 +473,8 @@ public class InterfaceHandler {
 				case "TRIG":
 					int chan = Integer.parseInt(str.split("\\s")[1]);
 					channelSelected = chan;
-					ui.getRaceManager().trig(str, false);
+					if(Channels.channels[channelSelected -1].isEnabled())
+						ui.getRaceManager().trig(str, false);
 					break;
 				case "NUM":
 

@@ -23,10 +23,10 @@ public class Run {
 
 		/**
 		 * @param channels
-		 *  - an unspecified set of channels associated with this Race.
+		 *            - an unspecified set of channels associated with this Race.
 		 * 
-		 * Constructor for Race that takes a RaceEventManager and channel(s)
-		 * as parameters.
+		 *            Constructor for Race that takes a RaceEventManager and channel(s)
+		 *            as parameters.
 		 */
 		protected Race(int... channels) {
 
@@ -104,87 +104,91 @@ public class Run {
 		 */
 		protected Racer finishRacer(boolean DNF, Pool racePool) {
 
-            Racer racer;
-            if (!active.isEmpty()) {
-                racer = active.remove();
-                racer.setIsActive(false);
+			Racer racer;
+			if (!active.isEmpty()) {
+				racer = active.remove();
+				racer.setIsActive(false);
 
-                if (type != Run_Types.PARIND && InterfaceHandler.isGUI()) {
+				if (type != Run_Types.PARIND && InterfaceHandler.isGUI()) {
 
-                    Printer.clearMiddleTxt(2);
+					Printer.clearMiddleTxt(2);
 
-                }
+				}
 
-                if (DNF) {
+				if (DNF) {
 
-                    racer.setDNF();
-                    if (InterfaceHandler.isGUI()) {
+					racer.setDNF();
+					if (InterfaceHandler.isGUI()) {
 
-                        if (type == Run_Types.PARIND) {
+						if (type == Run_Types.PARIND) {
 
-                            if (countPrint == 1) {
+							if (countPrint == 1) {
 
-                                Printer.clearMiddleTxt(2);
-                                countPrint = 0;
+								Printer.clearMiddleTxt(2);
+								countPrint = 0;
 
-                                Printer.printToMiddle(2, "<" + previousPrinted + "> <DNF>\n");
+								Printer.printToMiddle(2, "<" + previousPrinted + "> <DNF>\n");
 
-                            }
+							}
 
-                            previousPrinted = racer.getBib();
+							previousPrinted = racer.getBib();
 
-                            Printer.printToMiddle(2, "<" + racer.getBib() + "> <DNF>\n");
+							Printer.printToMiddle(2, "<" + racer.getBib() + "> <DNF>\n");
 
-                            countPrint++;
-                        } else {
+							countPrint++;
+						} else {
 
-                            Printer.printToMiddle(2, "<" + racer.getBib() + "> <DNF>\n");
-                        }
-                    }
+							Printer.printToMiddle(2, "<" + racer.getBib() + "> <DNF>\n");
+						}
+					}
 
-                } else {
+				} else {
 
-                    racer.setTimeFinishFormatted(ClockInterface.getCurrentTimeFormatted());
-                    racer.setFinishInLong(ClockInterface.getTimeInLong());
-                    racer.setTotalTime((double) ClockInterface.computeDifference(racer.getStartInLong(), racer.getFinishInLong())/ 1000);
+					racer.setTimeFinishFormatted(ClockInterface.getCurrentTimeFormatted());
+					racer.setFinishInLong(ClockInterface.getTimeInLong());
+					racer.setTotalTime(
+							(double) ClockInterface.computeDifference(racer.getStartInLong(), racer.getFinishInLong())
+									/ 1000);
 
-                    if (InterfaceHandler.isGUI()) {
-                        if (type == Run_Types.PARIND) {
+					if (InterfaceHandler.isGUI()) {
+						if (type == Run_Types.PARIND) {
 
-                            if (countPrint == 1) {
+							if (countPrint == 1) {
 
-                                Printer.clearMiddleTxt(2);
-                                countPrint = 0;
+								Printer.clearMiddleTxt(2);
+								countPrint = 0;
 
-                                Printer.printToMiddle(2, "<" + previousPrinted + "> <" + 
-                                ((double) ClockInterface.computeDifference(previousStart, previousLong) / 1000) + ">\n");
+								Printer.printToMiddle(2, "<" + previousPrinted + "> <"
+										+ ((double) ClockInterface.computeDifference(previousStart, previousLong)
+												/ 1000)
+										+ ">\n");
 
-                            }
+							}
 
-                            previousPrinted = racer.getBib();
-                            previousLong = racer.getFinishInLong();
-                            previousStart = racer.getStartInLong();
+							previousPrinted = racer.getBib();
+							previousLong = racer.getFinishInLong();
+							previousStart = racer.getStartInLong();
 
-                            Printer.printToMiddle(2, "<" + racer.getBib() + "> <" + racer.getTotalTime() + ">\n");
+							Printer.printToMiddle(2, "<" + racer.getBib() + "> <" + racer.getTotalTime() + ">\n");
 
-                            countPrint++;
-                        } else {
+							countPrint++;
+						} else {
 
-                            Printer.printToMiddle(2, "<" + racer.getBib() + "> <" + racer.getTotalTime() + ">\n");
-                            
-                        }
-                    }
+							Printer.printToMiddle(2, "<" + racer.getBib() + "> <" + racer.getTotalTime() + ">\n");
 
-                }
+						}
+					}
 
-                if (!isGroup && !InterfaceHandler.isGUI())
-                    System.out.println("Racer: " + racer.getBib() + " stopped");
+				}
 
-                record.add(racer);
-                return racer;
-            }
-            return null;
-        }
+				if (!isGroup && !InterfaceHandler.isGUI())
+					System.out.println("Racer: " + racer.getBib() + " stopped");
+
+				record.add(racer);
+				return racer;
+			}
+			return null;
+		}
 
 		/**
 		 * @return number of active racers (size of 'active' queue).
@@ -285,12 +289,12 @@ public class Run {
 
 		if (raceNbr < racesActive.length) { // For later on when an input is created, don't worry not an NOP!
 
-			if(type != Run_Types.PARGRP){
+			if (type != Run_Types.PARGRP) {
 				racesActive[index] = new Race(channelSelected, channelSelected + 1);
-			}else{
+			} else {
 				racesActive[index] = new Race(channelSelected, channelSelected);
 			}
-			
+
 			racesActive[index].setRaceNbr(raceNbr + 1);
 			if (type == Run_Types.GRP)
 				racesActive[index].isGroup = true;
@@ -348,6 +352,17 @@ public class Run {
 
 	protected Race getARace(int raceNbr) {
 		return racesActive[raceNbr];
+	}
+
+	protected boolean isActive() {
+
+		if (racesActive != null)
+			for (int i = 0; i < racesActive.length; i++) {
+				if (racesActive[i] != null && racesActive[i].isActive())
+					return true;
+			}
+		
+		return false;
 	}
 
 	protected boolean swap() {
