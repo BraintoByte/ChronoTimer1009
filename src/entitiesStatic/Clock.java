@@ -21,7 +21,7 @@ public class Clock implements Runnable {
 	private Thread treadClock;
 	private Time time;
 	private boolean isTimeSet;
-	private final int precision_factor_dydx = 1;
+	private final int precision_factor_dydx = 4;
 	private boolean displayCurrent;
 	private int dxdy;
 	private int timeDispFreq;

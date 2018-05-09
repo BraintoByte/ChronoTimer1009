@@ -1,96 +1,165 @@
+TIME 12:00:00.0
 Power on...
+TIME 12:01:30.0
+TIME 12:01:30.0
+TIME 12:01:30.0
 NO ACTIVE RUN!
+TIME 12:01:31.0
 Event set to PARIND
+TIME 12:01:32.0
 New run created!
+TIME 12:01:34.0
+TIME 12:01:36.0
+TIME 12:01:38.0
+TIME 12:01:40.0
+TIME 12:01:42.0
+TIME 12:01:44.0
+TIME 12:01:46.0
+TIME 12:01:48.0
+TIME 12:01:50.0
 Racers inactive before action: 4
 Race STARTED!
+Racers inactive after action: 3
+TIME 12:01:52.0
 Racers inactive before action: 3
 Race STARTED!
+Racers inactive after action: 2
+TIME 12:01:54.0
 Racers inactive before action: 2
 Racers inactive after action: 1
+Racers inactive after action: 1
+TIME 12:01:56.0
 Racers inactive before action: 1
 Racers inactive after action: 0
+Racers inactive after action: 0
+TIME 12:01:58.0
 Racers inactive before action: 0
 Racer: 272 stopped
-Racers inactive after action: 1
-Racers inactive before action: 1
+Racers inactive after action: 0
+TIME 12:02:25.0
+Racers inactive before action: 0
 Racer: 711 stopped
-Racers inactive after action: 2
-Racers inactive before action: 2
+Racers inactive after action: 0
+TIME 12:02:32.0
+Racers inactive before action: 0
 Racer: 123 stopped
-Racers inactive after action: 3
-Racers inactive before action: 3
+Racers inactive after action: 0
+TIME 12:02:33.0
+Racers inactive before action: 0
 Racer: 111 stopped
-Racers inactive after action: 4
+Racers inactive after action: 0
+TIME 12:02:41.0
 Run <1>
-<272> <8.001 Seconds>
-<711> <58.987 Seconds>
-<123> <0.46 Seconds>
-<111> <67.076 Seconds>
-http://localhost:8000/sendresults
-
-ADD 1 [{"bib":123,"timeStartFormatted":"12:01:25","timeFinishFormatted":"12:02:25","finish":64886381,"start":64885921,"totalTime":0.46,"DNF":false,"isActive":false},{"bib":272,"timeStartFormatted":"12:01:48","timeFinishFormatted":"12:01:26","finish":64918092,"start":64910091,"totalTime":8.001,"DNF":false,"isActive":false},{"bib":711,"timeStartFormatted":"12:01:54","timeFinishFormatted":"12:01:58","finish":64945092,"start":64886105,"totalTime":58.987,"DNF":false,"isActive":false},{"bib":111,"timeStartFormatted":"12:01:25","timeFinishFormatted":"12:02:32","finish":64953090,"start":64886014,"totalTime":67.076,"DNF":false,"isActive":false}]
+<272> <-23.559 Seconds>
+<711> <28.999 Seconds>
+<123> <39.998 Seconds>
+<111> <-27.288 Seconds>
+TIME 12:02:43.0
+Error exporting to Server
 Run ended
+TIME 12:02:45.0
 Saved in /home/mattm/git/ChronoTimer1009/RUN1.txt
+TIME 12:03:33.0
+TIME 12:01:30.0
+TIME 12:04:30.0
 New run created!
-Racers inactive before action: 6
-Race STARTED!
-Racers inactive before action: 5
-Race STARTED!
-Racers inactive before action: 4
-Racers inactive after action: 3
+TIME 12:01:30.0
+TIME 12:01:34.0
+TIME 12:01:44.0
+TIME 12:01:46.0
 Racers inactive before action: 3
+Race STARTED!
 Racers inactive after action: 2
+TIME 12:01:48.0
 Racers inactive before action: 2
+Race STARTED!
+Racers inactive after action: 1
+TIME 12:01:52.0
+Racers inactive before action: 1
+Racers inactive after action: 0
+Racers inactive after action: 0
+TIME 12:01:54.0
+Racers inactive before action: 0
+Racers inactive after action: 0
+Racers inactive after action: 0
+TIME 12:01:56.0
+Racers inactive before action: 0
 Racer: 272 stopped
-Racers inactive after action: 3
-Racers inactive before action: 3
-Racer: 111 stopped
-Racers inactive after action: 4
-Racers inactive before action: 4
-Racer: 711 stopped
-Racers inactive after action: 5
-Racers inactive before action: 5
+Racers inactive after action: 0
+TIME 12:01:58.0
+Racers inactive before action: 0
+No more racers!
+Racers inactive after action: 0
+TIME 12:02:25.0
+Racers inactive before action: 0
 Racer: 123 stopped
-Racers inactive after action: 6
+Racers inactive after action: 0
+TIME 12:02:32.0
+Racers inactive before action: 0
+Racer: 111 stopped
+Racers inactive after action: 0
+TIME 12:02:33.0
 Run <2>
-<272> <-19.16 Seconds>
-<111> <31.247 Seconds>
-<711> <58.428 Seconds>
-<123> <65.339 Seconds>
-http://localhost:8000/sendresults
-
-ADD 2 [{"bib":272,"timeStartFormatted":"12:01:44","timeFinishFormatted":"12:01:56","finish":64886931,"start":64906091,"totalTime":-19.16,"DNF":false,"isActive":false},{"bib":111,"timeStartFormatted":"12:01:26","timeFinishFormatted":"12:01:56","finish":64918089,"start":64886842,"totalTime":31.247,"DNF":false,"isActive":false},{"bib":711,"timeStartFormatted":"12:01:46","timeFinishFormatted":"12:01:58","finish":64945091,"start":64886663,"totalTime":58.428,"DNF":false,"isActive":false},{"bib":123,"timeStartFormatted":"12:01:26","timeFinishFormatted":"12:01:27","finish":64952091,"start":64886752,"totalTime":65.339,"DNF":false,"isActive":false}]
+<272> <9.999 Seconds>
+<123> <37.0 Seconds>
+<111> <0.454 Seconds>
+TIME 12:02:41.0
+Error exporting to Server
 Run ended
+TIME 12:02:43.0
 Power off...
 Power on...
+TIME 12:03:00.0
+TIME 12:01:30.0
+TIME 12:03:29.0
 Event set to PARIND
+TIME 12:04:30.0
 New run created!
+TIME 12:01:30.0
+TIME 12:01:32.0
+TIME 12:01:34.0
+TIME 12:01:36.0
+TIME 12:01:38.0
+TIME 12:01:40.0
+TIME 12:01:42.0
 Racers inactive before action: 2
 Race STARTED!
+Racers inactive after action: 1
+TIME 12:01:44.0
 Racers inactive before action: 1
 Race STARTED!
+Racers inactive after action: 0
+TIME 12:01:46.0
 Racers inactive before action: 0
 Racers inactive after action: 0
+Racers inactive after action: 0
+TIME 12:01:52.0
 Racers inactive before action: 0
 Racers inactive after action: 0
+Racers inactive after action: 0
+TIME 12:01:54.0
 Racers inactive before action: 0
 Racer: 272 stopped
-Racers inactive after action: 1
-Racers inactive before action: 1
+Racers inactive after action: 0
+TIME 12:01:56.0
+Racers inactive before action: 0
 No more racers!
-Racers inactive after action: 1
-Racers inactive before action: 1
+Racers inactive after action: 0
+TIME 12:01:58.0
+Racers inactive before action: 0
 Racer: 123 stopped
-Racers inactive after action: 2
-Racers inactive before action: 2
+Racers inactive after action: 0
+TIME 12:02:25.0
+Racers inactive before action: 0
 No more racers!
-Racers inactive after action: 2
-http://localhost:8000/sendresults
-
-ADD 1 [{"bib":272,"timeStartFormatted":"12:01:40","timeFinishFormatted":"12:01:52","finish":64887487,"start":64902091,"totalTime":-14.604,"DNF":false,"isActive":false},{"bib":123,"timeStartFormatted":"12:01:27","timeFinishFormatted":"12:01:27","finish":64918090,"start":64904092,"totalTime":13.998,"DNF":false,"isActive":false}]
+Racers inactive after action: 0
+TIME 12:02:32.0
+Error exporting to Server
 Run ended
+TIME 12:02:33.0
 Run <3>
 No such run!
+TIME 12:02:41.0
 Saved in /home/mattm/git/ChronoTimer1009/RUN2.txt
+TIME 12:02:45.0
 Saved in /home/mattm/git/ChronoTimer1009/RUN3.txt

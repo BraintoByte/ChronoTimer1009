@@ -146,11 +146,8 @@ public class Run {
 
                     racer.setTimeFinishFormatted(ClockInterface.getCurrentTimeFormatted());
                     racer.setFinishInLong(ClockInterface.getTimeInLong());
-                    racer.setTotalTime(
-                            (double) ClockInterface.computeDifference(racer.getStartInLong(), racer.getFinishInLong())
-                                    / 1000);
+                    racer.setTotalTime((double) ClockInterface.computeDifference(racer.getStartInLong(), racer.getFinishInLong())/ 1000);
 
-                    // HERE!//
                     if (InterfaceHandler.isGUI()) {
                         if (type == Run_Types.PARIND) {
 
@@ -159,7 +156,8 @@ public class Run {
                                 Printer.clearMiddleTxt(2);
                                 countPrint = 0;
 
-                                Printer.printToMiddle(2, "<" + previousPrinted + "> <" + ((double) ClockInterface.computeDifference(previousStart, previousLong) / 1000) + ">\n");
+                                Printer.printToMiddle(2, "<" + previousPrinted + "> <" + 
+                                ((double) ClockInterface.computeDifference(previousStart, previousLong) / 1000) + ">\n");
 
                             }
 
@@ -167,133 +165,26 @@ public class Run {
                             previousLong = racer.getFinishInLong();
                             previousStart = racer.getStartInLong();
 
-                            Printer.printToMiddle(2,
-                                    "<" + racer.getBib() + "> <" + ((double) ClockInterface
-                                            .computeDifference(racer.getStartInLong(), racer.getFinishInLong()) / 1000)
-                                            + ">\n");
+                            Printer.printToMiddle(2, "<" + racer.getBib() + "> <" + racer.getTotalTime() + ">\n");
 
                             countPrint++;
                         } else {
 
-                            Printer.printToMiddle(2, "<" + racer.getBib() + "> <" + ((double) ClockInterface
-                                    .computeDifference(racer.getStartInLong(), racer.getFinishInLong()) / 1000) + ">\n");
+                            Printer.printToMiddle(2, "<" + racer.getBib() + "> <" + racer.getTotalTime() + ">\n");
+                            
                         }
                     }
 
                 }
 
-//                Racer temp = racer.clone();
-//                racePool.addRacerLast(racer);
-//                racer.reset();
-
                 if (!isGroup && !InterfaceHandler.isGUI())
                     System.out.println("Racer: " + racer.getBib() + " stopped");
 
-                if (racer != null) {
-
-                    record.add(racer);
-                }
-
+                record.add(racer);
                 return racer;
             }
             return null;
         }
-		
-		
-//		protected Racer finishRacer(boolean DNF, Pool racePool) {
-//
-//			Racer racer;
-//			if (!active.isEmpty()) {
-//				racer = active.remove();
-//
-//				if (type != Run_Types.PARIND && InterfaceHandler.isGUI()) {
-//
-//					Printer.clearMiddleTxt(2);
-//
-//				}
-//
-//				if (DNF) {
-//
-//					racer.setDNF();
-//					if (InterfaceHandler.isGUI()) {
-//
-//						if (type == Run_Types.PARIND) {
-//
-//							if (countPrint == 1) {
-//
-//								Printer.clearMiddleTxt(2);
-//								countPrint = 0;
-//
-//								Printer.printToMiddle(2, "<" + previousPrinted + "> <DNF>\n");
-//
-//							}
-//
-//							previousPrinted = racer.getBib();
-//
-//							Printer.printToMiddle(2, "<" + racer.getBib() + "> <DNF>\n");
-//
-//							countPrint++;
-//						} else {
-//
-//							Printer.printToMiddle(2, "<" + racer.getBib() + "> <DNF>\n");
-//						}
-//					}
-//
-//				} else {
-//
-//					racer.setTimeFinishFormatted(ClockInterface.getCurrentTimeFormatted());
-//					racer.setFinishInLong(ClockInterface.getTimeInLong());
-//					racer.setTotalTime(
-//							(double) ClockInterface.computeDifference(racer.getStartInLong(), racer.getFinishInLong())
-//							/ 1000);
-//
-//					// HERE!//
-//					if (InterfaceHandler.isGUI()) {
-//						if (type == Run_Types.PARIND) {
-//
-//							if (countPrint == 1) {
-//
-//								Printer.clearMiddleTxt(2);
-//								countPrint = 0;
-//
-//								Printer.printToMiddle(2, "<" + previousPrinted + "> <" + racer.getTotalTime() + ">\n");
-//
-//							}
-//
-//							previousPrinted = racer.getBib();
-//							previousLong = racer.getFinishInLong();
-//							previousStart = racer.getStartInLong();
-//
-//							Printer.printToMiddle(2,
-//									"<" + racer.getBib() + "> <" + ((double) ClockInterface
-//											.computeDifference(racer.getStartInLong(), racer.getFinishInLong()) / 1000)
-//									+ ">\n");
-//
-//							countPrint++;
-//						} else {
-//
-//							Printer.printToMiddle(2, "<" + racer.getBib() + "> <" + racer.getTotalTime() + ">\n");
-//						}
-//					}
-//
-//				}
-//
-//				Racer temp = racer.clone();
-//				racePool.addRacerLast(racer);
-//				racer.reset();
-//
-//				if (!isGroup && !InterfaceHandler.isGUI())
-//					System.out.println("Racer: " + temp.getBib() + " stopped");
-//
-//				if (temp != null) {
-//
-//					record.add(temp);
-//				}
-//
-//				return temp;
-//			}
-//			return null;
-//		}
 
 		/**
 		 * @return number of active racers (size of 'active' queue).

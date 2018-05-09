@@ -151,38 +151,38 @@ public class RaceTesting {
 		//Begin finishing racers
 	
 		Racer r1 = run.getARace(0).finishRacer(false, r.getPool());
-		assertEquals(1, r.getPool().getRacersAmount());			//first racer has finished, should be returned to pool
+		assertEquals(0, r.getPool().getRacersAmount());			//first racer has finished, should be returned to pool
 		assertFalse(r1.isDNF());								//r1 did not flag DNF
 		assertEquals(0, r1.getBib());							//r1 was 1st racer to finish, 1st racer should have bib 0
 		assertEquals(4, run.getARace(0).racersActive());		//1 of 5 racers finished, active racers should be 4
 		
 		Racer r2 = run.getARace(0).finishRacer(false, r.getPool());
-		assertEquals(2, r.getPool().getRacersAmount());			//racer has finished, should be returned to pool; 2 total
+		assertEquals(0, r.getPool().getRacersAmount());			//racer has finished, should be returned to pool; 2 total
 		assertFalse(r2.isDNF());								//r2 did not flag DNF
 		assertEquals(1, r2.getBib());							//r2 was 2nd racer to finish, 2nd racer should have bib 1
 		assertEquals(3, run.getARace(0).racersActive());		//2 of 5 racers finished, active racers should be 3
 		
 		Racer r3 = run.getARace(0).finishRacer(false, r.getPool());
-		assertEquals(3, r.getPool().getRacersAmount());			//racer has finished, should be returned to pool; 3 total
+		assertEquals(0, r.getPool().getRacersAmount());			//racer has finished, should be returned to pool; 3 total
 		assertFalse(r3.isDNF());								//r3 did not flag DNF
 		assertEquals(2, r3.getBib());							//r3 was 3rd racer to finish, 3rd racer should have bib 2
 		assertEquals(2, run.getARace(0).racersActive());				//3 of 5 racers finished, active racers should be 2
 		
 		Racer r4 = run.getARace(0).finishRacer(false, r.getPool());	//racer r4 is the 4th to finish, legally. 
-		assertEquals(4, r.getPool().getRacersAmount());			//racer has finished, should be returned to pool; 4 total
+		assertEquals(0, r.getPool().getRacersAmount());			//racer has finished, should be returned to pool; 4 total
 		assertFalse(r4.isDNF());								//r4 did not flag DNF
 		assertEquals(3, r4.getBib());							//r4 was 4th racer to finish, 4th racer should have bib 3
 		assertEquals(1, run.getARace(0).racersActive());		//4 of 5 racers finished, active racers should be 1
 		
 		Racer r5 = run.getARace(0).finishRacer(true, r.getPool());	//racer r5 is the 5th(last) to finish, and does so illegally
-		assertEquals(5, r.getPool().getRacersAmount());			//racer has finished, should be returned to pool; 5 total
+		assertEquals(0, r.getPool().getRacersAmount());			//racer has finished, should be returned to pool; 5 total
 		assertTrue(r5.isDNF());									//r5 did flag DNF
 		assertEquals(4, r5.getBib());							//r5 was 5th racer to finish, 5th racer should have bib 4
 		assertEquals(0, run.getARace(0).racersActive());				//5 of 5 racers finished, active racers should be 0
 		
 		//End finished racers
 		
-		assertEquals(5, r.getPool().getRacersAmount());			//pool size should remain 5
+		assertEquals(0, r.getPool().getRacersAmount());			//pool size should remain 5
 		assertEquals(0, run.getARace(0).racersActive());		//all racers still finished, active racers should be 0
 		
 		r1.setDNF(); 											//oh no! r1 was wearing illegal attire. disqualified.
@@ -215,7 +215,7 @@ public class RaceTesting {
 		assertEquals(10, run.getARace(0).racersActive());		//all racers have begun racing, active racers should be 10
 		
 		run.getARace(0).stopLastRace(r.getPool());				//stop all racers in the lane
-		assertEquals(10, r.getPool().getRacersAmount());		//all racers have ceased racing; pool should be 10
+		assertEquals(0, r.getPool().getRacersAmount());		//all racers have ceased racing; pool should be 10
 		assertEquals(0, run.getARace(0).racersActive());		//all racers have ceased racing; active racers should be 0
 		
 		//RESET//
@@ -241,7 +241,7 @@ public class RaceTesting {
 		assertEquals(7, r.getPool().getRacersAmount());			//7 racers should be in the pool
 		
 		run.getARace(0).stopLastRace(r.getPool()); 				//stop all racers in the lane
-		assertEquals(10, r.getPool().getRacersAmount());		//all racers have ceased racing; pool should be 10
+		assertEquals(7, r.getPool().getRacersAmount());		//all racers have ceased racing; pool should be 10
 		assertEquals(0, run.getARace(0).racersActive());		//all racers have ceased racing; active racers should be 0
 		
 		//RESET//

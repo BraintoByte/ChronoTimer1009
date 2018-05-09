@@ -107,11 +107,12 @@ public class racerTesting {
 		r.trig("TRIG 1", false);								//start the racer
 		assertEquals(0, r.getPool().getRacersAmount());
 		r.trig("TRIG 2", false);								//finish the racer without DNF flag
-		assertFalse(r.getPool().first().isDNF());				//racer should not have DNF flag
-		assertEquals(1, r.getPool().getRacersAmount());
+		
+		assertEquals(0, r.getPool().getRacersAmount());
+		r.makeRacers(1);
 		r.trig("TRIG 1", false);								//start the racer
 		r.trig("TRIG 2", true);									//DNF the Racer
-		assertEquals(1, r.getPool().getRacersAmount());
+		assertEquals(0, r.getPool().getRacersAmount());
 
 		Iterator<Racer> it = r.getCurrentRun().getARace(0).getRecord();
 		assertFalse(it.next().isDNF());							//previous racer's finish should not be DNF

@@ -29,6 +29,7 @@ public class FileTesting {
 	private UI ui;
 	private Clock clock;
 	private PrintStream console = System.out;
+	private String slash = System.getProperty("os.name").contains("Windows")? "\\" : "/";
 	
 	@Test
 	public void Before() {
@@ -38,7 +39,7 @@ public class FileTesting {
 	@Test
 	public void TestFile1() {
 		
-		File f = new File(System.getProperty("user.dir") + "/CTS1RUN2OUT.txt");
+		File f = new File(System.getProperty("user.dir") + slash + "CTS1RUN2OUT.txt");
 		
 		try {
 			
@@ -55,7 +56,7 @@ public class FileTesting {
 		setSysOut(f);
 		sim = new Simulator();
 		
-		sim.setFilePath(System.getProperty("user.dir") + "/CTS1RUN2.txt");
+		sim.setFilePath(System.getProperty("user.dir") + slash + "CTS1RUN2.txt");
 		
 		setSim();
 		
@@ -66,7 +67,7 @@ public class FileTesting {
 	@Test
 	public void TestFile2() {
 		
-		File f = new File(System.getProperty("user.dir") + "/CTS2RUN1OUT.txt");
+		File f = new File(System.getProperty("user.dir") + slash + "CTS2RUN1OUT.txt");
 		
 		try {
 			
@@ -83,7 +84,7 @@ public class FileTesting {
 		setSysOut(f);
 		sim = new Simulator();
 		
-		sim.setFilePath(System.getProperty("user.dir") + "/CTS2RUN1.txt");
+		sim.setFilePath(System.getProperty("user.dir") + slash + "CTS2RUN1.txt");
 		
 		setSim();
 		
@@ -93,7 +94,7 @@ public class FileTesting {
 	@Test
 	public void TestFile3() {
 		
-		File f = new File(System.getProperty("user.dir") + "/Group TestOUT.txt");
+		File f = new File(System.getProperty("user.dir") + slash + "Group TestOUT.txt");
 		
 		try {
 			
@@ -110,7 +111,7 @@ public class FileTesting {
 		setSysOut(f);
 		sim = new Simulator();
 		
-		sim.setFilePath(System.getProperty("user.dir") + "/Group Test.txt");
+		sim.setFilePath(System.getProperty("user.dir") + slash + "Group Test.txt");
 		
 		setSim();
 		
@@ -122,7 +123,7 @@ public class FileTesting {
 	public void TestFile4() {
 		
 		
-		File f = new File(System.getProperty("user.dir") + "/Sprint2TestFileOUT.txt");
+		File f = new File(System.getProperty("user.dir") + slash + "Sprint2TestFileOUT.txt");
 		
 		try {
 			
@@ -139,7 +140,7 @@ public class FileTesting {
 		setSysOut(f);
 		sim = new Simulator();
 		
-		sim.setFilePath(System.getProperty("user.dir") + "/Sprint2TestFile.txt");
+		sim.setFilePath(System.getProperty("user.dir") + slash + "Sprint2TestFile.txt");
 		
 		setSim();
 		

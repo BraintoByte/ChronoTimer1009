@@ -18,7 +18,7 @@ public class Racer implements Cloneable {
 	private long start;
 	private double totalTime;
 	private boolean DNF;
-	private boolean isActive;
+	volatile private boolean isActive;
 	volatile private double runningTime;
 	
 	/**
@@ -139,9 +139,7 @@ public class Racer implements Cloneable {
 						
 						runningTime = (double) ClockInterface.computeDifference(start, ClockInterface.getTimeInLong()) /1000;
 					}
-					
 				}
-				
 				
 			}).start();
 			
