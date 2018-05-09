@@ -67,6 +67,12 @@ public class Printer {
 		userInterface.getUserInterface().getprinterTextArea().setText("");
 	}
 	
+	public static void updateMiddleArea(String str) {
+		
+		userInterface.getUserInterface().getTxtBMiddle().setText(str);
+		
+	}
+	
 	private static JTextArea getArea(int index) {
 		
 		switch(index) {
@@ -79,5 +85,6 @@ public class Printer {
 				
 		}
 	}
+	
 
 }

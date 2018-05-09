@@ -1,9 +1,14 @@
 package environment;
 
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
+import java.net.UnknownServiceException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -166,13 +171,79 @@ public class RaceEventsManager {
 	private int channelSelected;
 	private SensorCoupler sensorCoupler;
 	private Queue<Race> recordRaces = new LinkedList<>();
-	private Run currentRun;
+	volatile private Run currentRun;
 	private int runNbr;
 	private Run_Types type;
 	private Pool racePool = Pool.getPool();
 	private boolean isGui;
 	private int[] bibs = new int[1];
 	private int parGrpCount = 0;
+	volatile private long startTime;
+	private Thread updater = new Thread(new Runnable() {
+
+		@Override
+		public void run() {
+
+			Race[] races;
+			Racer tempRacer;
+			Object[] racers;
+			String display = "";
+			boolean isGRP;
+
+			while (isGui) {
+
+				if (currentRun != null && currentRun.getRaces() != null) {
+
+					try {
+
+						Thread.sleep(5);
+
+						races = currentRun.getRaces();
+						isGRP = false;
+						if (type == Run_Types.GRP || type == Run_Types.PARGRP) {
+							isGRP = true;
+
+						}
+
+						for (int i = 0; i < races.length; i++) {
+
+							if (races[i] != null) {
+
+								racers = races[i].getActive().toArray();
+
+								for (int j = 0; j < racers.length; j++) {
+
+									tempRacer = (Racer) racers[j];
+									if (isGRP) {
+
+										if (i == 0 && j == 0)
+											display += "<" + (double) ClockInterface.computeDifference(startTime,
+													ClockInterface.getTimeInLong()) / 1000 + ">\n";
+										
+										display += "<" + tempRacer.getBib() + ">\n";
+
+									} else {
+										display += "<" + tempRacer.getBib() + "> <" + tempRacer.getRunningTime()
+												+ "> \n";
+									}
+
+								}
+							}
+						}
+
+						
+
+					} catch (Exception e) {
+//						e.printStackTrace();
+					}
+					
+					Printer.updateMiddleArea(display);
+					display = "";
+				}
+
+			}
+		}
+	});
 
 	/**
 	 * @param run
@@ -287,7 +358,6 @@ public class RaceEventsManager {
 		}
 	}
 
-
 	/**
 	 * @param str
 	 * @param DNF
@@ -326,39 +396,39 @@ public class RaceEventsManager {
 			if (getCurrentChannel().isEnabled()) {
 
 				if (type == Run_Types.GRP) {
-					//					switch (channelSelected) {
-					//					case 3:
-					//					case 4:
-					//					case 5:
-					//					case 6:
-					//					case 7:
-					//					case 8:
-					if(channelSelected > 2 && !isGui){
+					// switch (channelSelected) {
+					// case 3:
+					// case 4:
+					// case 5:
+					// case 6:
+					// case 7:
+					// case 8:
+					if (channelSelected > 2 && !isGui) {
 
 						System.out.println("Cannot trigger channels > 2 for GRP event");
-						return;					
+						return;
 					}
 					n = racePool.getRacersAmount();
-				}else if(type == Run_Types.PARGRP){
+				} else if (type == Run_Types.PARGRP) {
 
-					if(channelSelected == 1 && currentRun.getRaces() == null){
-						
+					if (channelSelected == 1 && currentRun.getRaces() == null) {
+
 						for (int i = 0; i < 8; i++) {
 							channelSelected = i;
 							triggerStart(n);
 						}
-						
+
 						setPargrp = true;
 						parGrpCount = 8;
-						
-					}else if(channelSelected == 1 && currentRun.getRaces() != null){
-						
-						if(parGrpCount < 8 && !currentRun.getARace(0).isActive()){
-							
+
+					} else if (channelSelected == 1 && currentRun.getRaces() != null) {
+
+						if (parGrpCount < 8 && !currentRun.getARace(0).isActive()) {
+
 							int tempSize = 7 - parGrpCount;
-							
+
 							for (int i = 0; i <= tempSize; i++) {
-								if(!currentRun.getARace(i).isActive()){
+								if (!currentRun.getARace(i).isActive()) {
 									channelSelected = i;
 									triggerStart(n);
 									parGrpCount++;
@@ -370,7 +440,7 @@ public class RaceEventsManager {
 				}
 			}
 
-			if(type != Run_Types.PARGRP){
+			if (type != Run_Types.PARGRP) {
 
 				if (channelSelected % 2 == 1) {
 					triggerStart(n);
@@ -381,13 +451,13 @@ public class RaceEventsManager {
 						System.out.println("Channel " + channelSelected + " is not toggled!");
 					}
 				}
-				
-			}else{
-				
-				if(!setPargrp){
-					if(DNF){
+
+			} else {
+
+				if (!setPargrp) {
+					if (DNF) {
 						triggerStop(DNF);
-					}else{
+					} else {
 						triggerParGRP();
 					}
 					if (!isGui) {
@@ -399,10 +469,10 @@ public class RaceEventsManager {
 			System.out.println("WRONG INPUT!");
 		}
 
-
 		if (!isGui) {
 			System.out.println("Racers inactive after action: " + racePool.getRacersAmount());
 		} else {
+
 			printPoolToGUI();
 			printActiveToGUI();
 		}
@@ -437,15 +507,14 @@ public class RaceEventsManager {
 		return true;
 	}
 
-
-	private void triggerStart(int n){
+	private void triggerStart(int n) {
 
 		Race tempRace = currentRun.getRaceFromChannel(channelSelected);
 
 		if (tempRace != null) {
 
 			tempRace.startNRacers(n, racePool);
-
+			startTime = ClockInterface.getTimeInLong();
 			keepRecord();
 			if (!isGui) {
 				System.out.println("Racers inactive after action: " + racePool.getRacersAmount());
@@ -461,6 +530,7 @@ public class RaceEventsManager {
 			tempRace = currentRun.getRaceFromChannel(channelSelected);
 
 			tempRace.startNRacers(n, racePool);
+			startTime = ClockInterface.getTimeInLong();
 			keepRecord();
 
 			if (!isGui) {
@@ -471,31 +541,30 @@ public class RaceEventsManager {
 			}
 			return;
 		}
-		
+
 		if (!isGui) {
 			System.out.println("YOU CANNOT CREATE THESE MANY RUNS!");
 		}
+
 	}
-	
-	
-	
-	private void triggerParGRP(){
-		
-		if(channelSelected < 9 && currentRun.getRaceFromChannel(channelSelected - 1) != null && currentRun.getRaceFromChannel(channelSelected - 1).isActive()){
-			
+
+	private void triggerParGRP() {
+
+		if (channelSelected < 9 && currentRun.getRaceFromChannel(channelSelected - 1) != null
+				&& currentRun.getRaceFromChannel(channelSelected - 1).isActive()) {
+
 			channelSelected = channelSelected - 1;
 			triggerStop(false);
 			parGrpCount--;
-			
-		}else{
+
+		} else {
 			if (!isGui) {
 				System.out.println("Channel " + channelSelected + " is not toggled!");
 			}
 		}
 	}
-	
-	
-	private void triggerStop(boolean DNF){
+
+	private void triggerStop(boolean DNF) {
 
 		Race[] active = currentRun.getRaces();
 
@@ -555,44 +624,43 @@ public class RaceEventsManager {
 				}
 			}
 
-		}
+			List<Racer> tmpList = new ArrayList<Racer>();
+			Iterator<Racer> tmp;
 
-		List<Racer> tmpList = new ArrayList<Racer>();
-		Iterator<Racer> tmp;
-
-		for (Race r : racesActive) {
-			if (r != null) {
-				tmp = r.getRecord();
-				while (tmp.hasNext())
-					tmpList.add(tmp.next());
+			for (Race r : racesActive) {
+				if (r != null) {
+					tmp = r.getRecord();
+					while (tmp.hasNext())
+						tmpList.add(tmp.next());
+				}
 			}
-		}
 
-		tmpList.sort(new Comparator<Racer>() {
+			tmpList.sort(new Comparator<Racer>() {
 
-			@Override
-			public int compare(Racer arg0, Racer arg1) {
+				@Override
+				public int compare(Racer arg0, Racer arg1) {
 
-				if (arg0.isDNF()) {
+					if (arg0.isDNF()) {
 
-					if (arg1.isDNF())
+						if (arg1.isDNF())
+							return 0;
+
+						return 1;
+					} else if (arg1.isDNF()) {
+
+						return -1;
+					} else if (arg0.getTotalTime() < arg1.getTotalTime())
+						return -1;
+					else if (arg0.getTotalTime() > arg1.getTotalTime())
+
+						return 1;
+					else
 						return 0;
+				}
+			});
 
-					return 1;
-				} else if (arg1.isDNF()) {
-
-					return -1;
-				} else if (arg0.getTotalTime() < arg1.getTotalTime())
-					return -1;
-				else if (arg0.getTotalTime() > arg1.getTotalTime())
-
-					return 1;
-				else
-					return 0;
-			}
-		});
-
-		sendCommandToServer("ADD " + runNbr + " " + new Gson().toJson(tmpList));
+			sendCommandToServer("ADD " + runNbr + " " + new Gson().toJson(tmpList));
+		}
 
 		currentRun = null;
 		if (isGui) {
@@ -600,11 +668,10 @@ public class RaceEventsManager {
 			Printer.clearMiddleTxt(1);
 		}
 
-		// incase we need to reset pool
-		// resetPool();
+		resetPool();
 
 		Printer.printToConsole("Run ended\n");
-		
+
 	}
 
 	public boolean isRunActive() {
@@ -717,25 +784,32 @@ public class RaceEventsManager {
 
 	private void printActiveToGUI() {
 
-		Printer.clearMiddleTxt(1);
-
-		if (currentRun != null && currentRun.getRaces() != null) {
-
-			for (Race r : currentRun.getRaces()) {
-
-				if (r != null) {
-					Iterator<Racer> it = r.getActive().iterator();
-					while (it.hasNext()) {
-						Printer.printToMiddle(1, "<" + it.next().getBib() + ">\n");
-					}
-				}
-			}
-		} else {
-
-			Printer.clearConsole();
-			Printer.printToConsole("You cannot finish what's not started!");
-
+		if (!updater.isAlive()) {
+			updater.start();
 		}
+
+		// if (currentRun != null && currentRun.getRaces() != null) {
+		//
+		// Printer.clearMiddleTxt(1);
+		//
+		// for (Race r : currentRun.getRaces()) {
+		//
+		// if (r != null) {
+		// Iterator<Racer> it = r.getActive().iterator();
+		// while (it.hasNext()) {
+		// tempRacer = it.next();
+		// Printer.printToMiddle(1, "<" + tempRacer.getBib() + "> <" +
+		// ClockInterface.computeDifference(tempRacer.getStartInLong(),
+		// ClockInterface.getTimeInLong()) + "> \n");
+		// }
+		// }
+		// }
+		// } else {
+		//
+		// Printer.clearConsole();
+		// Printer.printToConsole("You cannot finish what's not started!");
+		//
+		// }
 	}
 
 	private void printPoolToGUI() {
@@ -768,7 +842,7 @@ public class RaceEventsManager {
 		}
 	}
 
-	protected Run getCurrentRun() {
+	public Run getCurrentRun() {
 		return currentRun;
 	}
 
@@ -778,19 +852,19 @@ public class RaceEventsManager {
 
 			Util.readFileAsString("config.txt");
 
-			// e.g. command = "ADD 1 {list for run1}
-
 			URL site = new URL(Util.getContent());
+
 			HttpURLConnection conn = (HttpURLConnection) site.openConnection();
 
-			// now create a POST request
 			conn.setRequestMethod("POST");
+
 			conn.setDoOutput(true);
 			conn.setDoInput(true);
+
 			DataOutputStream out = new DataOutputStream(conn.getOutputStream());
 
 			// clear first
-			if(command.split(" ").length > 1 && command.split(" ")[1].equals("1")) {
+			if (command.split(" ").length > 1 && command.split(" ")[1].equals("1")) {
 				sendCommandToServer("CLEAR");
 			}
 
@@ -811,7 +885,9 @@ public class RaceEventsManager {
 			}
 
 		} catch (Exception e) {
-			Printer.printToConsole("Error exporting list to Server\n");
+			Printer.printToConsole("Error exporting to Server\n");
+			// e.printStackTrace();
 		}
+
 	}
 }

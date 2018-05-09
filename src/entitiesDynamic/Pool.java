@@ -124,11 +124,7 @@ public class Pool {
 		
 	}
 	
-	
-	// new
-	
 	/**
-	 * 
 	 * @return true if the pool is cleared
 	 */
 	public boolean clearPool() {
@@ -146,6 +142,7 @@ public class Pool {
 		boolean flag = false;
 		
 		while(it.hasNext()) {
+			
 			tmp = it.next();
 			if(tmp.getBib() == bib) 
 				flag = true;
@@ -167,5 +164,4 @@ public class Pool {
 		return racers.peekLast();
 	}
 	
-	// new
 }

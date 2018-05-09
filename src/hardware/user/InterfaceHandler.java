@@ -5,13 +5,10 @@ import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Iterator;
-import java.util.stream.IntStream;
-
 import Utils.Printer;
 import Utils.Util;
 import entitiesDynamic.Racer;
@@ -19,8 +16,6 @@ import entitiesStatic.ClockInterface;
 import environment.Channels;
 import environment.Run.Race;
 import interfaces.UI;
-import states.State;
-import states.hardware.IOState;
 import states.hardware.Idle.Run_Types;
 
 public class InterfaceHandler {
@@ -33,6 +28,9 @@ public class InterfaceHandler {
 	private static boolean displayingTime;
 	private static int count;
 
+	/**
+	 * @param ui
+	 */
 	public InterfaceHandler(UI ui) {
 
 		InterfaceHandler.ui = ui;
@@ -62,6 +60,9 @@ public class InterfaceHandler {
 		
 	}
 
+	/**
+	 * @param str
+	 */
 	public static void setTime(String str) {
 
 		try {
@@ -77,12 +78,12 @@ public class InterfaceHandler {
 
 				if(i == 0){
 					if(Integer.parseInt(check[i]) > 24 || Integer.parseInt(check[i]) < 0){
-						System.out.println("here 24");
+//						System.out.println("here 24");
 						throw new InputMismatchException();
 					}
 				}else if(i > 0 && i < 2){
 					if(Integer.parseInt(check[i]) >= 60 || Integer.parseInt(check[i]) < 0){
-						System.out.println("here 60");
+//						System.out.println("here 60");
 						throw new InputMismatchException();
 					}
 				}
@@ -109,7 +110,8 @@ public class InterfaceHandler {
 
 		} catch (ParseException | InputMismatchException | NumberFormatException ex) {
 
-			System.out.println("You know it's wrong to input that!");
+			Printer.clearConsole();
+			Printer.printToConsole("You know it's wrong to input that!\n");
 
 		}
 	}
@@ -136,6 +138,7 @@ public class InterfaceHandler {
 		if (isOn) {
 			ui.getRaceManager().resetRun();
 			ui.getSimulator().getClock().setTime(new Date());
+			ui.getUserInterface().togChannelsForRace(false);
 		}
 
 		Printer.printToConsole("Power " + (ui.getBtnHandler().getPowerState() ? "on...\n" : "off...\n"));
@@ -143,8 +146,7 @@ public class InterfaceHandler {
 
 	/**
 	 * @param str
-	 *            Connects the channel and sensor specified in str, where str =
-	 *            "CONN <Sensor> <chanID>"
+	 * Connects the channel and sensor specified in str, where str = "CONN <Sensor> <chanID>"
 	 */
 	public static void conn(String str) {
 
@@ -170,6 +172,9 @@ public class InterfaceHandler {
 		}
 	}
 
+	/**
+	 * @param run
+	 */
 	public static void keepPrint(int run) { // Should the runs be replaced?!
 
 		try {
@@ -241,29 +246,8 @@ public class InterfaceHandler {
 	}
 
 	/**
-	 * @param from
-	 * @return the number of enabled channels with ID in the range [from, 4) Counts
-	 *         the number of enabled channels from parameter 'from'.
+	 * @param str
 	 */
-	public static int channelsEnabled(int from) {
-
-		int count = 0;
-
-		for (int i = from; i < 4; i += 2) {
-
-			ui.getRaceManager().setChannelSelected(i);
-
-			if (ui.getRaceManager().getCurrentChannel().isEnabled()) {
-
-				count++;
-
-			}
-		}
-
-		return count;
-
-	}
-
 	public static void inputCommand(String str) {
 
 		if ("POWER".equals(str)) {
@@ -489,11 +473,6 @@ public class InterfaceHandler {
 				case "TRIG":
 					int chan = Integer.parseInt(str.split("\\s")[1]);
 					channelSelected = chan;
-//					if(chan % 2 == 0) {
-//						channelSelected = chan - 1;
-//					} else {
-//						channelSelected = chan;
-//					}
 					ui.getRaceManager().trig(str, false);
 					break;
 				case "NUM":
@@ -598,19 +577,31 @@ public class InterfaceHandler {
 		}
 	}
 
+	/**
+	 * @return
+	 */
 	public UserGraphical getUserInterface() {
 		return userInterface;
 	}
 
+	/**
+	 * @param isGUI
+	 */
 	public static void setGUI(boolean isGUI) {
 		InterfaceHandler.isGUI = isGUI;
 		ui.getRaceManager().setGui(isGUI);
 	}
 
+	/**
+	 * @return
+	 */
 	public static boolean isGUI() {
 		return isGUI;
 	}
 
+	/**
+	 * @param isFile
+	 */
 	public static void setFileIO(boolean isFile) {
 		isFileIO = isFile;
 	}

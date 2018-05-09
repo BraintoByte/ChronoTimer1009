@@ -4,13 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
 import java.util.Arrays;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
-import java.util.stream.IntStream;
-
 import javax.swing.AbstractAction;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -18,8 +14,6 @@ import javax.swing.JToggleButton;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import Utils.Printer;
-import environment.Channels;
-import hardware.user.Button;
 import hardware.user.InterfaceHandler;
 import interfaces.UI;
 import states.State;
@@ -42,20 +36,17 @@ public class GraphicalControl extends State {
 	private int cCount;
 	private boolean functionActive;
 
-
 	public GraphicalControl(UI ui, Scanner input) {
 		super(ui, input);
 		setActions();
 		sb = new StringBuilder();
 	}
 
-
 	@Override
 	public void update() {}
 
 	@Override
 	public void display() {}
-
 
 	private void setActions(){
 
@@ -199,11 +190,11 @@ public class GraphicalControl extends State {
 
 					}
 
-					if(commands[cCount].equalsIgnoreCase("reset")){
+//					if(commands[cCount].equalsIgnoreCase("reset")){
 
-						ui.getUserInterface().togChannelsForRace(false);
+//						ui.getUserInterface().togChannelsForRace(false);
 
-					}
+//					}
 
 					if(commands[cCount].equalsIgnoreCase("time ")){
 
@@ -266,7 +257,6 @@ public class GraphicalControl extends State {
 			}
 		});
 
-		// new
 		ui.getUserInterface().getBtnCh1bk().addMouseListener( new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 
@@ -326,7 +316,6 @@ public class GraphicalControl extends State {
 
 			}
 		});
-
 
 		ui.getUserInterface().getBtnCh4bk().addMouseListener( new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -427,7 +416,6 @@ public class GraphicalControl extends State {
 
 			}
 		});
-		// new
 
 		ui.getUserInterface().getBtnTogCh1().addActionListener(new ActionListener() {
 

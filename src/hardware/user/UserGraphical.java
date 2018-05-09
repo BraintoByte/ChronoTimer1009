@@ -26,9 +26,8 @@ public class UserGraphical extends JFrame {
     
     private JPanel jPanel1, jPanel2, jPanel3, jPanel4, jPanel5, jPanel6, panelConsole;
     private JScrollPane jScrollPane1;
-    private JTextArea txtAMiddle, txtAConsole, printerTextArea, txtBMiddle, txtCMiddle;
+    private JTextArea txtAMiddle, txtBMiddle, txtCMiddle, txtAConsole, printerTextArea;
     private Label label1;
-    private JTextPane txtPConsole;
     private JPopupMenu sensorPopupMenu;
     
     private static class SingletonUserGraphical {
@@ -221,10 +220,10 @@ public class UserGraphical extends JFrame {
         txtAMiddle.setColumns(4);
         txtAMiddle.setRows(5);
         txtAMiddle.setEditable(false);
-        txtBMiddle.setColumns(4);
+        txtBMiddle.setColumns(8);
         txtBMiddle.setRows(5);
         txtBMiddle.setEditable(false);
-        txtCMiddle.setColumns(4);
+        txtCMiddle.setColumns(8);
         txtCMiddle.setRows(5);
         txtCMiddle.setEditable(false);
         
@@ -244,7 +243,7 @@ public class UserGraphical extends JFrame {
         panel.add(txtCMiddle, 2);
         jScrollPane1.setViewportView(panel);
 
-        getContentPane().add(jScrollPane1, new AbsoluteConstraints(210, 250, 350, 260));
+        getContentPane().add(jScrollPane1, new AbsoluteConstraints(210, 250, 400, 260));
 
         jPanel1.setLayout(new GridLayout(0, 4, 20, 7));
         jPanel1.add(btnTrg1);
@@ -320,84 +319,84 @@ public class UserGraphical extends JFrame {
         btn3KeyPad.setText("3");
         btn3KeyPad.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED, new Color(0, 0, 0), new Color(0, 0, 0)));
         btn3KeyPad.setBorderPainted(false);
-        getContentPane().add(btn3KeyPad, new AbsoluteConstraints(700, 250, 50, 60));
+        getContentPane().add(btn3KeyPad, new AbsoluteConstraints(720, 250, 50, 60));
 
         btn1KeyPad.setBackground(new Color(102, 102, 102));
         btn1KeyPad.setFont(new Font("Dialog", 1, 24)); 
         btn1KeyPad.setText("1");
         btn1KeyPad.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED, new Color(0, 0, 0), new Color(0, 0, 0)));
         btn1KeyPad.setBorderPainted(false);
-        getContentPane().add(btn1KeyPad, new AbsoluteConstraints(600, 250, 50, 60));
+        getContentPane().add(btn1KeyPad, new AbsoluteConstraints(620, 250, 50, 60));
 
         btn2KeyPad.setBackground(new Color(102, 102, 102));
         btn2KeyPad.setFont(new Font("Dialog", 1, 24)); 
         btn2KeyPad.setText("2");
         btn2KeyPad.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED, new Color(0, 0, 0), new Color(0, 0, 0)));
         btn2KeyPad.setBorderPainted(false);
-        getContentPane().add(btn2KeyPad, new AbsoluteConstraints(650, 250, 50, 60));
+        getContentPane().add(btn2KeyPad, new AbsoluteConstraints(670, 250, 50, 60));
 
         btn4KeyPad.setBackground(new Color(102, 102, 102));
         btn4KeyPad.setFont(new Font("Dialog", 1, 24)); 
         btn4KeyPad.setText("4");
         btn4KeyPad.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED, new Color(0, 0, 0), new Color(0, 0, 0)));
         btn4KeyPad.setBorderPainted(false);
-        getContentPane().add(btn4KeyPad, new AbsoluteConstraints(600, 310, 50, 60));
+        getContentPane().add(btn4KeyPad, new AbsoluteConstraints(620, 310, 50, 60));
 
         btn5KeyPad.setBackground(new Color(102, 102, 102));
         btn5KeyPad.setFont(new Font("Dialog", 1, 24)); 
         btn5KeyPad.setText("5");
         btn5KeyPad.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED, new Color(0, 0, 0), new Color(0, 0, 0)));
         btn5KeyPad.setBorderPainted(false);
-        getContentPane().add(btn5KeyPad, new AbsoluteConstraints(650, 310, 50, 60));
+        getContentPane().add(btn5KeyPad, new AbsoluteConstraints(670, 310, 50, 60));
 
         btn6KeyPad.setBackground(new Color(102, 102, 102));
         btn6KeyPad.setFont(new Font("Dialog", 1, 24)); 
         btn6KeyPad.setText("6");
         btn6KeyPad.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED, new Color(0, 0, 0), new Color(0, 0, 0)));
         btn6KeyPad.setBorderPainted(false);
-        getContentPane().add(btn6KeyPad, new AbsoluteConstraints(700, 310, 50, 60));
+        getContentPane().add(btn6KeyPad, new AbsoluteConstraints(720, 310, 50, 60));
 
         btn8KeyPad.setBackground(new Color(102, 102, 102));
         btn8KeyPad.setFont(new Font("Dialog", 1, 24)); 
         btn8KeyPad.setText("8");
         btn8KeyPad.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED, new Color(0, 0, 0), new Color(0, 0, 0)));
         btn8KeyPad.setBorderPainted(false);
-        getContentPane().add(btn8KeyPad, new AbsoluteConstraints(650, 370, 50, 60));
+        getContentPane().add(btn8KeyPad, new AbsoluteConstraints(670, 370, 50, 60));
 
         btnHashKeyPad.setBackground(new Color(102, 102, 102));
         btnHashKeyPad.setFont(new Font("Dialog", 1, 24)); 
         btnHashKeyPad.setText("#");
         btnHashKeyPad.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED, new Color(0, 0, 0), new Color(0, 0, 0)));
         btnHashKeyPad.setBorderPainted(false);
-        getContentPane().add(btnHashKeyPad, new AbsoluteConstraints(700, 430, 50, 60));
+        getContentPane().add(btnHashKeyPad, new AbsoluteConstraints(720, 430, 50, 60));
 
         btn9KeyPad.setBackground(new Color(102, 102, 102));
         btn9KeyPad.setFont(new Font("Dialog", 1, 24)); 
         btn9KeyPad.setText("9");
         btn9KeyPad.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED, new Color(0, 0, 0), new Color(0, 0, 0)));
         btn9KeyPad.setBorderPainted(false);
-        getContentPane().add(btn9KeyPad, new AbsoluteConstraints(700, 370, 50, 60));
+        getContentPane().add(btn9KeyPad, new AbsoluteConstraints(720, 370, 50, 60));
 
         btn7KeyPad.setBackground(new Color(102, 102, 102));
         btn7KeyPad.setFont(new Font("Dialog", 1, 24)); 
         btn7KeyPad.setText("7");
         btn7KeyPad.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED, new Color(0, 0, 0), new Color(0, 0, 0)));
         btn7KeyPad.setBorderPainted(false);
-        getContentPane().add(btn7KeyPad, new AbsoluteConstraints(600, 370, 50, 60));
+        getContentPane().add(btn7KeyPad, new AbsoluteConstraints(620, 370, 50, 60));
 
         btnStarKeyPad.setBackground(new Color(102, 102, 102));
         btnStarKeyPad.setFont(new Font("Dialog", 1, 24)); 
         btnStarKeyPad.setText("*");
         btnStarKeyPad.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED, new Color(0, 0, 0), new Color(0, 0, 0)));
         btnStarKeyPad.setBorderPainted(false);
-        getContentPane().add(btnStarKeyPad, new AbsoluteConstraints(600, 430, 50, 60));
+        getContentPane().add(btnStarKeyPad, new AbsoluteConstraints(620, 430, 50, 60));
 
         btn0KeyPad.setBackground(new Color(102, 102, 102));
         btn0KeyPad.setFont(new Font("Dialog", 1, 24)); 
         btn0KeyPad.setText("0");
         btn0KeyPad.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED, new Color(0, 0, 0), new Color(0, 0, 0)));
         btn0KeyPad.setBorderPainted(false);
-        getContentPane().add(btn0KeyPad, new AbsoluteConstraints(650, 430, 50, 60));
+        getContentPane().add(btn0KeyPad, new AbsoluteConstraints(670, 430, 50, 60));
         
         btnSwap.setText("Swap");
         getContentPane().add(btnSwap, new AbsoluteConstraints(50, 410, -1, -1));
@@ -496,8 +495,8 @@ public class UserGraphical extends JFrame {
         jLabel4.setText("Start");
         getContentPane().add(jLabel4, new AbsoluteConstraints(220, 70, -1, -1));
 
-        label1.setText("Queue / Running / Final Time");
-        getContentPane().add(label1, new AbsoluteConstraints(300, 520, 200, -1));
+        label1.setText("Queue                    Running                   Final Time");
+        getContentPane().add(label1, new AbsoluteConstraints(255, 520, 400, -1));
 
         jLabel5.setFont(new Font("Ebrima", 2, 24)); 
         jLabel5.setText("CHRONOTIMER 1009");
@@ -566,15 +565,6 @@ public class UserGraphical extends JFrame {
 //    }
     
     public void togChannelsForRace(boolean value){
-    	
-//    	btnTogCh1.setSelected(!btnTogCh1.isSelected());
-//    	btnTogCh2.setSelected(!btnTogCh2.isSelected());
-//    	btnTogCh3.setSelected(!btnTogCh3.isSelected());
-//    	btnTogCh4.setSelected(!btnTogCh4.isSelected());
-//    	btnTogCh5.setSelected(!btnTogCh5.isSelected());
-//    	btnTogCh6.setSelected(!btnTogCh6.isSelected());
-//    	btnTogCh7.setSelected(!btnTogCh7.isSelected());
-//    	btnTogCh8.setSelected(!btnTogCh8.isSelected());
     	
     	btnTogCh1.setSelected(value);
     	btnTogCh2.setSelected(value);
@@ -791,6 +781,5 @@ public class UserGraphical extends JFrame {
 	public JPopupMenu getSensorMenu() {
 		return sensorPopupMenu;
 	}
-	
 	
 }

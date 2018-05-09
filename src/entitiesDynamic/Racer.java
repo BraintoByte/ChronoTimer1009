@@ -1,5 +1,6 @@
 package entitiesDynamic;
 
+import Utils.Printer;
 import entitiesStatic.ClockInterface;
 
 /**
@@ -18,6 +19,7 @@ public class Racer implements Cloneable {
 	private double totalTime;
 	private boolean DNF;
 	private boolean isActive;
+	volatile private double runningTime;
 	
 	/**
 	 * @param bib number as an integer
@@ -60,7 +62,7 @@ public class Racer implements Cloneable {
 	public String getTimeStartFormatted() {
 		return timeStartFormatted;
 	}
-	
+
 	public String getTimeFinishFormatted() {
 		return timeFinishFormatted;
 	}
@@ -106,7 +108,7 @@ public class Racer implements Cloneable {
 		this.DNF = true;
 		this.timeStartFormatted = "DNF";
 		this.timeFinishFormatted = "DNF";
-		System.out.println("RACER: " + bib + " DNFFED!");
+		Printer.printToConsole("RACER: " + bib + " DNFFED!\n");
 	}
 
 	/**
@@ -116,13 +118,41 @@ public class Racer implements Cloneable {
 		return DNF;
 	}
 
-	
-
 	public double getTotalTime() {
 		return totalTime;
 	}
 
 	public void setTotalTime(double d) {
 		this.totalTime = d;
+	}
+	
+	public void setIsActive(boolean active) {
+		isActive = active;
+		if(active) {
+			
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					
+					while(isActive) {
+						
+						runningTime = (double) ClockInterface.computeDifference(start, ClockInterface.getTimeInLong()) /1000;
+					}
+					
+				}
+				
+				
+			}).start();
+			
+		}
+	}
+	
+	public boolean isActive() {
+		return isActive;
+	}
+	
+	public double getRunningTime() {
+		return runningTime;
 	}
 }

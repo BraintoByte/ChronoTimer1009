@@ -22,13 +22,11 @@ public class Run {
 		private int raceNbr;
 
 		/**
-		 * @param manager
-		 *            - the RaceEventManager associated with this Race.
 		 * @param channels
-		 *            - an unspecified set of channels associated with this Race.
+		 *  - an unspecified set of channels associated with this Race.
 		 * 
-		 *            Constructor for Race that takes a RaceEventManager and channel(s)
-		 *            as parameters.
+		 * Constructor for Race that takes a RaceEventManager and channel(s)
+		 * as parameters.
 		 */
 		protected Race(int... channels) {
 
@@ -64,6 +62,7 @@ public class Run {
 					Racer racer = racePool.removeRacerBeginning();
 					racer.setTimeStartFormatted(ClockInterface.getCurrentTimeFormatted());
 					racer.setStartInLong(ClockInterface.getTimeInLong());
+					racer.setIsActive(true);
 					active.add(racer);
 
 				}
@@ -108,6 +107,7 @@ public class Run {
             Racer racer;
             if (!active.isEmpty()) {
                 racer = active.remove();
+                racer.setIsActive(false);
 
                 if (type != Run_Types.PARIND && InterfaceHandler.isGUI()) {
 
@@ -182,19 +182,19 @@ public class Run {
 
                 }
 
-                Racer temp = racer.clone();
-                racePool.addRacerLast(racer);
-                racer.reset();
+//                Racer temp = racer.clone();
+//                racePool.addRacerLast(racer);
+//                racer.reset();
 
                 if (!isGroup && !InterfaceHandler.isGUI())
-                    System.out.println("Racer: " + temp.getBib() + " stopped");
+                    System.out.println("Racer: " + racer.getBib() + " stopped");
 
-                if (temp != null) {
+                if (racer != null) {
 
-                    record.add(temp);
+                    record.add(racer);
                 }
 
-                return temp;
+                return racer;
             }
             return null;
         }
