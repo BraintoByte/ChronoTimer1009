@@ -207,9 +207,6 @@ public class InterfaceHandler {
 			boolean exists = false;
 			Race temp = null;
 
-			boolean isGroup = false;
-			int groupID = 1;
-
 			while (it.hasNext()) {
 
 				temp = it.next();
@@ -218,36 +215,24 @@ public class InterfaceHandler {
 
 					Iterator<Racer> it2 = temp.getRecord();
 					exists = true;
-					isGroup = temp.isGRP();
 
 					while (it2.hasNext()) {
 
 						Racer tempRacer = it2.next();
 
 						if (tempRacer != null) {
+							String format;
+							if(tempRacer.isAnonymous())
+								format = "%05d";
+							else
+								format = "%03d";
 
-//							if (isGroup) {
-//
-//								if (!tempRacer.isDNF()) {
-//
-//									Printer.printToPrinter(String.format("<%04d> ", groupID).toString() + "<"
-//											+ ClockInterface.getTotalTimeFormatted(
-//													tempRacer.getStartInLong(),
-//													tempRacer.getFinishInLong()) + ">\n");
-//								} else {
-//
-//									Printer.printToPrinter(String.format("<%04d>  <DNF>\n", groupID).toString() + '\n');
-//								}
-//								groupID++;
-//							} else {
-
-								Printer.printToPrinter(!tempRacer.isDNF()
-										? (String.format("<%03d>" + " " + "<"
-												+ ClockInterface.getTotalTimeFormatted(
-														tempRacer.getStartInLong(), tempRacer.getFinishInLong())
-												+ ">\n", tempRacer.getBib()))
-												: (String.format("<%03d>" + " " + "<" + "DNF" + ">\n", tempRacer.getBib())));
-//							}
+							Printer.printToPrinter(!tempRacer.isDNF()
+									? (String.format("<" + format + ">" + " " + "<"
+											+ ClockInterface.getTotalTimeFormatted(
+													tempRacer.getStartInLong(), tempRacer.getFinishInLong())
+											+ ">\n", tempRacer.getBib()))
+											: (String.format("<" + format + ">" + " " + "<" + "DNF" + ">\n", tempRacer.getBib())));
 						}
 					}
 				}

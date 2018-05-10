@@ -196,9 +196,9 @@ public class Run {
 				r.setStartInLong(RaceEventsManager.getStartTime());
 				r.setFinishInLong(ClockInterface.getTimeInLong());
 				r.setTotalTime((double) ClockInterface.computeDifference(r.getStartInLong(), r.getFinishInLong()) /1000);
-				r.setAnonymous();
+				r.setAnonymous(true);
 				
-				Printer.printToMiddle(2, String.format("<%03d> <" + r.getTotalTime() + ">\n", r.getBib()));
+				Printer.printToMiddle(2, String.format("<%05d> <" + r.getTotalTime() + ">\n", r.getBib()));
 				
 				record.add(r);
 			}

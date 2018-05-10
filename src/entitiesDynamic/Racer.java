@@ -61,8 +61,12 @@ public class Racer implements Cloneable {
 	 * Sets this racer as an anonymous racer/"ghost" racer.
 	 * Allows the user to edit the "ghost" Racer's bib number {@link #setBib(int)}.
 	 */
-	public void setAnonymous() {
-		isAnonymous = true;
+	public void setAnonymous(boolean state) {
+		isAnonymous = state;
+	}
+	
+	public boolean isAnonymous() {
+		return isAnonymous;
 	}
 	
 	/**

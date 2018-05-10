@@ -355,7 +355,7 @@ public class RaceEventsManager {
 						return;
 					}
 
-					if ((n = racePool.getRacersAmount()) == 0 && channelSelected == 1) {
+					if ((n = racePool.getRacersAmount()) == 0 && !currentRun.isActive() && channelSelected == 1) {
 
 						// make anonymous race
 						currentRun.setIsAnonymous();
@@ -474,7 +474,10 @@ public class RaceEventsManager {
 		if (tempRace != null) {
 
 			tempRace.startNRacers(n, racePool);
-			startTime = ClockInterface.getTimeInLong();
+			
+			if(!currentRun.isActive())
+				startTime = ClockInterface.getTimeInLong();
+			
 			keepRecord();
 			if (!isGui) {
 				System.out.println("Racers inactive after action: " + racePool.getRacersAmount());
@@ -911,10 +914,13 @@ public class RaceEventsManager {
 			
 			if (cnt++ == anonymousIndex) { 
 				r.setBib(newBib);
+				r.setAnonymous(false);
 				incriment = true;
 			}
-				
-				Printer.printToMiddle(2, String.format("<%03d> <" + r.getTotalTime() + ">\n", r.getBib()));
+				if(r.isAnonymous())
+					Printer.printToMiddle(2, String.format("<%05d> <" + r.getTotalTime() + ">\n", r.getBib()));
+				else
+					Printer.printToMiddle(2, String.format("<%03d> <" + r.getTotalTime() + ">\n", r.getBib()));
 			
 		}
 		
