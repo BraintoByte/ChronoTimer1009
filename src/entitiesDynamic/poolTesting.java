@@ -51,10 +51,10 @@ public class poolTesting {
 		Pool pool = Pool.getPool();							//create a new, empty pool
 		pool.clearPool();
 
-		assertTrue(pool.first() == null);				//peek racer should be null, as there are no racers in the pool
+		assertTrue(pool.peek() == null);				//peek racer should be null, as there are no racers in the pool
 		
 		pool.makeRacer(15); 								//add racer 15 to pool
-		assertTrue(pool.first().getBib() == 15);		//peek racer (and only racer) should have bib of 15
+		assertTrue(pool.peek().getBib() == 15);		//peek racer (and only racer) should have bib of 15
 		
 		pool.removeRacerBeginning();						//starts and therefore removes racer 15 from pool
 		pool.setRacersAmount(20);
@@ -122,23 +122,23 @@ public class poolTesting {
 		assertEquals(0, pool.getRacersAmount());			//pool should be empty
 		
 		pool.addRacerLast(r2);							//return racer 22 to the pool
-		assertTrue(pool.first().equals(r2));		//only racer in pool should be racer 22
+		assertTrue(pool.peek().equals(r2));		//only racer in pool should be racer 22
 		assertEquals(1, pool.getRacersAmount());			//pool should have 1 racer
 		
 		pool.addRacerLast(r3); 							//return racer 33 to the pool
-		assertTrue(pool.first().equals(r2));		//racer 22 should still be at the head of the pool
+		assertTrue(pool.peek().equals(r2));		//racer 22 should still be at the head of the pool
 		assertEquals(2, pool.getRacersAmount());			//pool should have 2 occupants
 		
 		pool.removeRacerBeginning();								//start head racer, racer 22, removing from pool
-		assertTrue(pool.first().equals(r3));		//racer 22 should now be at the head of the pool
+		assertTrue(pool.peek().equals(r3));		//racer 22 should now be at the head of the pool
 		assertEquals(1, pool.getRacersAmount());			//pool should now have 1 occupant
 		
 		pool.addRacerBeginning(r1); 							//returnCancel racer 11 to pool
-		assertTrue(pool.first().equals(r1));		//racer 11 should be head of the pool, as per returnCancel method
+		assertTrue(pool.peek().equals(r1));		//racer 11 should be head of the pool, as per returnCancel method
 		assertEquals(2, pool.getRacersAmount());			//pool should now have 2 occupants
 		
 		pool.addRacerLast(r2);							//return racer 22 to the pool
-		assertTrue(pool.first().equals(r1));		//racer 11 should be head of the pool still
+		assertTrue(pool.peek().equals(r1));		//racer 11 should be head of the pool still
 		assertEquals(3, pool.getRacersAmount());			//pool should now have 3 occupants
 		
 		assertTrue(pool.removeRacerBeginning().equals(r1));		//first racer in pool should be racer 11
@@ -197,10 +197,10 @@ public class poolTesting {
 		r.setChannelSelected(2);
 		r.CONN(false, true, false); 							//connect gate to channel 2
 		
-		assertTrue(r.getPool().first() == null);			//peek racer should be null, no racers in pool
+		assertTrue(r.getPool().peek() == null);			//peek racer should be null, no racers in pool
 		
 		r.makeRacers(15);										//add racer 15 to pool
-		assertEquals(15, r.getPool().first().getBib());		//peek racer (and only racer) should have bib 15
+		assertEquals(15, r.getPool().peek().getBib());		//peek racer (and only racer) should have bib 15
 		
 		assertEquals(1, r.getPool().getRacersAmount());
 		
@@ -279,23 +279,23 @@ public class poolTesting {
 		r.setNewRun();											//start new run
 		
 		r.getPool().addRacerLast(r2);							//return racer 22 to the pool
-		assertTrue(r.getPool().first().equals(r2));			//only racer in pool should be racer 22
+		assertTrue(r.getPool().peek().equals(r2));			//only racer in pool should be racer 22
 		assertEquals(1, r.getPool().getRacersAmount());			//pool should have 1 racer
 		
 		r.getPool().addRacerLast(r3); 							//return racer 33 to the pool
-		assertTrue(r.getPool().first().equals(r2));			//racer 22 should still be at the head of the pool
+		assertTrue(r.getPool().peek().equals(r2));			//racer 22 should still be at the head of the pool
 		assertEquals(2, r.getPool().getRacersAmount());			//pool should have 2 occupants
 		
 		r.getPool().removeRacerBeginning();						//start head racer, racer 22, removing from pool
-		assertTrue(r.getPool().first().equals(r3));			//racer 22 should now be at the head of the pool
+		assertTrue(r.getPool().peek().equals(r3));			//racer 22 should now be at the head of the pool
 		assertEquals(1, r.getPool().getRacersAmount());			//pool should now have 1 occupant
 		
 		r.getPool().addRacerLast(r2);  							//returnCancel racer 11 to pool
-		assertTrue(r.getPool().first().equals(r3));			//racer 11 should be head of the pool, as per returnCancel method
+		assertTrue(r.getPool().peek().equals(r3));			//racer 11 should be head of the pool, as per returnCancel method
 		assertEquals(2, r.getPool().getRacersAmount());			//pool should now have 2 occupants
 		
 		r.getPool().addRacerBeginning(r1);						//return racer 22 to the pool
-		assertTrue(r.getPool().first().equals(r1));			//racer 11 should be head of the pool still
+		assertTrue(r.getPool().peek().equals(r1));			//racer 11 should be head of the pool still
 
 		assertEquals(3, r.getPool().getRacersAmount());			//pool should now have 3 occupants
 		

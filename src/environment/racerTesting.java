@@ -41,22 +41,22 @@ public class racerTesting {
 		RaceEventsManager r = new RaceEventsManager();		//create new race event manager
 		r.makeRacers(1);									//create new racer with bib 1
 
-		assertEquals(1, r.getPool().first().getBib());		//only racer in pool should have Bib 1
+		assertEquals(1, r.getPool().peek().getBib());		//only racer in pool should have Bib 1
 
-		assertFalse(r.getPool().first().isDNF());			//only racer in pool should not be DNF
+		assertFalse(r.getPool().peek().isDNF());			//only racer in pool should not be DNF
 
-		r.getPool().first().setDNF();						//set the only racer in the pool to DNF
-		assertTrue(r.getPool().first().isDNF());			//only racer in pool should now be DNF
+		r.getPool().peek().setDNF();						//set the only racer in the pool to DNF
+		assertTrue(r.getPool().peek().isDNF());			//only racer in pool should now be DNF
 
-		r.getPool().first().setDNF();						//set the only racer in the pool to DNF again (no change)
-		assertTrue(r.getPool().first().isDNF());			//only racer in pool should still be DNF (no change)
+		r.getPool().peek().setDNF();						//set the only racer in the pool to DNF again (no change)
+		assertTrue(r.getPool().peek().isDNF());			//only racer in pool should still be DNF (no change)
 
 		r.makeRacers(2); 									//make another racer, bib 2
 
-		assertTrue(r.getPool().first().equals(
+		assertTrue(r.getPool().peek().equals(
 				r.getPool().removeRacerBeginning()));		//starting new racer should return the 1st racer in the pool
 
-		assertEquals(2, r.getPool().first().getBib());		//after removal of racer 1, racer 2 (bib 2) should be the only racer in pool
+		assertEquals(2, r.getPool().peek().getBib());		//after removal of racer 1, racer 2 (bib 2) should be the only racer in pool
 
 	}
 
@@ -74,7 +74,7 @@ public class racerTesting {
 		r.setNewRun();											//start new run
 
 		r.makeRacers(1);										//create racer with bib 1
-		assertEquals(1, r.getPool().first().getBib());			//first racer's bib should be 1
+		assertEquals(1, r.getPool().peek().getBib());			//first racer's bib should be 1
 
 		r.getPool().removeRacerBeginning(); 					//start racer 1, removing from pool
 
@@ -102,7 +102,7 @@ public class racerTesting {
 
 		r.makeRacers(5); 										//create new racer with bib 5
 		assertEquals(1, r.getPool().getRacersAmount());
-		assertFalse(r.getPool().first().isDNF());				//new racer should not be DNF flagged
+		assertFalse(r.getPool().peek().isDNF());				//new racer should not be DNF flagged
 
 		r.trig("TRIG 1", false);								//start the racer
 		assertEquals(0, r.getPool().getRacersAmount());

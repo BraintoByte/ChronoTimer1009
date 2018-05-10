@@ -1,7 +1,5 @@
 package environment;
 
-import java.util.HashMap;
-import entitiesStatic.ClockInterface;
 import environment.channels.Ch1;
 import environment.channels.Ch2;
 import environment.channels.Ch3;
@@ -20,7 +18,6 @@ import hardware.external.Sensor;
 public abstract class Channels {
 
 	public static Channels[] channels = new Channels[8];
-//	private HashMap<Integer, Long> activeRacers = new HashMap<>();
 	private Sensor sensorPaired;
 	private String name;
 	private final int chId;
@@ -47,49 +44,6 @@ public abstract class Channels {
 		this.chId = chId;
 		channels[chId - 1] = this;
 	}
-
-//	/**
-//	 * @param bib - the bib number of the racer to activate. 
-//	 * Adds the racer (i.e. the bib number) to the activeRacers HashMap.
-//	 */
-//	public void activate(int bib){
-//		
-//		activeRacers.put(bib, ClockInterface.getTimeInLong());
-//	}
-//	
-//	/**
-//	 * @param bib - the bib number of the racer to retrieve
-//	 * @return the time associated with the racer
-//	 */
-//	public Long retrieve(int bib){
-//		
-//		return activeRacers.get(bib);
-//	}
-	
-	// new
-	
-//	/**
-//	 * Clears the activeRacers HashMap.
-//	 */
-//	public void reset(){
-//		
-//		activeRacers.clear();
-//	}
-	
-//	/**
-//	 * Resets all of the channels.
-//	 */
-//	public static void reset(){
-//		
-//		for(Channels ch: channels) {
-////			ch.clearData();
-//			ch.unPairToSensor();
-//			ch.enable(false);
-//		}
-//		
-//	}
-	
-	// new
 	
 	/**
 	 * @param isEnabled
@@ -108,22 +62,6 @@ public abstract class Channels {
 		return this.isEnabled;
 
 	}
-
-//	/**
-//	 * Triggers the paired sensor.
-//	 */
-//	public void TriggerSensor(){
-//
-//		sensorPaired.trigger();
-//	}
-//
-//	/**
-//	 * @return true if the paired sensor is triggered
-//	 */
-//	public boolean isSensorTriggered(){
-//
-//		return sensorPaired.isTriggered();
-//	}
 
 	/**
 	 * @param sensor
@@ -157,4 +95,5 @@ public abstract class Channels {
 	public boolean isPairedToSensor(){
 		return sensorPaired != null;
 	}
+	
 }

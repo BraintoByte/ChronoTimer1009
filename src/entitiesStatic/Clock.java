@@ -1,15 +1,14 @@
 package entitiesStatic;
 
 import java.sql.Time;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-import hardware.user.InterfaceHandler;
-import hardware.user.UserGraphical;
-
+/**
+ * @author Andy
+ *
+ * The Clock class, apart of the entitiesStatic package of the ChronoTimer.
+ * This class is responsible for keeping track of the time.
+ */
 public class Clock implements Runnable {
 
 	private boolean isClockRunning;
@@ -24,6 +23,9 @@ public class Clock implements Runnable {
 
 	public Clock(){}
 
+	/**
+	 * Helper method that updated the time field.
+	 */
 	private void keepTrackOfTime(){
 
 		time = new Time(time.getTime() + precision_factor_dydx);
@@ -32,6 +34,9 @@ public class Clock implements Runnable {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 
@@ -73,6 +78,9 @@ public class Clock implements Runnable {
 
 	}
 
+	/**
+	 * Starts the clock on a new thread if it is not currently running
+	 */
 	public synchronized void clockStart(){
 
 		if(isClockRunning){
@@ -92,7 +100,9 @@ public class Clock implements Runnable {
 		}
 	}
 
-
+	/**
+	 * Stops the clock and joins with the main thread.
+	 */
 	public synchronized void clockStop() {
 
 		if(!isClockRunning){
@@ -114,38 +124,71 @@ public class Clock implements Runnable {
 		}
 	}
 
+	/**
+	 * Resets the clock's time to the epoch.
+	 */
 	public void reset(){
 
 		this.time = new Time(000000);
 
 	}
 
+	/**
+	 * Setter for time field.
+	 * @param time : Time
+	 */
 	public void setTime(Time time) {
 		this.time = time;
 		isTimeSet = true;
 	}
 
+	/**
+	 * Setter for time field.
+	 * @param time : Date
+	 */
 	public void setTime(Date time) {
 
 		this.time = new Time(time.getTime());
 		isTimeSet = true;
 	}
 
+	/**
+	 * @return isClockRunning
+	 */
 	public boolean isClockRunning() {
 		return isClockRunning;
 	}
 
+	/**
+	 * Setter for isActive field.
+	 * @param isActive
+	 */
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
 
+	/**
+	 * Getter for isActive field.
+	 * @return isActive
+	 */
 	public boolean isActive() {
 		return isActive;
 	}
+	
+	/**
+	 * Setter for displayCurrent field.
+	 * @param displayCurrent
+	 */
 	public void setDisplayCurrent(boolean displayCurrent) {
 		this.displayCurrent = displayCurrent;
 	}
+	
+	/**
+	 * Setter for timeDispFreq field.
+	 * @param timeDispFreq
+	 */
 	public void setTimeDispFreq(int timeDispFreq) {
 		this.timeDispFreq = timeDispFreq;
 	}
+	
 }

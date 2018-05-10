@@ -179,13 +179,33 @@ public class InterfaceHandler {
 	public static void keepPrint(int run) { // Should the runs be replaced?!
 
 		try {
+		
+			Printer.printToPrinter("Run <" + run + ">\n");
+			
+			Run current = ui.getRaceManager().getCurrentRun();
+			if(current != null && current.getRunNbr() == run && current.isActive()) {
+				
+				Race[] races = current.getRaces();
+				Racer r;
+				Iterator<Racer> it;
+				for(int i = 0; i < races.length; i++) {
+					if(races[i] != null && !races[i].getActive().isEmpty()) {
+						
+						it =races[i].getActive().iterator();
+						while(it.hasNext()) {
+							r = it.next();
+							Printer.printToPrinter(String.format("<%03d> <" + ((double) ClockInterface.computeDifference(
+									r.getStartInLong(), ClockInterface.getTimeInLong()) /1000) + ">\n", r.getBib()));
+						}
+					}
+				}
+				
+			}
 
 			Iterator<Race> it = ui.getRaceManager().getRecords();
 
 			boolean exists = false;
 			Race temp = null;
-
-			Printer.printToPrinter("Run <" + run + ">\n");
 
 			boolean isGroup = false;
 			int groupID = 1;

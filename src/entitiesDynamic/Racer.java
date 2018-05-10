@@ -1,10 +1,10 @@
 package entitiesDynamic;
 
-import Utils.Printer;
 import entitiesStatic.ClockInterface;
 
 /**
  * @author Andy & Matt
+ * 
  * The Racer class, apart of the entitiesDynamic package of the ChronoTimer1009.
  * A racer object represents a competitor in the timing system identified with a bib number.
  * Racers also have an associated name, start time, finish time, and DNF field that are used in other areas of the system.
@@ -34,10 +34,14 @@ public class Racer implements Cloneable {
 		
 	}
 	
+	/**
+	 * Resets all of the Racers fields.
+	 */
 	public void reset(){
 		
 		this.DNF = false;
 		this.isActive = false;
+		this.isAnonymous = false;
 		timeStartFormatted = "";
 		timeFinishFormatted = "";
 		finish = 0;
@@ -52,10 +56,22 @@ public class Racer implements Cloneable {
 		return bib;
 	}
 	
-	public void setAnonymous(boolean state) {
-		isAnonymous = state;
+	/**
+	 * Used for anonymous Group races.
+	 * Sets this racer as an anonymous racer/"ghost" racer.
+	 * Allows the user to edit the "ghost" Racer's bib number {@link #setBib(int)}.
+	 */
+	public void setAnonymous() {
+		isAnonymous = true;
 	}
 	
+	/**
+	 * @param bib - the new bib number for this Racer
+	 * @return true if successful
+	 * 
+	 * Used for anonymous Group races.
+	 * Assigns this Racer's bib to the parameter bib if the Racer is an anonymous Racer.
+	 */
 	public boolean setBib(int bib) {
 		
 		if(!isAnonymous)
@@ -82,6 +98,9 @@ public class Racer implements Cloneable {
 		return timeFinishFormatted;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
 	@Override
 	public Racer clone() {
 		
@@ -98,19 +117,33 @@ public class Racer implements Cloneable {
 		return temp;
 	}
 	
-	
+	/**
+	 * @param start
+	 * Setter for start field.
+	 */
 	public void setStartInLong(long start) {
 		this.start = start;
 	}
 	
+	/**
+	 * @param finish
+	 * Setter for finish field.
+	 */
 	public void setFinishInLong(long finish) {
 		this.finish = finish;
 	}
 	
+	/**
+	 * Getter for start field.
+	 */
 	public long getStartInLong() {
 		return start;
 	}
 	
+	/**
+	 * Getter for finish field.
+	 * @return finish
+	 */
 	public long getFinishInLong() {
 		return finish;
 	}
@@ -123,7 +156,6 @@ public class Racer implements Cloneable {
 		this.DNF = true;
 		this.timeStartFormatted = "DNF";
 		this.timeFinishFormatted = "DNF";
-		Printer.printToConsole("RACER: " + bib + " DNFFED!\n");
 	}
 
 	/**
@@ -133,14 +165,27 @@ public class Racer implements Cloneable {
 		return DNF;
 	}
 
+	/**
+	 * Getter for totalTime field.
+	 * @return totalTime
+	 */
 	public double getTotalTime() {
 		return totalTime;
 	}
 
-	public void setTotalTime(double d) {
-		this.totalTime = d;
+	/**
+	 * Setter for totalTime field.
+	 * @param time
+	 */
+	public void setTotalTime(double time) {
+		this.totalTime = time;
 	}
 	
+	/**
+	 * Sets the isActive field to the boolean parameter active, 
+	 * then starts a thread that continuously computes and updates the Racer's runningTime
+	 * @param active
+	 */
 	public void setIsActive(boolean active) {
 		isActive = active;
 		if(active) {
@@ -161,11 +206,19 @@ public class Racer implements Cloneable {
 		}
 	}
 	
+	/**
+	 * @return true if Racer is active
+	 */
 	public boolean isActive() {
 		return isActive;
 	}
 	
+	/**
+	 * Getter for runningTime field.
+	 * @return runningTime
+	 */
 	public double getRunningTime() {
 		return runningTime;
 	}
+	
 }

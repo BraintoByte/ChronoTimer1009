@@ -43,10 +43,6 @@ public class ClockInterface {
 
 		Date currentDate = new Date(currentTime);
 
-//		try {
-//			Thread.sleep(1);
-//		} catch (InterruptedException e) { }
-
 		return timeFormatter.format(currentDate) + "";
 	}
 
@@ -86,4 +82,5 @@ public class ClockInterface {
 	protected static void setCurrentTime(long timeCurrent) {
 		ClockInterface.currentTime = timeCurrent;
 	}
+	
 }

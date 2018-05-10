@@ -196,7 +196,7 @@ public class Run {
 				r.setStartInLong(RaceEventsManager.getStartTime());
 				r.setFinishInLong(ClockInterface.getTimeInLong());
 				r.setTotalTime((double) ClockInterface.computeDifference(r.getStartInLong(), r.getFinishInLong()) /1000);
-				r.setAnonymous(true);
+				r.setAnonymous();
 				
 				Printer.printToMiddle(2, String.format("<%03d> <" + r.getTotalTime() + ">\n", r.getBib()));
 				
@@ -225,13 +225,6 @@ public class Run {
 			return null;
 		}
 
-		/**
-		 * @return the stack of bib numbers (Racer ID's).
-		 */
-		// public Stack<Integer> returnBibs(){
-		// return this.bibsInRace;
-		// }
-
 		public Iterator<Racer> getRecord() {
 			return record.iterator();
 		}
@@ -250,7 +243,7 @@ public class Run {
 			return !active.isEmpty();
 		}
 
-		protected Queue<Racer> getActive() {
+		public Queue<Racer> getActive() {
 			return active;
 		}
 
@@ -334,7 +327,7 @@ public class Run {
 		return getRaceFromChannel(channel).CANCEL();
 	}
 
-	protected Race[] getRaces() {
+	public Race[] getRaces() {
 		return racesActive;
 	}
 
@@ -373,8 +366,12 @@ public class Run {
 	protected Race getARace(int raceNbr) {
 		return racesActive[raceNbr];
 	}
+	
+	public int getRunNbr() {
+		return runNbr;
+	}
 
-	protected boolean isActive() {
+	public boolean isActive() {
 
 		if (racesActive != null)
 			for (int i = 0; i < racesActive.length; i++) {

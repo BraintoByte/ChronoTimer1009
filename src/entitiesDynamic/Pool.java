@@ -9,25 +9,21 @@ import java.util.LinkedList;
  * 
  * The Pool class, apart of the entitiesDynamic package of the ChronoTimer1009.
  * The Pool is where competitors (racers) wait to start their event.
- * Racers are added to the Pool after finishing a race with their recorded duration/time.
  */
 public class Pool {
 
 	private int racersAmount;
 	private Deque<Racer> racers;
 
-	/**
-	 * Constructor for Pool
-	 */
 	private Pool(){
 
 		racers = new LinkedList<>();
 	}
 	
 	/**
-	 * @author mattm
-	 * Pool has to be a singleton because of the threading,
-	 * however this may have to change with the addition of the lane class/changes to the Race class.
+	 * @author Andy
+	 * 
+	 * Pool as a singleton because of the threading.
 	 */
 	private static class SingletonPool{
 		
@@ -45,7 +41,7 @@ public class Pool {
 	
 	/**
 	 * @param racer
-	 * Adds a racer to the first position in the pool (queue).
+	 * Adds a racer to the beginning of the pool (queue).
 	 */
 	public void addRacerBeginning(Racer racer){
 		
@@ -54,7 +50,7 @@ public class Pool {
 	
 	/**
 	 * @param racer
-	 * Adds a racer to the last position in the pool (queue).
+	 * Adds a racer to the end of the pool (queue).
 	 */
 	public void addRacerLast(Racer racer){
 		
@@ -72,7 +68,7 @@ public class Pool {
 	
 	/**
 	 * Creates and adds 'racersAmount' of racers to the pool.
-	 * See setRacersAmount method to change the racersAmount field.
+	 * See {@link #setRacersAmount(int)} to change the racersAmount field.
 	 */
 	private void makeRacers(){
 
@@ -93,7 +89,7 @@ public class Pool {
 	
 	/**
 	 * @param racersAmount
-	 * Sets the number of racers to be in the pool then adds them via the makeRacers method.
+	 * Sets the number of racers to be in the pool then adds them via the {@link #makeRacers()} method.
 	 */
 	public void setRacersAmount(int racersAmount){
 
@@ -109,6 +105,9 @@ public class Pool {
 		return racers.size();
 	}
 	
+	/**
+	 * @return an array of int representing all the bibs in the pool (queue).
+	 */
 	public int[] getAllBibs(){
 		
 		int[] temp = new int[racers.size()];
@@ -134,6 +133,12 @@ public class Pool {
 		return true;
 	}
 	
+	/**
+	 * @param bib -  the bib number of the racer to clear from the pool
+	 * @return true if the racer was cleared
+	 * 
+	 * Clears the unuque racer with bib number equal to the parameter bib.
+	 */
 	public boolean clearRacer(int bib) {
 		
 		Iterator<Racer> it = racers.iterator();
@@ -156,11 +161,19 @@ public class Pool {
 		
 	}
 	
-	public Racer first() {
+	/**
+	 * {@link java.util.Deque#peek()}
+	 * @return the Racer at the beginning of the pool.
+	 */
+	public Racer peek() {
 		return racers.peek();
 	}
 	
-	public Racer last(){
+	/**
+	 * {@link java.util.Deque#peekLast()}
+	 * @return the Racer at the end of the pool.
+	 */
+	public Racer peekLast(){
 		return racers.peekLast();
 	}
 	

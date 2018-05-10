@@ -2,33 +2,19 @@ package environment;
 
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
-import java.net.UnknownServiceException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.ConcurrentModificationException;
-import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Stack;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import org.junit.Before;
-
 import com.google.gson.Gson;
-
 import Utils.Printer;
 import Utils.Util;
 import entitiesDynamic.Pool;
@@ -45,13 +31,16 @@ import states.hardware.Idle.Run_Types;
 
 /**
  * @author Andy & Matt
- *
+ * 
+ * The RaceEventsManager class, apart of the environment package of the ChronoTimer.
+ * This class is responsible for managing the Race events.
  */
 public class RaceEventsManager {
 
 	/**
-	 * @author Andy SensorCoupler, an inner class of RaceEventManager, is
-	 *         responsible for coupling sensors to channels.
+	 * @author Andy 
+	 * SensorCoupler, an inner class of RaceEventManager, is
+	 * responsible for coupling sensors to channels.
 	 */
 	private class SensorCoupler {
 
@@ -181,6 +170,12 @@ public class RaceEventsManager {
 	private int anonymousIndex;
 	volatile private boolean updaterEnabled;
 
+	/**
+	 * Makes a racer with bib number racer and adds them to the racePool.
+	 * Also updates the bibs field and prints the pool to the GUI.
+	 * @param racer - the bib number
+	 * @return true if the racer was created
+	 */
 	public boolean makeRacers(int racer) {
 
 		if (racer >= 0 && racer < 1000 && !isRacerIn(racer)) {
@@ -193,10 +188,18 @@ public class RaceEventsManager {
 		return false;
 	}
 
+	/**
+	 * Searches the bibs array for the parameter racer.
+	 * @param racer - the bib to search for
+	 * @return true if racer is in bibs
+	 */
 	private boolean isRacerIn(int racer) {
 		return Arrays.binarySearch(bibs, racer) >= 0;
 	}
 
+	/**
+	 * Clears racePool
+	 */
 	public void resetPool() {
 		if (racePool != null)
 			racePool.clearPool();
@@ -218,7 +221,7 @@ public class RaceEventsManager {
 
 	/**
 	 * Resets everything in RaceEventManager. clears the racePool, sets currentRun
-	 * to null, and creates a new HashMap for record.
+	 * to null, resets runNbr & anonymousIndex, and creates a new LinkedList for recordRaces.
 	 */
 	public void resetRun() { // I don't think we will need this but just in case
 
@@ -248,17 +251,29 @@ public class RaceEventsManager {
 
 	}
 
+	/**
+	 * Setter for runNbr field
+	 * @param runNbr
+	 */
 	public void setRunNbr(int runNbr) {
 		this.runNbr = runNbr;
 	}
 
+	/**
+	 * Getter for runNbr
+	 * @return runNbr
+	 */
 	public int getRunNbr() {
 		return runNbr;
 	}
 
+	/**
+	 * Setter for type field
+	 * @param type
+	 */
 	public void setType(Run_Types type) {
 
-		if (checkRunInitiated()) {
+		if (isRunActive()) {
 
 			Printer.printToConsole("Please end the current run\n");
 			return;
@@ -269,10 +284,18 @@ public class RaceEventsManager {
 		Printer.printToConsole("Event set to " + type.toString() + "\n");
 	}
 
+	/**
+	 * Getter for type field
+	 * @return type
+	 */
 	public Run_Types getType() {
 		return type;
 	}
 
+	/**
+	 * Cancels the last racer to start on in the lane with the parameter channel.
+	 * @param channel
+	 */
 	public void CANCEL(int channel) {
 
 		if (currentRun.getRaceFromChannel(channel) != null) {
@@ -294,7 +317,7 @@ public class RaceEventsManager {
 	 *            and if the next racer to finish Did not Finish (DNF = true), then
 	 *            their time is recorded as DNF.
 	 */
-	public void trig(String str, boolean DNF) { // We need to refactor this, is channel enabled method, is channel valid
+	public void trig(String str, boolean DNF) {
 
 		// method choice 1 choice 2
 
@@ -303,7 +326,7 @@ public class RaceEventsManager {
 		if (!isGui) {
 			System.out.println("Racers inactive before action: " + racePool.getRacersAmount());
 		}
-		if (!checkRunInitiated()) {
+		if (!isRunActive()) {
 
 			Printer.printToConsole("NO RUN INITIATED!\n");
 			return;
@@ -332,7 +355,6 @@ public class RaceEventsManager {
 						return;
 					}
 
-					// anonymous racers
 					if ((n = racePool.getRacersAmount()) == 0 && channelSelected == 1) {
 
 						// make anonymous race
@@ -396,7 +418,7 @@ public class RaceEventsManager {
 				}
 			}
 		} catch (InputMismatchException | NumberFormatException e) {
-			System.out.println("WRONG INPUT!");
+			Printer.printToConsole("WRONG INPUT!\n");
 		}
 
 		if (!isGui) {
@@ -408,9 +430,13 @@ public class RaceEventsManager {
 		}
 	}
 
+	/**
+	 * Updates the recordRaces field with the currentRun.
+	 * @return true if successful
+	 */
 	public boolean keepRecord() {
 
-		if (!checkRunInitiated()) {
+		if (!isRunActive()) {
 			return false;
 		}
 
@@ -437,6 +463,10 @@ public class RaceEventsManager {
 		return true;
 	}
 
+	/**
+	 * Helper method that starts n number of racers for the currentRun.
+	 * @param n - the number of Racers to start
+	 */
 	private void triggerStart(int n) {
 
 		Race tempRace = currentRun.getRaceFromChannel(channelSelected);
@@ -478,6 +508,9 @@ public class RaceEventsManager {
 
 	}
 
+	/**
+	 * Helper method that starts a PARGRP event. 
+	 */
 	private void triggerParGRP() {
 
 		if (channelSelected < 9 && currentRun.getRaceFromChannel(channelSelected - 1) != null
@@ -487,13 +520,14 @@ public class RaceEventsManager {
 			triggerStop(false);
 			parGrpCount--;
 
-		} else {
-			if (!isGui) {
-				System.out.println("Channel " + channelSelected + " is not toggled!");
-			}
 		}
 	}
 
+	/**
+	 * Helper method that finishes the next racer to finish for the currrentRun.
+	 * If the parameter DNF is true the Racer will not have a finish time.
+	 * @param DNF 
+	 */
 	private void triggerStop(boolean DNF) {
 
 		Race[] active = currentRun.getRaces();
@@ -526,13 +560,21 @@ public class RaceEventsManager {
 		}
 	}
 
+	/**
+	 * @return the number of active lanes for the currentRun
+	 */
 	public int racesActive() {
-		return checkRunInitiated() && currentRun.getRaces() == null ? 0 : currentRun.getRaces().length;
+		return isRunActive() && currentRun.getRaces() == null ? 0 : currentRun.getRaces().length;
 	}
 
+	/**
+	 * Ends the currentRun by DNFing any active racers, adding the Run to the recordRaces, 
+	 * then sorts the list of finished Racers based on finishTimes and sends the results as a Json serialized String to the http URL specified in config.txt
+	 * {@link #sendCommandToServer(String)}
+	 */
 	public void endRun() {
 
-		if (!checkRunInitiated()) {
+		if (!isRunActive()) {
 
 			Printer.printToConsole("NO ACTIVE RUN!\n");
 			return;
@@ -602,10 +644,16 @@ public class RaceEventsManager {
 
 	}
 
+	/**
+	 * @return true is there is a currentRun
+	 */
 	public boolean isRunActive() {
 		return currentRun != null;
 	}
 
+	/**
+	 * Sets the currentRun to a new Run and increments the runNbr field.
+	 */
 	public void setNewRun() {
 		runNbr++;
 		currentRun = new Run(runNbr, type);
@@ -615,14 +663,18 @@ public class RaceEventsManager {
 		}
 	}
 
-	private boolean checkRunInitiated() {
-		return currentRun != null;
-	}
-
+	/**
+	 * Getter for channelSelected field.
+	 * @return channelSelected
+	 */
 	public int getChannelSelected() {
 		return channelSelected;
 	}
 
+	/**
+	 * Gets an Iterator of type Race for the recordRaces field.
+	 * @return Iterator for recordRaces
+	 */
 	public Iterator<Race> getRecords() {
 		return recordRaces.iterator();
 	}
@@ -644,7 +696,7 @@ public class RaceEventsManager {
 
 		return false;
 	}
-
+	
 	public void setUpRaceForArbitrarySimulation() {
 
 		Random rand = new Random();
@@ -665,6 +717,10 @@ public class RaceEventsManager {
 
 	}
 
+	/**
+	 * Gets the selected Channel object
+	 * @return Channel corresponding to the channelSelcted
+	 */
 	public Channels getCurrentChannel() {
 		return Channels.channels[channelSelected - 1];
 	}
@@ -675,7 +731,7 @@ public class RaceEventsManager {
 	 * @param pad
 	 * 
 	 *            Connects the selected channel to either an eye, gate, or pad
-	 *            accroding to the truth values of the parameters.
+	 *            according to the truth values of the parameters.
 	 */
 	public void CONN(boolean eye, boolean gate, boolean pad) {
 
@@ -690,6 +746,10 @@ public class RaceEventsManager {
 		}
 	}
 
+	/**
+	 * Swaps the lead two Racers for an IND type Run.
+	 * @return
+	 */
 	public boolean swap() {
 		boolean result = currentRun != null ? currentRun.swap() : false;
 		if (isGui)
@@ -697,6 +757,12 @@ public class RaceEventsManager {
 		return result;
 	}
 
+	/**
+	 * Clears the Racer with bib number bib from the racePool.
+	 * {@link entitiesDynamic.Pool#clearRacer(int)}
+	 * @param bib - the bib of the Racer to clear
+	 * @return true if successful
+	 */
 	public boolean clearRacer(int bib) {
 		boolean result = racePool != null ? racePool.clearRacer(bib) : false;
 		if (isGui)
@@ -704,14 +770,26 @@ public class RaceEventsManager {
 		return result;
 	}
 
+	/**
+	 * Setter for isGui field.
+	 * @param isGui
+	 */
 	public void setGui(boolean isGui) {
 		this.isGui = isGui;
 	}
 
+	/**
+	 * Getter for racePool field.
+	 * @return
+	 */
 	public Pool getPool() {
 		return racePool;
 	}
 
+	/**
+	 * Displays and updates the active racers queue to the GUI component by creating and 
+	 * starting a thread if the updaterEnabled field is false.
+	 */
 	private void printActiveToGUI() {
 
 		if (!updaterEnabled) {
@@ -729,7 +807,7 @@ public class RaceEventsManager {
 					String display = "";
 					boolean isGRP = type == Run_Types.GRP || type == Run_Types.PARGRP;
 
-					while (currentRun.isActive()) {
+					while (currentRun != null && currentRun.isActive()) {
 
 						try {
 
@@ -780,6 +858,9 @@ public class RaceEventsManager {
 		}
 	}
 
+	/**
+	 * Prints racePool to the GUI component.
+	 */
 	private void printPoolToGUI() {
 
 		Printer.clearMiddleTxt(0);
@@ -810,6 +891,10 @@ public class RaceEventsManager {
 		}
 	}
 
+	/**
+	 * 
+	 * @param newBib
+	 */
 	public void updateAnonymousRacer(int newBib) {
 
 		if(newBib < 1 || newBib > 999)
