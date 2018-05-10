@@ -35,6 +35,7 @@ public class Run {
 			this.record = new LinkedList<>();
 
 		}
+		
 
 		/**
 		 * Finishes all of the Racers in the active queue in the order that they are,
@@ -109,7 +110,7 @@ public class Run {
 				racer = active.remove();
 				racer.setIsActive(false);
 
-				if (type != Run_Types.PARIND && InterfaceHandler.isGUI()) {
+				if (type != Run_Types.PARIND && !isAnonymous && InterfaceHandler.isGUI()) {
 
 					Printer.clearMiddleTxt(2);
 
@@ -127,18 +128,19 @@ public class Run {
 								Printer.clearMiddleTxt(2);
 								countPrint = 0;
 
-								Printer.printToMiddle(2, "<" + previousPrinted + "> <DNF>\n");
+								Printer.printToMiddle(2, String.format("<%03d> <DNF>\n", previousPrinted));
 
 							}
 
 							previousPrinted = racer.getBib();
 
-							Printer.printToMiddle(2, "<" + racer.getBib() + "> <DNF>\n");
+							Printer.printToMiddle(2, String.format("<%03d> <DNF>\n", racer.getBib()));
 
 							countPrint++;
 						} else {
 
-							Printer.printToMiddle(2, "<" + racer.getBib() + "> <DNF>\n");
+							Printer.printToMiddle(2, String.format("<%03d> <DNF>\n", racer.getBib()));
+
 						}
 					}
 
@@ -158,10 +160,10 @@ public class Run {
 								Printer.clearMiddleTxt(2);
 								countPrint = 0;
 
-								Printer.printToMiddle(2, "<" + previousPrinted + "> <"
+								Printer.printToMiddle(2, String.format("<%03d> <"
 										+ ((double) ClockInterface.computeDifference(previousStart, previousLong)
 												/ 1000)
-										+ ">\n");
+										+ ">\n", previousPrinted));
 
 							}
 
@@ -169,12 +171,12 @@ public class Run {
 							previousLong = racer.getFinishInLong();
 							previousStart = racer.getStartInLong();
 
-							Printer.printToMiddle(2, "<" + racer.getBib() + "> <" + racer.getTotalTime() + ">\n");
+							Printer.printToMiddle(2, String.format("<%03d> <" + racer.getTotalTime() + ">\n", racer.getBib()));
 
 							countPrint++;
 						} else {
 
-							Printer.printToMiddle(2, "<" + racer.getBib() + "> <" + racer.getTotalTime() + ">\n");
+							Printer.printToMiddle(2, String.format("<%03d> <" + racer.getTotalTime() + ">\n", racer.getBib()));
 
 						}
 					}
@@ -187,8 +189,24 @@ public class Run {
 				record.add(racer);
 				return racer;
 			}
+			
+			if(isAnonymous) {
+				
+				Racer r = new Racer(anonymousCnt++);
+				r.setStartInLong(RaceEventsManager.getStartTime());
+				r.setFinishInLong(ClockInterface.getTimeInLong());
+				r.setTotalTime((double) ClockInterface.computeDifference(r.getStartInLong(), r.getFinishInLong()) /1000);
+				r.setAnonymous(true);
+				
+				Printer.printToMiddle(2, String.format("<%03d> <" + r.getTotalTime() + ">\n", r.getBib()));
+				
+				record.add(r);
+			}
+			
 			return null;
 		}
+		
+		
 
 		/**
 		 * @return number of active racers (size of 'active' queue).
@@ -262,6 +280,8 @@ public class Run {
 	private int previousPrinted;
 	private long previousLong;
 	private long previousStart;
+	private boolean isAnonymous;
+	private int anonymousCnt;
 
 	protected Run(int runNbr, Run_Types type) {
 
@@ -301,7 +321,7 @@ public class Run {
 
 			raceNbr++;
 			index++;
-
+			anonymousCnt = 1;
 			return true;
 		}
 
@@ -363,6 +383,14 @@ public class Run {
 			}
 		
 		return false;
+	}
+	
+	protected void setIsAnonymous() {
+		isAnonymous = true;
+	}
+	
+	public boolean isAnonymous() {
+		return isAnonymous;
 	}
 
 	protected boolean swap() {

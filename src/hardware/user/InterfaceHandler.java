@@ -14,6 +14,7 @@ import Utils.Util;
 import entitiesDynamic.Racer;
 import entitiesStatic.ClockInterface;
 import environment.Channels;
+import environment.Run;
 import environment.Run.Race;
 import interfaces.UI;
 import states.hardware.Idle.Run_Types;
@@ -205,28 +206,28 @@ public class InterfaceHandler {
 
 						if (tempRacer != null) {
 
-							if (isGroup) {
-
-								if (!tempRacer.isDNF()) {
-
-									Printer.printToPrinter(String.format("<%05d> ", groupID).toString() + "<"
-											+ ClockInterface.getTotalTimeFormatted(
-													tempRacer.getStartInLong(),
-													tempRacer.getFinishInLong()) + ">\n");
-								} else {
-
-									Printer.printToPrinter(String.format("<%05d>  <DNF>\n", groupID).toString() + '\n');
-								}
-								groupID++;
-							} else {
+//							if (isGroup) {
+//
+//								if (!tempRacer.isDNF()) {
+//
+//									Printer.printToPrinter(String.format("<%04d> ", groupID).toString() + "<"
+//											+ ClockInterface.getTotalTimeFormatted(
+//													tempRacer.getStartInLong(),
+//													tempRacer.getFinishInLong()) + ">\n");
+//								} else {
+//
+//									Printer.printToPrinter(String.format("<%04d>  <DNF>\n", groupID).toString() + '\n');
+//								}
+//								groupID++;
+//							} else {
 
 								Printer.printToPrinter(!tempRacer.isDNF()
-										? ("<" + tempRacer.getBib() + ">" + " " + "<"
+										? (String.format("<%03d>" + " " + "<"
 												+ ClockInterface.getTotalTimeFormatted(
 														tempRacer.getStartInLong(), tempRacer.getFinishInLong())
-												+ ">\n")
-												: ("<" + tempRacer.getBib() + ">" + " " + "<" + "DNF" + ">\n"));
-							}
+												+ ">\n", tempRacer.getBib()))
+												: (String.format("<%03d>" + " " + "<" + "DNF" + ">\n", tempRacer.getBib())));
+//							}
 						}
 					}
 				}
@@ -479,9 +480,16 @@ public class InterfaceHandler {
 				case "NUM":
 
 					try {
+						
+						if( ui.getRaceManager().getCurrentRun() != null && ui.getRaceManager().getCurrentRun().isAnonymous()) {
+							
+							ui.getRaceManager().updateAnonymousRacer(Integer.parseInt(str.split("\\s")[1].trim()));
+							
+						} else {
 
-						ui.getRaceManager().makeRacers(Integer.parseInt(str.split("\\s")[1].trim()));
-
+							ui.getRaceManager().makeRacers(Integer.parseInt(str.split("\\s")[1].trim()));
+							
+						}
 					} catch (InputMismatchException | NumberFormatException e) {
 
 						System.out.println("Wrong input!");

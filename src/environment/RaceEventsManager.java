@@ -177,16 +177,9 @@ public class RaceEventsManager {
 	private boolean isGui;
 	private int[] bibs = new int[1];
 	private int parGrpCount = 0;
-	volatile private long startTime;
+	volatile private static long startTime;
+	private int anonymousIndex;
 	volatile private boolean updaterEnabled;
-
-	/**
-	 * @param run
-	 * @return true if a new run was made
-	 * 
-	 *         Creates a new Race with RunID = run, and increments index and
-	 *         raceNbr.
-	 */
 
 	public boolean makeRacers(int racer) {
 
@@ -249,6 +242,7 @@ public class RaceEventsManager {
 		resetPool();
 		bibs = new int[1];
 		runNbr = 0;
+		anonymousIndex = 0;
 		currentRun = null;
 		recordRaces = new LinkedList<>();
 
@@ -331,19 +325,20 @@ public class RaceEventsManager {
 			if (getCurrentChannel().isEnabled()) {
 
 				if (type == Run_Types.GRP) {
-					// switch (channelSelected) {
-					// case 3:
-					// case 4:
-					// case 5:
-					// case 6:
-					// case 7:
-					// case 8:
+
 					if (channelSelected > 2 && !isGui) {
 
 						System.out.println("Cannot trigger channels > 2 for GRP event");
 						return;
 					}
-					n = racePool.getRacersAmount();
+
+					// anonymous racers
+					if ((n = racePool.getRacersAmount()) == 0 && channelSelected == 1) {
+
+						// make anonymous race
+						currentRun.setIsAnonymous();
+					}
+
 				} else if (type == Run_Types.PARGRP) {
 
 					if (channelSelected == 1 && currentRun.getRaces() == null) {
@@ -511,14 +506,11 @@ public class RaceEventsManager {
 
 					if (currentRun.getRaces()[i].getChannelsActive()[1] == channelSelected) {
 
-						if (active[i].racersActive() != 0) {
 
-							active[i].finishRacer(DNF, racePool);
+						active[i].finishRacer(DNF, racePool);
 
-						} else {
-							if (!isGui) {
-								System.out.println("No more racers!");
-							}
+						if (!isGui) {
+							System.out.println("No more racers!");
 						}
 						break;
 					}
@@ -598,6 +590,7 @@ public class RaceEventsManager {
 		}
 
 		currentRun = null;
+		anonymousIndex = 0;
 		if (isGui) {
 			Printer.clearMiddleTxt(0);
 			Printer.clearMiddleTxt(1);
@@ -616,8 +609,10 @@ public class RaceEventsManager {
 	public void setNewRun() {
 		runNbr++;
 		currentRun = new Run(runNbr, type);
-		if (isGui)
+		if (isGui) {
+			Printer.clearMiddleTxt(2);
 			printPoolToGUI();
+		}
 	}
 
 	private boolean checkRunInitiated() {
@@ -720,9 +715,9 @@ public class RaceEventsManager {
 	private void printActiveToGUI() {
 
 		if (!updaterEnabled) {
-			
+
 			updaterEnabled = true;
-			
+
 			new Thread(new Runnable() {
 
 				@Override
@@ -732,58 +727,52 @@ public class RaceEventsManager {
 					Racer tempRacer;
 					Object[] racers;
 					String display = "";
-					boolean isGRP;
+					boolean isGRP = type == Run_Types.GRP || type == Run_Types.PARGRP;
 
 					while (currentRun.isActive()) {
 
-							try {
+						try {
 
-								Thread.sleep(1);
+							Thread.sleep(1);
 
-								races = currentRun.getRaces();
-								isGRP = false;
-								if (type == Run_Types.GRP || type == Run_Types.PARGRP) {
-									isGRP = true;
+							races = currentRun.getRaces();
 
-								}
+							if (isGRP) {
 
-								for (int i = 0; i < races.length; i++) {
-
-									if (races[i] != null) {
-
-										racers = races[i].getActive().toArray();
-
-										for (int j = 0; j < racers.length; j++) {
-
-											tempRacer = (Racer) racers[j];
-											if (isGRP) {
-
-												if (i == 0 && j == 0)
-													display += "<"
-															+ (double) ClockInterface.computeDifference(startTime,
-																	ClockInterface.getTimeInLong()) / 1000
-															+ ">\n";
-
-												display += "<" + tempRacer.getBib() + ">\n";
-
-											} else {
-												display += "<" + tempRacer.getBib() + "> <" + tempRacer.getRunningTime()
-														+ "> \n";
-											}
-
-										}
-									}
-								}
-
-							} catch (Exception e) {
-								// e.printStackTrace();
+								display += "<" + (double) ClockInterface.computeDifference(startTime,
+										ClockInterface.getTimeInLong()) / 1000 + ">\n";
 							}
 
-							Printer.updateMiddleArea(display);
-							display = "";
+							for (int i = 0; i < races.length; i++) {
+
+								if (races[i] != null) {
+
+									racers = races[i].getActive().toArray();
+
+									for (int j = 0; j < racers.length; j++) {
+
+										tempRacer = (Racer) racers[j];
+										if (isGRP) {
+
+											display += String.format("<%03d>\n", tempRacer.getBib());
+
+										} else {
+											
+											display += String.format("<%03d> <" + tempRacer.getRunningTime() + "> \n", tempRacer.getBib());
+											
+										}
+
+									}
+								}
+							}
+
+						} catch (Exception e) {}
+
+						Printer.updateMiddleArea(display);
+						display = "";
 
 					}
-					
+
 					Printer.updateMiddleArea("");
 					updaterEnabled = false;
 				}
@@ -814,15 +803,47 @@ public class RaceEventsManager {
 				break;
 
 			if (bibs[i] != 0) {
-				Printer.printToMiddle(0, "<" + tmp[i] + ">\n");
+				Printer.printToMiddle(0, String.format("<%03d>\n", tmp[i]));
 				cnt++;
 			}
 			i++;
 		}
 	}
 
+	public void updateAnonymousRacer(int newBib) {
+
+		if(newBib < 1 || newBib > 999)
+			return;
+		
+		Printer.clearMiddleTxt(2);
+		boolean incriment = false;
+		Racer r;
+		Iterator<Racer> it = currentRun.getARace(0).getRecord();
+		int cnt = 0;
+		while (it.hasNext()) {
+
+			r = it.next();
+			
+			if (cnt++ == anonymousIndex) { 
+				r.setBib(newBib);
+				incriment = true;
+			}
+				
+				Printer.printToMiddle(2, String.format("<%03d> <" + r.getTotalTime() + ">\n", r.getBib()));
+			
+		}
+		
+		if(incriment)
+			anonymousIndex++;
+		
+	}
+
 	public Run getCurrentRun() {
 		return currentRun;
+	}
+
+	protected static long getStartTime() {
+		return startTime;
 	}
 
 	private void sendCommandToServer(String command) {
@@ -834,16 +855,14 @@ public class RaceEventsManager {
 			URL site = new URL(Util.getContent());
 
 			HttpURLConnection conn = (HttpURLConnection) site.openConnection();
-			
-			Printer.printToConsole("Connecting to Server\n");
-			
-			conn.setConnectTimeout(50000);
-			
+
+			conn.setConnectTimeout(1000);
+
 			conn.setRequestMethod("POST");
 
 			conn.setDoOutput(true);
 			conn.setDoInput(true);
-			
+
 			DataOutputStream out = new DataOutputStream(conn.getOutputStream());
 
 			// clear first

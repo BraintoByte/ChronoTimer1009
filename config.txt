@@ -1,1 +1,1 @@
-http://10.34.123.43:20021/sendresults
+http://localhost:20021/sendresults

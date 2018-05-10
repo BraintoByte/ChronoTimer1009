@@ -20,6 +20,7 @@ public class Racer implements Cloneable {
 	private boolean DNF;
 	volatile private boolean isActive;
 	volatile private double runningTime;
+	private boolean isAnonymous;
 	
 	/**
 	 * @param bib number as an integer
@@ -49,6 +50,20 @@ public class Racer implements Cloneable {
 	 */
 	public int getBib() {
 		return bib;
+	}
+	
+	public void setAnonymous(boolean state) {
+		isAnonymous = state;
+	}
+	
+	public boolean setBib(int bib) {
+		
+		if(!isAnonymous)
+			return false;
+		
+		this.bib = bib;
+		return true;
+		
 	}
 	
 	public void setTimeStartFormatted(String timeStartFormatted) {
