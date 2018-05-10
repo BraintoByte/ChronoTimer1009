@@ -1,7 +1,5 @@
 package hardware.user;
 
-
-
 import org.netbeans.lib.awtextra.*;
 import hardware.user.Triangular.Rotation;
 import javax.swing.border.*;
