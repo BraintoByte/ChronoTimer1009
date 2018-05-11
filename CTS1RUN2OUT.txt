@@ -1,0 +1,75 @@
+TIME 12:01:02.0
+Power on...
+TIME 12:01:04.0
+Power off...
+TIME 12:01:06.0
+Power on...
+TIME 12:01:20.0
+Event set to IND
+TIME 12:01:25.0
+New run created!
+TIME 12:02:00.0
+TIME 12:02:04.0
+TIME 12:02:10.0
+TIME 12:02:25.0
+TIME 12:02:50.0
+Racers inactive before action: 2
+Race STARTED!
+Racers inactive after action: 1
+TIME 12:02:52.0
+Racers inactive before action: 1
+YOU CANNOT CREATE THESE MANY RUNS!
+Racers inactive after action: 1
+TIME 12:03:35.0
+Racers inactive before action: 1
+Racer: 234 stopped
+Racers inactive after action: 1
+TIME 12:03:55.0
+Racers inactive before action: 1
+Racers inactive after action: 1
+TIME 12:04:50.0
+Run <1>
+<234> <44.998 Seconds>
+TIME 12:06:00.0
+Error exporting to Server
+Run ended
+TIME 12:06:10.0
+New run created!
+TIME 13:01:00.0
+Please end the current run
+TIME 13:02:10.0
+TIME 13:02:15.0
+TIME 13:02:20.0
+TIME 13:02:25.0
+TIME 13:04:30.0
+Racers inactive before action: 4
+Race STARTED!
+Racers inactive after action: 3
+TIME 13:05:00.0
+Racers inactive before action: 3
+Racers inactive after action: 2
+Racers inactive after action: 2
+TIME 13:05:02.0
+Racers inactive before action: 2
+Racer: 167 stopped
+Racers inactive after action: 2
+TIME 13:05:15.0
+Racers inactive before action: 2
+Racer: 166 stopped
+Racers inactive after action: 2
+TIME 13:05:18.0
+Racers inactive before action: 2
+Racers inactive after action: 2
+TIME 13:05:19.0
+Run <2>
+<167> <32.001 Seconds>
+<166> <15.003 Seconds>
+TIME 13:05:25.3
+Power off...
+TIME 13:05:26.3
+Power on...
+TIME 13:06:00.0
+New run created!
+TIME 13:35:52.0
+Power off...
+TIME 13:35:53.0

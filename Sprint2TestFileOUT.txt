@@ -1,0 +1,165 @@
+TIME 12:00:00.0
+Power on...
+TIME 12:01:30.0
+TIME 12:01:30.0
+TIME 12:01:30.0
+NO ACTIVE RUN!
+TIME 12:01:31.0
+Event set to PARIND
+TIME 12:01:32.0
+New run created!
+TIME 12:01:34.0
+TIME 12:01:36.0
+TIME 12:01:38.0
+TIME 12:01:40.0
+TIME 12:01:42.0
+TIME 12:01:44.0
+TIME 12:01:46.0
+TIME 12:01:48.0
+TIME 12:01:50.0
+Racers inactive before action: 4
+Race STARTED!
+Racers inactive after action: 3
+TIME 12:01:52.0
+Racers inactive before action: 3
+Race STARTED!
+Racers inactive after action: 2
+TIME 12:01:54.0
+Racers inactive before action: 2
+Racers inactive after action: 1
+Racers inactive after action: 1
+TIME 12:01:56.0
+Racers inactive before action: 1
+Racers inactive after action: 0
+Racers inactive after action: 0
+TIME 12:01:58.0
+Racers inactive before action: 0
+Racer: 272 stopped
+Racers inactive after action: 0
+TIME 12:02:25.0
+Racers inactive before action: 0
+Racer: 711 stopped
+Racers inactive after action: 0
+TIME 12:02:32.0
+Racers inactive before action: 0
+Racer: 123 stopped
+Racers inactive after action: 0
+TIME 12:02:33.0
+Racers inactive before action: 0
+Racer: 111 stopped
+Racers inactive after action: 0
+TIME 12:02:41.0
+Run <1>
+<272> <-23.559 Seconds>
+<711> <28.999 Seconds>
+<123> <39.998 Seconds>
+<111> <-27.288 Seconds>
+TIME 12:02:43.0
+Error exporting to Server
+Run ended
+TIME 12:02:45.0
+Saved in /home/mattm/git/ChronoTimer1009/RUN1.txt
+TIME 12:03:33.0
+TIME 12:01:30.0
+TIME 12:04:30.0
+New run created!
+TIME 12:01:30.0
+TIME 12:01:34.0
+TIME 12:01:44.0
+TIME 12:01:46.0
+Racers inactive before action: 3
+Race STARTED!
+Racers inactive after action: 2
+TIME 12:01:48.0
+Racers inactive before action: 2
+Race STARTED!
+Racers inactive after action: 1
+TIME 12:01:52.0
+Racers inactive before action: 1
+Racers inactive after action: 0
+Racers inactive after action: 0
+TIME 12:01:54.0
+Racers inactive before action: 0
+Racers inactive after action: 0
+Racers inactive after action: 0
+TIME 12:01:56.0
+Racers inactive before action: 0
+Racer: 272 stopped
+Racers inactive after action: 0
+TIME 12:01:58.0
+Racers inactive before action: 0
+No more racers!
+Racers inactive after action: 0
+TIME 12:02:25.0
+Racers inactive before action: 0
+Racer: 123 stopped
+Racers inactive after action: 0
+TIME 12:02:32.0
+Racers inactive before action: 0
+Racer: 111 stopped
+Racers inactive after action: 0
+TIME 12:02:33.0
+Run <2>
+<272> <9.999 Seconds>
+<123> <37.0 Seconds>
+<111> <0.454 Seconds>
+TIME 12:02:41.0
+Error exporting to Server
+Run ended
+TIME 12:02:43.0
+Power off...
+Power on...
+TIME 12:03:00.0
+TIME 12:01:30.0
+TIME 12:03:29.0
+Event set to PARIND
+TIME 12:04:30.0
+New run created!
+TIME 12:01:30.0
+TIME 12:01:32.0
+TIME 12:01:34.0
+TIME 12:01:36.0
+TIME 12:01:38.0
+TIME 12:01:40.0
+TIME 12:01:42.0
+Racers inactive before action: 2
+Race STARTED!
+Racers inactive after action: 1
+TIME 12:01:44.0
+Racers inactive before action: 1
+Race STARTED!
+Racers inactive after action: 0
+TIME 12:01:46.0
+Racers inactive before action: 0
+Racers inactive after action: 0
+Racers inactive after action: 0
+TIME 12:01:52.0
+Racers inactive before action: 0
+Racers inactive after action: 0
+Racers inactive after action: 0
+TIME 12:01:54.0
+Racers inactive before action: 0
+Racer: 272 stopped
+Racers inactive after action: 0
+TIME 12:01:56.0
+Racers inactive before action: 0
+No more racers!
+Racers inactive after action: 0
+TIME 12:01:58.0
+Racers inactive before action: 0
+Racer: 123 stopped
+Racers inactive after action: 0
+TIME 12:02:25.0
+Racers inactive before action: 0
+No more racers!
+Racers inactive after action: 0
+TIME 12:02:32.0
+Error exporting to Server
+Run ended
+TIME 12:02:33.0
+Run <3>
+No such run!
+TIME 12:02:41.0
+Saved in /home/mattm/git/ChronoTimer1009/RUN2.txt
+TIME 12:02:45.0
+Saved in /home/mattm/git/ChronoTimer1009/RUN3.txt

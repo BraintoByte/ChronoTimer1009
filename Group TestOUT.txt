@@ -1,0 +1,76 @@
+TIME 12:00:00.0
+Power on...
+TIME 12:00:05.0
+Channel: 1 togged!
+Channel: 2 togged!
+Channel: 3 togged!
+Channel: 4 togged!
+Channel: 5 togged!
+Channel: 6 togged!
+Channel: 7 togged!
+Channel: 8 togged!
+All sensors are connected your are good to go!
+Racer bib: 606 was added!
+Racer bib: 840 was added!
+Racer bib: 982 was added!
+Racer bib: 905 was added!
+Racer bib: 137 was added!
+Racer bib: 688 was added!
+Racer bib: 856 was added!
+Racer bib: 3 was added!
+Racer bib: 675 was added!
+Racer bib: 322 was added!
+TIME 12:00:10.0
+Event set to GRP
+TIME 12:00:05.0
+New run created!
+TIME 12:00:20.0
+Racers inactive before action: 10
+Race STARTED!
+Racers inactive after action: 0
+TIME 12:00:25.0
+Racers inactive before action: 0
+Racers inactive after action: 0
+TIME 12:00:30.0
+Racers inactive before action: 0
+Racers inactive after action: 0
+TIME 12:00:35.0
+Racers inactive before action: 0
+Racers inactive after action: 0
+TIME 12:00:40.0
+Racers inactive before action: 0
+Racers inactive after action: 0
+TIME 12:00:45.0
+Racers inactive before action: 0
+Racers inactive after action: 0
+TIME 12:00:50.0
+Racers inactive before action: 0
+Racers inactive after action: 0
+TIME 12:00:55.0
+Racers inactive before action: 0
+Racers inactive after action: 0
+TIME 12:01:00.0
+Racers inactive before action: 0
+Racers inactive after action: 0
+TIME 12:01:10.0
+Racers inactive before action: 0
+Racers inactive after action: 0
+TIME 12:01:15.0
+RACER: 322 DNFFED!
+Error exporting to Server
+Run ended
+TIME 12:01:20.0
+Run <1>
+<00001> <4.999 Seconds>
+<00002> <9.908 Seconds>
+<00003> <14.818 Seconds>
+<00004> <19.73 Seconds>
+<00005> <24.642 Seconds>
+<00006> <29.558 Seconds>
+<00007> <34.466 Seconds>
+<00008> <39.378 Seconds>
+<00009> <49.287 Seconds>
+<00010>  <DNF>
+
+TIME 12:01:25.0
+Saved in /home/mattm/git/ChronoTimer1009/RUN1.txt
