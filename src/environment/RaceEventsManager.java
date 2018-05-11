@@ -634,6 +634,7 @@ public class RaceEventsManager {
 			sendCommandToServer("ADD " + runNbr + " " + new Gson().toJson(tmpList));
 		}
 
+		bibs = new int[1];
 		currentRun = null;
 		anonymousIndex = 0;
 		if (isGui) {
