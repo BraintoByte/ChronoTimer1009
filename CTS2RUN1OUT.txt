@@ -11,14 +11,10 @@ TIME 12:02:00.0
 Racers inactive before action: 0
 NO RUN INITIATED!
 TIME 12:02:04.0
-Racers inactive before action: 0
-NO RUN INITIATED!
 TIME 12:02:50.0
 Racers inactive before action: 0
 NO RUN INITIATED!
 TIME 12:02:52.0
-Racers inactive before action: 0
-NO RUN INITIATED!
 TIME 12:03:35.0
 Racers inactive before action: 0
 NO RUN INITIATED!
@@ -32,7 +28,5 @@ TIME 13:05:00.0
 Racers inactive before action: 0
 NO RUN INITIATED!
 TIME 13:05:02.0
-Racers inactive before action: 0
-NO RUN INITIATED!
 TIME 13:05:15.0
 Power off...

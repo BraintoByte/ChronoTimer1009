@@ -22,13 +22,12 @@ import states.State;
 public class GraphicalControl extends State {
 
 	private enum COMMANDS{
-		EXIT, NUM, NEWRUN, ENDRUN, CANCEL, SWAP, START, FINISH, TIMEDISP,
-		RACETEST, RESET, EVENT, TIMEFREQ, CLR, EXPORT, TRIG, PRINT, DNF, TIME, CONN, TOG;
+		EXIT, NUM, NEWRUN, ENDRUN, CANCEL, SWAP, START, FINISH, TIMEDISP, RESET, EVENT, TIMEFREQ, CLR, EXPORT, TRIG, PRINT, DNF, TIME, CONN, TOG;
 	}
 
 	private StringBuilder sb;
 	private int channelSelected;
-	private String[] commands = { "RACETEST", "EVENT IND", "EVENT PARIND", 
+	private String[] commands = { "EVENT IND", "EVENT PARIND", 
 			"EVENT GRP", "EVENT PARGRP", "NEWRUN", "ENDRUN", "CANCEL",
 			"TIMEDISP", "RESET", "TIMEFREQ", "CLR ", 
 			"EXPORT ", "PRINT ", "DNF ", "TIME ", "NUM " };

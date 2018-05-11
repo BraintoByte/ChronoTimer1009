@@ -17,19 +17,15 @@ Racers inactive before action: 2
 Race STARTED!
 Racers inactive after action: 1
 TIME 12:02:52.0
-Racers inactive before action: 1
-YOU CANNOT CREATE THESE MANY RUNS!
-Racers inactive after action: 1
 TIME 12:03:35.0
 Racers inactive before action: 1
 Racer: 234 stopped
+No more racers!
 Racers inactive after action: 1
 TIME 12:03:55.0
-Racers inactive before action: 1
-Racers inactive after action: 1
 TIME 12:04:50.0
 Run <1>
-<234> <44.998 Seconds>
+<234> <44.992 Seconds>
 TIME 12:06:00.0
 Error exporting to Server
 Run ended
@@ -52,18 +48,18 @@ Racers inactive after action: 2
 TIME 13:05:02.0
 Racers inactive before action: 2
 Racer: 167 stopped
+No more racers!
 Racers inactive after action: 2
 TIME 13:05:15.0
 Racers inactive before action: 2
 Racer: 166 stopped
+No more racers!
 Racers inactive after action: 2
 TIME 13:05:18.0
-Racers inactive before action: 2
-Racers inactive after action: 2
 TIME 13:05:19.0
 Run <2>
-<167> <32.001 Seconds>
-<166> <15.003 Seconds>
+<167> <32.0 Seconds>
+<166> <15.0 Seconds>
 TIME 13:05:25.3
 Power off...
 TIME 13:05:26.3

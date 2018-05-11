@@ -35,30 +35,34 @@ Racers inactive after action: 0
 TIME 12:01:58.0
 Racers inactive before action: 0
 Racer: 272 stopped
+No more racers!
 Racers inactive after action: 0
 TIME 12:02:25.0
 Racers inactive before action: 0
 Racer: 711 stopped
+No more racers!
 Racers inactive after action: 0
 TIME 12:02:32.0
 Racers inactive before action: 0
 Racer: 123 stopped
+No more racers!
 Racers inactive after action: 0
 TIME 12:02:33.0
 Racers inactive before action: 0
 Racer: 111 stopped
+No more racers!
 Racers inactive after action: 0
 TIME 12:02:41.0
 Run <1>
-<272> <-23.559 Seconds>
-<711> <28.999 Seconds>
-<123> <39.998 Seconds>
-<111> <-27.288 Seconds>
+<272> <8.004 Seconds>
+<711> <0.192 Seconds>
+<123> <-25.448 Seconds>
+<111> <-27.352 Seconds>
 TIME 12:02:43.0
 Error exporting to Server
 Run ended
 TIME 12:02:45.0
-Saved in /home/mattm/git/ChronoTimer1009/RUN1.txt
+Saved in K:\Java Projects\ChronoTimer1009/RUN1.txt
 TIME 12:03:33.0
 TIME 12:01:30.0
 TIME 12:04:30.0
@@ -85,6 +89,7 @@ Racers inactive after action: 0
 TIME 12:01:56.0
 Racers inactive before action: 0
 Racer: 272 stopped
+No more racers!
 Racers inactive after action: 0
 TIME 12:01:58.0
 Racers inactive before action: 0
@@ -93,16 +98,18 @@ Racers inactive after action: 0
 TIME 12:02:25.0
 Racers inactive before action: 0
 Racer: 123 stopped
+No more racers!
 Racers inactive after action: 0
 TIME 12:02:32.0
 Racers inactive before action: 0
 Racer: 111 stopped
+No more racers!
 Racers inactive after action: 0
 TIME 12:02:33.0
 Run <2>
-<272> <9.999 Seconds>
-<123> <37.0 Seconds>
-<111> <0.454 Seconds>
+<272> <-17.816 Seconds>
+<123> <57.1 Seconds>
+<111> <40.004 Seconds>
 TIME 12:02:41.0
 Error exporting to Server
 Run ended
@@ -140,6 +147,7 @@ Racers inactive after action: 0
 TIME 12:01:54.0
 Racers inactive before action: 0
 Racer: 272 stopped
+No more racers!
 Racers inactive after action: 0
 TIME 12:01:56.0
 Racers inactive before action: 0
@@ -148,6 +156,7 @@ Racers inactive after action: 0
 TIME 12:01:58.0
 Racers inactive before action: 0
 Racer: 123 stopped
+No more racers!
 Racers inactive after action: 0
 TIME 12:02:25.0
 Racers inactive before action: 0
@@ -160,6 +169,6 @@ TIME 12:02:33.0
 Run <3>
 No such run!
 TIME 12:02:41.0
-Saved in /home/mattm/git/ChronoTimer1009/RUN2.txt
+Saved in K:\Java Projects\ChronoTimer1009/RUN2.txt
 TIME 12:02:45.0
-Saved in /home/mattm/git/ChronoTimer1009/RUN3.txt
+Saved in K:\Java Projects\ChronoTimer1009/RUN3.txt

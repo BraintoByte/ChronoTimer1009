@@ -2,11 +2,14 @@ package environment;
 
 import static org.junit.Assert.*;
 import java.security.SecureRandom;
+import java.util.InputMismatchException;
 import java.util.stream.IntStream;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+
+import hardware.user.InterfaceHandler;
 import states.hardware.Idle.Run_Types;
 
 
@@ -83,6 +86,41 @@ public class RaceEventsManagerTesting {
 		
 	}
 	
+	@Test
+	public void testPARGRP(){
+		
+		makePARGRP();
+		int rand = makeRandomInRange(1, 100);
+		makeNRacers(rand + 50);
+		assertEquals(rand + 50, manager.getPool().getRacersAmount());
+		manager.trig("TRIG 1", false);
+		assertTrue(manager.getCurrentRun().getRaces()[0].isActive());
+		assertTrue(manager.getCurrentRun().getRaces()[1].isActive());
+		assertTrue(manager.getCurrentRun().getRaces()[2].isActive());
+		assertTrue(manager.getCurrentRun().getRaces()[3].isActive());
+		assertTrue(manager.getCurrentRun().getRaces()[4].isActive());
+		assertTrue(manager.getCurrentRun().getRaces()[5].isActive());
+		assertTrue(manager.getCurrentRun().getRaces()[6].isActive());
+		assertTrue(manager.getCurrentRun().getRaces()[7].isActive());
+		manager.trig("TRIG 2", false);
+		manager.trig("TRIG 3", false);
+		assertTrue(!manager.getCurrentRun().getRaces()[1].isActive());
+		manager.trig("TRIG 4", false);
+		assertTrue(!manager.getCurrentRun().getRaces()[2].isActive());
+		manager.trig("TRIG 5", false);
+		assertTrue(!manager.getCurrentRun().getRaces()[3].isActive());
+		manager.trig("TRIG 6", false);
+		assertTrue(!manager.getCurrentRun().getRaces()[4].isActive());
+		manager.trig("TRIG 7", false);
+		assertTrue(!manager.getCurrentRun().getRaces()[5].isActive());
+		manager.trig("TRIG 8", false);
+		manager.trig("TRIG 1", false);
+		assertTrue(!manager.getCurrentRun().getRaces()[0].isActive());
+		assertTrue(!manager.getCurrentRun().getRaces()[6].isActive());
+		assertTrue(manager.getPool().clearPool());
+		
+	}
+	
 
 	private int makeRandomInRange(int min, int max){
 
@@ -131,6 +169,30 @@ public class RaceEventsManagerTesting {
 		manager.setType(Run_Types.GRP);
 		manager.setNewRun();
 		manager.getCurrentRun().setNewRace(0);
+		
+	}
+	
+	private void makePARGRP(){
+		
+		manager.getPool().clearPool();
+		manager.setType(Run_Types.PARGRP);
+		manager.setChannelSelected(1);
+		manager.getCurrentChannel().enable(true);
+		manager.setChannelSelected(2);
+		manager.getCurrentChannel().enable(true);
+		manager.setChannelSelected(3);
+		manager.getCurrentChannel().enable(true);
+		manager.setChannelSelected(4);
+		manager.getCurrentChannel().enable(true);
+		manager.setChannelSelected(5);
+		manager.getCurrentChannel().enable(true);
+		manager.setChannelSelected(6);
+		manager.getCurrentChannel().enable(true);
+		manager.setChannelSelected(7);
+		manager.getCurrentChannel().enable(true);
+		manager.setChannelSelected(8);
+		manager.getCurrentChannel().enable(true);
+		manager.setNewRun();
 		
 	}
 	

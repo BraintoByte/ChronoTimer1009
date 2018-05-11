@@ -10,16 +10,16 @@ Channel: 6 togged!
 Channel: 7 togged!
 Channel: 8 togged!
 All sensors are connected your are good to go!
-Racer bib: 606 was added!
-Racer bib: 840 was added!
-Racer bib: 982 was added!
-Racer bib: 905 was added!
-Racer bib: 137 was added!
-Racer bib: 688 was added!
-Racer bib: 856 was added!
-Racer bib: 3 was added!
-Racer bib: 675 was added!
-Racer bib: 322 was added!
+Racer bib: 489 was added!
+Racer bib: 858 was added!
+Racer bib: 701 was added!
+Racer bib: 405 was added!
+Racer bib: 93 was added!
+Racer bib: 351 was added!
+Racer bib: 471 was added!
+Racer bib: 897 was added!
+Racer bib: 447 was added!
+Racer bib: 152 was added!
 TIME 12:00:10.0
 Event set to GRP
 TIME 12:00:05.0
@@ -30,47 +30,54 @@ Race STARTED!
 Racers inactive after action: 0
 TIME 12:00:25.0
 Racers inactive before action: 0
+No more racers!
 Racers inactive after action: 0
 TIME 12:00:30.0
 Racers inactive before action: 0
+No more racers!
 Racers inactive after action: 0
 TIME 12:00:35.0
 Racers inactive before action: 0
+No more racers!
 Racers inactive after action: 0
 TIME 12:00:40.0
 Racers inactive before action: 0
+No more racers!
 Racers inactive after action: 0
 TIME 12:00:45.0
 Racers inactive before action: 0
+No more racers!
 Racers inactive after action: 0
 TIME 12:00:50.0
 Racers inactive before action: 0
+No more racers!
 Racers inactive after action: 0
 TIME 12:00:55.0
 Racers inactive before action: 0
+No more racers!
 Racers inactive after action: 0
 TIME 12:01:00.0
 Racers inactive before action: 0
+No more racers!
 Racers inactive after action: 0
 TIME 12:01:10.0
 Racers inactive before action: 0
+No more racers!
 Racers inactive after action: 0
 TIME 12:01:15.0
-RACER: 322 DNFFED!
 Error exporting to Server
 Run ended
 TIME 12:01:20.0
 Run <1>
-<00001> <4.999 Seconds>
-<00002> <9.908 Seconds>
-<00003> <14.818 Seconds>
-<00004> <19.73 Seconds>
-<00005> <24.642 Seconds>
-<00006> <29.558 Seconds>
-<00007> <34.466 Seconds>
-<00008> <39.378 Seconds>
-<00009> <49.287 Seconds>
-<00010>  <DNF>
-
+<489> <5.0 Seconds>
+<858> <9.904 Seconds>
+<701> <14.808 Seconds>
+<405> <19.712 Seconds>
+<093> <24.616 Seconds>
+<351> <29.516 Seconds>
+<471> <34.424 Seconds>
+<897> <39.328 Seconds>
+<447> <49.232 Seconds>
+<152> <DNF>
 TIME 12:01:25.0
-Saved in /home/mattm/git/ChronoTimer1009/RUN1.txt
+Saved in K:\Java Projects\ChronoTimer1009/RUN1.txt

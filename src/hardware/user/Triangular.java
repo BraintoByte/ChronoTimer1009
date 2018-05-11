@@ -119,6 +119,10 @@ public class Triangular extends JButton {
 
 	}
 	
+	protected void paintBorder(Graphics g) {
+		//Empty
+	}
+	
 	
 	/**
 	 * @return if point is contained
