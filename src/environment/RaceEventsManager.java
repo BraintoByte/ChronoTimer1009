@@ -700,6 +700,11 @@ public class RaceEventsManager {
 		return false;
 	}
 	
+	/**
+	 * Sets up a race for arbitrary simulation
+	 * 
+	 */
+	
 	public void setUpRaceForArbitrarySimulation() {
 
 		Random rand = new Random();
@@ -928,14 +933,29 @@ public class RaceEventsManager {
 			anonymousIndex++;
 		
 	}
+	
+	/*
+	 * Gets current run
+	 */
 
 	public Run getCurrentRun() {
 		return currentRun;
 	}
-
+	
+	/**
+	 * Gets start time
+	 * @return start time
+	 */
+	
 	protected static long getStartTime() {
 		return startTime;
 	}
+	
+	/**
+	 * Sends command to server
+	 * 
+	 * @param command
+	 */
 
 	private void sendCommandToServer(String command) {
 
@@ -980,6 +1000,5 @@ public class RaceEventsManager {
 		} catch (Exception e) {
 			Printer.printToConsole("Error exporting to Server\n");
 		}
-
 	}
 }
