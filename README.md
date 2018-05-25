@@ -35,6 +35,16 @@
 
 
 
+**These are other public projects in CS361 with Jon Hopkins (this semester and past)**
+
+https://github.com/burriep/CS361-Project
+https://github.com/thomashocking/NewChronoTimer361
+https://github.com/beckerej/Red-Beard-and-Crew
+https://github.com/bergerab/ChronoTimer1009
+https://github.com/UWM-CS361-DF/Sprint-3/blob/master/GUI.java
+
+
+*These are put in the readme just for comparison*
 
 
 This is not reflective of brain to bytes coding skills, our team is composed from different people working on different projects
