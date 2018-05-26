@@ -26,7 +26,7 @@
 
 
 
-*Luis Gonzalez:* Made one method for file IO (please look at contribution history **gluis462**)
+*Luis Gonzalez:* Made one method for file IO (this method was remade by Matthew McFadden) (please look at contribution history **gluis462**)
 
 
 
