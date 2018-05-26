@@ -42,6 +42,7 @@ https://github.com/thomashocking/NewChronoTimer361
 https://github.com/beckerej/Red-Beard-and-Crew
 https://github.com/bergerab/ChronoTimer1009
 https://github.com/UWM-CS361-DF/Sprint-3/blob/master/GUI.java
+https://github.com/skelath1/ChronoTimer
 
 
 *These are put in the readme just for comparison*
