@@ -18,7 +18,7 @@
 
 
 
-*Matt McFadden:* Team Coordination, Design, Code, Testing, ChronoServer
+*Matt McFadden (Matthew McFadden):* Team Coordination, Design, Code, Testing, ChronoServer
 
 
 
@@ -31,7 +31,7 @@
 
 
 
-*Ben Yuhas:* none, switched group at the end of the class and took this project to finish the class (professor allowed it)
+*Ben Yuhas (Benjamin Yuhas):* none, switched group at the end of the class and took this project to finish the class (professor allowed it)
 
 
 
