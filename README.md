@@ -26,7 +26,7 @@
 
 
 
-*Luis Gonzalez:* Made one method for file IO (this method was remade by Matthew McFadden) (please look at contribution history **gluis462**)
+*Luis Gonzalez:* Made one method for file IO (this method was remade by Matthew McFadden) (please look at contribution history **gluis462**), he was tasked with doing part of the chronoserver although copied from a previous lab and was unusable, Zachary and Nicholas had to redo part of it.
 
 
 
