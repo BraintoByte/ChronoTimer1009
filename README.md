@@ -26,12 +26,12 @@
 
 
 
-*Luis Gonzalez:* Made one method for file IO (this method was remade by Matthew McFadden) (please look at contribution history **gluis462**), he was tasked with doing part of the chronoserver although copied from a previous lab and was unusable, Zachary and Nicholas had to redo part of it.
+*Luis Gonzalez:*
 
 
 
 
-*Ben Yuhas (Benjamin Yuhas):* none, switched group at the end of the class and took this project to finish the class (professor allowed it)
+*Ben Yuhas (Benjamin Yuhas):* switched group at the end of the class and took this project to finish the class (professor allowed it)
 
 
 
