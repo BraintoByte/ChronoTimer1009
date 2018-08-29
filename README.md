@@ -57,11 +57,4 @@ https://github.com/skelath1/ChronoTimer
 
 *These are put in the readme just for comparison*
 
-
-This is not reflective of brain to bytes coding skills, our team is composed from different people working on different projects
-and some of us had to do this project under hostile conditions and rushed
-
-
-
-
 This project is just temporary showcase
